@@ -15,8 +15,7 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
-(define-module (hygguile abstraction)
-  #:use-module (ice-9 string-fun))
+(define-module (hygguile abstraction))
 
 (begin
   (define-syntax-rule (mk-class-str xs)
