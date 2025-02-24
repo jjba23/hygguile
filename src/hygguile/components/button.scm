@@ -22,6 +22,7 @@
   (define* (action-button #:key content
                           (type 'button)
                           (background 'bg-stone-700/75)
+                          (hover-background 'hover:bg-stone-900/75)
                           (foreground 'text-white))
     `(button (@ (type ,(symbol->string type))
                 (class ,(mk-class-str `(p-2 rounded-xl
@@ -29,6 +30,7 @@
                                             font-bold
                                             text-md
                                             ,background
+                                            ,hover-background
                                             ,foreground))))
              ,content))
   (export action-button))
@@ -37,12 +39,14 @@
   (define* (success-submit-button #:key content)
     (action-button #:content content
                    #:type 'submit
-                   #:background 'bg-green-700/75))
+                   #:background 'bg-green-700/75
+                   #:hover-background 'hover:bg-green-900/75))
   (export success-submit-button))
 
 (begin
   (define* (danger-submit-button #:key content)
     (action-button #:content content
                    #:type 'submit
-                   #:background 'bg-red-700/75))
+                   #:background 'bg-red-700/75
+                   #:hover-background 'hover:bg-red-900/75))
   (export danger-submit-button))
