@@ -25,7 +25,7 @@
                      (value "")
                      (required #f)
                      (input-css '(p-3 max-w-prose rounded-xl border-stone-200
-                                      border-1))
+                                      border-2))
                      (label-css '(text-sm font-bold text-stone-600))
                      (input-flex-css '(flex flex-col gap-1)))
     `((div (@ (class ,(symbols->css input-flex-css))))
