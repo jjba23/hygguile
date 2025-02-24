@@ -24,7 +24,8 @@
                           (background 'bg-stone-700/75)
                           (hover-background 'hover:bg-stone-900/75)
                           (foreground 'text-stone-100))
-    (let ((class-list `(py-2 px-3 rounded-xl
+    (let ((class-list `(py-2 px-3
+                             rounded-xl
                              max-w-prose
                              font-bold
                              font-sans

@@ -19,29 +19,29 @@
   #:use-module (hygguile abstraction))
 
 (begin
-  (define* (mk-option #:key value (content #f) (selected-value #f))
-    (let ((option-content (if (not (equal? #f content))
-                              content
-                              value)))
+  (define* (mk-option #:key value
+                      (content #f)
+                      (selected-value #f))
+    (let ((option-content (if (not (equal? #f content)) content value)))
       (cond
-       ((equal? value selected-value)
-        `(option (@ (value ,value)
-                    (selected ""))
-                 ,option-content))
-       (else `(option (@ (value ,value))
-                      ,option-content)))))
+        ((equal? value selected-value)
+         `(option (@ (value ,value)
+                     (selected ""))
+                  ,option-content))
+        (else `(option (@ (value ,value))
+                       ,option-content)))))
   (export mk-option))
 
 (begin
-  (define* (mk-glyph-option #:key value glyph (content #f) (selected-value #f))
+  (define* (mk-glyph-option #:key value glyph
+                            (content #f)
+                            (selected-value #f))
     (let ((class-list '(flex gap-1)))
       (mk-option #:value value
                  #:selected-value selected-value
-                 #:content `(div (@(class ,(mk-class-str class-list)))
+                 #:content `(div (@ (class ,(mk-class-str class-list)))
                                  (span ,glyph)
-                                 (span ,(if (not (equal? #f content))
-                                            content
+                                 (span ,(if (not (equal? #f content)) content
                                             value))))))
   (export mk-glyph-option))
-
 
