@@ -16,10 +16,19 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile abstraction)
+  #:use-module (srfi srfi-64)
   )
 
 (begin
-  (define* (mk-class-str xs)
-    (string-join (map symbol->string xs) " "))
-  (export mk-class-str))
+  (define* (symbols->css xs)
+    (cond
+     ((nil? xs) '(class ""))
+     (else `(class ,(string-join (map symbol->string xs) " ")))))
+  (export symbols->css))
 
+;; module tests
+(test-begin "symbols->css")
+(test-equal (symbols->css '()) '(class ""))
+(test-equal (symbols->css '(p-2 bg-stone-900/75)) '(class "p-2 bg-stone-900/75"))
+(test-equal (symbols->css #f) '(class ""))
+(test-end)

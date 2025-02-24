@@ -19,15 +19,19 @@
   #:use-module (hygguile abstraction))
 
 (begin
+  (define default-input-class '(p-3 max-w-prose rounded-xl
+                                    border-stone-400/75 border-2))
+  
+  (define default-label-class '(text-sm font-bold text-stone-600))
+  
   (define* (mk-input #:key label name
                      (value "")
                      (required #f)
-                     (class-list '(p-3 max-w-prose rounded-xl
-                                       border-stone-400/75 border-2))
-                     (label-class-list '(text-sm font-bold text-stone-600)))
+                     (input-class default-input-class)
+                     (label-class default-label-class))
     `((div (@(class ,(mk-class-str '(flex flex-col gap-1))))
-           (label (@(class ,(mk-class-str label-class-list))(for ,name)) ,label)
-           (input (@ (class ,(mk-class-str class-list))
+           (label (@(class ,(mk-class-str label-class))(for ,name)) ,label)
+           (input (@ (class ,(mk-class-str input-class))
                      (name ,name)
                      (value ,value)
                      ,(if required

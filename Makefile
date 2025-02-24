@@ -31,3 +31,6 @@ fmt:
 # Development REPL
 repl:
 	guix shell -m manifest.scm -- guile --fresh-auto-compile -c '((@ (ares server) run-nrepl-server))'
+
+test:
+	guix shell -m manifest.scm -- guile --fresh-auto-compile run-tests.scm
