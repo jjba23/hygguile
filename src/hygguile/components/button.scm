@@ -23,16 +23,18 @@
                           (type 'button)
                           (background 'bg-stone-700/75)
                           (hover-background 'hover:bg-stone-900/75)
-                          (foreground 'text-white))
-    `(button (@ (type ,(symbol->string type))
-                (class ,(mk-class-str `(p-2 rounded-xl
-                                            w-min
-                                            font-bold
-                                            text-md
-                                            ,background
-                                            ,hover-background
-                                            ,foreground))))
-             ,content))
+                          (foreground 'text-stone-100))
+    (let ((class-list `(p-2 rounded-xl
+                            w-min
+                            font-bold
+                            font-sans
+                            text-md
+                            ,background
+                            ,hover-background
+                            ,foreground)))
+      `(button (@ (type ,(symbol->string type))
+                  (class ,(mk-class-str class-list)))
+               ,content)))
   (export action-button))
 
 (begin
