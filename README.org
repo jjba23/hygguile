@@ -7,8 +7,12 @@
 
 [[https://jointhefreeworld.org/static-assets/badges/GNU-Guix-c48702.png]] [[https://jointhefreeworld.org/static-assets/badges/Scheme-Guile-d0730f.png]] 
 
-/cozy and professional looking user-interfaces for everyone/
+/cozy and professional user-interfaces for everyone/
 
-UI component library for Lisp (Guile Scheme) software projects.
+SXML and TailwindCSS UI component library for Lisp (Guile Scheme) software projects.
 
 /hygge + guile = hygguile/
+
+** Licensing
+
+Lesser GNU General Public License v3 or later
