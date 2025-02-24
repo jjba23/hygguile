@@ -25,11 +25,11 @@
                      (required #f)
                      (class-list '(p-3 max-w-prose rounded-xl
                                        border-stone-400/75 border-2)))
-    (input (@ (class ,(mk-class-str class-list))
-              (name ,name)
-              (value ,value)
-              ,(if required
-                   '(required "")
-                   '()))
-           ,prefill))
+    `(input (@ (class ,(mk-class-str class-list))
+               (name ,name)
+               (value ,value)
+               ,(if required
+                    '(required "")
+                    '()))
+            ,prefill))
   (export mk-input))
