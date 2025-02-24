@@ -16,7 +16,8 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile components input)
-  #:use-module (hygguile abstraction))
+  #:use-module (hygguile abstraction)
+  #:use-module (srfi srfi-64))
 
 (begin
   (define* (mk-input #:key label
@@ -27,15 +28,24 @@
                                       border-1))
                      (label-css '(text-sm font-bold text-stone-600))
                      (input-flex-css '(flex flex-col gap-1)))
-    `((div (@(class ,(symbols->css ,input-flex-css))))
-      (label (@(class ,(symbols->css label-class))
-              (for ,name))
+    `((div (@ (class ,(symbols->css input-flex-css))))
+      (label (@ (class ,(symbols->css label-css))
+                (for ,name))
              ,label)
-      (input (@(class ,(symbols->css input-class))
-              (name ,name)
-              (value ,value)
-              ,(if required
-                   '(required "")
-                   '(not-required ""))) "")))
+      (input (@ (class ,(symbols->css input-css))
+                (name ,name)
+                (value ,value)
+                ,(if required
+                     '(required "")
+                     '(not-required ""))) "")))
   (export mk-input))
 
+;; module tests
+(test-begin "inputs")
+
+(test-equal "mk-input"
+  (car (car (cdr (mk-input #:label "hygguile-label"
+                           #:name "hygguile-name"))))
+  'label)
+
+(test-end)

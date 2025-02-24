@@ -27,6 +27,7 @@
 (define (run-all-tests)
   (for-each run-test
             '("src/hygguile/abstraction.scm"
-              "src/hygguile/components/button.scm")))
+              "src/hygguile/components/button.scm"
+              "src/hygguile/components/input.scm")))
 
 (run-all-tests)
