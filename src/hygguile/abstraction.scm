@@ -18,6 +18,7 @@
 (define-module (hygguile abstraction))
 
 (begin
-  (define-syntax-rule (mk-class-str xs)
+  (define* (mk-class-str xs)
     (string-join (map symbol->string xs) " "))
   (export mk-class-str))
+
