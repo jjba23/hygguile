@@ -32,6 +32,7 @@
                      (value ,value)
                      ,(if required
                           '(required "")
-                          '()))
+                          '(attr "")))
                   ""))))
   (export mk-input))
+
