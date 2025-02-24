@@ -26,31 +26,28 @@
 ;; it returns `(class "")`, ensuring that an empty class attribute is still valid.
 ;;
 ;; Examples:
-;; (symbols->css '())                       ⇒ '(class "")
-;; (symbols->css '(p-2 bg-stone-900/75))    ⇒ '(class "p-2 bg-stone-900/75")
-;; (symbols->css #f)                        ⇒ '(class "")
+;; (symbols->css '())                       ⇒ ""
+;; (symbols->css '(p-2 bg-stone-900/75))    ⇒ "p-2 bg-stone-900/75"
+;; (symbols->css #f)                        ⇒ ""
 ;;
 (begin
   (define* (symbols->css xs)
     (cond
       ((nil? xs)
-       '(class ""))
-      (else `(class ,(string-join (map symbol->string xs) " ")))))
+       "")
+      (else (string-join (map symbol->string xs) " "))))
   (export symbols->css))
 
 ;; module tests
 (test-begin "symbols->css")
 
 (test-equal "empty list returns empty class string"
-            (symbols->css '())
-            '(class ""))
+            (symbols->css '()) "")
 
 (test-equal "list of symbols is converted to space-separated string"
-            (symbols->css '(p-2 bg-stone-900/75))
-            '(class "p-2 bg-stone-900/75"))
+            (symbols->css '(p-2 bg-stone-900/75)) "p-2 bg-stone-900/75")
 
 (test-equal "false value returns empty class string"
-            (symbols->css #f)
-            '(class ""))
+            (symbols->css #f) "")
 
 (test-end)
