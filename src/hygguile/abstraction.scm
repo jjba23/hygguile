@@ -19,5 +19,5 @@
 
 (begin
   (define-syntax-rule (mk-class-str xs)
-    (string-join xs " "))
+    (string-join (map symbol->string xs) " "))
   (export mk-class-str))

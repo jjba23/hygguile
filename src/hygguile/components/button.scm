@@ -24,9 +24,12 @@
                           (background 'bg-stone-700/75)
                           (foreground 'text-white))
     `(button (@ (type ,(symbol->string type))
-                (class ,(mk-class-str `("p-2" "rounded-xl" "w-min" "font-bold"
-                                        ,(symbol->string background)
-                                        ,(symbol->string foreground)))))
+                (class ,(mk-class-str `(p-2 rounded-xl
+                                            w-min
+                                            font-bold
+                                            text-md
+                                            ,background
+                                            ,foreground))))
              ,content))
   (export action-button))
 
@@ -34,6 +37,12 @@
   (define* (success-submit-button #:key content)
     (action-button #:content content
                    #:type 'submit
-                   #:background 'bg-green-700/75
-                   #:foreground 'text-white))
+                   #:background 'bg-green-700/75))
   (export success-submit-button))
+
+(begin
+  (define* (danger-submit-button #:key content)
+    (action-button #:content content
+                   #:type 'submit
+                   #:background 'bg-red-700/75))
+  (export danger-submit-button))
