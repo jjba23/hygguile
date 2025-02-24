@@ -25,13 +25,13 @@
                      (class-list '(p-3 max-w-prose rounded-xl
                                        border-stone-400/75 border-2))
                      (label-class-list '(text-sm font-bold text-stone-600)))
-    `((div
-       (label (@(class ,(mk-class-str label-class-list))(for ,name)) ,label)
-       (input (@ (class ,(mk-class-str class-list))
-                 (name ,name)
-                 (value ,value)
-                 ,(if required
-                      '(required "")
-                      '()))
-              ""))))
+    `((div (@(class ,(mk-class-str '(flex flex-col gap-1))))
+           (label (@(class ,(mk-class-str label-class-list))(for ,name)) ,label)
+           (input (@ (class ,(mk-class-str class-list))
+                     (name ,name)
+                     (value ,value)
+                     ,(if required
+                          '(required "")
+                          '()))
+                  ""))))
   (export mk-input))
