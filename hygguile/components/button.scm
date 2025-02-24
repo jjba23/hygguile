@@ -15,7 +15,7 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
-(define-module (hygguile button)
+(define-module (hygguile components button)
   #:use-module (ice-9 string-fun)
   #:use-module (hygguile abstraction))
 
