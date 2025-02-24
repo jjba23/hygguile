@@ -9,7 +9,7 @@
 
 /cozy and professional user-interfaces for everyone/
 
-SXML and TailwindCSS UI component library for Lisp (Guile Scheme) software projects.
+🚧 work-in-progress SXML and TailwindCSS UI component library for Lisp (Guile Scheme) software projects.
 
 /hygge + guile = hygguile/
 
