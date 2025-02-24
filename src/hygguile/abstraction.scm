@@ -16,8 +16,7 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile abstraction)
-  #:use-module (srfi srfi-64)
-  )
+  #:use-module (srfi srfi-64))
 
 ;; symbols->css: Convert a list of symbols into a CSS `class` attribute pair.
 ;;
@@ -34,23 +33,24 @@
 (begin
   (define* (symbols->css xs)
     (cond
-     ((nil? xs) '(class ""))
-     (else `(class ,(string-join (map symbol->string xs) " ")))))
+      ((nil? xs)
+       '(class ""))
+      (else `(class ,(string-join (map symbol->string xs) " ")))))
   (export symbols->css))
 
 ;; module tests
 (test-begin "symbols->css")
 
 (test-equal "empty list returns empty class string"
-  (symbols->css '()) 
-  '(class ""))
+            (symbols->css '())
+            '(class ""))
 
 (test-equal "list of symbols is converted to space-separated string"
-  (symbols->css '(p-2 bg-stone-900/75)) 
-  '(class "p-2 bg-stone-900/75"))
+            (symbols->css '(p-2 bg-stone-900/75))
+            '(class "p-2 bg-stone-900/75"))
 
 (test-equal "false value returns empty class string"
-  (symbols->css #f) 
-  '(class ""))
+            (symbols->css #f)
+            '(class ""))
 
 (test-end)

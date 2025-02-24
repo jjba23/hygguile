@@ -19,22 +19,23 @@
   #:use-module (hygguile abstraction))
 
 (begin
-  (define default-input-class '(p-3 max-w-prose rounded-xl
-                                    border-stone-400/75 border-2))
-  
-  (define default-label-class '(text-sm font-bold text-stone-600))
-  
-  (define* (mk-input #:key label name
+  (define* (mk-input #:key label
+                     name
                      (value "")
                      (required #f)
-                     (input-class default-input-class)
-                     (label-class default-label-class))
-    `((div (@,(symbols->css '(flex flex-col gap-1))))
-      (label (@,(symbols->css label-class)(for ,name)) ,label)
-      (input (@,(symbols->css input-class)
-              (name ,name)
-              (value ,value)
-              ,(if required '(required "") '(attr "")))
-             ""))))
+                     (input-css '(p-3 max-w-prose rounded-xl border-stone-200
+                                      border-1))
+                     (label-css '(text-sm font-bold text-stone-600))
+                     (input-flex-css '(flex flex-col gap-1)))
+    `((div (@, (symbols->css ,input-flex-css)))
+      (label (@, (symbols->css label-class)
+                 (for ,name))
+             ,label)
+      (input (@, (symbols->css input-class)
+                 (name ,name)
+                 (value ,value)
+                 ,(if required
+                      '(required "")
+                      '(not-required ""))) "")))
   (export mk-input))
 

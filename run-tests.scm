@@ -19,10 +19,14 @@
 (use-modules (srfi srfi-64))
 
 (define (run-test file)
-  (display "Running: ") (display file) (newline)
+  (display "Running: ")
+  (display file)
+  (newline)
   (primitive-load file))
 
 (define (run-all-tests)
-  (for-each run-test '("src/hygguile/abstraction.scm")))
+  (for-each run-test
+            '("src/hygguile/abstraction.scm"
+              "src/hygguile/components/button.scm")))
 
 (run-all-tests)

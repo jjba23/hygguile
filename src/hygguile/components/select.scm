@@ -36,10 +36,10 @@
   (define* (mk-glyph-option #:key value glyph
                             (content #f)
                             (selected-value #f))
-    (let ((class-list '(flex gap-1)))
+    (let ((option-flex-css '(flex gap-1)))
       (mk-option #:value value
                  #:selected-value selected-value
-                 #:content `(div (@ (class ,(mk-class-str class-list)))
+                 #:content `(div (@, (symbols->css option-flex-css))
                                  (span ,glyph)
                                  (span ,(if (not (equal? #f content)) content
                                             value))))))

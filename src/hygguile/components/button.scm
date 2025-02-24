@@ -16,25 +16,30 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile components button)
-  #:use-module (hygguile abstraction))
+  #:use-module (hygguile abstraction)
+  #:use-module (srfi srfi-64))
 
 (begin
   (define* (action-button #:key content
                           (type 'button)
-                          (background 'bg-stone-700/75)
+                          (background 'bg-stone-700)
                           (hover-background 'hover:bg-stone-900/75)
+                          (border-size 'border-1)
+                          (border-color 'border-stone-800)
                           (foreground 'text-stone-100))
-    (let ((class-list `(py-2 px-3
+    (let ((button-css `(py-2 px-3
                              rounded-xl
                              max-w-prose
                              font-bold
                              font-sans
                              text-sm
+                             ,border-size
+                             ,border-color
                              ,background
                              ,hover-background
                              ,foreground)))
       `(button (@ (type ,(symbol->string type))
-                  (class ,(mk-class-str class-list)))
+                  ,(symbols->css button-css))
                ,content)))
   (export action-button))
 
@@ -53,4 +58,17 @@
                    #:background 'bg-red-700/75
                    #:hover-background 'hover:bg-red-900/75))
   (export danger-submit-button))
+
+;; module tests
+(test-begin "buttons")
+
+(test-equal "danger-submit-button returns a valid button"
+            (car (danger-submit-button #:content "hygguile"))
+            'button)
+
+(test-equal "success-submit-button returns a valid button"
+            (car (success-submit-button #:content "hygguile"))
+            'button)
+
+(test-end)
 
