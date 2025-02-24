@@ -28,7 +28,7 @@
                              max-w-prose
                              font-bold
                              font-sans
-                             text-md
+                             text-sm
                              ,background
                              ,hover-background
                              ,foreground)))
