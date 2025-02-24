@@ -41,15 +41,15 @@
 ;; module tests
 (test-begin "symbols->css")
 
-(test-equal "Empty list returns empty class string"
+(test-equal "empty list returns empty class string"
   (symbols->css '()) 
   '(class ""))
 
-(test-equal "List of symbols is converted to space-separated string"
+(test-equal "list of symbols is converted to space-separated string"
   (symbols->css '(p-2 bg-stone-900/75)) 
   '(class "p-2 bg-stone-900/75"))
 
-(test-equal "False value returns empty class string"
+(test-equal "false value returns empty class string"
   (symbols->css #f) 
   '(class ""))
 
