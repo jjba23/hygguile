@@ -20,8 +20,7 @@
 
 (begin
   (define* (mk-input #:key name
-                     value
-                     (prefill "")
+                     (value "")
                      (required #f)
                      (class-list '(p-3 max-w-prose rounded-xl
                                        border-stone-400/75 border-2)))
@@ -31,5 +30,5 @@
                ,(if required
                     '(required "")
                     '()))
-            ,prefill))
+            ""))
   (export mk-input))
