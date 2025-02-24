@@ -19,16 +19,19 @@
   #:use-module (hygguile abstraction))
 
 (begin
-  (define* (mk-input #:key name
+  (define* (mk-input #:key label name
                      (value "")
                      (required #f)
                      (class-list '(p-3 max-w-prose rounded-xl
-                                       border-stone-400/75 border-2)))
-    `(input (@ (class ,(mk-class-str class-list))
-               (name ,name)
-               (value ,value)
-               ,(if required
-                    '(required "")
-                    '()))
-            ""))
+                                       border-stone-400/75 border-2))
+                     (label-class-list '(text-sm font-bold text-stone-600)))
+    `((div
+       (label (@(class ,(mk-class-str label-class-list))(for ,name)) ,label)
+       (input (@ (class ,(mk-class-str class-list))
+                 (name ,name)
+                 (value ,value)
+                 ,(if required
+                      '(required "")
+                      '()))
+              ""))))
   (export mk-input))
