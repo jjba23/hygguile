@@ -24,8 +24,8 @@
                           (type 'button)
                           (background 'bg-stone-700)
                           (hover-background 'hover:bg-stone-900/75)
-                          (border-size 'border-1)
-                          (border-color 'border-stone-800)
+                          (border-size 'border-2)
+                          (border-color 'border-stone-900)
                           (foreground 'text-stone-100))
     (let ((button-css `(py-2 px-3
                              rounded-xl
@@ -47,16 +47,18 @@
   (define* (success-submit-button #:key content)
     (action-button #:content content
                    #:type 'submit
-                   #:background 'bg-green-700/75
-                   #:hover-background 'hover:bg-green-900/75))
+                   #:background 'bg-green-700
+                   #:hover-background 'hover:bg-green-900
+                   #:border-color 'border-green-900))
   (export success-submit-button))
 
 (begin
   (define* (danger-submit-button #:key content)
     (action-button #:content content
                    #:type 'submit
-                   #:background 'bg-red-700/75
-                   #:hover-background 'hover:bg-red-900/75))
+                   #:background 'bg-red-700
+                   #:hover-background 'hover:bg-red-900
+                   #:border-color 'border-red-900))
   (export danger-submit-button))
 
 ;; module tests
