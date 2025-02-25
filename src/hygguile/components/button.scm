@@ -39,7 +39,7 @@
                              ,hover-background
                              ,foreground)))
       `(button (@ (type ,(symbol->string type))
-                  (class ,(symbols->css button-css)))
+                  (class ,(->css button-css)))
                ,content)))
   (export action-button))
 
