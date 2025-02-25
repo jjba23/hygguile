@@ -38,16 +38,34 @@
      (else (string-join (map symbol->string xs) " "))))
   (export ->css))
 
-;; module tests
-(test-begin "->css")
+(begin
+  (define* (render-if-nestring expr x)
+    (if (and x
+             (not (equal? "" x)))
+        (expr x)
+        '()))
+  (export render-if-nestring))
 
-(test-equal "empty list returns empty class string"
+;; module tests
+(test-begin "abstraction tests")
+
+(test-equal "->css empty list returns empty class string"
   (->css '()) "")
 
-(test-equal "list of symbols is converted to space-separated string"
+(test-equal "->css list of symbols is converted to space-separated string"
   (->css '(p-2 bg-stone-900/75)) "p-2 bg-stone-900/75")
 
-(test-equal "false value returns empty class string"
+(test-equal "->css false value returns empty class string"
   (->css #f) "")
+
+(test-equal "render-if-nestring with valid string" "HELLO"
+            (render-if-nestring string-upcase "hello"))
+(test-equal "render-if-nestring with empty string"
+  '()
+  (render-if-nestring string-upcase ""))
+(test-equal "render-if-nestring with #f"
+  '()
+  (render-if-nestring string-upcase #f))
+
 
 (test-end)
