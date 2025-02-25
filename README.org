@@ -9,10 +9,74 @@
 
 /cozy and professional user-interfaces for everyone/
 
-🚧 work-in-progress SXML and TailwindCSS UI component library for Lisp (Guile Scheme) software projects.
+SXML and TailwindCSS UI component library for Lisp (Guile Scheme) software projects.
 
 /hygge + guile = hygguile/
 
-** Licensing
+This project is licensed under the Lesser GNU General Public License v3 or later.
 
-Lesser GNU General Public License v3 or later
+** How components look like?
+
+While the resulting UI and style is mostly left to the developers, /hygguile/ has some opinionated choices. The biggest goal of the project is to provide an expressive DSL for defining user interfaces that look professional and cozy.
+
+I'd encourage navigating to the ~src/~ directory and studying the code to see what possibilities and reusable components are there.
+
+#+begin_src scheme
+
+  (define (make-an-edit-form G_)
+    `(div (@(class ,(->css '(flex flex-wrap flex-row gap-2))))
+      ,(mk-input #:label (G_ "User name")
+                 #:name "username"
+                 #:value ""
+                 #:required #t)
+      ,(success-submit-button #:content "submit")
+      ;;
+      ;; or if you want more control:
+      ;;
+      ;; ,(action-button #:content content
+      ;;              #:type 'submit
+      ;;              #:background 'bg-green-700
+      ;;              #:hover-background 'hover:bg-green-900
+      ;;              #:border-color 'border-green-900)
+      ;; ))
+
+#+end_src
+
+** Installing and Using
+
+See the [[file:Makefile][Makefile]] for more details and common tasks.
+
+To install it you can download the source code files and add them to your ~GUILE_LOAD_PATH~ or even better, use a Guix shell ~manifest.scm~ and add the package with something like this:
+
+#+begin_src scheme
+  (define-public guile-hygguile
+    (let ((commit "6030b3fac733c30b5b4cb7ee42c90c62e524e09f")
+          (base32-sha-signature
+           "1yb9fq344rl4hs14frng31v7lgl43h9mbrd1dz87n068vasi6952")
+          (revision "0"))
+      (package
+       (name "guile-hygguile")
+       (version (git-version "0.0.0" revision commit))
+       (source
+        (origin
+         (method git-fetch)
+         (uri (git-reference
+               (url "https://codeberg.org/jjba23/hygguile.git")
+               (commit commit)))
+         (file-name (git-file-name name version))
+         (sha256
+          (base32 base32-sha-signature))))
+       (build-system guile-build-system)
+       (native-inputs (list guile-3.0))
+       (arguments
+        (list
+         #:source-directory "src"))
+       (home-page "https://codeberg.org/jjba23/hygguile")
+       (synopsis
+        "SXML and TailwindCSS UI component library for Lisp (Guile Scheme) software projects")
+       (description
+        "Cozy and professional user-interfaces for everyone.
+        SXML and TailwindCSS UI component library for Lisp (Guile Scheme) software projects.
+        hygge + guile = hygguile")
+       (license license:lgpl3+))))
+#+end_src
