@@ -23,6 +23,7 @@
   (define* (mk-input #:key label
                      name
                      (value "")
+                     (type 'text)
                      (required #f)
                      (input-css '(p-3 max-w-prose rounded-xl border-stone-200
                                       border-2))
@@ -35,6 +36,7 @@
       (input (@ (class ,(->css input-css))
                 (name ,name)
                 (value ,value)
+                (type ,(symbol->string type))
                 ,(if required
                      '(required "")
                      '(not-required ""))) "")))
