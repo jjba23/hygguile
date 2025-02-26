@@ -57,10 +57,9 @@
              ,label)
       (textarea (@ (class ,(->css textarea-css))
                    (name ,name)
-                   (value ,value)
                    ,(if required
                         '(required "")
-                        '(not-required ""))) "")))
+                        '(not-required ""))) ,value)))
   (export mk-textarea))
 
 ;; module tests
