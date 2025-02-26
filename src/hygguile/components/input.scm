@@ -58,7 +58,6 @@
       (textarea (@ (class ,(->css textarea-css))
                    (name ,name)
                    (value ,value)
-                   (type ,(symbol->string type))
                    ,(if required
                         '(required "")
                         '(not-required ""))) "")))
