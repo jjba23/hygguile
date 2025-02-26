@@ -42,12 +42,39 @@
                      '(not-required ""))) "")))
   (export mk-input))
 
+(begin
+  (define* (mk-textarea #:key label
+                        name
+                        (value "")
+                        (required #f)
+                        (textarea-css '(p-3 max-w-prose rounded-xl border-stone-200
+                                            border-2 min-h-64 min-w-prose))
+                        (label-css '(text-sm font-bold text-stone-600))
+                        (textarea-flex-css '(flex flex-col gap-1)))
+    `((div (@ (class ,(->css textarea-flex-css))))
+      (label (@ (class ,(->css label-css))
+                (for ,name))
+             ,label)
+      (textarea (@ (class ,(->css textarea-css))
+                   (name ,name)
+                   (value ,value)
+                   (type ,(symbol->string type))
+                   ,(if required
+                        '(required "")
+                        '(not-required ""))) "")))
+  (export mk-textarea))
+
 ;; module tests
 (test-begin "inputs")
 
 (test-equal "mk-input"
   (car (car (cdr (mk-input #:label "hygguile-label"
                            #:name "hygguile-name"))))
+  'label)
+
+(test-equal "mk-textarea"
+  (car (car (cdr (mk-textarea #:label "hygguile-label"
+                              #:name "hygguile-name"))))
   'label)
 
 (test-end)
