@@ -46,6 +46,15 @@
         '()))
   (export render-if-nestring))
 
+(begin
+  (define* (cond-render render-func item)
+    (cond
+     ((or (nil? item)
+          (equal? item #f))
+      '())
+     (else (render-func item))))
+  (export cond-render))
+
 ;; module tests
 (test-begin "abstraction tests")
 
