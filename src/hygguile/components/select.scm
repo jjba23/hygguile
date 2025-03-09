@@ -37,7 +37,7 @@
                              (content #f)
                              (selected-value #f))
     (let ((option-flex-css '(flex gap-1)))
-      (mk-option #:value value
+      (hyg-option #:value value
                  #:selected-value selected-value
                  #:content `(div (@ (class ,(->css option-flex-css)))
                                  (span ,glyph)
