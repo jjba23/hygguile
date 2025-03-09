@@ -20,15 +20,15 @@
   #:use-module (srfi srfi-64))
 
 (begin
-  (define* (mk-input #:key label
-                     name
-                     (value "")
-                     (type 'text)
-                     (required #f)
-                     (input-css '(p-3 max-w-prose rounded-xl border-stone-200
-                                      border-2))
-                     (label-css '(text-sm font-bold text-stone-600))
-                     (input-flex-css '(my-2 flex flex-col gap-1)))
+  (define* (hyg/input #:key label
+                      name
+                      (value "")
+                      (type 'text)
+                      (required #f)
+                      (input-css '(p-3 max-w-prose rounded-xl border-stone-200
+                                       border-2))
+                      (label-css '(text-sm font-bold text-stone-600))
+                      (input-flex-css '(my-2 flex flex-col gap-1)))
     `((div (@ (class ,(->css input-flex-css))))
       (label (@ (class ,(->css label-css))
                 (for ,name))
@@ -40,17 +40,17 @@
                 ,(if required
                      '(required "")
                      '(not-required ""))) "")))
-  (export mk-input))
+  (export hyg/input))
 
 (begin
-  (define* (mk-textarea #:key label
-                        name
-                        (value "")
-                        (required #f)
-                        (textarea-css '(p-3 max-w-prose rounded-xl border-stone-200
-                                            border-2 min-h-64 min-w-prose))
-                        (label-css '(text-sm font-bold text-stone-600))
-                        (textarea-flex-css '(my-2 flex flex-col gap-1)))
+  (define* (hyg/textarea #:key label
+                         name
+                         (value "")
+                         (required #f)
+                         (textarea-css '(p-3 max-w-prose rounded-xl border-stone-200
+                                             border-2 min-h-64 min-w-prose))
+                         (label-css '(text-sm font-bold text-stone-600))
+                         (textarea-flex-css '(my-2 flex flex-col gap-1)))
     `((div (@ (class ,(->css textarea-flex-css))))
       (label (@ (class ,(->css label-css))
                 (for ,name))
@@ -60,19 +60,19 @@
                    ,(if required
                         '(required "")
                         '(not-required ""))) ,value)))
-  (export mk-textarea))
+  (export hyg/textarea))
 
 ;; module tests
-(test-begin "inputs")
+(test-begin "hyg/input and hyg/textarea")
 
-(test-equal "mk-input"
-  (car (car (cdr (mk-input #:label "hygguile-label"
-                           #:name "hygguile-name"))))
+(test-equal "hyg/input has a label"
+  (car (car (cdr (hyg/input #:label "hygguile-label"
+                            #:name "hygguile-name"))))
   'label)
 
-(test-equal "mk-textarea"
-  (car (car (cdr (mk-textarea #:label "hygguile-label"
-                              #:name "hygguile-name"))))
+(test-equal "hyg/textarea has a label"
+  (car (car (cdr (hyg/textarea #:label "hygguile-label"
+                               #:name "hygguile-name"))))
   'label)
 
 (test-end)

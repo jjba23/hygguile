@@ -20,13 +20,13 @@
   #:use-module (srfi srfi-64))
 
 (begin
-  (define* (action-button #:key content
-                          (type 'button)
-                          (background 'bg-stone-700)
-                          (hover-background 'hover:bg-stone-900/75)
-                          (border-size 'border-2)
-                          (border-color 'border-stone-900)
-                          (foreground 'text-stone-100))
+  (define* (hyg/button #:key content
+                       (type 'button)
+                       (background 'bg-stone-700)
+                       (hover-background 'hover:bg-stone-900/75)
+                       (border-size 'border-2)
+                       (border-color 'border-stone-900)
+                       (foreground 'text-stone-100))
     (let ((button-css `(py-2 px-3
                              rounded-xl
                              max-w-prose
@@ -41,36 +41,36 @@
       `(button (@ (type ,(symbol->string type))
                   (class ,(->css button-css)))
                ,content)))
-  (export action-button))
+  (export hyg/button))
 
 (begin
-  (define* (success-submit-button #:key content)
-    (action-button #:content content
-                   #:type 'submit
-                   #:background 'bg-green-700
-                   #:hover-background 'hover:bg-green-900
-                   #:border-color 'border-green-900))
-  (export success-submit-button))
+  (define* (hyg/submit-button #:key content)
+    (hyg/button #:content content
+                #:type 'submit
+                #:background 'bg-green-700
+                #:hover-background 'hover:bg-green-900
+                #:border-color 'border-green-900))
+  (export hyg/submit-button))
 
 (begin
-  (define* (danger-submit-button #:key content)
-    (action-button #:content content
-                   #:type 'submit
-                   #:background 'bg-red-700
-                   #:hover-background 'hover:bg-red-900
-                   #:border-color 'border-red-900))
-  (export danger-submit-button))
+  (define* (hyg/danger-submit-button #:key content)
+    (hyg/button #:content content
+                #:type 'submit
+                #:background 'bg-red-700
+                #:hover-background 'hover:bg-red-900
+                #:border-color 'border-red-900))
+  (export hyg/danger-submit-button))
 
 ;; module tests
 (test-begin "buttons")
 
-(test-equal "danger-submit-button returns a valid button"
-            (car (danger-submit-button #:content "hygguile"))
-            'button)
+(test-equal "hyg/danger-submit-button returns a valid button"
+  (car (hyg/danger-submit-button #:content "hygguile"))
+  'button)
 
-(test-equal "success-submit-button returns a valid button"
-            (car (success-submit-button #:content "hygguile"))
-            'button)
+(test-equal "hyg/submit-button returns a valid button"
+  (car (hyg/submit-button #:content "hygguile"))
+  'button)
 
 (test-end)
 
