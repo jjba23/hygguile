@@ -17,6 +17,7 @@
 
 (define-module (hygguile components button)
   #:use-module (hygguile abstraction)
+  #:use-module (hygguile components icon)
   #:use-module (srfi srfi-64))
 
 (begin
@@ -44,6 +45,32 @@
   (export hyg/button))
 
 (begin
+  (define* (hyg/icon-button #:key icon content
+                            (type 'button)
+                            (background 'bg-stone-700)
+                            (hover-background 'hover:bg-stone-900/75)
+                            (border-size 'border-2)
+                            (border-color 'border-stone-900)
+                            (foreground 'text-stone-100))
+    (let ((button-css `(py-2 px-3
+                             rounded-xl
+                             max-w-prose
+                             font-bold
+                             font-sans
+                             text-sm
+                             ,border-size
+                             ,border-color
+                             ,background
+                             ,hover-background
+                             ,foreground)))
+      `(button (@ (type ,(symbol->string type))
+                  (class ,(->css button-css)))
+               (div (@(class "flex flex-row gap-1 items-center"))
+                    ,(hyg/icon #:type icon)
+                    (span ,content)))))
+  (export hyg/icon-button))
+
+(begin
   (define* (hyg/submit-button #:key content)
     (hyg/button #:content content
                 #:type 'submit
@@ -61,6 +88,8 @@
                 #:border-color 'border-red-900))
   (export hyg/danger-submit-button))
 
+
+
 ;; module tests
 (test-begin "buttons")
 
@@ -70,6 +99,10 @@
 
 (test-equal "hyg/submit-button returns a valid button"
   (car (hyg/submit-button #:content "hygguile"))
+  'button)
+
+(test-equal "hyg/icon-button returns a valid button"
+  (car (hyg/icon-button #:icon 'lightbulb #:content "hygguile"))
   'button)
 
 (test-end)

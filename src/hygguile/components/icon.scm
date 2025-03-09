@@ -32,7 +32,7 @@
            (icon-class (string->symbol (format #f "ph-~a" type))))
       `(i (@ (class ,(->css (append icon-css
                                     (list weight-class icon-class))))) "")))
-  (export icon))
+  (export hyg/icon))
 
 ;; module tests
 (test-begin "hyg/icon")
