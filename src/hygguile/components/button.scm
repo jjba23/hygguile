@@ -21,7 +21,7 @@
   #:use-module (srfi srfi-64))
 
 (begin
-  (define* (hyg/button #:key content
+  (define* (hyg-button #:key content
                        (type 'button)
                        (background 'bg-stone-700)
                        (hover-background 'hover:bg-stone-900/75)
@@ -42,10 +42,10 @@
       `(button (@ (type ,(symbol->string type))
                   (class ,(->css button-css)))
                ,content)))
-  (export hyg/button))
+  (export hyg-button))
 
 (begin
-  (define* (hyg/icon-button #:key icon content
+  (define* (hyg-icon-button #:key icon content
                             (type 'button)
                             (background 'bg-stone-700)
                             (hover-background 'hover:bg-stone-900/75)
@@ -66,43 +66,43 @@
       `(button (@ (type ,(symbol->string type))
                   (class ,(->css button-css)))
                (div (@(class "flex flex-row gap-1 items-center"))
-                    ,(hyg/icon #:type icon)
+                    ,(hyg-icon #:type icon)
                     (span ,content)))))
-  (export hyg/icon-button))
+  (export hyg-icon-button))
 
 (begin
-  (define* (hyg/submit-button #:key content)
-    (hyg/button #:content content
+  (define* (hyg-submit-button #:key content)
+    (hyg-button #:content content
                 #:type 'submit
                 #:background 'bg-green-700
                 #:hover-background 'hover:bg-green-900
                 #:border-color 'border-green-900))
-  (export hyg/submit-button))
+  (export hyg-submit-button))
 
 (begin
-  (define* (hyg/danger-submit-button #:key content)
-    (hyg/button #:content content
+  (define* (hyg-danger-submit-button #:key content)
+    (hyg-button #:content content
                 #:type 'submit
                 #:background 'bg-red-700
                 #:hover-background 'hover:bg-red-900
                 #:border-color 'border-red-900))
-  (export hyg/danger-submit-button))
+  (export hyg-danger-submit-button))
 
 
 
 ;; module tests
 (test-begin "buttons")
 
-(test-equal "hyg/danger-submit-button returns a valid button"
-  (car (hyg/danger-submit-button #:content "hygguile"))
+(test-equal "hyg-danger-submit-button returns a valid button"
+  (car (hyg-danger-submit-button #:content "hygguile"))
   'button)
 
-(test-equal "hyg/submit-button returns a valid button"
-  (car (hyg/submit-button #:content "hygguile"))
+(test-equal "hyg-submit-button returns a valid button"
+  (car (hyg-submit-button #:content "hygguile"))
   'button)
 
-(test-equal "hyg/icon-button returns a valid button"
-  (car (hyg/icon-button #:icon 'lightbulb #:content "hygguile"))
+(test-equal "hyg-icon-button returns a valid button"
+  (car (hyg-icon-button #:icon 'lightbulb #:content "hygguile"))
   'button)
 
 (test-end)

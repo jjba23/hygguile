@@ -19,7 +19,7 @@
   #:use-module (hygguile abstraction))
 
 (begin
-  (define* (hyg/option #:key value
+  (define* (hyg-option #:key value
                        (content #f)
                        (selected-value #f))
     (let ((option-content (if (not (equal? #f content)) content value)))
@@ -30,10 +30,10 @@
                  ,option-content))
        (else `(option (@ (value ,value))
                       ,option-content)))))
-  (export hyg/option))
+  (export hyg-option))
 
 (begin
-  (define* (hyg/glyph-option #:key value glyph
+  (define* (hyg-glyph-option #:key value glyph
                              (content #f)
                              (selected-value #f))
     (let ((option-flex-css '(flex gap-1)))
@@ -43,5 +43,5 @@
                                  (span ,glyph)
                                  (span ,(if (not (equal? #f content)) content
                                             value))))))
-  (export hyg/glyph-option))
+  (export hyg-glyph-option))
 

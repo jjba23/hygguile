@@ -20,7 +20,7 @@
   #:use-module (srfi srfi-64))
 
 (begin
-  (define* (hyg/icon #:key type
+  (define* (hyg-icon #:key type
                      (weight 'regular)
                      (icon-css '(text-stone-700 text-xl)))
     (let* ((weight-class (cond
@@ -32,13 +32,13 @@
            (icon-class (string->symbol (format #f "ph-~a" type))))
       `(i (@ (class ,(->css (append icon-css
                                     (list weight-class icon-class))))) "")))
-  (export hyg/icon))
+  (export hyg-icon))
 
 ;; module tests
-(test-begin "hyg/icon")
+(test-begin "hyg-icon")
 
-(test-equal "hyg/icon is an <i> element"
-  (car (hyg/icon #:type "lightbulb"))
+(test-equal "hyg-icon is an <i> element"
+  (car (hyg-icon #:type "lightbulb"))
   'i)
 
 (test-end)

@@ -20,7 +20,7 @@
   #:use-module (srfi srfi-64))
 
 (begin
-  (define* (hyg/input #:key label
+  (define* (hyg-input #:key label
                       name
                       (value "")
                       (type 'text)
@@ -40,10 +40,10 @@
                 ,(if required
                      '(required "")
                      '(not-required ""))) "")))
-  (export hyg/input))
+  (export hyg-input))
 
 (begin
-  (define* (hyg/textarea #:key label
+  (define* (hyg-textarea #:key label
                          name
                          (value "")
                          (required #f)
@@ -60,18 +60,18 @@
                    ,(if required
                         '(required "")
                         '(not-required ""))) ,value)))
-  (export hyg/textarea))
+  (export hyg-textarea))
 
 ;; module tests
-(test-begin "hyg/input and hyg/textarea")
+(test-begin "hyg-input and hyg-textarea")
 
-(test-equal "hyg/input has a label"
-  (car (car (cdr (hyg/input #:label "hygguile-label"
+(test-equal "hyg-input has a label"
+  (car (car (cdr (hyg-input #:label "hygguile-label"
                             #:name "hygguile-name"))))
   'label)
 
-(test-equal "hyg/textarea has a label"
-  (car (car (cdr (hyg/textarea #:label "hygguile-label"
+(test-equal "hyg-textarea has a label"
+  (car (car (cdr (hyg-textarea #:label "hygguile-label"
                                #:name "hygguile-name"))))
   'label)
 
