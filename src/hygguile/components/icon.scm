@@ -21,8 +21,7 @@
 
 (begin
   (define* (hyg-icon #:key type
-                     (weight 'regular)
-                     (icon-css '(text-stone-700 text-xl)))
+                     (weight 'regular))
     (let* ((weight-class (cond
                           ((eq? 'bold weight)
                            'ph-bold)
@@ -30,8 +29,7 @@
                            'ph-light)
                           (else 'ph)))
            (icon-class (string->symbol (format #f "ph-~a" type))))
-      `(i (@ (class ,(->css (append icon-css
-                                    (list weight-class icon-class))))) "")))
+      `(i (@ (class ,(->css (list weight-class icon-class)))) "")))
   (export hyg-icon))
 
 ;; module tests
