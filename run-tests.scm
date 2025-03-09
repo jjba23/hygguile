@@ -18,18 +18,10 @@
 (use-modules (ice-9 rdelim))
 (use-modules (srfi srfi-64))
 
-(define (run-test file)
-  (display "Running: ")
-  (display file)
-  (newline)
-  (primitive-load file))
+(define xs '("src/hygguile/abstraction.scm"
+             "src/hygguile/components/icon.scm"
+             "src/hygguile/components/button.scm"
+             "src/hygguile/components/input.scm"
+             ))
 
-(define (run-all-tests)
-  (for-each run-test
-            '("src/hygguile/abstraction.scm"
-              "src/hygguile/components/icon.scm"
-              "src/hygguile/components/button.scm"
-              "src/hygguile/components/input.scm"
-              )))
-
-(run-all-tests)
+(for-each (lambda(x) (load x)) xs)
