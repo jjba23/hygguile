@@ -21,23 +21,25 @@
 
 (begin
   (define* (hyg-icon #:key type
-                     (weight 'regular))
+                     (weight 'regular)
+                     (icon-css '(text-xl)))
     (let* ((weight-class (cond
-                          ((eq? 'bold weight)
-                           'ph-bold)
-                          ((eq? 'light weight)
-                           'ph-light)
-                          (else 'ph)))
+                           ((eq? 'bold weight)
+                            'ph-bold)
+                           ((eq? 'light weight)
+                            'ph-light)
+                           (else 'ph)))
            (icon-class (string->symbol (format #f "ph-~a" type))))
-      `(i (@ (class ,(->css (list weight-class icon-class)))) "")))
+      `(i (@ (class ,(->css (append (list weight-class icon-class) icon-css))))
+          "")))
   (export hyg-icon))
 
 ;; module tests
 (test-begin "hyg-icon")
 
 (test-equal "hyg-icon is an <i> element"
-  (car (hyg-icon #:type "lightbulb"))
-  'i)
+            (car (hyg-icon #:type "lightbulb"))
+            'i)
 
 (test-end)
 

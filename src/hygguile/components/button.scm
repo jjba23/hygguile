@@ -51,7 +51,8 @@
                             (hover-background 'hover:bg-stone-900/75)
                             (border-size 'border-2)
                             (border-color 'border-stone-900)
-                            (foreground 'text-stone-100))
+                            (foreground 'text-stone-100)
+                            (icon-css '(text-stone-100 text-xl)))
     (let ((button-css `(py-2 px-3
                              rounded-xl
                              max-w-prose
@@ -65,8 +66,8 @@
                              ,foreground)))
       `(button (@ (type ,(symbol->string type))
                   (class ,(->css button-css)))
-               (div (@(class "flex flex-row gap-1 items-center"))
-                    ,(hyg-icon #:type icon)
+               (div (@(class ,(->css '(flex flex-row gap-1 items-center))))
+                    ,(hyg-icon #:type icon #:icon-css icon-css)
                     (span ,content)))))
   (export hyg-icon-button))
 
