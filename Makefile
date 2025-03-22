@@ -39,6 +39,8 @@ test:
 serve:
 	darkhttpd ./dist --port 50054
 showcase:
-	rm -rf dist && mkdir -p dist && guile --fresh-auto-compile showcase.scm
+	rm -rf dist && mkdir -p dist
+	cp -rf resources/ttf dist/ttf
+	guile --fresh-auto-compile showcase.scm
 dev:
 	watchexec -i "dist/**" -r -e scm,css,js -- "make showcase && make serve"

@@ -277,27 +277,37 @@ formatting."
 (begin
   
   (define* (html-template #:key title body)
-    `((html (@ (lang en))
-            (head (title ,title)
-                  (style ,(assoc-ref asset-library "resources/css/fonts.css"))
+    `("<!DOCTYPE html>" (html (@ (lang en))
+                              (head (title ,title)
+                                    (style ,(assoc-ref asset-library
+                                             "resources/css/fonts.css"))
 
-                  (style ,(assoc-ref asset-library
-                                     "resources/css/phosphor.css"))
+                                    (style ,(assoc-ref asset-library
+                                             "resources/css/phosphor.css"))
 
-                  (meta (@ (name viewport)
-                           (content "width=device-width, initial-scale=1.0")))
-                  (script ,(assoc-ref asset-library "resources/js/tailwind.js"))
-                  (script ,(assoc-ref asset-library
-                                      "resources/js/tailwind.config.js")))
-            (body (@ (class ,(->css '(bg-stone-100))))
-                  (div (@ (class ,(->css '(flex flex-col h-screen
-                                                justify-between))))
-                       (div (@ (class ,(->css '(my-4 container mx-auto))))
-                            ,@body))))))
+                                    (meta (@ (name viewport)
+                                             (content
+                                              "width=device-width, initial-scale=1.0")))
+                                    (script ,(assoc-ref asset-library
+                                              "resources/js/tailwind.js"))
+                                    (script ,(assoc-ref asset-library
+                                              "resources/js/tailwind.config.js")))
+                              (body (@ (class ,(->css '(bg-stone-100))))
+                                    (div (@ (class ,(->css '(flex flex-col
+                                                             h-screen
+                                                             justify-between))))
+                                         (div (@ (class ,(->css '(my-4
+                                                                  container
+                                                                  mx-auto))))
+                                              ,@body))))))
   (export html-template))
 
 (define (showcase-body)
   `((div (@ (class ,(->css '(py-4 px-2))))
+         (h1 (@ (class ,(->css '(text-3xl font-black text-stone-800 py-6))))
+             "hygguile showcase")
+         (h2 (@ (class ,(->css '(text-xl font-black text-stone-700 py-3))))
+             "buttons")
          (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
               ,(hyg-button #:content "hyg-button")
               ,(hyg-submit-button #:content "hyg-submit-button")

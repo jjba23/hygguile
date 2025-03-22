@@ -44,6 +44,10 @@ I'd encourage navigating to the ~src/~ directory and studying the code to see wh
 
 See the [[file:Makefile][Makefile]] for more details and common tasks.
 
+You should take the files at ~resources~ and load them into your web app, in the way you like. This means loading CSS, JS and TTF files.
+
+You can take a look at the ~showcase.scm~ file which includes some facilities and advanced techniques to load these things.
+
 To install it you can download the source code files and add them to your ~GUILE_LOAD_PATH~ or even better, use a Guix shell ~manifest.scm~ and add the package with something like this:
 
 #+begin_src scheme
