@@ -23,6 +23,7 @@
   (define* (hyg-input #:key label
                       name
                       (value "")
+                      (placeholder "")
                       (type 'text)
                       (required #f)
                       (input-css '(p-3 max-w-prose rounded-xl border-stone-200
@@ -35,6 +36,7 @@
              ,label)
       (input (@ (class ,(->css input-css))
                 (name ,name)
+                (placeholder ,placeholder)
                 (value ,value)
                 (type ,(symbol->string type))
                 ,(if required
@@ -47,8 +49,12 @@
                          name
                          (value "")
                          (required #f)
-                         (textarea-css '(p-3 max-w-prose rounded-xl border-stone-200
-                                             border-2 min-h-64 min-w-prose))
+                         (textarea-css '(p-3 max-w-prose
+                                             rounded-xl
+                                             border-stone-200
+                                             border-2
+                                             min-h-64
+                                             min-w-prose))
                          (label-css '(text-sm font-bold text-stone-600))
                          (textarea-flex-css '(my-2 flex flex-col gap-1)))
     `((div (@ (class ,(->css textarea-flex-css))))
@@ -59,20 +65,21 @@
                    (name ,name)
                    ,(if required
                         '(required "")
-                        '(not-required ""))) ,value)))
+                        '(not-required "")))
+                ,value)))
   (export hyg-textarea))
 
 ;; module tests
 (test-begin "hyg-input and hyg-textarea")
 
 (test-equal "hyg-input has a label"
-  (car (car (cdr (hyg-input #:label "hygguile-label"
-                            #:name "hygguile-name"))))
-  'label)
+            (car (car (cdr (hyg-input #:label "hygguile-label"
+                                      #:name "hygguile-name"))))
+            'label)
 
 (test-equal "hyg-textarea has a label"
-  (car (car (cdr (hyg-textarea #:label "hygguile-label"
-                               #:name "hygguile-name"))))
-  'label)
+            (car (car (cdr (hyg-textarea #:label "hygguile-label"
+                                         #:name "hygguile-name"))))
+            'label)
 
 (test-end)

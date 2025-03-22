@@ -292,7 +292,7 @@ formatting."
                                               "resources/js/tailwind.js"))
                                     (script ,(assoc-ref asset-library
                                               "resources/js/tailwind.config.js")))
-                              (body (@ (class ,(->css '(bg-stone-100))))
+                              (body (@ (class ,(->css '(bg-stone-200))))
                                     (div (@ (class ,(->css '(flex flex-col
                                                              h-screen
                                                              justify-between))))
@@ -306,12 +306,19 @@ formatting."
   `((div (@ (class ,(->css '(py-4 px-2))))
          (h1 (@ (class ,(->css '(text-3xl font-black text-stone-800 py-6))))
              "hygguile showcase")
-         (h2 (@ (class ,(->css '(text-xl font-black text-stone-700 py-3))))
-             "buttons")
-         (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
-              ,(hyg-button #:content "hyg-button")
-              ,(hyg-submit-button #:content "hyg-submit-button")
-              ,(hyg-danger-submit-button #:content "hyg-danger-submit-button")))))
+         (section (h2 (@ (class ,(->css '(text-xl font-black text-stone-700
+                                                  py-3)))) "buttons")
+                  (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
+                       ,(hyg-button #:content "hyg-button")
+                       ,(hyg-submit-button #:content "hyg-submit-button")
+                       ,(hyg-danger-submit-button #:content
+                                                  "hyg-danger-submit-button")))
+         (hr (@ (class ,(->css '(my-4)))))
+         (section (h2 (@ (class ,(->css '(text-xl font-black text-stone-700
+                                                  py-3)))) "inputs")
+                  (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
+                       ,(hyg-input #:name "input-1"
+                                   #:placeholder "hyg-input"))))))
 
 (define (showcase)
   (with-output-to-string (lambda ()
