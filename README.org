@@ -22,23 +22,21 @@ While the resulting UI and style is mostly left to the developers, /hygguile/ ha
 I'd encourage navigating to the ~src/~ directory and studying the code to see what possibilities and reusable components are there.
 
 #+begin_src scheme
+  (hyg-input #:label (G_ "User name")
+             #:name "username"
+             #:value ""
+             #:required #t)
 
-  (define (make-an-edit-form G_)
-    `(div (@(class ,(->css '(flex flex-wrap flex-row gap-2))))
-      ,(mk-input #:label (G_ "User name")
-                 #:name "username"
-                 #:value ""
-                 #:required #t)
-      ,(success-submit-button #:content "submit")
-      ;;
-      ;; or if you want more control:
-      ;;
-      ;; ,(action-button #:content content
-      ;;              #:type 'submit
-      ;;              #:background 'bg-green-700
-      ;;              #:hover-background 'hover:bg-green-900
-      ;;              #:border-color 'border-green-900)
-      ;; ))
+  (hyg-submit-button #:content "submit")
+
+  ;; or if you want more control:
+  ;;
+  ;; (hyg-button #:content content
+  ;;              #:type 'submit
+  ;;              #:background 'bg-green-700
+  ;;              #:hover-background 'hover:bg-green-900
+  ;;              #:border-color 'border-green-900)
+  ;; ))
 
 #+end_src
 

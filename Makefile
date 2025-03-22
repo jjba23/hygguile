@@ -35,3 +35,10 @@ repl:
 # Unit tests
 test:
 	guix shell -m manifest.scm -- guile --fresh-auto-compile run-tests.scm
+
+serve:
+	darkhttpd ./dist --port 50054
+showcase:
+	rm -rf dist && mkdir -p dist && guile --fresh-auto-compile showcase.scm
+dev:
+	watchexec -i "dist/**" -r -e scm,css,js -- "make showcase && make serve"
