@@ -44,3 +44,7 @@ showcase:
 	guile --fresh-auto-compile showcase.scm
 dev:
 	watchexec -i "dist/**" -r -e scm,css,js -- "make showcase && make serve"
+deploy:
+	make showcase
+	rm -rfv /srv/http/hygguile.jointhefreeworld.org
+	cp -rfv dist /srv/http/hygguile.jointhefreeworld.org
