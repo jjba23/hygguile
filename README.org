@@ -15,6 +15,10 @@ SXML and TailwindCSS UI component library for Lisp (Guile Scheme) software proje
 
 This project is licensed under the Lesser GNU General Public License v3 or later.
 
+You can find a showcase of the Hygguile library here:
+
+https://hygguile.jointhefreeworld.org/
+
 ** How components look like?
 
 While the resulting UI and style is mostly left to the developers, /hygguile/ has some opinionated choices. The biggest goal of the project is to provide an expressive DSL for defining user interfaces that look professional and cozy.
