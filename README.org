@@ -19,7 +19,7 @@ You can find a showcase of the Hygguile library here:
 
 https://hygguile.jointhefreeworld.org/
 
-** How components look like?
+* How components look like?
 
 While the resulting UI and style is mostly left to the developers, /hygguile/ has some opinionated choices. The biggest goal of the project is to provide an expressive DSL for defining user interfaces that look professional and cozy.
 
@@ -44,7 +44,7 @@ I'd encourage navigating to the ~src/~ directory and studying the code to see wh
 
 #+end_src
 
-** Installing and Using
+* Installing and Using
 
 See the [[file:Makefile][Makefile]] for more details and common tasks.
 
@@ -86,3 +86,11 @@ To install it you can download the source code files and add them to your ~GUILE
         hygge + guile = hygguile")
        (license license:lgpl3+))))
 #+end_src
+
+* Code of conduct
+
+This project adheres to the jointhefreeworld code of conduct. Find it here:
+
+https://jointhefreeworld.org/blog/articles/personal/jointhefreeworld-code-of-conduct/index.html
+
+In summary, we foster an inclusive, respectful, and cooperative environment for all contributors and users of this free software project. Inspired by the ideals of the GNU Project, we strive to uphold freedom, equality, and community as guiding principles. We believe that collaboration in a community of mutual respect is essential to creating excellent free software.
