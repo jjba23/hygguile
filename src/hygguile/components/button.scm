@@ -21,7 +21,7 @@
   #:use-module (srfi srfi-64))
 
 (begin
-  (define* (hyg-button #:key content
+  (define* (hyg-button content #:key 
                        (type 'button)
                        (background 'bg-stone-700)
                        (hover-background 'hover:bg-stone-900/75)
@@ -72,8 +72,8 @@
   (export hyg-icon-button))
 
 (begin
-  (define* (hyg-submit-button #:key content)
-    (hyg-button #:content content
+  (define* (hyg-submit-button content)
+    (hyg-button content
                 #:type 'submit
                 #:background 'bg-green-700
                 #:hover-background 'hover:bg-green-900
@@ -81,8 +81,8 @@
   (export hyg-submit-button))
 
 (begin
-  (define* (hyg-danger-submit-button #:key content)
-    (hyg-button #:content content
+  (define* (hyg-danger-submit-button content)
+    (hyg-button content
                 #:type 'submit
                 #:background 'bg-red-700
                 #:hover-background 'hover:bg-red-900
@@ -95,15 +95,19 @@
 (test-begin "buttons")
 
 (test-equal "hyg-danger-submit-button returns a valid button"
-  (car (hyg-danger-submit-button #:content "hygguile"))
+  (car (hyg-danger-submit-button "hygguile"))
   'button)
 
 (test-equal "hyg-submit-button returns a valid button"
-  (car (hyg-submit-button #:content "hygguile"))
+  (car (hyg-submit-button "hygguile"))
   'button)
 
 (test-equal "hyg-icon-button returns a valid button"
   (car (hyg-icon-button #:icon 'lightbulb #:content "hygguile"))
+  'button)
+
+(test-equal "hyg-button returns a valid button"
+  (car (hyg-button "hygguile"))
   'button)
 
 (test-end)

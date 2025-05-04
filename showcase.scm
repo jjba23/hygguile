@@ -309,10 +309,9 @@ formatting."
          (section (h2 (@ (class ,(->css '(text-xl font-black text-stone-700
                                                   py-3)))) "buttons")
                   (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
-                       ,(hyg-button #:content "hyg-button")
-                       ,(hyg-submit-button #:content "hyg-submit-button")
-                       ,(hyg-danger-submit-button #:content
-                                                  "hyg-danger-submit-button")))
+                       ,(hyg-button "hyg-button")
+                       ,(hyg-submit-button "hyg-submit-button")
+                       ,(hyg-danger-submit-button "hyg-danger-submit-button")))
          (hr (@ (class ,(->css '(my-4)))))
          (section (h2 (@ (class ,(->css '(text-xl font-black text-stone-700
                                                   py-3)))) "inputs")
