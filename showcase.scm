@@ -302,6 +302,9 @@ formatting."
                                               ,@body))))))
   (export html-template))
 
+(define typography-pangram
+  "Sphinx of black quartz, judge my vow")
+
 (define (showcase-body)
   `((div (@ (class ,(->css '(py-4 px-2))))
          (h1 (@ (class ,(->css '(text-3xl font-black text-stone-800 py-6))))
@@ -317,7 +320,13 @@ formatting."
                                                   py-3)))) "inputs")
                   (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
                        ,(hyg-input #:name "input-1"
-                                   #:placeholder "hyg-input"))))))
+                                   #:placeholder "hyg-input")))
+         (hr (@ (class ,(->css '(my-4)))))
+         (section (hyg-h1 ,typography-pangram)
+                  (hyg-h2 ,typography-pangram)
+                  (hyg-h3 ,typography-pangram)
+                  (hyg-h4 ,typography-pangram)
+                  (hyg-p ,typography-pangram)))))
 
 (define (showcase)
   (with-output-to-string (lambda ()
