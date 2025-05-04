@@ -20,6 +20,7 @@
 (load "./src/hygguile/components/button.scm")
 (load "./src/hygguile/components/select.scm")
 (load "./src/hygguile/components/input.scm")
+(load "./src/hygguile/components/typography.scm")
 
 (use-modules (ice-9 string-fun)
              (ice-9 textual-ports)
