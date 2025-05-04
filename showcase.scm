@@ -322,11 +322,11 @@ formatting."
                        ,(hyg-input #:name "input-1"
                                    #:placeholder "hyg-input")))
          (hr (@ (class ,(->css '(my-4)))))
-         (section (hyg-h1 ,typography-pangram)
-                  (hyg-h2 ,typography-pangram)
-                  (hyg-h3 ,typography-pangram)
-                  (hyg-h4 ,typography-pangram)
-                  (hyg-p ,typography-pangram)))))
+         (section ,(hyg-h1 typography-pangram)
+                  ,(hyg-h2 typography-pangram)
+                  ,(hyg-h3 typography-pangram)
+                  ,(hyg-h4 typography-pangram)
+                  ,(hyg-p typography-pangram)))))
 
 (define (showcase)
   (with-output-to-string (lambda ()
