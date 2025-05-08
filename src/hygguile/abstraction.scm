@@ -27,7 +27,7 @@
 ;;
 ;; Examples:
 ;; (->css '())                       ⇒ ""
-;; (->css '(p-2 bg-stone-900/75))    ⇒ "p-2 bg-stone-900/75"
+;; (->css '(p-2 bg-stone-900/75))    ⇒ "bg-stone-900/75 p-2 "
 ;; (->css #f)                        ⇒ ""
 ;;
 (begin
@@ -35,7 +35,7 @@
     (cond
      ((nil? xs)
       "")
-     (else (string-join (map symbol->string xs) " "))))
+     (else (string-join (sort (map symbol->string xs) string<?) " "))))
   (export ->css))
 
 (begin
@@ -61,8 +61,8 @@
 (test-equal "->css empty list returns empty class string"
   (->css '()) "")
 
-(test-equal "->css list of symbols is converted to space-separated string"
-  (->css '(p-2 bg-stone-900/75)) "p-2 bg-stone-900/75")
+(test-equal "->css list of symbols is converted to sorted space-separated string"
+  (->css '(p-2 my-2 bg-stone-900/75 hover:bg-stone-800)) "bg-stone-900/75 hover:bg-stone-800 my-2 p-2")
 
 (test-equal "->css false value returns empty class string"
   (->css #f) "")
