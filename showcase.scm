@@ -328,6 +328,10 @@ formatting."
                   ,(hyg-h2 typography-pangram)
                   ,(hyg-h3 typography-pangram)
                   ,(hyg-h4 typography-pangram)
+                  ,(hyg-sub-h1 typography-pangram)
+                  ,(hyg-sub-h2 typography-pangram)
+                  ,(hyg-sub-h3 typography-pangram)
+                  ,(hyg-sub-h4 typography-pangram)
                   ,(hyg-p typography-pangram)))))
 
 (define (showcase)
