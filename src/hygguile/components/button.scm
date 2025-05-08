@@ -27,7 +27,7 @@
                        (hover-background 'hover:bg-stone-900/75)
                        (border-size 'border-2)
                        (border-color 'border-stone-900)
-                       (shadow 'shadow)
+                       (shadow 'shadow-md)
                        (foreground 'text-stone-100))
     (let ((button-css `(py-2 px-3
                              rounded-xl
@@ -53,7 +53,7 @@
                             (hover-background 'hover:bg-stone-900/75)
                             (border-size 'border-2)
                             (border-color 'border-stone-900)
-                            (shadow 'shadow)
+                            (shadow 'shadow-md)
                             (foreground 'text-stone-100)
                             (icon-css '(text-stone-100 text-xl)))
     (let ((button-css `(py-2 px-3

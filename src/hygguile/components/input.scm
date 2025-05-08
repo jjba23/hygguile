@@ -27,7 +27,7 @@
                       (type 'text)
                       (required #f)
                       (input-css '(p-3 max-w-prose rounded-xl border-stone-200
-                                       border-2 shadow))
+                                       border-2 shadow-md))
                       (label-css '(text-sm font-bold text-stone-600))
                       (input-flex-css '(my-2 flex flex-col gap-1)))
     `((div (@ (class ,(->css input-flex-css))))
@@ -54,7 +54,7 @@
                                              border-stone-200
                                              border-2
                                              min-h-64
-                                             shadow
+                                             shadow-md
                                              min-w-prose))
                          (label-css '(text-sm font-bold text-stone-600))
                          (textarea-flex-css '(my-2 flex flex-col gap-1)))
