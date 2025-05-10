@@ -34,20 +34,21 @@ While the resulting UI and style is mostly left to the developers, /hygguile/ ha
 I'd encourage navigating to the ~src/hygguile~ directory and studying the code to see what possibilities and reusable components are there.
 
 #+begin_src scheme
-  (hyg-input #:label (G_ "User name")
-             #:name "username"
-             #:value ""
-             #:required #t)
+(hyg-input #:label (G_ "User name")
+           #:name "username"
+           #:value ""
+           #:required #t)
 
-  (hyg-submit-button #:content "submit")
+;; some pre-defined helpers exist
+(hyg-submit-button "click here")
 
-  ;; or if you want more control:
-  (hyg-button #:content content
-              #:type 'submit
-              #:background 'bg-green-700
-              #:hover-background 'hover:bg-green-900
-              #:border-color 'border-green-900)
- 
+;; or if you want more control, you can go more low-level
+(hyg-button "click here"
+            #:type 'submit
+            #:background 'bg-green-700
+            #:hover-background 'hover:bg-green-900
+            #:border-color 'border-green-900)
+
 #+end_src
 
 One of the main abstractions we use is the ~->css~ procedure, which takes a list of symbols and converts it into an ordered set of classes and consequently to an HTML compatible class list. We have adopted Tailwind's syntax since it's clear and concise, and well documented.
