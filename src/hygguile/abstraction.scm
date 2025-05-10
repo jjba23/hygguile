@@ -16,7 +16,8 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile abstraction)
-  #:use-module (srfi srfi-64))
+  #:use-module (srfi srfi-64)
+  #:use-module (srfi srfi-1))
 
 ;; ->css: Convert a list of symbols into a CSS `class` attribute pair.
 ;;
@@ -33,9 +34,10 @@
 (begin
   (define* (->css xs)
     (cond
-     ((nil? xs)
-      "")
-     (else (string-join (sort (map symbol->string xs) string<?) " "))))
+      ((nil? xs)
+       "")
+      (else (string-join (sort (map symbol->string
+                                    (delete-duplicates xs)) string<?) " "))))
   (export ->css))
 
 (begin
@@ -49,32 +51,36 @@
 (begin
   (define* (cond-render render-func item)
     (cond
-     ((or (nil? item)
-          (equal? item #f))
-      '())
-     (else (render-func item))))
+      ((or (nil? item)
+           (equal? item #f))
+       '())
+      (else (render-func item))))
   (export cond-render))
 
 ;; module tests
 (test-begin "abstraction tests")
 
 (test-equal "->css empty list returns empty class string"
-  (->css '()) "")
+            (->css '()) "")
 
-(test-equal "->css list of symbols is converted to sorted space-separated string"
-  (->css '(p-2 my-2 bg-stone-900/75 hover:bg-stone-800)) "bg-stone-900/75 hover:bg-stone-800 my-2 p-2")
+(test-equal
+ "->css list of symbols is converted to sorted space-separated string"
+ (->css '(p-2 my-2 bg-stone-900/75 hover:bg-stone-800))
+ "bg-stone-900/75 hover:bg-stone-800 my-2 p-2")
+
+(test-equal "->css list of symbols removes duplication"
+            (->css '(p-2 my-2 p-2 p-2 my-2)) "my-2 p-2")
 
 (test-equal "->css false value returns empty class string"
-  (->css #f) "")
+            (->css #f) "")
 
 (test-equal "render-if-nestring with valid string" "HELLO"
             (render-if-nestring string-upcase "hello"))
 (test-equal "render-if-nestring with empty string"
-  '()
-  (render-if-nestring string-upcase ""))
+            '()
+            (render-if-nestring string-upcase ""))
 (test-equal "render-if-nestring with #f"
-  '()
-  (render-if-nestring string-upcase #f))
-
+            '()
+            (render-if-nestring string-upcase #f))
 
 (test-end)
