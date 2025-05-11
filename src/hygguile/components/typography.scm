@@ -26,70 +26,113 @@
                    hyg-sub-h4
                    hyg-p
                    hyg-em
+                   hyg-a
                    hyg-strong))
 
 (define* (hyg-h1 content
                  #:key (weight 'font-bold)
+                 (color 'text-stone-700)
                  (size 'text-4xl))
-  `((h1 (@ (class ,(->css `(,size ,weight))))
+  `((h1 (@ (class ,(->css `(,size ,weight
+                            ,color))))
         ,content)))
 
 (define* (hyg-h2 content
                  #:key (weight 'font-bold)
+                 (color 'text-stone-700)
                  (size 'text-3xl))
-  `((h2 (@ (class ,(->css `(,size ,weight))))
+  `((h2 (@ (class ,(->css `(,size ,weight
+                            ,color))))
         ,content)))
 
 (define* (hyg-h3 content
                  #:key (weight 'font-bold)
+                 (color 'text-stone-700)
                  (size 'text-2xl))
-  `((h3 (@ (class ,(->css `(,size ,weight))))
+  `((h3 (@ (class ,(->css `(,size ,weight
+                            ,color))))
         ,content)))
 
 (define* (hyg-h4 content
                  #:key (weight 'font-bold)
+                 (color 'text-stone-700)
                  (size 'text-xl))
-  `((h4 (@ (class ,(->css `(,size ,weight))))
+  `((h4 (@ (class ,(->css `(,size ,weight
+                            ,color))))
         ,content)))
 
 (define* (hyg-sub-h1 content
                      #:key (weight 'font-light)
-                     (size 'text-4xl))
-  `((h1 (@ (class ,(->css `(,size ,weight))))
+                     (color 'text-stone-600)
+                     (style 'italic)
+                     (size 'text-3xl))
+  `((h1 (@ (class ,(->css `(,size ,weight
+                            ,style
+                            ,color))))
         ,content)))
 
 (define* (hyg-sub-h2 content
                      #:key (weight 'font-light)
-                     (size 'text-3xl))
-  `((h2 (@ (class ,(->css `(,size ,weight))))
+                     (style 'italic)
+                     (color 'text-stone-600)
+                     (size 'text-2xl))
+  `((h2 (@ (class ,(->css `(,size ,weight
+                            ,style
+                            ,color))))
         ,content)))
 
 (define* (hyg-sub-h3 content
                      #:key (weight 'font-light)
-                     (size 'text-2xl))
-  `((h3 (@ (class ,(->css `(,size ,weight))))
+                     (style 'italic)
+                     (color 'text-stone-600)
+                     (size 'text-xl))
+  `((h3 (@ (class ,(->css `(,size ,weight
+                            ,style
+                            ,color))))
         ,content)))
 
 (define* (hyg-sub-h4 content
                      #:key (weight 'font-light)
+                     (style 'italic)
+                     (color 'text-stone-600)
                      (size 'text-xl))
-  `((h4 (@ (class ,(->css `(,size ,weight))))
+  `((h4 (@ (class ,(->css `(,size ,weight
+                            ,style
+                            ,color))))
         ,content)))
 
 (define* (hyg-p content
                 #:key (weight 'font-medium)
+                (color 'text-stone-800)
                 (size 'text-lg))
-  `((p (@ (class ,(->css `(,size ,weight))))
+  `((p (@ (class ,(->css `(,size ,weight
+                           ,color))))
        ,content)))
 
 (define* (hyg-em content
                  #:key (weight 'font-light)
-                 (size 'text-lg))
-  `((p (@ (class ,(->css `(,size ,weight))))
-       ,content)))
+                 (color 'text-stone-600)
+                 (size 'text-md))
+  `((em (@ (class ,(->css `(,size ,weight
+                            ,color))))
+        ,content)))
 
 (define* (hyg-strong content
                      #:key (weight 'font-bold)
+                     (color 'text-stone-800)
                      (size 'text-lg))
-  `((strong (@ (class ,(->css `(,size ,weight))))
+  `((strong (@ (class ,(->css `(,size ,weight
+                                ,color))))
             ,content)))
+
+(define* (hyg-a content
+                #:key (weight 'font-bold)
+                (size 'text-lg)
+                (color 'text-blue-500)
+                (hover 'hover:text-blue-700)
+                (href #f))
+  `((a (@ (href ,(if (not href) content href))
+          (class ,(->css `(,size ,weight
+                           ,color
+                           ,hover))))
+       ,content)))

@@ -20,6 +20,7 @@
 (load "./src/hygguile/components/button.scm")
 (load "./src/hygguile/components/select.scm")
 (load "./src/hygguile/components/input.scm")
+(load "./src/hygguile/components/container.scm")
 (load "./src/hygguile/components/typography.scm")
 
 (use-modules (ice-9 string-fun)
@@ -35,6 +36,7 @@
              (hygguile components input)
              (hygguile components icon)
              (hygguile components select)
+             (hygguile components container)
              (hygguile components typography))
 
 (define* (load-assets assets)
@@ -280,57 +282,80 @@ formatting."
 (define typography-pangram
   "Sphinx of black quartz, judge my vow")
 
+(define button-section
+  `((section (@ (class ,(->css '(flex flex-col gap-6))))
+             ,(hyg-h2 "buttons")
+             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
+                  ,(hyg-button "hyg-button")
+                  ,(hyg-submit-button "hyg-submit-button")
+                  ,(hyg-danger-submit-button "hyg-danger-submit-button")))))
+
+(define typography-section
+  `((div (@ (class ,(->css '(flex flex-col gap-6))))
+         ,(hyg-h2 "typography")
+         (div (section (@ (class ,(->css '(py-3))))
+                       ,(hyg-h1 typography-pangram)
+                       ,(hyg-h2 typography-pangram)
+                       ,(hyg-h3 typography-pangram)
+                       ,(hyg-h4 typography-pangram))
+              (section (@ (class ,(->css '(py-3))))
+                       ,(hyg-sub-h1 typography-pangram)
+                       ,(hyg-sub-h2 typography-pangram)
+                       ,(hyg-sub-h3 typography-pangram)
+                       ,(hyg-sub-h4 typography-pangram))
+              (section (@ (class ,(->css '(py-3))))
+                       ,(hyg-strong typography-pangram)
+                       ,(hyg-p typography-pangram)
+                       ,(hyg-em typography-pangram))))))
+
+(define forms-section
+  `((section (@ (class ,(->css '(flex flex-col gap-6))))
+             ,(hyg-h2 "forms")
+             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
+                  ,(hyg-input #:name "input-1"
+                              #:placeholder "hyg-input")))))
+
+(define footer
+  (hyg-footer `(,(hyg-p
+                  "Copyright &copy; Josep Bigorra &lt;jjbigorra@gmail.com&gt;") ,
+                (hyg-em
+                 "licensed under the LGPL v3, or newer at your convenience")
+                (div (@ (class ,(->css '(flex flex-row flex-wrap gap-3
+                                              align-center items-center))))
+                     ,(hyg-p "find the source code here:")
+                     ,(hyg-a "https://codeberg.org/jjba23/hygguile")))
+              #:background 'bg-stone-200))
+
 (define (showcase-body)
-  `((div (@ (class ,(->css '(py-4 px-2))))
-         (h1 (@ (class ,(->css '(text-3xl font-black text-stone-800 py-6))))
-             "hygguile showcase")
-         (section (h2 (@ (class ,(->css '(text-xl font-black text-stone-700
-                                                  py-3)))) "buttons")
-                  (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
-                       ,(hyg-button "hyg-button")
-                       ,(hyg-submit-button "hyg-submit-button")
-                       ,(hyg-danger-submit-button "hyg-danger-submit-button")))
-         (hr (@ (class ,(->css '(my-4)))))
-         (section (h2 (@ (class ,(->css '(text-xl font-black text-stone-700
-                                                  py-3)))) "inputs")
-                  (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
-                       ,(hyg-input #:name "input-1"
-                                   #:placeholder "hyg-input")))
-         (hr (@ (class ,(->css '(my-4)))))
-         (section ,(hyg-h1 typography-pangram)
-                  ,(hyg-h2 typography-pangram)
-                  ,(hyg-h3 typography-pangram)
-                  ,(hyg-h4 typography-pangram))
-         (section ,(hyg-sub-h1 typography-pangram)
-                  ,(hyg-sub-h2 typography-pangram)
-                  ,(hyg-sub-h3 typography-pangram)
-                  ,(hyg-sub-h4 typography-pangram))
-         (section ,(hyg-p typography-pangram)))))
+  (hyg-with-footer #:main `((div (@ (class ,(->css '(py-9 px-2 container
+                                                          mx-auto))))
+                                 ,(hyg-h3 "HYGGUILE: SHOWCASE")
+                                 (hr (@ (class ,(->css '(my-4)))))
+                                 ,button-section
+                                 (hr (@ (class ,(->css '(my-4)))))
+                                 ,typography-section
+                                 (hr (@ (class ,(->css '(my-4)))))
+                                 ,forms-section))
+                   #:footer footer))
 
 (define* (html-template #:key title body)
   `("<!DOCTYPE html>" (html (@ (lang en))
                             (head (title ,title)
                                   (style ,(assoc-ref asset-library
-                                                     "resources/css/fonts.css"))
+                                           "resources/css/fonts.css"))
 
                                   (style ,(assoc-ref asset-library
-                                                     "resources/css/phosphor.css"))
+                                           "resources/css/phosphor.css"))
 
                                   (meta (@ (name viewport)
                                            (content
                                             "width=device-width, initial-scale=1.0")))
                                   (script ,(assoc-ref asset-library
-                                                      "resources/js/tailwind.js"))
+                                            "resources/js/tailwind.js"))
                                   (script ,(assoc-ref asset-library
-                                                      "resources/js/tailwind.config.js")))
-                            (body (@ (class ,(->css '(bg-stone-200))))
-                                  (div (@ (class ,(->css '(flex flex-col
-                                                                h-screen
-                                                                justify-between))))
-                                       (div (@ (class ,(->css '(my-4
-                                                                container
-                                                                mx-auto))))
-                                            ,@body))))))
+                                            "resources/js/tailwind.config.js")))
+                            (body (@ (class ,(->css '()))))
+                            ,@body)))
 
 (define (showcase)
   (with-output-to-string (lambda ()
@@ -344,4 +369,7 @@ formatting."
   (lambda ()
     (display (showcase))))
 
-(display "\n>>= successfully built hygguile showcase to destination: dist/index.html\n")
+(display
+ "
+>>= successfully built hygguile showcase to destination: dist/index.html
+")
