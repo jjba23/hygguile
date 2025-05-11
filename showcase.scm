@@ -37,26 +37,23 @@
              (hygguile components select)
              (hygguile components typography))
 
-(begin
-  (define* (build-asset-library assets)
-    (display "\nBuilding static asset cache...\n")
-    (let ((lib '()))
-      (for-each (lambda (f)
-                  (let* ((file-contents (get-string-all (open-input-file f)))
-                         (min-contents (cond
-                                        ((string-suffix? ".css" f)
-                                         (string-replace-substring
-                                          file-contents "\n" ""))
-                                        (else file-contents))))
-                    (set! lib
-                          (assoc-set! lib f min-contents)))) assets) lib))
-  (export build-asset-library))
+(define* (load-assets assets)
+  (let ((lib '()))
+    (for-each (lambda (f)
+                (let* ((file-contents (get-string-all (open-input-file f)))
+                       (min-contents (cond
+                                       ((string-suffix? ".css" f)
+                                        (string-replace-substring
+                                         file-contents "\n" ""))
+                                       (else file-contents))))
+                  (set! lib
+                        (assoc-set! lib f min-contents)))) assets) lib))
 
 (define-public asset-library
-  (build-asset-library '("resources/css/fonts.css"
-                         "resources/css/phosphor.css"
-                         "resources/js/tailwind.js"
-                         "resources/js/tailwind.config.js")))
+  (load-assets '("resources/css/fonts.css" "resources/css/phosphor.css"
+                 "resources/js/tailwind.js" "resources/js/tailwind.config.js")))
+
+;; ====== Serialize (SXML) ======
 
 (define check-name
   (let ((*good-cache* (make-hash-table)))
@@ -276,33 +273,9 @@ formatting."
                         (#\& . "&amp;")
                         (#\" . "&quot;"))))
 
-(begin
-  
-  (define* (html-template #:key title body)
-    `("<!DOCTYPE html>" (html (@ (lang en))
-                              (head (title ,title)
-                                    (style ,(assoc-ref asset-library
-                                             "resources/css/fonts.css"))
-
-                                    (style ,(assoc-ref asset-library
-                                             "resources/css/phosphor.css"))
-
-                                    (meta (@ (name viewport)
-                                             (content
-                                              "width=device-width, initial-scale=1.0")))
-                                    (script ,(assoc-ref asset-library
-                                              "resources/js/tailwind.js"))
-                                    (script ,(assoc-ref asset-library
-                                              "resources/js/tailwind.config.js")))
-                              (body (@ (class ,(->css '(bg-stone-200))))
-                                    (div (@ (class ,(->css '(flex flex-col
-                                                             h-screen
-                                                             justify-between))))
-                                         (div (@ (class ,(->css '(my-4
-                                                                  container
-                                                                  mx-auto))))
-                                              ,@body))))))
-  (export html-template))
+;;
+;; ====== Showcase section ======
+;;
 
 (define typography-pangram
   "Sphinx of black quartz, judge my vow")
@@ -327,12 +300,37 @@ formatting."
          (section ,(hyg-h1 typography-pangram)
                   ,(hyg-h2 typography-pangram)
                   ,(hyg-h3 typography-pangram)
-                  ,(hyg-h4 typography-pangram)
-                  ,(hyg-sub-h1 typography-pangram)
+                  ,(hyg-h4 typography-pangram))
+         (section ,(hyg-sub-h1 typography-pangram)
                   ,(hyg-sub-h2 typography-pangram)
                   ,(hyg-sub-h3 typography-pangram)
-                  ,(hyg-sub-h4 typography-pangram)
-                  ,(hyg-p typography-pangram)))))
+                  ,(hyg-sub-h4 typography-pangram))
+         (section ,(hyg-p typography-pangram)))))
+
+(define* (html-template #:key title body)
+  `("<!DOCTYPE html>" (html (@ (lang en))
+                            (head (title ,title)
+                                  (style ,(assoc-ref asset-library
+                                                     "resources/css/fonts.css"))
+
+                                  (style ,(assoc-ref asset-library
+                                                     "resources/css/phosphor.css"))
+
+                                  (meta (@ (name viewport)
+                                           (content
+                                            "width=device-width, initial-scale=1.0")))
+                                  (script ,(assoc-ref asset-library
+                                                      "resources/js/tailwind.js"))
+                                  (script ,(assoc-ref asset-library
+                                                      "resources/js/tailwind.config.js")))
+                            (body (@ (class ,(->css '(bg-stone-200))))
+                                  (div (@ (class ,(->css '(flex flex-col
+                                                                h-screen
+                                                                justify-between))))
+                                       (div (@ (class ,(->css '(my-4
+                                                                container
+                                                                mx-auto))))
+                                            ,@body))))))
 
 (define (showcase)
   (with-output-to-string (lambda ()
@@ -340,6 +338,10 @@ formatting."
                                                      "hygguile showcase"
                                                      #:body (showcase-body))))))
 
+;; ====== Run ======
+
 (with-output-to-file "dist/index.html"
   (lambda ()
     (display (showcase))))
+
+(display "\n>>= successfully built hygguile showcase to destination: dist/index.html\n")

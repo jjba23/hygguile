@@ -16,76 +16,80 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile components typography)
-  #:use-module (hygguile abstraction))
+  #:use-module (hygguile abstraction)
+  #:export (hyg-h1 hyg-h2
+                   hyg-h3
+                   hyg-h4
+                   hyg-sub-h1
+                   hyg-sub-h2
+                   hyg-sub-h3
+                   hyg-sub-h4
+                   hyg-p
+                   hyg-em
+                   hyg-strong))
 
-(begin
-  (define* (hyg-h1 content
-                   #:key (weight 'font-bold)
-                   (size 'text-4xl))
-    `((h1 (@ (class ,(->css `(,size ,weight))))
-          ,content)))
-  (export hyg-h1))
+(define* (hyg-h1 content
+                 #:key (weight 'font-bold)
+                 (size 'text-4xl))
+  `((h1 (@ (class ,(->css `(,size ,weight))))
+        ,content)))
 
-(begin
-  (define* (hyg-h2 content
-                   #:key (weight 'font-bold)
-                   (size 'text-3xl))
-    `((h2 (@ (class ,(->css `(,size ,weight))))
-          ,content)))
-  (export hyg-h2))
+(define* (hyg-h2 content
+                 #:key (weight 'font-bold)
+                 (size 'text-3xl))
+  `((h2 (@ (class ,(->css `(,size ,weight))))
+        ,content)))
 
-(begin
-  (define* (hyg-h3 content
-                   #:key (weight 'font-bold)
-                   (size 'text-2xl))
-    `((h3 (@ (class ,(->css `(,size ,weight))))
-          ,content)))
-  (export hyg-h3))
+(define* (hyg-h3 content
+                 #:key (weight 'font-bold)
+                 (size 'text-2xl))
+  `((h3 (@ (class ,(->css `(,size ,weight))))
+        ,content)))
 
-(begin
-  (define* (hyg-h4 content
-                   #:key (weight 'font-bold)
-                   (size 'text-xl))
-    `((h4 (@ (class ,(->css `(,size ,weight))))
-          ,content)))
-  (export hyg-h4))
+(define* (hyg-h4 content
+                 #:key (weight 'font-bold)
+                 (size 'text-xl))
+  `((h4 (@ (class ,(->css `(,size ,weight))))
+        ,content)))
 
-(begin
-  (define* (hyg-sub-h1 content
-                       #:key (weight 'font-light)
-                       (size 'text-4xl))
-    `((h1 (@ (class ,(->css `(,size ,weight))))
-          ,content)))
-  (export hyg-sub-h1))
+(define* (hyg-sub-h1 content
+                     #:key (weight 'font-light)
+                     (size 'text-4xl))
+  `((h1 (@ (class ,(->css `(,size ,weight))))
+        ,content)))
 
-(begin
-  (define* (hyg-sub-h2 content
-                       #:key (weight 'font-light)
-                       (size 'text-3xl))
-    `((h2 (@ (class ,(->css `(,size ,weight))))
-          ,content)))
-  (export hyg-sub-h2))
+(define* (hyg-sub-h2 content
+                     #:key (weight 'font-light)
+                     (size 'text-3xl))
+  `((h2 (@ (class ,(->css `(,size ,weight))))
+        ,content)))
 
-(begin
-  (define* (hyg-sub-h3 content
-                       #:key (weight 'font-light)
-                       (size 'text-2xl))
-    `((h3 (@ (class ,(->css `(,size ,weight))))
-          ,content)))
-  (export hyg-sub-h3))
+(define* (hyg-sub-h3 content
+                     #:key (weight 'font-light)
+                     (size 'text-2xl))
+  `((h3 (@ (class ,(->css `(,size ,weight))))
+        ,content)))
 
-(begin
-  (define* (hyg-sub-h4 content
-                       #:key (weight 'font-light)
-                       (size 'text-xl))
-    `((h4 (@ (class ,(->css `(,size ,weight))))
-          ,content)))
-  (export hyg-sub-h4))
+(define* (hyg-sub-h4 content
+                     #:key (weight 'font-light)
+                     (size 'text-xl))
+  `((h4 (@ (class ,(->css `(,size ,weight))))
+        ,content)))
 
-(begin
-  (define* (hyg-p content
-                  #:key (weight 'font-medium)
-                  (size 'text-lg))
-    `((p (@ (class ,(->css `(,size ,weight))))
-         ,content)))
-  (export hyg-p))
+(define* (hyg-p content
+                #:key (weight 'font-medium)
+                (size 'text-lg))
+  `((p (@ (class ,(->css `(,size ,weight))))
+       ,content)))
+
+(define* (hyg-em content
+                 #:key (weight 'font-light)
+                 (size 'text-lg))
+  `((p (@ (class ,(->css `(,size ,weight))))
+       ,content)))
+
+(define* (hyg-strong content
+                     #:key (weight 'font-bold)
+                     (size 'text-lg))
+  `((strong (@ (class ,(->css `(,size ,weight))))
+            ,content)))
