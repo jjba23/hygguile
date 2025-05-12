@@ -17,7 +17,7 @@
 
 (define-module (hygguile components button)
   #:use-module (hygguile abstraction)
-  #:use-module (hygguile components icon)
+  #:use-module ((hygguile components icon) #:prefix hyg:)
   #:use-module (srfi srfi-64)
   #:export (button icon-button submit-button danger-submit-button))
 
@@ -45,7 +45,7 @@
                            ,hover-background
                            ,foreground)))
     `(button (@ (type ,(symbol->string type))
-                (class ,(mk-classes button-css))
+                (class ,(mk-class button-css))
                 (onclick ,on-click))
              ,content)))
 
@@ -76,10 +76,10 @@
                            ,foreground)))
     `(button (@ (onclick ,on-click)
                 (type ,(symbol->string type))
-                (class ,(mk-classes button-css)))
-             (div (@ (class ,(mk-classes '(flex flex-row gap-1 items-center))))
-                  ,(icon #:type icon
-                         #:icon-css icon-css)
+                (class ,(mk-class button-css)))
+             (div (@ (class ,(mk-class '(flex flex-row gap-1 items-center))))
+                  ,(hyg:icon #:type icon
+                             #:icon-css icon-css)
                   (span ,content)))))
 
 (define* (submit-button content)

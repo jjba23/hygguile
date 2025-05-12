@@ -22,23 +22,23 @@
   #:export (footer with-footer hr))
 
 (define* (with-footer #:key main footer)
-  `((div (@ (class ,(mk-classes '(flex flex-col justify-between min-h-screen))))
+  `((div (@ (class ,(mk-class '(flex flex-col justify-between min-h-screen))))
          ,main
          ,footer)))
 
 (define* (hr #:key (margin 'my-8))
-  `((hr (@ (class ,(mk-classes `(,margin)))))))
+  `((hr (@ (class ,(mk-class `(,margin)))))))
 
 (define* (footer content
                  #:key (background 'bg-stone-300)
                  (shadow 'shadow-2xl))
-  `((footer (@ (class ,(mk-classes `(flex flex-col
-                                          gap-3
-                                          items-left
-                                          px-6
-                                          md:px-12
-                                          justify-left
-                                          py-12
-                                          ,background
-                                          ,shadow))))
+  `((footer (@ (class ,(mk-class `(flex flex-col
+                                        gap-3
+                                        items-left
+                                        px-6
+                                        md:px-12
+                                        justify-left
+                                        py-12
+                                        ,background
+                                        ,shadow))))
             ,content)))

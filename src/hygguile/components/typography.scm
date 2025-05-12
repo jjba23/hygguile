@@ -36,7 +36,7 @@
              #:key (weight 'font-bold)
              (color 'text-stone-700)
              (size 'text-4xl))
-  `((h1 (@ (class ,(mk-classes `(,size ,weight
+  `((h1 (@ (class ,(mk-class `(,size ,weight
                                  ,color))))
         ,content)))
 
@@ -44,7 +44,7 @@
              #:key (weight 'font-bold)
              (color 'text-stone-700)
              (size 'text-3xl))
-  `((h2 (@ (class ,(mk-classes `(,size ,weight
+  `((h2 (@ (class ,(mk-class `(,size ,weight
                                  ,color))))
         ,content)))
 
@@ -52,7 +52,7 @@
              #:key (weight 'font-bold)
              (color 'text-stone-700)
              (size 'text-2xl))
-  `((h3 (@ (class ,(mk-classes `(,size ,weight
+  `((h3 (@ (class ,(mk-class `(,size ,weight
                                  ,color))))
         ,content)))
 
@@ -60,7 +60,7 @@
              #:key (weight 'font-bold)
              (color 'text-stone-700)
              (size 'text-xl))
-  `((h4 (@ (class ,(mk-classes `(,size ,weight
+  `((h4 (@ (class ,(mk-class `(,size ,weight
                                  ,color))))
         ,content)))
 
@@ -69,9 +69,9 @@
                  (color 'text-stone-600)
                  (style 'italic)
                  (size 'text-3xl))
-  `((h1 (@ (class ,(mk-classes `(,size ,weight
-                                 ,style
-                                 ,color))))
+  `((h1 (@ (class ,(mk-class `(,size ,weight
+                                     ,style
+                                     ,color))))
         ,content)))
 
 (define* (sub-h2 content
@@ -79,9 +79,9 @@
                  (style 'italic)
                  (color 'text-stone-600)
                  (size 'text-2xl))
-  `((h2 (@ (class ,(mk-classes `(,size ,weight
-                                 ,style
-                                 ,color))))
+  `((h2 (@ (class ,(mk-class `(,size ,weight
+                                     ,style
+                                     ,color))))
         ,content)))
 
 (define* (sub-h3 content
@@ -89,9 +89,9 @@
                  (style 'italic)
                  (color 'text-stone-600)
                  (size 'text-xl))
-  `((h3 (@ (class ,(mk-classes `(,size ,weight
-                                 ,style
-                                 ,color))))
+  `((h3 (@ (class ,(mk-class `(,size ,weight
+                                     ,style
+                                     ,color))))
         ,content)))
 
 (define* (sub-h4 content
@@ -99,33 +99,33 @@
                  (style 'italic)
                  (color 'text-stone-600)
                  (size 'text-xl))
-  `((h4 (@ (class ,(mk-classes `(,size ,weight
-                                 ,style
-                                 ,color))))
+  `((h4 (@ (class ,(mk-class `(,size ,weight
+                                     ,style
+                                     ,color))))
         ,content)))
 
 (define* (p content
             #:key (weight 'font-medium)
             (color 'text-stone-800)
             (size 'text-lg))
-  `((p (@ (class ,(mk-classes `(,size ,weight
-                                ,color))))
+  `((p (@ (class ,(mk-class `(,size ,weight
+                                    ,color))))
        ,content)))
 
 (define* (em content
              #:key (weight 'font-light)
              (color 'text-stone-600)
              (size 'text-md))
-  `((em (@ (class ,(mk-classes `(,size ,weight
-                                 ,color))))
+  `((em (@ (class ,(mk-class `(,size ,weight
+                                     ,color))))
         ,content)))
 
 (define* (strong content
                  #:key (weight 'font-bold)
                  (color 'text-stone-800)
                  (size 'text-lg))
-  `((strong (@ (class ,(mk-classes `(,size ,weight
-                                     ,color))))
+  `((strong (@ (class ,(mk-class `(,size ,weight
+                                         ,color))))
             ,content)))
 
 (define* (a content
@@ -135,18 +135,18 @@
             (hover 'hover:text-blue-700)
             (href #f))
   `((a (@ (href ,(if (not href) content href))
-          (class ,(mk-classes `(,size ,weight
-                                ,color
-                                ,hover))))
+          (class ,(mk-class `(,size ,weight
+                                    ,color
+                                    ,hover))))
        ,content)))
 
 (define* (mono content
                #:key (weight 'font-medium)
                (color 'text-stone-800)
                (size 'text-lg))
-  `((p (@ (class ,(mk-classes `(font-mono ,size
-                                          ,weight
-                                          ,color))))
+  `((p (@ (class ,(mk-class `(font-mono ,size
+                                        ,weight
+                                        ,color))))
        ,content)))
 
 (define* (code content
@@ -158,14 +158,14 @@
                (shadow 'shadow-md)
                (padding-y 'py-1)
                (padding-x 'px-2))
-  `((code (@ (class ,(mk-classes `(font-mono ,shadow
-                                             ,size
-                                             ,weight
-                                             ,padding-y
-                                             ,padding-x
-                                             ,color
-                                             ,background
-                                             ,rounding))))
+  `((code (@ (class ,(mk-class `(font-mono ,shadow
+                                           ,size
+                                           ,weight
+                                           ,padding-y
+                                           ,padding-x
+                                           ,color
+                                           ,background
+                                           ,rounding))))
           ,content)))
 
 (define* (pre content
@@ -179,16 +179,16 @@
               (text-wrap 'text-nowrap)
               (padding-y 'py-6)
               (padding-x 'px-8))
-  `((pre (@ (class ,(mk-classes `(font-mono ,shadow
-                                            ,size
-                                            ,weight
-                                            ,text-wrap
-                                            ,width
-                                            ,padding-y
-                                            ,padding-x
-                                            ,color
-                                            ,background
-                                            ,rounding
-                                            overflow-auto
-                                            whitespace-pre))))
+  `((pre (@ (class ,(mk-class `(font-mono ,shadow
+                                          ,size
+                                          ,weight
+                                          ,text-wrap
+                                          ,width
+                                          ,padding-y
+                                          ,padding-x
+                                          ,color
+                                          ,background
+                                          ,rounding
+                                          overflow-auto
+                                          whitespace-pre))))
          ,content)))

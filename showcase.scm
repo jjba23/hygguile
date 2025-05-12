@@ -301,19 +301,19 @@ formatting."
                                       (write thunk))))
          (t (pretty-quote tt))
          (uid (generate-string-uuid)))
-    `((div (@ (class ,(->css '(flex flex-col gap-6))))
-           (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
+    `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
+           (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
                 (div ,(eval-string tt))
-                (button (@ (class ,(->css '(font-light text-sm text-stone-700)))
+                (button (@ (class ,(mk-class '(font-light text-sm text-stone-700)))
                            (onclick ,(format #f
                                       "document.getElementById('~a-example').classList.toggle('hidden')"
                                       uid)))
-                        ,(hyg-icon #:type 'dots-three
+                        ,(icon #:type 'dots-three
                                    #:icon-css '(text-xl))))
            (div (@ (id ,(format #f "~a-example" uid))
-                   (class ,(->css '(hidden flex flex-col gap-2))))
+                   (class ,(mk-class '(hidden flex flex-col gap-2))))
                 (pre (@ (id ,(format #f "~a-pre" uid))
-                        (class ,(->css '(font-medium text-stone-800
+                        (class ,(mk-class '(font-medium text-stone-800
                                                      text-md
                                                      bg-stone-200/75
                                                      rounded-lg
@@ -325,8 +325,8 @@ formatting."
                                                      overflow-x-scroll
                                                      whitespace-pre))))
                      ,t)
-                (div (@ (class ,(->css '(w-min))))
-                     ,(hyg-icon-button #:icon 'copy
+                (div (@ (class ,(mk-class '(w-min))))
+                     ,(icon-button #:icon 'copy
                                        #:foreground 'text-stone-900
                                        #:icon-css '(text-stone-900 text-lg)
                                        #:content "copy"
@@ -335,65 +335,65 @@ formatting."
                                        #:background 'bg-stone-400/50)))))))
 
 (define button-section
-  `((section (@ (class ,(->css '(flex flex-col gap-6))))
-             ,(hyg-sub-h2 "buttons")
-             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-6))))
-                  ,(as-example '(hyg-button "hyg-button"))
-                  ,(as-example '(hyg-submit-button "hyg-submit-button"))
-                  ,(as-example '(hyg-danger-submit-button
-                                 "hyg-danger-submit-button")))
-             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-6))))
-                  ,(as-example '(hyg-icon-button #:icon 'gear
+  `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
+             ,(sub-h2 "buttons")
+             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
+                  ,(as-example '(button "button"))
+                  ,(as-example '(submit-button "submit-button"))
+                  ,(as-example '(danger-submit-button
+                                 "danger-submit-button")))
+             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
+                  ,(as-example '(icon-button #:icon 'gear
                                                  #:content "gear"
                                                  #:background 'bg-teal-700
                                                  #:hover-background 'hover:bg-teal-900))
-                  ,(as-example '(hyg-icon-button #:icon 'user
+                  ,(as-example '(icon-button #:icon 'user
                                                  #:content "user"
                                                  #:background 'bg-amber-400
                                                  #:hover-background 'hover:bg-amber-600
                                                  #:foreground 'text-stone-900
                                                  #:icon-css '(text-stone-900
                                                               text-xl)))
-                  ,(as-example '(hyg-icon-button #:icon 'airplane-tilt
+                  ,(as-example '(icon-button #:icon 'airplane-tilt
                                                  #:content "airplane-tilt"
                                                  #:background 'bg-orange-700
                                                  #:hover-background 'hover:bg-orange-900))))))
 
 (define typography-section
-  `((div (@ (class ,(->css '(flex flex-col gap-6))))
-         ,(hyg-sub-h2 "typography")
-         (div (@ (class ,(->css '(flex flex-row flex-wrap gap-8))))
-              (section (@ (class ,(->css '(py-3 flex flex-col gap-3))))
-                       ,(as-example '(hyg-h1
+  `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
+         ,(sub-h2 "typography")
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-8))))
+              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+                       ,(as-example '(h1
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(hyg-h2
+                       ,(as-example '(h2
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(hyg-h3
+                       ,(as-example '(h3
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(hyg-h4
+                       ,(as-example '(h4
                                       "Sphinx of black quartz, judge my vow")))
-              (section (@ (class ,(->css '(py-3 flex flex-col gap-3))))
-                       ,(as-example '(hyg-sub-h1
+              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+                       ,(as-example '(sub-h1
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(hyg-sub-h2
+                       ,(as-example '(sub-h2
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(hyg-sub-h3
+                       ,(as-example '(sub-h3
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(hyg-sub-h4
+                       ,(as-example '(sub-h4
                                       "Sphinx of black quartz, judge my vow")))
-              (section (@ (class ,(->css '(py-3 flex flex-col gap-3))))
-                       ,(as-example '(hyg-strong
+              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+                       ,(as-example '(strong
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(hyg-p
+                       ,(as-example '(p
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(hyg-em
+                       ,(as-example '(em
                                       "Sphinx of black quartz, judge my vow")))
-              (section (@ (class ,(->css '(py-3 flex flex-col gap-3))))
-                       ,(as-example '(hyg-mono
+              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+                       ,(as-example '(mono
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(hyg-code
+                       ,(as-example '(code
                                       "Sphinx of black quartz, judge my vow")))
-              ,(as-example '(hyg-pre
+              ,(as-example '(pre
                              "
 ;;; A simple Guile Scheme HTTP server
 (use-modules (web server))
@@ -405,57 +405,57 @@ formatting."
 (run-server my-handler)"))))))
 
 (define forms-section
-  `((section (@ (class ,(->css '(flex flex-col gap-6))))
-             ,(hyg-sub-h2 "forms")
-             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2 w-full))))
-                  ,(as-example '(hyg-input #:label "some input:"
-                                           #:name "input-1"
-                                           #:placeholder "hyg-input"))
-                  ,(as-example '(hyg-textarea #:label "some textarea:"
-                                              #:name "textarea-1"))))))
+  `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
+             ,(sub-h2 "forms")
+             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 w-full))))
+                  ,(as-example '(input #:label "some input:"
+                                       #:name "input-1"
+                                       #:placeholder "input"))
+                  ,(as-example '(textarea #:label "some textarea:"
+                                          #:name "textarea-1"))))))
 
 (define footer
-  (hyg-footer `(,(hyg-p
-                  "Copyright &copy; Josep Bigorra &lt;jjbigorra@gmail.com&gt;") ,
-                (hyg-em
-                 "licensed under the LGPL v3, or newer at your convenience")
-                (div (@ (class ,(->css '(flex flex-row flex-wrap gap-3
-                                              align-center items-center))))
-                     ,(hyg-p "find the source code here:")
-                     ,(hyg-a "https://codeberg.org/jjba23/hygguile")))
-              #:background 'bg-stone-200))
+  (footer `(,(p
+              "Copyright &copy; Josep Bigorra &lt;jjbigorra@gmail.com&gt;") ,
+            (em
+             "licensed under the LGPL v3, or newer at your convenience")
+            (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-3
+                                             align-center items-center))))
+                 ,(p "find the source code here:")
+                 ,(a "https://codeberg.org/jjba23/hygguile")))
+          #:background 'bg-stone-200))
 
 (define (showcase-body)
-  (hyg-with-footer #:main `((div (@ (class ,(->css '(py-9 px-2 container
-                                                          mx-auto))))
-                                 (div (@ (class ,(->css '(flex flex-col gap-4))))
-                                      ,(hyg-h1 "hygguile")
-                                      ,(hyg-sub-h2
-                                        "cozy and professional user-interfaces for everyone"))
-                                 ,(hyg-hr)
-                                 ,button-section
-                                 ,(hyg-hr)
-                                 ,typography-section
-                                 ,(hyg-hr)
-                                 ,forms-section))
-                   #:footer footer))
+  (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
+                                                         mx-auto))))
+                             (div (@ (class ,(mk-class '(flex flex-col gap-4))))
+                                  ,(h1 "hygguile")
+                                  ,(sub-h2
+                                    "cozy and professional user-interfaces for everyone"))
+                             ,(hr)
+                             ,button-section
+                             ,(hr)
+                             ,typography-section
+                             ,(hr)
+                             ,forms-section))
+               #:footer footer))
 
 (define* (html-template #:key title body)
   `("<!DOCTYPE html>" (html (@ (lang en))
                             (head (title ,title)
                                   (style ,(assoc-ref asset-library
-                                           "resources/css/fonts.css"))
+                                                     "resources/css/fonts.css"))
 
                                   (style ,(assoc-ref asset-library
-                                           "resources/css/phosphor.css"))
+                                                     "resources/css/phosphor.css"))
 
                                   (meta (@ (name viewport)
                                            (content
                                             "width=device-width, initial-scale=1.0")))
                                   (script ,(assoc-ref asset-library
-                                            "resources/js/tailwind.js"))
+                                                      "resources/js/tailwind.js"))
                                   (script ,(assoc-ref asset-library
-                                            "resources/js/tailwind.config.js"))
+                                                      "resources/js/tailwind.config.js"))
                                   (script
                                    "
 function copyInnerText(elementId) {
@@ -471,7 +471,7 @@ function copyInnerText(elementId) {
   console.log(el.innerText);
 } 
 "))
-                            (body (@ (class ,(->css '()))))
+                            (body (@ (class ,(mk-class '()))))
                             ,@body)))
 
 (define (showcase)
