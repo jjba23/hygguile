@@ -22,7 +22,7 @@
   #:export (hyg-footer hyg-with-footer hyg-hr))
 
 (define* (hyg-with-footer #:key main footer)
-  `((div (@ (class ,(->css '(flex flex-col justify-between h-screen))))
+  `((div (@ (class ,(->css '(flex flex-col justify-between min-h-screen))))
          ,main
          ,footer)))
 
