@@ -49,15 +49,15 @@
                          name
                          (value "")
                          (required #f)
-                         (textarea-css '(p-3 max-w-prose
-                                             rounded-xl
-                                             border-stone-200
-                                             border-2
-                                             min-h-64
-                                             shadow-md
-                                             min-w-prose))
+                         (textarea-css '(p-3 
+                                         rounded-xl
+                                         border-stone-200
+                                         border-2
+                                         min-h-72
+                                         shadow-md
+                                         min-w-prose))
                          (label-css '(text-sm font-bold text-stone-600))
-                         (textarea-flex-css '(my-2 flex flex-col gap-1)))
+                         (textarea-flex-css '(my-2 flex flex-col gap-1 w-full)))
     `((div (@ (class ,(->css textarea-flex-css))))
       (label (@ (class ,(->css label-css))
                 (for ,name))

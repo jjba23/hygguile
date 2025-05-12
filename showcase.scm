@@ -308,18 +308,28 @@ formatting."
                        ,(hyg-strong typography-pangram)
                        ,(hyg-p typography-pangram)
                        ,(hyg-em typography-pangram))
-              (section (@(class ,(->css '(py-3 flex flex-col gap-3))))
+              (section (@ (class ,(->css '(py-3 flex flex-col gap-3))))
                        ,(hyg-mono typography-pangram)
-                       ,(hyg-code typography-pangram)
-                       )
-              ,(hyg-pre (list typography-pangram " " typography-pangram " " typography-pangram))))))
+                       ,(hyg-code typography-pangram))
+              ,(hyg-pre "
+;;; A simple Guile Scheme HTTP server
+(use-modules (web server))
+
+(define (my-handler request request-body)
+  (values '((content-type . (text/plain)))
+          \"Hello World!\"))
+
+(run-server my-handler)")))))
 
 (define forms-section
   `((section (@ (class ,(->css '(flex flex-col gap-6))))
              ,(hyg-h2 "forms")
-             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
-                  ,(hyg-input #:name "input-1"
-                              #:placeholder "hyg-input")))))
+             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2 w-full))))
+                  ,(hyg-input #:label "some input:"
+                              #:name "input-1"
+                              #:placeholder "hyg-input")
+                  ,(hyg-textarea #:label "some textarea:"
+                                 #:name "textarea-1")))))
 
 (define footer
   (hyg-footer `(,(hyg-p

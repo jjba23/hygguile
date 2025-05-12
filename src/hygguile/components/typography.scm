@@ -136,18 +136,18 @@
                 (href #f))
   `((a (@ (href ,(if (not href) content href))
           (class ,(->css `(,size ,weight
-                                 ,color
-                                 ,hover))))
+                           ,color
+                           ,hover))))
        ,content)))
 
 (define* (hyg-mono content
                    #:key (weight 'font-medium)
                    (color 'text-stone-800)
                    (size 'text-lg))
-  `((p (@ (class ,(->css `(font-mono ,size ,weight
+  `((p (@ (class ,(->css `(font-mono ,size
+                                     ,weight
                                      ,color))))
        ,content)))
-
 
 (define* (hyg-code content
                    #:key (weight 'font-medium)
@@ -158,8 +158,14 @@
                    (shadow 'shadow-md)
                    (padding-y 'py-1)
                    (padding-x 'px-2))
-  `((code (@ (class ,(->css `(font-mono ,shadow ,size ,weight ,padding-y ,padding-x
-                                        ,color ,background ,rounding))))
+  `((code (@ (class ,(->css `(font-mono ,shadow
+                                        ,size
+                                        ,weight
+                                        ,padding-y
+                                        ,padding-x
+                                        ,color
+                                        ,background
+                                        ,rounding))))
           ,content)))
 
 (define* (hyg-pre content
@@ -169,8 +175,17 @@
                   (background 'bg-stone-200/75)
                   (rounding 'rounded-lg)
                   (shadow 'shadow-md)
-                  (padding-y 'py-1)
-                  (padding-x 'px-3))
-  `((pre (@ (class ,(->css `(font-mono ,shadow ,size ,weight ,padding-y ,padding-x
-                                       ,color ,background ,rounding whitespace-pre))))
+                  (width 'w-full)
+                  (padding-y 'py-4)
+                  (padding-x 'px-4))
+  `((pre (@ (class ,(->css `(font-mono ,shadow
+                                       ,size
+                                       ,weight
+                                       ,width
+                                       ,padding-y
+                                       ,padding-x
+                                       ,color
+                                       ,background
+                                       ,rounding
+                                       whitespace-pre))))
          ,content)))
