@@ -41,7 +41,7 @@ serve:
 showcase:
 	rm -rf dist && mkdir -p dist
 	cp -rf resources/ttf dist/ttf
-	guile --fresh-auto-compile showcase.scm
+	guix shell -m manifest.scm -- guile --fresh-auto-compile showcase.scm
 dev:
 	watchexec -i "dist/**" -r -e scm,css,js -- "make showcase && make serve"
 deploy:

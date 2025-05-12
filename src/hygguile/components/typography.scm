@@ -176,16 +176,19 @@
                   (rounding 'rounded-lg)
                   (shadow 'shadow-md)
                   (width 'w-full)
+                  (text-wrap 'text-nowrap)
                   (padding-y 'py-4)
                   (padding-x 'px-4))
   `((pre (@ (class ,(->css `(font-mono ,shadow
                                        ,size
                                        ,weight
+                                       ,text-wrap
                                        ,width
                                        ,padding-y
                                        ,padding-x
                                        ,color
                                        ,background
                                        ,rounding
+                                       overflow-auto
                                        whitespace-pre))))
          ,content)))

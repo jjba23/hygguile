@@ -37,7 +37,8 @@
              (hygguile components icon)
              (hygguile components select)
              (hygguile components container)
-             (hygguile components typography))
+             (hygguile components typography)
+             (uuid generate))
 
 (define* (load-assets assets)
   (let ((lib '()))
@@ -279,6 +280,34 @@ formatting."
 ;; ====== Showcase section ======
 ;;
 
+(define (as-example thunk)
+  (let* ((t (with-output-to-string (lambda ()
+                                     (write thunk))))
+         (uid (generate-string-uuid)))
+    `((div (@ (class ,(->css '(flex flex-col gap-6))))
+           (div (@ (class ,(->css '(flex flex-row flex-wrap gap-3))))
+                (div ,(eval-string t))
+                (button (@ (class ,(->css '(font-light text-sm text-stone-700)))
+                           (onclick ,(format #f
+                                      "document.getElementById('~a-pre').classList.toggle('hidden')"
+                                      uid)))
+                        ,(hyg-icon #:type 'question-mark
+                                   #:icon-css '(text-lg))))
+           (pre (@ (id ,(format #f "~a-pre" uid))
+                   (class ,(->css '(font-medium text-stone-800
+                                                text-md
+                                                bg-stone-200/75
+                                                rounded-lg
+                                                shadow-md
+                                                w-full
+                                                text-wrap
+                                                py-4
+                                                px-4
+                                                hidden
+                                                overflow-auto
+                                                whitespace-pre))))
+                ,t)))))
+
 (define typography-pangram
   "Sphinx of black quartz, judge my vow")
 
@@ -286,34 +315,36 @@ formatting."
   `((section (@ (class ,(->css '(flex flex-col gap-6))))
              ,(hyg-h2 "buttons")
              (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
-                  ,(hyg-button "hyg-button")
-                  ,(hyg-submit-button "hyg-submit-button")
-                  ,(hyg-danger-submit-button "hyg-danger-submit-button"))
+                  ,(as-example '(hyg-button "hyg-button"))
+                  ,(as-example '(hyg-submit-button "hyg-submit-button"))
+                  ,(as-example '(hyg-danger-submit-button
+                                 "hyg-danger-submit-button")))
              (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
-                  ,(hyg-icon-button #:icon 'gear
-                                    #:content "gear"
-                                    #:background 'bg-teal-700
-                                    #:hover-background 'hover:bg-teal-900)
-                  ,(hyg-icon-button #:icon 'user
-                                    #:content "user"
-                                    #:background 'bg-amber-400
-                                    #:hover-background 'hover:bg-amber-600
-                                    #:foreground 'text-stone-900
-                                    #:icon-css '(text-stone-900 text-xl))
-                  ,(hyg-icon-button #:icon 'airplane-tilt
-                                    #:content "airplane-tilt"
-                                    #:background 'bg-orange-700
-                                    #:hover-background 'hover:bg-orange-900)))))
+                  ,(as-example '(hyg-icon-button #:icon 'gear
+                                                 #:content "gear"
+                                                 #:background 'bg-teal-700
+                                                 #:hover-background 'hover:bg-teal-900))
+                  ,(as-example '(hyg-icon-button #:icon 'user
+                                                 #:content "user"
+                                                 #:background 'bg-amber-400
+                                                 #:hover-background 'hover:bg-amber-600
+                                                 #:foreground 'text-stone-900
+                                                 #:icon-css '(text-stone-900
+                                                              text-xl)))
+                  ,(as-example '(hyg-icon-button #:icon 'airplane-tilt
+                                                 #:content "airplane-tilt"
+                                                 #:background 'bg-orange-700
+                                                 #:hover-background 'hover:bg-orange-900))))))
 
 (define typography-section
   `((div (@ (class ,(->css '(flex flex-col gap-6))))
          ,(hyg-h2 "typography")
          (div (@ (class ,(->css '(flex flex-row flex-wrap gap-8))))
               (section (@ (class ,(->css '(py-3 flex flex-col gap-3))))
-                       ,(hyg-h1 typography-pangram)
-                       ,(hyg-h2 typography-pangram)
-                       ,(hyg-h3 typography-pangram)
-                       ,(hyg-h4 typography-pangram))
+                       ,(as-example '(hyg-h1 typography-pangram))
+                       ,(as-example '(hyg-h2 typography-pangram))
+                       ,(as-example '(hyg-h3 typography-pangram))
+                       ,(as-example '(hyg-h4 typography-pangram)))
               (section (@ (class ,(->css '(py-3 flex flex-col gap-3))))
                        ,(hyg-sub-h1 typography-pangram)
                        ,(hyg-sub-h2 typography-pangram)
