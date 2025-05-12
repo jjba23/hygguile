@@ -81,7 +81,7 @@ To install it you can download the source code files and add them to your ~GUILE
 (define-public guile-hygguile
   (package
     (name "guile-hygguile")
-    (version "0.1.0")
+    (version "0.2.2")
     (source
      (origin
        (method git-fetch)
@@ -90,7 +90,7 @@ To install it you can download the source code files and add them to your ~GUILE
              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
-        (base32 "1aqq68iiwh2r9z9sg307v7warsbdq5c9b30025dgdcrjidg64lwd"))))
+        (base32 "0gcd5l5k39m0q3l4z7kndc06m6s8nrkpybflc0h70bjkabgm38rl"))))
     (build-system guile-build-system)
     (native-inputs (list guile-3.0))
     (arguments
