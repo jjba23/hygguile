@@ -37,7 +37,7 @@ You can always choose to import hygguile using a prefix to avoid name clashes if
 
 #+begin_src scheme
 (use-modules
-  ((hygguile) #:prefix hyg:)
+  ((hygguile) #:prefix hyg:))
 #+end_src
 
 
