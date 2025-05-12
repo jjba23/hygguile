@@ -27,7 +27,7 @@
                      (background 'bg-stone-700)
                      (hover-background 'hover:bg-stone-900/75)
                      (border-size 'border-2)
-                     (border-color 'border-stone-900)
+                     (border-color 'border-stone-700/75)
                      (shadow 'shadow-md)
                      (foreground 'text-stone-100))
   (let ((button-css `(py-2 px-3
@@ -52,7 +52,7 @@
                           (background 'bg-stone-700)
                           (hover-background 'hover:bg-stone-900/75)
                           (border-size 'border-2)
-                          (border-color 'border-stone-900)
+                          (border-color 'border-stone-700/75)
                           (shadow 'shadow-md)
                           (foreground 'text-stone-100)
                           (icon-css '(text-stone-100 text-xl)))
@@ -79,15 +79,13 @@
   (hyg-button content
               #:type 'submit
               #:background 'bg-green-700
-              #:hover-background 'hover:bg-green-900
-              #:border-color 'border-green-900))
+              #:hover-background 'hover:bg-green-900))
 
 (define* (hyg-danger-submit-button content)
   (hyg-button content
               #:type 'submit
               #:background 'bg-red-700
-              #:hover-background 'hover:bg-red-900
-              #:border-color 'border-red-900))
+              #:hover-background 'hover:bg-red-900))
 
 ;; module tests
 (test-begin "buttons")

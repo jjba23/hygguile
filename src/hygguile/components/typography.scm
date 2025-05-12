@@ -177,8 +177,8 @@
                   (shadow 'shadow-md)
                   (width 'w-full)
                   (text-wrap 'text-nowrap)
-                  (padding-y 'py-4)
-                  (padding-x 'px-4))
+                  (padding-y 'py-6)
+                  (padding-x 'px-8))
   `((pre (@ (class ,(->css `(font-mono ,shadow
                                        ,size
                                        ,weight

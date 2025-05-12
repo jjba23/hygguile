@@ -19,12 +19,15 @@
   #:use-module (hygguile abstraction)
   #:use-module (hygguile components icon)
   #:use-module (srfi srfi-64)
-  #:export (hyg-footer hyg-with-footer))
+  #:export (hyg-footer hyg-with-footer hyg-hr))
 
 (define* (hyg-with-footer #:key main footer)
   `((div (@ (class ,(->css '(flex flex-col justify-between h-screen))))
          ,main
          ,footer)))
+
+(define* (hyg-hr #:key (margin 'my-8))
+  `((hr (@ (class ,(->css `(,margin)))))))
 
 (define* (hyg-footer content
                      #:key (background 'bg-stone-300)

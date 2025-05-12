@@ -311,10 +311,10 @@ formatting."
                 (div ,(eval-string tt))
                 (button (@ (class ,(->css '(font-light text-sm text-stone-700)))
                            (onclick ,(format #f
-                                      "document.getElementById('~a-pre').classList.toggle('hidden')"
-                                      uid)))
-                        ,(hyg-icon #:type 'question-mark
-                                   #:icon-css '(text-lg))))
+                                             "document.getElementById('~a-pre').classList.toggle('hidden')"
+                                             uid)))
+                        ,(hyg-icon #:type 'dots-three
+                                   #:icon-css '(text-xl))))
            (pre (@ (id ,(format #f "~a-pre" uid))
                    (class ,(->css '(font-medium text-stone-800
                                                 text-md
@@ -326,16 +326,13 @@ formatting."
                                                 py-4
                                                 px-4
                                                 hidden
-                                                overflow-auto
+                                                overflow-x-scroll
                                                 whitespace-pre))))
                 ,t)))))
 
-(define typography-pangram
-  "Sphinx of black quartz, judge my vow")
-
 (define button-section
   `((section (@ (class ,(->css '(flex flex-col gap-6))))
-             ,(hyg-h2 "buttons")
+             ,(hyg-sub-h2 "buttons")
              (div (@ (class ,(->css '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(hyg-button "hyg-button"))
                   ,(as-example '(hyg-submit-button "hyg-submit-button"))
@@ -360,26 +357,40 @@ formatting."
 
 (define typography-section
   `((div (@ (class ,(->css '(flex flex-col gap-6))))
-         ,(hyg-h2 "typography")
+         ,(hyg-sub-h2 "typography")
          (div (@ (class ,(->css '(flex flex-row flex-wrap gap-8))))
               (section (@ (class ,(->css '(py-3 flex flex-col gap-3))))
-                       ,(as-example '(hyg-h1 typography-pangram))
-                       ,(as-example '(hyg-h2 typography-pangram))
-                       ,(as-example '(hyg-h3 typography-pangram))
-                       ,(as-example '(hyg-h4 typography-pangram)))
+                       ,(as-example '(hyg-h1
+                                      "Sphinx of black quartz, judge my vow"))
+                       ,(as-example '(hyg-h2
+                                      "Sphinx of black quartz, judge my vow"))
+                       ,(as-example '(hyg-h3
+                                      "Sphinx of black quartz, judge my vow"))
+                       ,(as-example '(hyg-h4
+                                      "Sphinx of black quartz, judge my vow")))
               (section (@ (class ,(->css '(py-3 flex flex-col gap-3))))
-                       ,(hyg-sub-h1 typography-pangram)
-                       ,(hyg-sub-h2 typography-pangram)
-                       ,(hyg-sub-h3 typography-pangram)
-                       ,(hyg-sub-h4 typography-pangram))
+                       ,(as-example '(hyg-sub-h1
+                                      "Sphinx of black quartz, judge my vow"))
+                       ,(as-example '(hyg-sub-h2
+                                      "Sphinx of black quartz, judge my vow"))
+                       ,(as-example '(hyg-sub-h3
+                                      "Sphinx of black quartz, judge my vow"))
+                       ,(as-example '(hyg-sub-h4
+                                      "Sphinx of black quartz, judge my vow")))
               (section (@ (class ,(->css '(py-3 flex flex-col gap-3))))
-                       ,(hyg-strong typography-pangram)
-                       ,(hyg-p typography-pangram)
-                       ,(hyg-em typography-pangram))
+                       ,(as-example '(hyg-strong
+                                      "Sphinx of black quartz, judge my vow"))
+                       ,(as-example '(hyg-p
+                                      "Sphinx of black quartz, judge my vow"))
+                       ,(as-example '(hyg-em
+                                      "Sphinx of black quartz, judge my vow")))
               (section (@ (class ,(->css '(py-3 flex flex-col gap-3))))
-                       ,(hyg-mono typography-pangram)
-                       ,(hyg-code typography-pangram))
-              ,(hyg-pre "
+                       ,(as-example '(hyg-mono
+                                      "Sphinx of black quartz, judge my vow"))
+                       ,(as-example '(hyg-code
+                                      "Sphinx of black quartz, judge my vow")))
+              ,(as-example '(hyg-pre
+                             "
 ;;; A simple Guile Scheme HTTP server
 (use-modules (web server))
 
@@ -387,17 +398,17 @@ formatting."
   (values '((content-type . (text/plain)))
           \"Hello World!\"))
 
-(run-server my-handler)")))))
+(run-server my-handler)"))))))
 
 (define forms-section
   `((section (@ (class ,(->css '(flex flex-col gap-6))))
-             ,(hyg-h2 "forms")
+             ,(hyg-sub-h2 "forms")
              (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2 w-full))))
-                  ,(hyg-input #:label "some input:"
-                              #:name "input-1"
-                              #:placeholder "hyg-input")
-                  ,(hyg-textarea #:label "some textarea:"
-                                 #:name "textarea-1")))))
+                  ,(as-example '(hyg-input #:label "some input:"
+                                           #:name "input-1"
+                                           #:placeholder "hyg-input"))
+                  ,(as-example '(hyg-textarea #:label "some textarea:"
+                                              #:name "textarea-1"))))))
 
 (define footer
   (hyg-footer `(,(hyg-p
@@ -413,12 +424,15 @@ formatting."
 (define (showcase-body)
   (hyg-with-footer #:main `((div (@ (class ,(->css '(py-9 px-2 container
                                                           mx-auto))))
-                                 ,(hyg-h3 "HYGGUILE: SHOWCASE")
-                                 (hr (@ (class ,(->css '(my-4)))))
+                                 (div (@ (class ,(->css '(flex flex-col gap-4))))
+                                      ,(hyg-h1 "hygguile")
+                                      ,(hyg-sub-h2
+                                        "cozy and professional user-interfaces for everyone"))
+                                 ,(hyg-hr)
                                  ,button-section
-                                 (hr (@ (class ,(->css '(my-4)))))
+                                 ,(hyg-hr)
                                  ,typography-section
-                                 (hr (@ (class ,(->css '(my-4)))))
+                                 ,(hyg-hr)
                                  ,forms-section))
                    #:footer footer))
 
@@ -493,24 +507,22 @@ formatting."
 (test-equal "Quoted expression at the end of the string"
             (pretty-quote "some text (quote last)") "some text 'last")
 
-(test-equal
-    "Empty quoted expression"
-  (pretty-quote "(quote )") "'")
+(test-equal "Empty quoted expression"
+            (pretty-quote "(quote )") "'")
 
 (test-equal "String with a mix of quoted and non-quoted content"
-  (pretty-quote
-   "prefix (quote data) infix (quote (more data)) suffix")
-  "prefix 'data infix '(more data) suffix")
+            (pretty-quote
+             "prefix (quote data) infix (quote (more data)) suffix")
+            "prefix 'data infix '(more data) suffix")
 
 (test-equal "Real-world like string"
-  (pretty-quote
-   "(quote user) #:content \"user\" #:background (quote bg-amber-400) #:hover-background (quote hover:bg-amber-600) #:foreground (quote text-stone-900) #:icon-css (quote (text-stone-900 text-xl))")
-  "'user #:content \"user\" #:background 'bg-amber-400 #:hover-background 'hover:bg-amber-600 #:foreground 'text-stone-900 #:icon-css '(text-stone-900 text-xl)")
+ (pretty-quote
+  "(quote user) #:content \"user\" #:background (quote bg-amber-400) #:hover-background (quote hover:bg-amber-600) #:foreground (quote text-stone-900) #:icon-css (quote (text-stone-900 text-xl))")
+ "'user #:content \"user\" #:background 'bg-amber-400 #:hover-background 'hover:bg-amber-600 #:foreground 'text-stone-900 #:icon-css '(text-stone-900 text-xl)")
 
 (test-equal "Multiple occurrences of the same quoted expression"
-  (pretty-quote "(quote same) and also (quote same)")
-  "'same and also 'same")
+            (pretty-quote "(quote same) and also (quote same)")
+            "'same and also 'same")
 
 (test-end)
-
 
