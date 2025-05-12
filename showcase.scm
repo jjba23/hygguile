@@ -34,7 +34,7 @@
              (sxml transform)
              (srfi srfi-13)
              (srfi srfi-64)
-             (hygguile)
+             (hygguile hygguile)
              (uuid generate))
 
 (define* (load-assets assets)

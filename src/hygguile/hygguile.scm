@@ -15,7 +15,7 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
-(define-module (hygguile)
+(define-module (hygguile hygguile)
   #:use-module (hygguile abstraction)
   #:use-module (hygguile components button)
   #:use-module (hygguile components container)
