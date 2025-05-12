@@ -27,10 +27,12 @@
              (ice-9 textual-ports)
              (ice-9 format)
              (ice-9 match)
+             (ice-9 regex)
              (sxml ssax input-parse)
              (sxml ssax)
              (sxml transform)
              (srfi srfi-13)
+             (srfi srfi-64)
              (hygguile abstraction)
              (hygguile components button)
              (hygguile components input)
@@ -280,17 +282,44 @@ formatting."
 ;; ====== Showcase section ======
 ;;
 
+(define (string-drop-first-last-n s n)
+  (if (> (string-length s) 2)
+
+      (string-take (string-drop s n)
+                   (- (string-length s)
+                      (+ 1 n))) s))
+
+(define (pretty-quote str)
+  (regexp-substitute/global #f
+                            "\\((quote [^)]*)\\)*"
+                            str
+                            'pre
+                            (lambda (m)
+                              
+                              (let* ((mm (string-drop-first-last-n (match:substring
+                                                                    m) 1))
+                                     (mmm (string-replace-substring mm
+                                                                    "quote "
+                                                                    "'"))
+                                     (r mmm))
+                                (write mm)
+                                (newline)
+                                (write mmm)
+                                (newline) r))
+                            'post))
+
 (define (as-example thunk)
-  (let* ((t (with-output-to-string (lambda ()
-                                     (write thunk))))
+  (let* ((tt (with-output-to-string (lambda ()
+                                      (write thunk))))
+         (t (pretty-quote tt))
          (uid (generate-string-uuid)))
     `((div (@ (class ,(->css '(flex flex-col gap-6))))
            (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
-                (div ,(eval-string t))
+                (div ,(eval-string tt))
                 (button (@ (class ,(->css '(font-light text-sm text-stone-700)))
                            (onclick ,(format #f
-                                             "document.getElementById('~a-pre').classList.toggle('hidden')"
-                                             uid)))
+                                      "document.getElementById('~a-pre').classList.toggle('hidden')"
+                                      uid)))
                         ,(hyg-icon #:type 'question-mark
                                    #:icon-css '(text-lg))))
            (pre (@ (id ,(format #f "~a-pre" uid))
@@ -435,3 +464,68 @@ formatting."
  "
 >>= successfully built hygguile showcase to destination: dist/index.html
 ")
+
+;; ====== Test ======
+
+
+(test-begin "pretty-quote tests")
+
+(test-equal "No quoted expressions"
+  (pretty-quote "some text without quotes")
+  "some text without quotes")
+
+(test-equal "Single simple quoted expression"
+  (pretty-quote "(quote user)")
+  "'user'")
+
+(test-equal "Multiple simple quoted expressions"
+  (pretty-quote "(quote name) and (quote age)")
+  "'name' and 'age'")
+
+(test-equal "Quoted expression with spaces"
+  (pretty-quote "(quote some value)")
+  "'some value'")
+
+(test-equal "Quoted expression with special characters (excluding ')')'"
+  (pretty-quote "(quote value-with-$&+,./:;=?@_~)")
+  "'value-with-$&+,./:;=?@_~'")
+
+(test-equal "Quoted expression with nested parentheses"
+  (pretty-quote "(quote (nested value))")
+  "'(nested value)'")
+
+(test-equal "Multiple quoted expressions with different types"
+  (pretty-quote "start (quote item) middle (quote (sub item)) end")
+  "start 'item' middle '(sub item)' end")
+
+(test-equal "Quoted expression at the beginning of the string"
+  (pretty-quote "(quote first) then more text")
+  "'first' then more text")
+
+(test-equal "Quoted expression at the end of the string"
+  (pretty-quote "some text (quote last)")
+  "some text 'last'")
+
+(test-equal "Empty quoted expression (should not typically occur based on the pattern)"
+  (pretty-quote "(quote )")
+  "''")
+
+(test-equal "String with a mix of quoted and non-quoted content"
+  (pretty-quote "prefix (quote data) infix (quote (more data)) suffix")
+  "prefix 'data' infix '(more data)' suffix")
+
+(test-equal "Real-world like string (as provided in the prompt)"
+  (pretty-quote "(quote user) #:content \"user\" #:background (quote bg-amber-400) #:hover-background (quote hover:bg-amber-600) #:foreground (quote text-stone-900) #:icon-css (quote (text-stone-900 text-xl)))")
+  "'user' #:content \"user\" #:background 'bg-amber-400' #:hover-background 'hover:bg-amber-600' #:foreground 'text-stone-900' #:icon-css '(text-stone-900 text-xl)'")
+
+(test-equal "Quoted expression with escaped characters (should be treated literally by [^)]*)"
+  (pretty-quote "(quote value\\)with\\)escapes)")
+  "'value\\)with\\)escapes'")
+
+(test-equal "Multiple occurrences of the same quoted expression"
+  (pretty-quote "(quote same) and also (quote same)")
+  "'same' and also 'same'")
+
+(test-end)
+
+

@@ -22,6 +22,7 @@
              "src/hygguile/components/icon.scm"
              "src/hygguile/components/button.scm"
              "src/hygguile/components/input.scm"
+             "showcase.scm"
              ))
 
 (for-each (lambda(x) (load x)) xs)
