@@ -29,7 +29,8 @@
                      (border-size 'border-2)
                      (border-color 'border-stone-700/75)
                      (shadow 'shadow-md)
-                     (foreground 'text-stone-100))
+                     (foreground 'text-stone-100)
+                     (on-click ""))
   (let ((button-css `(py-2 px-3
                            rounded-xl
                            max-w-prose
@@ -38,12 +39,14 @@
                            text-sm
                            ,shadow
                            ,border-size
+                           cursor-pointer
                            ,border-color
                            ,background
                            ,hover-background
                            ,foreground)))
     `(button (@ (type ,(symbol->string type))
-                (class ,(->css button-css)))
+                (class ,(->css button-css))
+                (onclick ,on-click))
              ,content)))
 
 (define* (hyg-icon-button #:key icon
@@ -55,11 +58,13 @@
                           (border-color 'border-stone-700/75)
                           (shadow 'shadow-md)
                           (foreground 'text-stone-100)
+                          (on-click "")
                           (icon-css '(text-stone-100 text-xl)))
   (let ((button-css `(py-2 px-3
                            rounded-xl
                            max-w-prose
                            font-bold
+                           cursor-pointer
                            font-sans
                            text-sm
                            ,border-size
@@ -68,7 +73,7 @@
                            ,shadow
                            ,hover-background
                            ,foreground)))
-    `(button (@ (type ,(symbol->string type))
+    `(button (@ (onclick ,on-click)(type ,(symbol->string type))
                 (class ,(->css button-css)))
              (div (@ (class ,(->css '(flex flex-row gap-1 items-center))))
                   ,(hyg-icon #:type icon

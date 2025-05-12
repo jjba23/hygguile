@@ -311,24 +311,33 @@ formatting."
                 (div ,(eval-string tt))
                 (button (@ (class ,(->css '(font-light text-sm text-stone-700)))
                            (onclick ,(format #f
-                                             "document.getElementById('~a-pre').classList.toggle('hidden')"
-                                             uid)))
+                                      "document.getElementById('~a-example').classList.toggle('hidden')"
+                                      uid)))
                         ,(hyg-icon #:type 'dots-three
                                    #:icon-css '(text-xl))))
-           (pre (@ (id ,(format #f "~a-pre" uid))
-                   (class ,(->css '(font-medium text-stone-800
-                                                text-md
-                                                bg-stone-200/75
-                                                rounded-lg
-                                                shadow-md
-                                                w-full
-                                                text-wrap
-                                                py-4
-                                                px-4
-                                                hidden
-                                                overflow-x-scroll
-                                                whitespace-pre))))
-                ,t)))))
+           (div (@ (id ,(format #f "~a-example" uid))
+                   (class ,(->css '(hidden flex flex-col gap-2))))
+                (pre (@ (id ,(format #f "~a-pre" uid))
+                        (class ,(->css '(font-medium text-stone-800
+                                                     text-md
+                                                     bg-stone-200/75
+                                                     rounded-lg
+                                                     shadow-md
+                                                     w-full
+                                                     text-wrap
+                                                     py-4
+                                                     px-4
+                                                     overflow-x-scroll
+                                                     whitespace-pre))))
+                     ,t)
+                (div (@ (class ,(->css '(w-min))))
+                     ,(hyg-icon-button #:icon 'copy
+                                       #:foreground 'text-stone-900
+                                       #:icon-css '(text-stone-900 text-lg)
+                                       #:content "copy"
+                                       #:on-click (format #f
+                                                   "copyInnerText('~a')" uid)
+                                       #:background 'bg-stone-400/50)))))))
 
 (define button-section
   `((section (@ (class ,(->css '(flex flex-col gap-6))))
@@ -451,7 +460,22 @@ formatting."
                                   (script ,(assoc-ref asset-library
                                             "resources/js/tailwind.js"))
                                   (script ,(assoc-ref asset-library
-                                            "resources/js/tailwind.config.js")))
+                                            "resources/js/tailwind.config.js"))
+                                  (script
+                                   "
+function copyInnerText(elementId) {
+  const id = elementId + '-pre';
+  console.log('copying inner text of element: ' + id);
+
+  // Get the text field
+  var el = document.getElementById(id);
+
+  // Copy the text inside the text field
+  navigator.clipboard.writeText(el.innerText);
+
+  console.log(el.innerText);
+} 
+"))
                             (body (@ (class ,(->css '()))))
                             ,@body)))
 
