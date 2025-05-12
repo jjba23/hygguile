@@ -30,9 +30,10 @@
                      (border-color 'border-stone-700/75)
                      (shadow 'shadow-md)
                      (foreground 'text-stone-100)
+                     (rounding 'rounded-2xl)
                      (on-click ""))
   (let ((button-css `(py-2 px-3
-                           rounded-xl
+                           ,rounding
                            max-w-prose
                            font-bold
                            font-sans
@@ -59,9 +60,10 @@
                           (shadow 'shadow-md)
                           (foreground 'text-stone-100)
                           (on-click "")
+                          (rounding 'rounded-2xl)
                           (icon-css '(text-stone-100 text-xl)))
   (let ((button-css `(py-2 px-3
-                           rounded-xl
+                           ,rounding
                            max-w-prose
                            font-bold
                            cursor-pointer
