@@ -17,7 +17,8 @@
 
 (define-module (hygguile abstraction)
   #:use-module (srfi srfi-64)
-  #:use-module (srfi srfi-1))
+  #:use-module (srfi srfi-1)
+  #:export (->css render-if-nestring cond-render))
 
 ;; ->css: Convert a list of symbols into a CSS `class` attribute pair.
 ;;
@@ -31,31 +32,25 @@
 ;; (->css '(p-2 bg-stone-900/75))    ⇒ "bg-stone-900/75 p-2 "
 ;; (->css #f)                        ⇒ ""
 ;;
-(begin
-  (define* (->css xs)
-    (cond
-      ((nil? xs)
-       "")
-      (else (string-join (sort (map symbol->string
-                                    (delete-duplicates xs)) string<?) " "))))
-  (export ->css))
+(define* (->css xs)
+  (cond
+   ((nil? xs)
+    "")
+   (else (string-join (sort (map symbol->string
+                                 (delete-duplicates xs)) string<?) " "))))
 
-(begin
-  (define* (render-if-nestring expr x)
-    (if (and x
-             (not (equal? "" x)))
-        (expr x)
-        '()))
-  (export render-if-nestring))
+(define* (render-if-nestring expr x)
+  (if (and x
+           (not (equal? "" x)))
+      (expr x)
+      '()))
 
-(begin
-  (define* (cond-render render-func item)
-    (cond
-      ((or (nil? item)
-           (equal? item #f))
-       '())
-      (else (render-func item))))
-  (export cond-render))
+(define* (cond-render render-func item)
+  (cond
+   ((or (nil? item)
+        (equal? item #f))
+    '())
+   (else (render-func item))))
 
 ;; module tests
 (test-begin "abstraction tests")

@@ -17,58 +17,54 @@
 
 (define-module (hygguile components input)
   #:use-module (hygguile abstraction)
-  #:use-module (srfi srfi-64))
+  #:use-module (srfi srfi-64)
+  #:export (hyg-input hyg-textarea))
 
-(begin
-  (define* (hyg-input #:key label
-                      name
-                      (value "")
-                      (placeholder "")
-                      (type 'text)
-                      (required #f)
-                      (input-css '(p-3 max-w-prose rounded-xl border-stone-200
-                                       border-2 shadow-md))
-                      (label-css '(text-sm font-bold text-stone-600))
-                      (input-flex-css '(my-2 flex flex-col gap-1)))
-    `((div (@ (class ,(->css input-flex-css))))
-      (label (@ (class ,(->css label-css))
-                (for ,name))
-             ,label)
-      (input (@ (class ,(->css input-css))
-                (name ,name)
-                (placeholder ,placeholder)
-                (value ,value)
-                (type ,(symbol->string type))
-                ,(if required
-                     '(required "")
-                     '(not-required ""))) "")))
-  (export hyg-input))
+(define* (hyg-input #:key label
+                    name
+                    (value "")
+                    (placeholder "")
+                    (type 'text)
+                    (required #f)
+                    (input-css '(p-3 max-w-prose rounded-xl border-stone-200
+                                     border-2 shadow-md))
+                    (label-css '(text-sm font-bold text-stone-600))
+                    (input-flex-css '(my-2 flex flex-col gap-1)))
+  `((div (@ (class ,(->css input-flex-css))))
+    (label (@ (class ,(->css label-css))
+              (for ,name))
+           ,label)
+    (input (@ (class ,(->css input-css))
+              (name ,name)
+              (placeholder ,placeholder)
+              (value ,value)
+              (type ,(symbol->string type))
+              ,(if required
+                   '(required "")
+                   '(not-required ""))) "")))
 
-(begin
-  (define* (hyg-textarea #:key label
-                         name
-                         (value "")
-                         (required #f)
-                         (textarea-css '(p-3 
-                                         rounded-xl
-                                         border-stone-200
-                                         border-2
-                                         min-h-72
-                                         shadow-md
-                                         min-w-prose))
-                         (label-css '(text-sm font-bold text-stone-600))
-                         (textarea-flex-css '(my-2 flex flex-col gap-1 w-full)))
-    `((div (@ (class ,(->css textarea-flex-css))))
-      (label (@ (class ,(->css label-css))
-                (for ,name))
-             ,label)
-      (textarea (@ (class ,(->css textarea-css))
-                   (name ,name)
-                   ,(if required
-                        '(required "")
-                        '(not-required "")))
-                ,value)))
-  (export hyg-textarea))
+(define* (hyg-textarea #:key label
+                       name
+                       (value "")
+                       (required #f)
+                       (textarea-css '(p-3 rounded-xl
+                                           border-stone-200
+                                           border-2
+                                           min-h-72
+                                           shadow-md
+                                           min-w-prose))
+                       (label-css '(text-sm font-bold text-stone-600))
+                       (textarea-flex-css '(my-2 flex flex-col gap-1 w-full)))
+  `((div (@ (class ,(->css textarea-flex-css))))
+    (label (@ (class ,(->css label-css))
+              (for ,name))
+           ,label)
+    (textarea (@ (class ,(->css textarea-css))
+                 (name ,name)
+                 ,(if required
+                      '(required "")
+                      '(not-required "")))
+              ,value)))
 
 ;; module tests
 (test-begin "hyg-input and hyg-textarea")

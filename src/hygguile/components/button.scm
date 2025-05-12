@@ -73,7 +73,8 @@
                            ,shadow
                            ,hover-background
                            ,foreground)))
-    `(button (@ (onclick ,on-click)(type ,(symbol->string type))
+    `(button (@ (onclick ,on-click)
+                (type ,(symbol->string type))
                 (class ,(->css button-css)))
              (div (@ (class ,(->css '(flex flex-row gap-1 items-center))))
                   ,(hyg-icon #:type icon

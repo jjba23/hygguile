@@ -17,22 +17,21 @@
 
 (define-module (hygguile components icon)
   #:use-module (hygguile abstraction)
-  #:use-module (srfi srfi-64))
+  #:use-module (srfi srfi-64)
+  #:export (hyg-icon))
 
-(begin
-  (define* (hyg-icon #:key type
-                     (weight 'regular)
-                     (icon-css '(text-xl)))
-    (let* ((weight-class (cond
-                           ((eq? 'bold weight)
-                            'ph-bold)
-                           ((eq? 'light weight)
-                            'ph-light)
-                           (else 'ph)))
-           (icon-class (string->symbol (format #f "ph-~a" type))))
-      `(i (@ (class ,(->css (append (list weight-class icon-class) icon-css))))
-          "")))
-  (export hyg-icon))
+(define* (hyg-icon #:key type
+                   (weight 'regular)
+                   (icon-css '(text-xl)))
+  (let* ((weight-class (cond
+                         ((eq? 'bold weight)
+                          'ph-bold)
+                         ((eq? 'light weight)
+                          'ph-light)
+                         (else 'ph)))
+         (icon-class (string->symbol (format #f "ph-~a" type))))
+    `(i (@ (class ,(->css (append (list weight-class icon-class) icon-css))))
+        "")))
 
 ;; module tests
 (test-begin "hyg-icon")

@@ -18,11 +18,10 @@
 (use-modules (ice-9 rdelim))
 (use-modules (srfi srfi-64))
 
-(define xs '("src/hygguile/abstraction.scm"
-             "src/hygguile/components/icon.scm"
-             "src/hygguile/components/button.scm"
-             "src/hygguile/components/input.scm"
-             "showcase.scm"
-             ))
+(define xs
+  '("src/hygguile/abstraction.scm" "src/hygguile/components/icon.scm"
+    "src/hygguile/components/button.scm" "src/hygguile/components/input.scm"
+    "showcase.scm"))
 
-(for-each (lambda(x) (load x)) xs)
+(for-each (lambda (x)
+            (load x)) xs)

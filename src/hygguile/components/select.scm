@@ -16,32 +16,29 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile components select)
-  #:use-module (hygguile abstraction))
+  #:use-module (hygguile abstraction)
+  #:export (hyg-option hyg-glyph-option))
 
-(begin
-  (define* (hyg-option #:key value
-                       (content #f)
-                       (selected-value #f))
-    (let ((option-content (if (not (equal? #f content)) content value)))
-      (cond
-       ((equal? value selected-value)
-        `(option (@ (value ,value)
-                    (selected ""))
-                 ,option-content))
-       (else `(option (@ (value ,value))
-                      ,option-content)))))
-  (export hyg-option))
+(define* (hyg-option #:key value
+                     (content #f)
+                     (selected-value #f))
+  (let ((option-content (if (not (equal? #f content)) content value)))
+    (cond
+      ((equal? value selected-value)
+       `(option (@ (value ,value)
+                   (selected ""))
+                ,option-content))
+      (else `(option (@ (value ,value))
+                     ,option-content)))))
 
-(begin
-  (define* (hyg-glyph-option #:key value glyph
-                             (content #f)
-                             (selected-value #f))
-    (let ((option-flex-css '(flex gap-1)))
-      (hyg-option #:value value
-                 #:selected-value selected-value
-                 #:content `(div (@ (class ,(->css option-flex-css)))
-                                 (span ,glyph)
-                                 (span ,(if (not (equal? #f content)) content
-                                            value))))))
-  (export hyg-glyph-option))
+(define* (hyg-glyph-option #:key value glyph
+                           (content #f)
+                           (selected-value #f))
+  (let ((option-flex-css '(flex gap-1)))
+    (hyg-option #:value value
+                #:selected-value selected-value
+                #:content `(div (@ (class ,(->css option-flex-css)))
+                                (span ,glyph)
+                                (span ,(if (not (equal? #f content)) content
+                                           value))))))
 
