@@ -34,10 +34,10 @@
 ;;
 (define* (->css xs)
   (cond
-   ((nil? xs)
-    "")
-   (else (string-join (sort (map symbol->string
-                                 (delete-duplicates xs)) string<?) " "))))
+    ((nil? xs)
+     "")
+    (else (string-join (sort (map symbol->string
+                                  (delete-duplicates xs)) string<?) " "))))
 
 (define* (render-if-nestring expr x)
   (if (and x
@@ -47,10 +47,10 @@
 
 (define* (cond-render render-func item)
   (cond
-   ((or (nil? item)
-        (equal? item #f))
-    '())
-   (else (render-func item))))
+    ((or (nil? item)
+         (equal? item #f))
+     '())
+    (else (render-func item))))
 
 ;; module tests
 (test-begin "abstraction tests")
