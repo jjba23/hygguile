@@ -18,23 +18,23 @@
 (define-module (hygguile components input)
   #:use-module (hygguile abstraction)
   #:use-module (srfi srfi-64)
-  #:export (hyg-input hyg-textarea))
+  #:export (input textarea))
 
-(define* (hyg-input #:key label
-                    name
-                    (value "")
-                    (placeholder "")
-                    (type 'text)
-                    (required #f)
-                    (input-css '(p-3 max-w-prose rounded-xl border-stone-200
-                                     border-2 shadow-md))
-                    (label-css '(text-sm font-bold text-stone-600))
-                    (input-flex-css '(my-2 flex flex-col gap-1)))
-  `((div (@ (class ,(->css input-flex-css))))
-    (label (@ (class ,(->css label-css))
+(define* (input #:key label
+                name
+                (value "")
+                (placeholder "")
+                (type 'text)
+                (required #f)
+                (input-css '(p-3 max-w-prose rounded-xl border-stone-200
+                                 border-2 shadow-md))
+                (label-css '(text-sm font-bold text-stone-600))
+                (input-flex-css '(my-2 flex flex-col gap-1)))
+  `((div (@ (class ,(mk-class input-flex-css))))
+    (label (@ (class ,(mk-class label-css))
               (for ,name))
            ,label)
-    (input (@ (class ,(->css input-css))
+    (input (@ (class ,(mk-class input-css))
               (name ,name)
               (placeholder ,placeholder)
               (value ,value)
@@ -43,23 +43,23 @@
                    '(required "")
                    '(not-required ""))) "")))
 
-(define* (hyg-textarea #:key label
-                       name
-                       (value "")
-                       (required #f)
-                       (textarea-css '(p-3 rounded-xl
-                                           border-stone-200
-                                           border-2
-                                           min-h-72
-                                           shadow-md
-                                           min-w-prose))
-                       (label-css '(text-sm font-bold text-stone-600))
-                       (textarea-flex-css '(my-2 flex flex-col gap-1 w-full)))
-  `((div (@ (class ,(->css textarea-flex-css))))
-    (label (@ (class ,(->css label-css))
+(define* (textarea #:key label
+                   name
+                   (value "")
+                   (required #f)
+                   (textarea-css '(p-3 rounded-xl
+                                       border-stone-200
+                                       border-2
+                                       min-h-72
+                                       shadow-md
+                                       min-w-prose))
+                   (label-css '(text-sm font-bold text-stone-600))
+                   (textarea-flex-css '(my-2 flex flex-col gap-1 w-full)))
+  `((div (@ (class ,(mk-class textarea-flex-css))))
+    (label (@ (class ,(mk-class label-css))
               (for ,name))
            ,label)
-    (textarea (@ (class ,(->css textarea-css))
+    (textarea (@ (class ,(mk-class textarea-css))
                  (name ,name)
                  ,(if required
                       '(required "")
@@ -67,16 +67,16 @@
               ,value)))
 
 ;; module tests
-(test-begin "hyg-input and hyg-textarea")
+(test-begin "input and textarea")
 
-(test-equal "hyg-input has a label"
-            (car (car (cdr (hyg-input #:label "hygguile-label"
-                                      #:name "hygguile-name"))))
+(test-equal "input has a label"
+            (car (car (cdr (input #:label "hygguile-label"
+                                  #:name "hygguile-name"))))
             'label)
 
-(test-equal "hyg-textarea has a label"
-            (car (car (cdr (hyg-textarea #:label "hygguile-label"
-                                         #:name "hygguile-name"))))
+(test-equal "textarea has a label"
+            (car (car (cdr (textarea #:label "hygguile-label"
+                                     #:name "hygguile-name"))))
             'label)
 
 (test-end)

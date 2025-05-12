@@ -17,178 +17,178 @@
 
 (define-module (hygguile components typography)
   #:use-module (hygguile abstraction)
-  #:export (hyg-h1 hyg-h2
-                   hyg-h3
-                   hyg-h4
-                   hyg-sub-h1
-                   hyg-sub-h2
-                   hyg-sub-h3
-                   hyg-sub-h4
-                   hyg-p
-                   hyg-em
-                   hyg-a
-                   hyg-strong
-                   hyg-pre
-                   hyg-mono
-                   hyg-code))
+  #:export (h1 h2
+               h3
+               h4
+               sub-h1
+               sub-h2
+               sub-h3
+               sub-h4
+               p
+               em
+               a
+               strong
+               pre
+               mono
+               code))
 
-(define* (hyg-h1 content
-                 #:key (weight 'font-bold)
-                 (color 'text-stone-700)
-                 (size 'text-4xl))
-  `((h1 (@ (class ,(->css `(,size ,weight
-                            ,color))))
+(define* (h1 content
+             #:key (weight 'font-bold)
+             (color 'text-stone-700)
+             (size 'text-4xl))
+  `((h1 (@ (class ,(mk-class `(,size ,weight
+                               ,color))))
         ,content)))
 
-(define* (hyg-h2 content
-                 #:key (weight 'font-bold)
-                 (color 'text-stone-700)
-                 (size 'text-3xl))
-  `((h2 (@ (class ,(->css `(,size ,weight
-                            ,color))))
+(define* (h2 content
+             #:key (weight 'font-bold)
+             (color 'text-stone-700)
+             (size 'text-3xl))
+  `((h2 (@ (class ,(mk-class `(,size ,weight
+                               ,color))))
         ,content)))
 
-(define* (hyg-h3 content
-                 #:key (weight 'font-bold)
-                 (color 'text-stone-700)
-                 (size 'text-2xl))
-  `((h3 (@ (class ,(->css `(,size ,weight
-                            ,color))))
+(define* (h3 content
+             #:key (weight 'font-bold)
+             (color 'text-stone-700)
+             (size 'text-2xl))
+  `((h3 (@ (class ,(mk-class `(,size ,weight
+                               ,color))))
         ,content)))
 
-(define* (hyg-h4 content
-                 #:key (weight 'font-bold)
-                 (color 'text-stone-700)
-                 (size 'text-xl))
-  `((h4 (@ (class ,(->css `(,size ,weight
-                            ,color))))
+(define* (h4 content
+             #:key (weight 'font-bold)
+             (color 'text-stone-700)
+             (size 'text-xl))
+  `((h4 (@ (class ,(mk-class `(,size ,weight
+                               ,color))))
         ,content)))
 
-(define* (hyg-sub-h1 content
-                     #:key (weight 'font-light)
-                     (color 'text-stone-600)
-                     (style 'italic)
-                     (size 'text-3xl))
-  `((h1 (@ (class ,(->css `(,size ,weight
-                            ,style
-                            ,color))))
-        ,content)))
-
-(define* (hyg-sub-h2 content
-                     #:key (weight 'font-light)
-                     (style 'italic)
-                     (color 'text-stone-600)
-                     (size 'text-2xl))
-  `((h2 (@ (class ,(->css `(,size ,weight
-                            ,style
-                            ,color))))
-        ,content)))
-
-(define* (hyg-sub-h3 content
-                     #:key (weight 'font-light)
-                     (style 'italic)
-                     (color 'text-stone-600)
-                     (size 'text-xl))
-  `((h3 (@ (class ,(->css `(,size ,weight
-                            ,style
-                            ,color))))
-        ,content)))
-
-(define* (hyg-sub-h4 content
-                     #:key (weight 'font-light)
-                     (style 'italic)
-                     (color 'text-stone-600)
-                     (size 'text-xl))
-  `((h4 (@ (class ,(->css `(,size ,weight
-                            ,style
-                            ,color))))
-        ,content)))
-
-(define* (hyg-p content
-                #:key (weight 'font-medium)
-                (color 'text-stone-800)
-                (size 'text-lg))
-  `((p (@ (class ,(->css `(,size ,weight
-                           ,color))))
-       ,content)))
-
-(define* (hyg-em content
+(define* (sub-h1 content
                  #:key (weight 'font-light)
                  (color 'text-stone-600)
-                 (size 'text-md))
-  `((em (@ (class ,(->css `(,size ,weight
-                            ,color))))
+                 (style 'italic)
+                 (size 'text-3xl))
+  `((h1 (@ (class ,(mk-class `(,size ,weight
+                               ,style
+                               ,color))))
         ,content)))
 
-(define* (hyg-strong content
-                     #:key (weight 'font-bold)
-                     (color 'text-stone-800)
-                     (size 'text-lg))
-  `((strong (@ (class ,(->css `(,size ,weight
-                                ,color))))
+(define* (sub-h2 content
+                 #:key (weight 'font-light)
+                 (style 'italic)
+                 (color 'text-stone-600)
+                 (size 'text-2xl))
+  `((h2 (@ (class ,(mk-class `(,size ,weight
+                               ,style
+                               ,color))))
+        ,content)))
+
+(define* (sub-h3 content
+                 #:key (weight 'font-light)
+                 (style 'italic)
+                 (color 'text-stone-600)
+                 (size 'text-xl))
+  `((h3 (@ (class ,(mk-class `(,size ,weight
+                               ,style
+                               ,color))))
+        ,content)))
+
+(define* (sub-h4 content
+                 #:key (weight 'font-light)
+                 (style 'italic)
+                 (color 'text-stone-600)
+                 (size 'text-xl))
+  `((h4 (@ (class ,(mk-class `(,size ,weight
+                               ,style
+                               ,color))))
+        ,content)))
+
+(define* (p content
+            #:key (weight 'font-medium)
+            (color 'text-stone-800)
+            (size 'text-lg))
+  `((p (@ (class ,(mk-class `(,size ,weight
+                              ,color))))
+       ,content)))
+
+(define* (em content
+             #:key (weight 'font-light)
+             (color 'text-stone-600)
+             (size 'text-md))
+  `((em (@ (class ,(mk-class `(,size ,weight
+                               ,color))))
+        ,content)))
+
+(define* (strong content
+                 #:key (weight 'font-bold)
+                 (color 'text-stone-800)
+                 (size 'text-lg))
+  `((strong (@ (class ,(mk-class `(,size ,weight
+                                   ,color))))
             ,content)))
 
-(define* (hyg-a content
-                #:key (weight 'font-bold)
-                (size 'text-lg)
-                (color 'text-blue-500)
-                (hover 'hover:text-blue-700)
-                (href #f))
+(define* (a content
+            #:key (weight 'font-bold)
+            (size 'text-lg)
+            (color 'text-blue-500)
+            (hover 'hover:text-blue-700)
+            (href #f))
   `((a (@ (href ,(if (not href) content href))
-          (class ,(->css `(,size ,weight
-                           ,color
-                           ,hover))))
+          (class ,(mk-class `(,size ,weight
+                              ,color
+                              ,hover))))
        ,content)))
 
-(define* (hyg-mono content
-                   #:key (weight 'font-medium)
-                   (color 'text-stone-800)
-                   (size 'text-lg))
-  `((p (@ (class ,(->css `(font-mono ,size
-                                     ,weight
-                                     ,color))))
-       ,content)))
-
-(define* (hyg-code content
-                   #:key (weight 'font-medium)
-                   (color 'text-stone-800)
-                   (size 'text-md)
-                   (background 'bg-stone-200/75)
-                   (rounding 'rounded-lg)
-                   (shadow 'shadow-md)
-                   (padding-y 'py-1)
-                   (padding-x 'px-2))
-  `((code (@ (class ,(->css `(font-mono ,shadow
-                                        ,size
+(define* (mono content
+               #:key (weight 'font-medium)
+               (color 'text-stone-800)
+               (size 'text-lg))
+  `((p (@ (class ,(mk-class `(font-mono ,size
                                         ,weight
-                                        ,padding-y
-                                        ,padding-x
-                                        ,color
-                                        ,background
-                                        ,rounding))))
+                                        ,color))))
+       ,content)))
+
+(define* (code content
+               #:key (weight 'font-medium)
+               (color 'text-stone-800)
+               (size 'text-md)
+               (background 'bg-stone-200/75)
+               (rounding 'rounded-lg)
+               (shadow 'shadow-md)
+               (padding-y 'py-1)
+               (padding-x 'px-2))
+  `((code (@ (class ,(mk-class `(font-mono ,shadow
+                                           ,size
+                                           ,weight
+                                           ,padding-y
+                                           ,padding-x
+                                           ,color
+                                           ,background
+                                           ,rounding))))
           ,content)))
 
-(define* (hyg-pre content
-                  #:key (weight 'font-medium)
-                  (color 'text-stone-800)
-                  (size 'text-md)
-                  (background 'bg-stone-200/75)
-                  (rounding 'rounded-lg)
-                  (shadow 'shadow-md)
-                  (width 'w-full)
-                  (text-wrap 'text-nowrap)
-                  (padding-y 'py-6)
-                  (padding-x 'px-8))
-  `((pre (@ (class ,(->css `(font-mono ,shadow
-                                       ,size
-                                       ,weight
-                                       ,text-wrap
-                                       ,width
-                                       ,padding-y
-                                       ,padding-x
-                                       ,color
-                                       ,background
-                                       ,rounding
-                                       overflow-auto
-                                       whitespace-pre))))
+(define* (pre content
+              #:key (weight 'font-medium)
+              (color 'text-stone-800)
+              (size 'text-md)
+              (background 'bg-stone-200/75)
+              (rounding 'rounded-lg)
+              (shadow 'shadow-md)
+              (width 'w-full)
+              (text-wrap 'text-nowrap)
+              (padding-y 'py-6)
+              (padding-x 'px-8))
+  `((pre (@ (class ,(mk-class `(font-mono ,shadow
+                                          ,size
+                                          ,weight
+                                          ,text-wrap
+                                          ,width
+                                          ,padding-y
+                                          ,padding-x
+                                          ,color
+                                          ,background
+                                          ,rounding
+                                          overflow-auto
+                                          whitespace-pre))))
          ,content)))

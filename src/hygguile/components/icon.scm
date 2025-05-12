@@ -18,11 +18,11 @@
 (define-module (hygguile components icon)
   #:use-module (hygguile abstraction)
   #:use-module (srfi srfi-64)
-  #:export (hyg-icon))
+  #:export (icon))
 
-(define* (hyg-icon #:key type
-                   (weight 'regular)
-                   (icon-css '(text-xl)))
+(define* (icon #:key type
+               (weight 'regular)
+               (icon-css '(text-xl)))
   (let* ((weight-class (cond
                          ((eq? 'bold weight)
                           'ph-bold)
@@ -30,14 +30,14 @@
                           'ph-light)
                          (else 'ph)))
          (icon-class (string->symbol (format #f "ph-~a" type))))
-    `(i (@ (class ,(->css (append (list weight-class icon-class) icon-css))))
+    `(i (@ (class ,(mk-class (append (list weight-class icon-class) icon-css))))
         "")))
 
 ;; module tests
-(test-begin "hyg-icon")
+(test-begin "icon")
 
-(test-equal "hyg-icon is an <i> element"
-            (car (hyg-icon #:type "lightbulb"))
+(test-equal "icon is an <i> element"
+            (car (icon #:type "lightbulb"))
             'i)
 
 (test-end)

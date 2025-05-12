@@ -18,9 +18,9 @@
 (define-module (hygguile abstraction)
   #:use-module (srfi srfi-64)
   #:use-module (srfi srfi-1)
-  #:export (->css render-if-nestring cond-render))
+  #:export (mk-class render-if-nestring render-if-nempty))
 
-;; ->css: Convert a list of symbols into a CSS `class` attribute pair.
+;; mk-class: Convert a list of symbols into a CSS `class` attribute pair.
 ;;
 ;; This function takes a list of symbols representing CSS class names and
 ;; returns an S-expression `(class "class-names")`. The class names are
@@ -28,11 +28,11 @@
 ;; it returns `(class "")`, ensuring that an empty class attribute is still valid.
 ;;
 ;; Examples:
-;; (->css '())                       ⇒ ""
-;; (->css '(p-2 bg-stone-900/75))    ⇒ "bg-stone-900/75 p-2 "
-;; (->css #f)                        ⇒ ""
+;; (mk-class '())                       ⇒ ""
+;; (mk-class '(p-2 bg-stone-900/75))    ⇒ "bg-stone-900/75 p-2 "
+;; (mk-class #f)                        ⇒ ""
 ;;
-(define* (->css xs)
+(define* (mk-class xs)
   (cond
     ((nil? xs)
      "")
@@ -45,7 +45,7 @@
       (expr x)
       '()))
 
-(define* (cond-render render-func item)
+(define* (render-if-nempty render-func item)
   (cond
     ((or (nil? item)
          (equal? item #f))
@@ -55,19 +55,19 @@
 ;; module tests
 (test-begin "abstraction tests")
 
-(test-equal "->css empty list returns empty class string"
-            (->css '()) "")
+(test-equal "mk-class empty list returns empty class string"
+            (mk-class '()) "")
 
 (test-equal
- "->css list of symbols is converted to sorted space-separated string"
- (->css '(p-2 my-2 bg-stone-900/75 hover:bg-stone-800))
+ "mk-class list of symbols is converted to sorted space-separated string"
+ (mk-class '(p-2 my-2 bg-stone-900/75 hover:bg-stone-800))
  "bg-stone-900/75 hover:bg-stone-800 my-2 p-2")
 
-(test-equal "->css list of symbols removes duplication"
-            (->css '(p-2 my-2 p-2 p-2 my-2)) "my-2 p-2")
+(test-equal "mk-class list of symbols removes duplication"
+            (mk-class '(p-2 my-2 p-2 p-2 my-2)) "my-2 p-2")
 
-(test-equal "->css false value returns empty class string"
-            (->css #f) "")
+(test-equal "mk-class false value returns empty class string"
+            (mk-class #f) "")
 
 (test-equal "render-if-nestring with valid string" "HELLO"
             (render-if-nestring string-upcase "hello"))
