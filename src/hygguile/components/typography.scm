@@ -37,7 +37,7 @@
              (color 'text-stone-700)
              (size 'text-4xl))
   `((h1 (@ (class ,(mk-class `(,size ,weight
-                                 ,color))))
+                               ,color))))
         ,content)))
 
 (define* (h2 content
@@ -45,7 +45,7 @@
              (color 'text-stone-700)
              (size 'text-3xl))
   `((h2 (@ (class ,(mk-class `(,size ,weight
-                                 ,color))))
+                               ,color))))
         ,content)))
 
 (define* (h3 content
@@ -53,7 +53,7 @@
              (color 'text-stone-700)
              (size 'text-2xl))
   `((h3 (@ (class ,(mk-class `(,size ,weight
-                                 ,color))))
+                               ,color))))
         ,content)))
 
 (define* (h4 content
@@ -61,7 +61,7 @@
              (color 'text-stone-700)
              (size 'text-xl))
   `((h4 (@ (class ,(mk-class `(,size ,weight
-                                 ,color))))
+                               ,color))))
         ,content)))
 
 (define* (sub-h1 content
@@ -70,8 +70,8 @@
                  (style 'italic)
                  (size 'text-3xl))
   `((h1 (@ (class ,(mk-class `(,size ,weight
-                                     ,style
-                                     ,color))))
+                               ,style
+                               ,color))))
         ,content)))
 
 (define* (sub-h2 content
@@ -80,8 +80,8 @@
                  (color 'text-stone-600)
                  (size 'text-2xl))
   `((h2 (@ (class ,(mk-class `(,size ,weight
-                                     ,style
-                                     ,color))))
+                               ,style
+                               ,color))))
         ,content)))
 
 (define* (sub-h3 content
@@ -90,8 +90,8 @@
                  (color 'text-stone-600)
                  (size 'text-xl))
   `((h3 (@ (class ,(mk-class `(,size ,weight
-                                     ,style
-                                     ,color))))
+                               ,style
+                               ,color))))
         ,content)))
 
 (define* (sub-h4 content
@@ -100,8 +100,8 @@
                  (color 'text-stone-600)
                  (size 'text-xl))
   `((h4 (@ (class ,(mk-class `(,size ,weight
-                                     ,style
-                                     ,color))))
+                               ,style
+                               ,color))))
         ,content)))
 
 (define* (p content
@@ -109,7 +109,7 @@
             (color 'text-stone-800)
             (size 'text-lg))
   `((p (@ (class ,(mk-class `(,size ,weight
-                                    ,color))))
+                              ,color))))
        ,content)))
 
 (define* (em content
@@ -117,7 +117,7 @@
              (color 'text-stone-600)
              (size 'text-md))
   `((em (@ (class ,(mk-class `(,size ,weight
-                                     ,color))))
+                               ,color))))
         ,content)))
 
 (define* (strong content
@@ -125,7 +125,7 @@
                  (color 'text-stone-800)
                  (size 'text-lg))
   `((strong (@ (class ,(mk-class `(,size ,weight
-                                         ,color))))
+                                   ,color))))
             ,content)))
 
 (define* (a content
@@ -136,8 +136,8 @@
             (href #f))
   `((a (@ (href ,(if (not href) content href))
           (class ,(mk-class `(,size ,weight
-                                    ,color
-                                    ,hover))))
+                              ,color
+                              ,hover))))
        ,content)))
 
 (define* (mono content

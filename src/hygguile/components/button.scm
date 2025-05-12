@@ -17,7 +17,8 @@
 
 (define-module (hygguile components button)
   #:use-module (hygguile abstraction)
-  #:use-module ((hygguile components icon) #:prefix hyg:)
+  #:use-module ((hygguile components icon)
+                #:prefix hyg:)
   #:use-module (srfi srfi-64)
   #:export (button icon-button submit-button danger-submit-button))
 

@@ -304,35 +304,36 @@ formatting."
     `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
            (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
                 (div ,(eval-string tt))
-                (button (@ (class ,(mk-class '(font-light text-sm text-stone-700)))
+                (button (@ (class ,(mk-class '(font-light text-sm
+                                                          text-stone-700)))
                            (onclick ,(format #f
                                       "document.getElementById('~a-example').classList.toggle('hidden')"
                                       uid)))
                         ,(icon #:type 'dots-three
-                                   #:icon-css '(text-xl))))
+                               #:icon-css '(text-xl))))
            (div (@ (id ,(format #f "~a-example" uid))
                    (class ,(mk-class '(hidden flex flex-col gap-2))))
                 (pre (@ (id ,(format #f "~a-pre" uid))
                         (class ,(mk-class '(font-medium text-stone-800
-                                                     text-md
-                                                     bg-stone-200/75
-                                                     rounded-lg
-                                                     shadow-md
-                                                     w-full
-                                                     text-wrap
-                                                     py-4
-                                                     px-4
-                                                     overflow-x-scroll
-                                                     whitespace-pre))))
+                                                        text-md
+                                                        bg-stone-200/75
+                                                        rounded-lg
+                                                        shadow-md
+                                                        w-full
+                                                        text-wrap
+                                                        py-4
+                                                        px-4
+                                                        overflow-x-scroll
+                                                        whitespace-pre))))
                      ,t)
                 (div (@ (class ,(mk-class '(w-min))))
                      ,(icon-button #:icon 'copy
-                                       #:foreground 'text-stone-900
-                                       #:icon-css '(text-stone-900 text-lg)
-                                       #:content "copy"
-                                       #:on-click (format #f
-                                                   "copyInnerText('~a')" uid)
-                                       #:background 'bg-stone-400/50)))))))
+                                   #:foreground 'text-stone-900
+                                   #:icon-css '(text-stone-900 text-lg)
+                                   #:content "copy"
+                                   #:on-click (format #f "copyInnerText('~a')"
+                                                      uid)
+                                   #:background 'bg-stone-400/50)))))))
 
 (define button-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
@@ -340,24 +341,23 @@ formatting."
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(button "button"))
                   ,(as-example '(submit-button "submit-button"))
-                  ,(as-example '(danger-submit-button
-                                 "danger-submit-button")))
+                  ,(as-example '(danger-submit-button "danger-submit-button")))
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(icon-button #:icon 'gear
-                                                 #:content "gear"
-                                                 #:background 'bg-teal-700
-                                                 #:hover-background 'hover:bg-teal-900))
+                                             #:content "gear"
+                                             #:background 'bg-teal-700
+                                             #:hover-background 'hover:bg-teal-900))
                   ,(as-example '(icon-button #:icon 'user
-                                                 #:content "user"
-                                                 #:background 'bg-amber-400
-                                                 #:hover-background 'hover:bg-amber-600
-                                                 #:foreground 'text-stone-900
-                                                 #:icon-css '(text-stone-900
-                                                              text-xl)))
+                                             #:content "user"
+                                             #:background 'bg-amber-400
+                                             #:hover-background 'hover:bg-amber-600
+                                             #:foreground 'text-stone-900
+                                             #:icon-css '(text-stone-900
+                                                          text-xl)))
                   ,(as-example '(icon-button #:icon 'airplane-tilt
-                                                 #:content "airplane-tilt"
-                                                 #:background 'bg-orange-700
-                                                 #:hover-background 'hover:bg-orange-900))))))
+                                             #:content "airplane-tilt"
+                                             #:background 'bg-orange-700
+                                             #:hover-background 'hover:bg-orange-900))))))
 
 (define typography-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
@@ -384,8 +384,7 @@ formatting."
               (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
                        ,(as-example '(strong
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(p
-                                      "Sphinx of black quartz, judge my vow"))
+                       ,(as-example '(p "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(em
                                       "Sphinx of black quartz, judge my vow")))
               (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
@@ -393,8 +392,7 @@ formatting."
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(code
                                       "Sphinx of black quartz, judge my vow")))
-              ,(as-example '(pre
-                             "
+              ,(as-example '(pre "
 ;;; A simple Guile Scheme HTTP server
 (use-modules (web server))
 
@@ -415,10 +413,8 @@ formatting."
                                           #:name "textarea-1"))))))
 
 (define footer
-  (footer `(,(p
-              "Copyright &copy; Josep Bigorra &lt;jjbigorra@gmail.com&gt;") ,
-            (em
-             "licensed under the LGPL v3, or newer at your convenience")
+  (footer `(,(p "Copyright &copy; Josep Bigorra &lt;jjbigorra@gmail.com&gt;") ,
+            (em "licensed under the LGPL v3, or newer at your convenience")
             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-3
                                              align-center items-center))))
                  ,(p "find the source code here:")
@@ -444,18 +440,18 @@ formatting."
   `("<!DOCTYPE html>" (html (@ (lang en))
                             (head (title ,title)
                                   (style ,(assoc-ref asset-library
-                                                     "resources/css/fonts.css"))
+                                           "resources/css/fonts.css"))
 
                                   (style ,(assoc-ref asset-library
-                                                     "resources/css/phosphor.css"))
+                                           "resources/css/phosphor.css"))
 
                                   (meta (@ (name viewport)
                                            (content
                                             "width=device-width, initial-scale=1.0")))
                                   (script ,(assoc-ref asset-library
-                                                      "resources/js/tailwind.js"))
+                                            "resources/js/tailwind.js"))
                                   (script ,(assoc-ref asset-library
-                                                      "resources/js/tailwind.config.js"))
+                                            "resources/js/tailwind.config.js"))
                                   (script
                                    "
 function copyInnerText(elementId) {
