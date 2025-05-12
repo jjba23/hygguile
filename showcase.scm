@@ -494,8 +494,8 @@ formatting."
             (pretty-quote "some text (quote last)") "some text 'last")
 
 (test-equal
- "Empty quoted expression"
- (pretty-quote "(quote )") "'")
+    "Empty quoted expression"
+  (pretty-quote "(quote )") "'")
 
 (test-equal "String with a mix of quoted and non-quoted content"
   (pretty-quote
@@ -512,4 +512,5 @@ formatting."
   "'same and also 'same")
 
 (test-end)
+
 
