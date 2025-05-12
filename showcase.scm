@@ -285,12 +285,12 @@ formatting."
                                      (write thunk))))
          (uid (generate-string-uuid)))
     `((div (@ (class ,(->css '(flex flex-col gap-6))))
-           (div (@ (class ,(->css '(flex flex-row flex-wrap gap-3))))
+           (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
                 (div ,(eval-string t))
                 (button (@ (class ,(->css '(font-light text-sm text-stone-700)))
                            (onclick ,(format #f
-                                      "document.getElementById('~a-pre').classList.toggle('hidden')"
-                                      uid)))
+                                             "document.getElementById('~a-pre').classList.toggle('hidden')"
+                                             uid)))
                         ,(hyg-icon #:type 'question-mark
                                    #:icon-css '(text-lg))))
            (pre (@ (id ,(format #f "~a-pre" uid))
@@ -314,12 +314,12 @@ formatting."
 (define button-section
   `((section (@ (class ,(->css '(flex flex-col gap-6))))
              ,(hyg-h2 "buttons")
-             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
+             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(hyg-button "hyg-button"))
                   ,(as-example '(hyg-submit-button "hyg-submit-button"))
                   ,(as-example '(hyg-danger-submit-button
                                  "hyg-danger-submit-button")))
-             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
+             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(hyg-icon-button #:icon 'gear
                                                  #:content "gear"
                                                  #:background 'bg-teal-700
