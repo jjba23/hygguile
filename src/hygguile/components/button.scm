@@ -19,19 +19,18 @@
   #:use-module (hygguile abstraction)
   #:use-module (hygguile components icon)
   #:use-module (srfi srfi-64)
-  #:export (hyg-button hyg-icon-button hyg-submit-button
-                       hyg-danger-submit-button))
+  #:export (button icon-button submit-button danger-submit-button))
 
-(define* (hyg-button content
-                     #:key (type 'button)
-                     (background 'bg-stone-700)
-                     (hover-background 'hover:bg-stone-900/75)
-                     (border-size 'border-2)
-                     (border-color 'border-stone-700/75)
-                     (shadow 'shadow-md)
-                     (foreground 'text-stone-100)
-                     (rounding 'rounded-2xl)
-                     (on-click ""))
+(define* (button content
+                 #:key (type 'button)
+                 (background 'bg-stone-700)
+                 (hover-background 'hover:bg-stone-900/75)
+                 (border-size 'border-2)
+                 (border-color 'border-stone-700/75)
+                 (shadow 'shadow-md)
+                 (foreground 'text-stone-100)
+                 (rounding 'rounded-2xl)
+                 (on-click ""))
   (let ((button-css `(py-2 px-3
                            ,rounding
                            max-w-prose
@@ -46,22 +45,22 @@
                            ,hover-background
                            ,foreground)))
     `(button (@ (type ,(symbol->string type))
-                (class ,(->css button-css))
+                (class ,(mk-classes button-css))
                 (onclick ,on-click))
              ,content)))
 
-(define* (hyg-icon-button #:key icon
-                          content
-                          (type 'button)
-                          (background 'bg-stone-700)
-                          (hover-background 'hover:bg-stone-900/75)
-                          (border-size 'border-2)
-                          (border-color 'border-stone-700/75)
-                          (shadow 'shadow-md)
-                          (foreground 'text-stone-100)
-                          (on-click "")
-                          (rounding 'rounded-2xl)
-                          (icon-css '(text-stone-100 text-xl)))
+(define* (icon-button #:key icon
+                      content
+                      (type 'button)
+                      (background 'bg-stone-700)
+                      (hover-background 'hover:bg-stone-900/75)
+                      (border-size 'border-2)
+                      (border-color 'border-stone-700/75)
+                      (shadow 'shadow-md)
+                      (foreground 'text-stone-100)
+                      (on-click "")
+                      (rounding 'rounded-2xl)
+                      (icon-css '(text-stone-100 text-xl)))
   (let ((button-css `(py-2 px-3
                            ,rounding
                            max-w-prose
@@ -77,42 +76,42 @@
                            ,foreground)))
     `(button (@ (onclick ,on-click)
                 (type ,(symbol->string type))
-                (class ,(->css button-css)))
-             (div (@ (class ,(->css '(flex flex-row gap-1 items-center))))
-                  ,(hyg-icon #:type icon
-                             #:icon-css icon-css)
+                (class ,(mk-classes button-css)))
+             (div (@ (class ,(mk-classes '(flex flex-row gap-1 items-center))))
+                  ,(icon #:type icon
+                         #:icon-css icon-css)
                   (span ,content)))))
 
-(define* (hyg-submit-button content)
-  (hyg-button content
-              #:type 'submit
-              #:background 'bg-green-700
-              #:hover-background 'hover:bg-green-900))
+(define* (submit-button content)
+  (button content
+          #:type 'submit
+          #:background 'bg-green-700
+          #:hover-background 'hover:bg-green-900))
 
-(define* (hyg-danger-submit-button content)
-  (hyg-button content
-              #:type 'submit
-              #:background 'bg-red-700
-              #:hover-background 'hover:bg-red-900))
+(define* (danger-submit-button content)
+  (button content
+          #:type 'submit
+          #:background 'bg-red-700
+          #:hover-background 'hover:bg-red-900))
 
 ;; module tests
 (test-begin "buttons")
 
-(test-equal "hyg-danger-submit-button returns a valid button"
-            (car (hyg-danger-submit-button "hygguile"))
+(test-equal "danger-submit-button returns a valid button"
+            (car (danger-submit-button "hygguile"))
             'button)
 
-(test-equal "hyg-submit-button returns a valid button"
-            (car (hyg-submit-button "hygguile"))
+(test-equal "submit-button returns a valid button"
+            (car (submit-button "hygguile"))
             'button)
 
-(test-equal "hyg-icon-button returns a valid button"
-            (car (hyg-icon-button #:icon 'lightbulb
-                                  #:content "hygguile"))
+(test-equal "icon-button returns a valid button"
+            (car (icon-button #:icon 'lightbulb
+                              #:content "hygguile"))
             'button)
 
-(test-equal "hyg-button returns a valid button"
-            (car (hyg-button "hygguile"))
+(test-equal "button returns a valid button"
+            (car (button "hygguile"))
             'button)
 
 (test-end)

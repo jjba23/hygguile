@@ -17,11 +17,11 @@
 
 (define-module (hygguile components select)
   #:use-module (hygguile abstraction)
-  #:export (hyg-option hyg-glyph-option))
+  #:export (option glyph-option))
 
-(define* (hyg-option #:key value
-                     (content #f)
-                     (selected-value #f))
+(define* (option #:key value
+                 (content #f)
+                 (selected-value #f))
   (let ((option-content (if (not (equal? #f content)) content value)))
     (cond
       ((equal? value selected-value)
@@ -31,14 +31,13 @@
       (else `(option (@ (value ,value))
                      ,option-content)))))
 
-(define* (hyg-glyph-option #:key value glyph
-                           (content #f)
-                           (selected-value #f))
+(define* (glyph-option #:key value glyph
+                       (content #f)
+                       (selected-value #f))
   (let ((option-flex-css '(flex gap-1)))
-    (hyg-option #:value value
-                #:selected-value selected-value
-                #:content `(div (@ (class ,(->css option-flex-css)))
-                                (span ,glyph)
-                                (span ,(if (not (equal? #f content)) content
-                                           value))))))
+    (option #:value value
+            #:selected-value selected-value
+            #:content `(div (@ (class ,(mk-classes option-flex-css)))
+                            (span ,glyph)
+                            (span ,(if (not (equal? #f content)) content value))))))
 

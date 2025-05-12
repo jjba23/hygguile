@@ -22,6 +22,7 @@
 (load "./src/hygguile/components/input.scm")
 (load "./src/hygguile/components/container.scm")
 (load "./src/hygguile/components/typography.scm")
+(load "./src/hygguile/hygguile.scm")
 
 (use-modules (ice-9 string-fun)
              (ice-9 textual-ports)
@@ -33,13 +34,7 @@
              (sxml transform)
              (srfi srfi-13)
              (srfi srfi-64)
-             (hygguile abstraction)
-             (hygguile components button)
-             (hygguile components input)
-             (hygguile components icon)
-             (hygguile components select)
-             (hygguile components container)
-             (hygguile components typography)
+             (hygguile)
              (uuid generate))
 
 (define* (load-assets assets)
