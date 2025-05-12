@@ -31,19 +31,29 @@ hygguile is licensed under the Lesser GNU GPL v3 License or newer.
 
 While the resulting UI and style is mostly left to the developers, /hygguile/ has some opinionated choices. The biggest goal of the project is to provide an expressive DSL for defining user interfaces that look professional and cozy.
 
+We try to use names which are same or similar to the HTML spec for our components, so as to ease the cognitive load of having to learn "yet another library".
+
+You can always choose to import hygguile using a prefix to avoid name clashes if they happen.
+
+#+begin_src scheme
+(use-modules
+  ((hygguile) #:prefix hyg:)
+#+end_src
+
+
 I'd encourage navigating to the ~src/hygguile~ directory and studying the code to see what possibilities and reusable components are there.
 
 #+begin_src scheme
-(hyg-input #:label (G_ "User name")
+(input #:label (G_ "User name")
            #:name "username"
            #:value ""
            #:required #t)
 
 ;; some pre-defined helpers exist
-(hyg-submit-button "click here")
+(submit-button "click here")
 
 ;; or if you want more control, you can go more low-level
-(hyg-button "click here"
+(button "click here"
             #:type 'submit
             #:background 'bg-green-700
             #:hover-background 'hover:bg-green-900
@@ -51,15 +61,15 @@ I'd encourage navigating to the ~src/hygguile~ directory and studying the code t
 
 #+end_src
 
-One of the main abstractions we use is the ~->css~ procedure, which takes a list of symbols and converts it into an ordered set of classes and consequently to an HTML compatible class list. We have adopted Tailwind's syntax since it's clear and concise, and well documented.
+One of the main abstractions we use is the ~mk-class~ procedure, which takes a list of symbols and converts it into an ordered set of classes and consequently to an HTML compatible class list. We have adopted Tailwind's syntax since it's clear and concise, and well documented.
 
-Thanks to the ~->css~ abstraction we could at some point even change the underlying implementation to use something different than Tailwind CSS by converting class names. This gives us an effective sort of dependency injection in CSS, making us a bit more independent of CSS library hygguile is built on.
+Thanks to the ~mk-class~ abstraction we could at some point even change the underlying implementation to use something different than Tailwind CSS by converting class names. This gives us an effective sort of dependency injection in CSS, making us a bit more independent of CSS library hygguile is built on.
 
 With it you can get neat HTML output:
 
 #+begin_src scheme
 (define my-component
-  `((p (@(class ,(->css '(my-2 p-2 bg-stone-200))) "Some paragraph")))
+  `((p (@(class ,(mk-class '(my-2 p-2 bg-stone-200))) "Some paragraph")))
 
 ;; this gives you
 ;; <p class="bg-stone-200 my-2 p-2">Some paragraph</p>  
