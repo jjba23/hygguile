@@ -288,7 +288,22 @@ formatting."
              (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
                   ,(hyg-button "hyg-button")
                   ,(hyg-submit-button "hyg-submit-button")
-                  ,(hyg-danger-submit-button "hyg-danger-submit-button")))))
+                  ,(hyg-danger-submit-button "hyg-danger-submit-button"))
+             (div (@ (class ,(->css '(flex flex-row flex-wrap gap-2))))
+                  ,(hyg-icon-button #:icon 'gear
+                                    #:content "gear"
+                                    #:background 'bg-teal-700
+                                    #:hover-background 'hover:bg-teal-900)
+                  ,(hyg-icon-button #:icon 'user
+                                    #:content "user"
+                                    #:background 'bg-amber-400
+                                    #:hover-background 'hover:bg-amber-600
+                                    #:foreground 'text-stone-900
+                                    #:icon-css '(text-stone-900 text-xl))
+                  ,(hyg-icon-button #:icon 'airplane-tilt
+                                    #:content "airplane-tilt"
+                                    #:background 'bg-orange-700
+                                    #:hover-background 'hover:bg-orange-900)))))
 
 (define typography-section
   `((div (@ (class ,(->css '(flex flex-col gap-6))))
