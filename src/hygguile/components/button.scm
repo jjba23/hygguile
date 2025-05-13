@@ -25,27 +25,26 @@
 
 (define* (button content
                  #:key (type 'button)
-                 (background 'bg-stone-700)
-                 (hover-background 'hover:bg-stone-900/75)
+                 (background '(bg-stone-700 dark:bg-stone-200))
+                 (hover-background '(hover:bg-stone-900/75
+                                     dark:hover:bg-stone-400))
                  (border-size 'border-2)
-                 (border-color 'border-stone-700/75)
+                 (border-color '(border-stone-700/75 dark:border-stone-400/75))
                  (shadow 'shadow-md)
-                 (foreground 'text-stone-100)
+                 (color '(text-stone-200 dark:text-stone-800))
                  (rounding 'rounded-2xl)
                  (on-click ""))
-  (let ((button-css `(py-2 px-3
-                           ,rounding
-                           max-w-prose
-                           font-bold
-                           font-sans
-                           text-sm
-                           ,shadow
-                           ,border-size
-                           cursor-pointer
-                           ,border-color
-                           ,background
-                           ,hover-background
-                           ,foreground)))
+  (let ((button-css (append '(py-2 px-3
+                                   max-w-prose
+                                   font-bold
+                                   font-sans
+                                   text-sm
+                                   cursor-pointer)
+                            color
+                            background
+                            hover-background
+                            border-color
+                            (list rounding shadow border-size))))
     `(button (@ (type ,(symbol->string type))
                 (class ,(mk-class button-css))
                 (onclick ,on-click))
@@ -54,28 +53,28 @@
 (define* (icon-button #:key icon
                       content
                       (type 'button)
-                      (background 'bg-stone-700)
-                      (hover-background 'hover:bg-stone-900/75)
+                      (background '(bg-stone-700 dark:bg-stone-200))
+                      (hover-background '(hover:bg-stone-900/75
+                                          dark:hover:bg-stone-100))
                       (border-size 'border-2)
-                      (border-color 'border-stone-700/75)
+                      (border-color '(border-stone-700/75
+                                      dark:border-stone-400/75))
                       (shadow 'shadow-md)
-                      (foreground 'text-stone-100)
+                      (color '(text-stone-200 dark:text-stone-800))
                       (on-click "")
                       (rounding 'rounded-2xl)
-                      (icon-css '(text-stone-100 text-xl)))
-  (let ((button-css `(py-2 px-3
-                           ,rounding
-                           max-w-prose
-                           font-bold
-                           cursor-pointer
-                           font-sans
-                           text-sm
-                           ,border-size
-                           ,border-color
-                           ,background
-                           ,shadow
-                           ,hover-background
-                           ,foreground)))
+                      (icon-css '(text-stone-100 dark:text-stone-900 text-xl)))
+  (let ((button-css (append '(py-2 px-3
+                                   max-w-prose
+                                   font-bold
+                                   cursor-pointer
+                                   font-sans
+                                   text-sm)
+                            color hover-background background
+                            border-color
+                            (list rounding
+                                  border-size
+                                  shadow))))
     `(button (@ (onclick ,on-click)
                 (type ,(symbol->string type))
                 (class ,(mk-class button-css)))
@@ -87,14 +86,16 @@
 (define* (submit-button content)
   (button content
           #:type 'submit
-          #:background 'bg-green-700
-          #:hover-background 'hover:bg-green-900))
+          #:background '(bg-green-700)
+          #:color '(text-stone-200)
+          #:hover-background '(hover:bg-green-900)))
 
 (define* (danger-submit-button content)
   (button content
           #:type 'submit
-          #:background 'bg-red-700
-          #:hover-background 'hover:bg-red-900))
+          #:background '(bg-red-700)
+          #:color '(text-stone-200)
+          #:hover-background '(hover:bg-red-900)))
 
 (define* (ui-mode-button #:key (icon 'faders)
                          (content "ui mode")
@@ -104,7 +105,7 @@
                                              dark:hover:bg-stone-100/75))
                          (border-size 'border-2)
                          (border-color '(border-stone-700/75
-                                         dark:border-stone-300/75))
+                                         dark:border-stone-400/75))
                          (shadow 'shadow-md)
                          (foreground '(text-stone-100 dark:text-stone-900))
                          (on-click "hygguileToggleDarkTheme()")

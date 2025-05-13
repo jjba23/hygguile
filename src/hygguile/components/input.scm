@@ -26,9 +26,11 @@
                 (placeholder "")
                 (type 'text)
                 (required #f)
-                (input-css '(p-3 max-w-prose rounded-xl border-stone-200
+                (input-css '(p-3 max-w-prose rounded-xl border-stone-200 dark:border-stone-700
+                                 dark:text-stone-300
+                                 dark:bg-stone-700/75
                                  border-2 shadow-md))
-                (label-css '(text-sm font-bold text-stone-600))
+                (label-css '(text-sm font-bold text-stone-600 dark:text-stone-300))
                 (input-flex-css '(my-2 flex flex-col gap-1)))
   `((div (@ (class ,(mk-class input-flex-css))))
     (label (@ (class ,(mk-class label-css))
@@ -48,12 +50,14 @@
                    (value "")
                    (required #f)
                    (textarea-css '(p-3 rounded-xl
-                                       border-stone-200
+                                       border-stone-200 dark:border-stone-700
+                                       dark:text-stone-300
+                                       dark:bg-stone-700/75
                                        border-2
                                        min-h-72
                                        shadow-md
                                        min-w-prose))
-                   (label-css '(text-sm font-bold text-stone-600))
+                   (label-css '(text-sm font-bold text-stone-600 dark:text-stone-300))
                    (textarea-flex-css '(my-2 flex flex-col gap-1 w-full)))
   `((div (@ (class ,(mk-class textarea-flex-css))))
     (label (@ (class ,(mk-class label-css))

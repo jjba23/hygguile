@@ -306,41 +306,39 @@ formatting."
            (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
                 (div ,(eval-string tt))
                 (button (@ (class ,(mk-class '(font-light text-sm
-                                                          text-stone-700)))
+                                                          text-stone-700 dark:text-stone-200)))
                            (onclick ,(format #f
-                                      "document.getElementById('~a-example').classList.toggle('hidden')"
-                                      uid)))
+                                             "document.getElementById('~a-example').classList.toggle('hidden')"
+                                             uid)))
                         ,(icon #:type 'dots-three
                                #:icon-css '(text-xl))))
            (div (@ (id ,(format #f "~a-example" uid))
                    (class ,(mk-class '(hidden flex flex-col gap-2))))
                 (pre (@ (id ,(format #f "~a-pre" uid))
                         (class ,(mk-class '(font-medium text-stone-800
+                                                        dark:text-stone-200
                                                         text-md
                                                         bg-stone-200/75
+                                                        dark:bg-stone-700/75
                                                         rounded-lg
                                                         shadow-md
-                                                        w-full
+
                                                         text-wrap
                                                         py-4
                                                         px-4
                                                         overflow-x-scroll
-                                                        whitespace-pre))))
+                                                        whitespace-pre-wrap))))
                      ,t)
                 (div (@ (class ,(mk-class '(w-min))))
                      ,(icon-button #:icon 'copy
-                                   #:foreground 'text-stone-900
-                                   #:icon-css '(text-stone-900 text-lg)
                                    #:content "copy"
+
                                    #:on-click (format #f "hygguileCopyPreInnerText('~a')"
-                                                      uid)
-                                   #:background 'bg-stone-400/50)))))))
+                                                      uid))))))))
 
 (define button-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
              ,(sub-h2 "buttons")
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
-                  ,(ui-mode-button))
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(button "button"))
                   ,(as-example '(submit-button "submit-button"))
@@ -348,19 +346,22 @@ formatting."
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(icon-button #:icon 'gear
                                              #:content "gear"
-                                             #:background 'bg-teal-700
-                                             #:hover-background 'hover:bg-teal-900))
+                                             #:background '(bg-teal-700)
+                                             #:color '(text-stone-200 dark:text-stone-100)
+                                             #:icon-css '(text-stone-100 dark:text-stone-100 text-xl)
+                                             #:hover-background '(hover:bg-teal-900)))
                   ,(as-example '(icon-button #:icon 'user
                                              #:content "user"
-                                             #:background 'bg-amber-400
-                                             #:hover-background 'hover:bg-amber-600
-                                             #:foreground 'text-stone-900
-                                             #:icon-css '(text-stone-900
-                                                          text-xl)))
+                                             #:background '(bg-amber-400)
+                                             #:color '(text-stone-900)
+                                             #:hover-background '(hover:bg-amber-600)
+                                             #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'airplane-tilt
                                              #:content "airplane-tilt"
-                                             #:background 'bg-orange-700
-                                             #:hover-background 'hover:bg-orange-900))))))
+                                             #:background '(bg-orange-700)
+                                             #:color '(text-stone-200 dark:text-stone-100)
+                                             #:icon-css '(text-stone-100 dark:text-stone-100 text-xl)
+                                             #:hover-background '(hover:bg-orange-900)))))))
 
 (define typography-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
@@ -424,6 +425,10 @@ formatting."
                  ,(a "https://codeberg.org/jjba23/hygguile")))
           #:background 'bg-stone-200))
 
+(define settings-section `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
+                                ,(sub-h2 "settings:")
+                                ,(ui-mode-button))))
+
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
                                                          mx-auto))))
@@ -431,6 +436,8 @@ formatting."
                                   ,(h1 "hygguile")
                                   ,(sub-h2
                                     "cozy and professional user-interfaces for everyone"))
+                             ,(hr)
+                             ,settings-section
                              ,(hr)
                              ,button-section
                              ,(hr)
@@ -527,13 +534,12 @@ formatting."
             "prefix 'data infix '(more data) suffix")
 
 (test-equal "Real-world like string"
- (pretty-quote
-  "(quote user) #:content \"user\" #:background (quote bg-amber-400) #:hover-background (quote hover:bg-amber-600) #:foreground (quote text-stone-900) #:icon-css (quote (text-stone-900 text-xl))")
- "'user #:content \"user\" #:background 'bg-amber-400 #:hover-background 'hover:bg-amber-600 #:foreground 'text-stone-900 #:icon-css '(text-stone-900 text-xl)")
+  (pretty-quote
+   "(quote user) #:content \"user\" #:background (quote bg-amber-400) #:hover-background (quote hover:bg-amber-600) #:color (quote text-stone-900) #:icon-css (quote (text-stone-900 text-xl))")
+  "'user #:content \"user\" #:background 'bg-amber-400 #:hover-background 'hover:bg-amber-600 #:color 'text-stone-900 #:icon-css '(text-stone-900 text-xl)")
 
 (test-equal "Multiple occurrences of the same quoted expression"
             (pretty-quote "(quote same) and also (quote same)")
             "'same and also 'same")
 
 (test-end)
-

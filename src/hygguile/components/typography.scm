@@ -36,160 +36,153 @@
              #:key (weight 'font-bold)
              (color '(text-stone-700 dark:text-stone-300))
              (size 'text-4xl))
-  `((h1 (@ (class ,(mk-class (append
-                              color
-                              (list size weight)))))
+  `((h1 (@ (class ,(mk-class (append color
+                                     (list size weight)))))
         ,content)))
 
 (define* (h2 content
              #:key (weight 'font-bold)
-             (color 'text-stone-700)
+             (color '(text-stone-700 dark:text-stone-300))
              (size 'text-3xl))
-  `((h2 (@ (class ,(mk-class `(,size ,weight
-                               ,color))))
+  `((h2 (@ (class ,(mk-class (append color
+                                     (list size weight)))))
         ,content)))
 
 (define* (h3 content
              #:key (weight 'font-bold)
-             (color 'text-stone-700)
+             (color '(text-stone-700 dark:text-stone-300))
              (size 'text-2xl))
-  `((h3 (@ (class ,(mk-class `(,size ,weight
-                               ,color))))
+  `((h3 (@ (class ,(mk-class (append color
+                                     (list size weight)))))
         ,content)))
 
 (define* (h4 content
              #:key (weight 'font-bold)
-             (color 'text-stone-700)
+             (color '(text-stone-700 dark:text-stone-300))
              (size 'text-xl))
-  `((h4 (@ (class ,(mk-class `(,size ,weight
-                               ,color))))
+  `((h4 (@ (class ,(mk-class (append color
+                                     (list size weight)))))
         ,content)))
 
 (define* (sub-h1 content
                  #:key (weight 'font-light)
-                 (color 'text-stone-600)
+                 (color '(text-stone-600 dark:text-stone-400))
                  (style 'italic)
                  (size 'text-3xl))
-  `((h1 (@ (class ,(mk-class `(,size ,weight
-                               ,style
-                               ,color))))
+  `((h1 (@ (class ,(mk-class (append color
+                                     (list size weight style)))))
         ,content)))
 
 (define* (sub-h2 content
                  #:key (weight 'font-light)
                  (style 'italic)
-                 (color 'text-stone-600)
+                 (color '(text-stone-600 dark:text-stone-400))
                  (size 'text-2xl))
-  `((h2 (@ (class ,(mk-class `(,size ,weight
-                               ,style
-                               ,color))))
+  `((h2 (@ (class ,(mk-class (append color
+                                     (list size weight style)))))
         ,content)))
 
 (define* (sub-h3 content
                  #:key (weight 'font-light)
                  (style 'italic)
-                 (color 'text-stone-600)
+                 (color '(text-stone-600 dark:text-stone-400))
                  (size 'text-xl))
-  `((h3 (@ (class ,(mk-class `(,size ,weight
-                               ,style
-                               ,color))))
+  `((h3 (@ (class ,(mk-class (append color
+                                     (list size weight style)))))
         ,content)))
 
 (define* (sub-h4 content
                  #:key (weight 'font-light)
                  (style 'italic)
-                 (color 'text-stone-600)
+                 (color '(text-stone-600 dark:text-stone-400))
                  (size 'text-xl))
-  `((h4 (@ (class ,(mk-class `(,size ,weight
-                               ,style
-                               ,color))))
+  `((h4 (@ (class ,(mk-class (append color
+                                     (list size weight style)))))
         ,content)))
 
 (define* (p content
             #:key (weight 'font-medium)
-            (color 'text-stone-800)
+            (color '(text-stone-800 dark:text-stone-200))
             (size 'text-lg))
-  `((p (@ (class ,(mk-class `(,size ,weight
-                              ,color))))
+  `((p (@ (class ,(mk-class (append color
+                                    (list size weight)))))
        ,content)))
 
 (define* (em content
              #:key (weight 'font-light)
-             (color 'text-stone-600)
+             (color '(text-stone-600 dark:text-stone-400))
+             (style 'italic)
              (size 'text-md))
-  `((em (@ (class ,(mk-class `(,size ,weight
-                               ,color))))
+  `((em (@ (class ,(mk-class (append color
+                                     (list size weight style)))))
         ,content)))
 
 (define* (strong content
                  #:key (weight 'font-bold)
-                 (color 'text-stone-800)
+                 (color '(text-stone-800 dark:text-stone-200))
                  (size 'text-lg))
-  `((strong (@ (class ,(mk-class `(,size ,weight
-                                   ,color))))
+  `((strong (@ (class ,(mk-class (append color
+                                         (list size weight)))))
             ,content)))
 
 (define* (a content
             #:key (weight 'font-bold)
             (size 'text-lg)
-            (color 'text-blue-500)
+            (color '(text-blue-500 dark:text-blue-400))
             (hover 'hover:text-blue-700)
             (href #f))
   `((a (@ (href ,(if (not href) content href))
-          (class ,(mk-class `(,size ,weight
-                              ,color
-                              ,hover))))
+          (class ,(mk-class (append color
+                                    (list size hover weight)))))
        ,content)))
 
 (define* (mono content
                #:key (weight 'font-medium)
-               (color 'text-stone-800)
+               (color '(text-stone-800 dark:text-stone-200))
                (size 'text-lg))
-  `((p (@ (class ,(mk-class `(font-mono ,size
-                                        ,weight
-                                        ,color))))
+  `((p (@ (class ,(mk-class (append color
+                                    '(font-mono)
+                                    (list size weight weight)))))
        ,content)))
 
 (define* (code content
                #:key (weight 'font-medium)
-               (color 'text-stone-800)
+               (color '(text-stone-800 dark:text-stone-200))
                (size 'text-md)
-               (background 'bg-stone-200/75)
+               (background '(bg-stone-200/75 dark:bg-stone-700/75))
                (rounding 'rounded-lg)
                (shadow 'shadow-md)
                (padding-y 'py-1)
-               (padding-x 'px-2))
-  `((code (@ (class ,(mk-class `(font-mono ,shadow
-                                           ,size
-                                           ,weight
-                                           ,padding-y
-                                           ,padding-x
-                                           ,color
-                                           ,background
-                                           ,rounding))))
+               (padding-x 'px-3))
+  `((code (@ (class ,(mk-class (append color background
+                                       '(font-mono)
+                                       (list shadow
+                                             size
+                                             weight
+                                             padding-y
+                                             padding-x
+                                             rounding)))))
           ,content)))
 
 (define* (pre content
               #:key (weight 'font-medium)
-              (color 'text-stone-800)
+              (color '(text-stone-800 dark:text-stone-200))
               (size 'text-md)
-              (background 'bg-stone-200/75)
+              (background '(bg-stone-200/75 bg-stone-700/75))
               (rounding 'rounded-lg)
               (shadow 'shadow-md)
               (width 'w-full)
               (text-wrap 'text-nowrap)
               (padding-y 'py-6)
               (padding-x 'px-8))
-  `((pre (@ (class ,(mk-class `(font-mono ,shadow
-                                          ,size
-                                          ,weight
-                                          ,text-wrap
-                                          ,width
-                                          ,padding-y
-                                          ,padding-x
-                                          ,color
-                                          ,background
-                                          ,rounding
-                                          overflow-auto
-                                          whitespace-pre))))
+  `((pre (@ (class ,(mk-class (append color background
+                                      '(font-mono overflow-auto whitespace-pre)
+                                      (list shadow
+                                            size
+                                            weight
+                                            text-wrap
+                                            width
+                                            padding-y
+                                            padding-x
+                                            rounding)))))
          ,content)))
