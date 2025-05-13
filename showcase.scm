@@ -16,6 +16,7 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (load "./src/hygguile/abstraction.scm")
+(load "./src/hygguile/js.scm")
 (load "./src/hygguile/components/icon.scm")
 (load "./src/hygguile/components/button.scm")
 (load "./src/hygguile/components/select.scm")
@@ -331,7 +332,7 @@ formatting."
                                    #:foreground 'text-stone-900
                                    #:icon-css '(text-stone-900 text-lg)
                                    #:content "copy"
-                                   #:on-click (format #f "copyInnerText('~a')"
+                                   #:on-click (format #f "hygguileCopyPreInnerText('~a')"
                                                       uid)
                                    #:background 'bg-stone-400/50)))))))
 
@@ -459,31 +460,9 @@ formatting."
                                             "width=device-width, initial-scale=1.0")))
                                   (script ,(assoc-ref asset-library
                                                       "resources/js/tailwind.js"))
-
-                                  (script
-                                   "
-function copyInnerText(elementId) {
-  const id = elementId + '-pre';
-  console.log('copying inner text of element: ' + id);
-
-  // Get the text field
-  var el = document.getElementById(id);
-
-  // Copy the text inside the text field
-  navigator.clipboard.writeText(el.innerText);
-
-  console.log(el.innerText);
-}
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const themePreference = localStorage.getItem('data-theme');
-    if (themePreference === 'dark') {
-      document.documentElement.setAttribute('data-theme','dark');
-    } else if (themePreference === 'light') {
-      document.documentElement.setAttribute('data-theme','light');
-    }
-  });
-"))
+                                  (script ,toggle-dark-theme-js)
+                                  (script ,copy-pre-inner-text-js)
+                                  (script ,remember-dark-theme-js))
                             (body (@ (class ,(mk-class '(bg-white dark:bg-stone-800)))))
                             ,@body)))
 

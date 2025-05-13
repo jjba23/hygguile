@@ -107,7 +107,7 @@
                                          dark:border-stone-300/75))
                          (shadow 'shadow-md)
                          (foreground '(text-stone-100 dark:text-stone-900))
-                         (on-click "toggleDarkTheme()")
+                         (on-click "hygguileToggleDarkTheme()")
                          (rounding 'rounded-2xl)
                          (icon-css '(text-stone-100 dark:text-stone-900
                                                     text-xl)))
@@ -122,24 +122,7 @@
                                    text-sm
                                    ,border-size
                                    ,shadow))))
-    `((script
-       "
-function toggleDarkTheme() {
-  if (document.documentElement.getAttribute('data-theme') == null) {
-    document.documentElement.setAttribute('data-theme','dark');
-    localStorage.setItem('data-theme', 'dark');
-  }else {
-    if (document.documentElement.getAttribute('data-theme') == 'dark') {
-      document.documentElement.setAttribute('data-theme','light');
-      localStorage.setItem('data-theme', 'light');
-    }else {
-      document.documentElement.setAttribute('data-theme','dark');
-      localStorage.setItem('data-theme', 'dark');
-    }
-  }
-}
-")
-      (button (@ (onclick ,on-click)
+    `((button (@ (onclick ,on-click)
                  (type ,(symbol->string type))
                  (class ,(mk-class button-css)))
               (div (@ (class ,(mk-class '(flex flex-row gap-1 items-center))))

@@ -17,6 +17,7 @@
 
 (define-module (hygguile hygguile)
   #:use-module (hygguile abstraction)
+  #:use-module (hygguile js)
   #:use-module (hygguile components button)
   #:use-module (hygguile components container)
   #:use-module (hygguile components icon)
@@ -30,6 +31,8 @@
                         submit-button
                         danger-submit-button
                         ui-mode-button
+                        toggle-dark-theme-js copy-pre-inner-text-js
+                        remember-dark-theme-js
                         footer
                         with-footer
                         hr
