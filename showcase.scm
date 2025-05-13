@@ -51,7 +51,7 @@
 
 (define-public asset-library
   (load-assets '("resources/css/fonts.css" "resources/css/phosphor.css"
-                 "resources/js/tailwind.js" "resources/js/tailwind.config.js")))
+                 "resources/js/tailwind.js")))
 
 ;; ====== Serialize (SXML) ======
 
@@ -339,6 +339,8 @@ formatting."
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
              ,(sub-h2 "buttons")
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
+                  ,(ui-mode-button))
+             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(button "button"))
                   ,(as-example '(submit-button "submit-button"))
                   ,(as-example '(danger-submit-button "danger-submit-button")))
@@ -440,18 +442,24 @@ formatting."
   `("<!DOCTYPE html>" (html (@ (lang en))
                             (head (title ,title)
                                   (style ,(assoc-ref asset-library
-                                           "resources/css/fonts.css"))
-
+                                                     "resources/css/fonts.css"))
                                   (style ,(assoc-ref asset-library
-                                           "resources/css/phosphor.css"))
+                                                     "resources/css/phosphor.css"))
+                                  (style (@ (type "text/tailwindcss"))
+                                    "
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
+@theme {
+  --font-sans: \"Adwaita Sans\", sans-serif;
+  --font-mono: \"Adwaita Mono\", monospace;
+}
+")
                                   (meta (@ (name viewport)
                                            (content
                                             "width=device-width, initial-scale=1.0")))
                                   (script ,(assoc-ref asset-library
-                                            "resources/js/tailwind.js"))
-                                  (script ,(assoc-ref asset-library
-                                            "resources/js/tailwind.config.js"))
+                                                      "resources/js/tailwind.js"))
+
                                   (script
                                    "
 function copyInnerText(elementId) {
@@ -465,9 +473,18 @@ function copyInnerText(elementId) {
   navigator.clipboard.writeText(el.innerText);
 
   console.log(el.innerText);
-} 
+}
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const themePreference = localStorage.getItem('data-theme');
+    if (themePreference === 'dark') {
+      document.documentElement.setAttribute('data-theme','dark');
+    } else if (themePreference === 'light') {
+      document.documentElement.setAttribute('data-theme','light');
+    }
+  });
 "))
-                            (body (@ (class ,(mk-class '()))))
+                            (body (@ (class ,(mk-class '(bg-white dark:bg-stone-800)))))
                             ,@body)))
 
 (define (showcase)

@@ -20,7 +20,8 @@
   #:use-module ((hygguile components icon)
                 #:prefix hyg:)
   #:use-module (srfi srfi-64)
-  #:export (button icon-button submit-button danger-submit-button))
+  #:export (button icon-button submit-button danger-submit-button
+                   ui-mode-button))
 
 (define* (button content
                  #:key (type 'button)
@@ -94,6 +95,57 @@
           #:type 'submit
           #:background 'bg-red-700
           #:hover-background 'hover:bg-red-900))
+
+(define* (ui-mode-button #:key (icon 'faders)
+                         (content "ui mode")
+                         (type 'button)
+                         (background '(bg-stone-700 dark:bg-stone-300))
+                         (hover-background '(hover:bg-stone-900/75
+                                             dark:hover:bg-stone-100/75))
+                         (border-size 'border-2)
+                         (border-color '(border-stone-700/75
+                                         dark:border-stone-300/75))
+                         (shadow 'shadow-md)
+                         (foreground '(text-stone-100 dark:text-stone-900))
+                         (on-click "toggleDarkTheme()")
+                         (rounding 'rounded-2xl)
+                         (icon-css '(text-stone-100 dark:text-stone-900
+                                                    text-xl)))
+  (let ((button-css (append border-color background hover-background
+                            foreground
+                            `(py-2 px-3
+                                   ,rounding
+                                   max-w-prose
+                                   font-bold
+                                   cursor-pointer
+                                   font-sans
+                                   text-sm
+                                   ,border-size
+                                   ,shadow))))
+    `((script
+       "
+function toggleDarkTheme() {
+  if (document.documentElement.getAttribute('data-theme') == null) {
+    document.documentElement.setAttribute('data-theme','dark');
+    localStorage.setItem('data-theme', 'dark');
+  }else {
+    if (document.documentElement.getAttribute('data-theme') == 'dark') {
+      document.documentElement.setAttribute('data-theme','light');
+      localStorage.setItem('data-theme', 'light');
+    }else {
+      document.documentElement.setAttribute('data-theme','dark');
+      localStorage.setItem('data-theme', 'dark');
+    }
+  }
+}
+")
+      (button (@ (onclick ,on-click)
+                 (type ,(symbol->string type))
+                 (class ,(mk-class button-css)))
+              (div (@ (class ,(mk-class '(flex flex-row gap-1 items-center))))
+                   ,(hyg:icon #:type icon
+                              #:icon-css icon-css)
+                   (span ,content))))))
 
 ;; module tests
 (test-begin "buttons")

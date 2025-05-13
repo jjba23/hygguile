@@ -29,6 +29,7 @@
                         icon-button
                         submit-button
                         danger-submit-button
+                        ui-mode-button
                         footer
                         with-footer
                         hr

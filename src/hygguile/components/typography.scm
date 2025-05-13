@@ -34,10 +34,11 @@
 
 (define* (h1 content
              #:key (weight 'font-bold)
-             (color 'text-stone-700)
+             (color '(text-stone-700 dark:text-stone-300))
              (size 'text-4xl))
-  `((h1 (@ (class ,(mk-class `(,size ,weight
-                               ,color))))
+  `((h1 (@ (class ,(mk-class (append
+                              color
+                              (list size weight)))))
         ,content)))
 
 (define* (h2 content
