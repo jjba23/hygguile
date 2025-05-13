@@ -423,7 +423,7 @@ formatting."
                                              align-center items-center))))
                  ,(p "find the source code here:")
                  ,(a "https://codeberg.org/jjba23/hygguile")))
-          #:background 'bg-stone-200))
+          ))
 
 (define settings-section `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
                                 ,(sub-h2 "settings:")

@@ -30,15 +30,15 @@
   `((hr (@ (class ,(mk-class `(,margin)))))))
 
 (define* (footer content
-                 #:key (background 'bg-stone-300)
+                 #:key (background '(bg-stone-200 dark:bg-stone-900))
                  (shadow 'shadow-2xl))
-  `((footer (@ (class ,(mk-class `(flex flex-col
-                                        gap-3
-                                        items-left
-                                        px-6
-                                        md:px-12
-                                        justify-left
-                                        py-12
-                                        ,background
-                                        ,shadow))))
+  `((footer (@ (class ,(mk-class (append background
+                                         (list shadow)
+                                         '(flex flex-col
+                                                gap-3
+                                                items-left
+                                                px-6
+                                                md:px-12
+                                                justify-left
+                                                py-10)))))
             ,content)))

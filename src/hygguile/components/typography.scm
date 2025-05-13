@@ -129,11 +129,11 @@
             #:key (weight 'font-bold)
             (size 'text-lg)
             (color '(text-blue-500 dark:text-blue-400))
-            (hover 'hover:text-blue-700)
+            (hover '(hover:text-blue-700 dark:hover:text-blue-600))
             (href #f))
   `((a (@ (href ,(if (not href) content href))
-          (class ,(mk-class (append color
-                                    (list size hover weight)))))
+          (class ,(mk-class (append color hover
+                                    (list size  weight)))))
        ,content)))
 
 (define* (mono content
@@ -168,7 +168,7 @@
               #:key (weight 'font-medium)
               (color '(text-stone-800 dark:text-stone-200))
               (size 'text-md)
-              (background '(bg-stone-200/75 bg-stone-700/75))
+              (background '(bg-stone-200/75 dark:bg-stone-700/75))
               (rounding 'rounded-lg)
               (shadow 'shadow-md)
               (width 'w-full)
