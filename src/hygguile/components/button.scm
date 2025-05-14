@@ -25,8 +25,8 @@
 
 (define* (button content
                  #:key (type 'button)
-                 (background '(bg-stone-700 dark:bg-stone-200))
-                 (hover-background '(hover:bg-stone-900/75
+                 (background '(bg-stone-600/90 dark:bg-stone-300/90))
+                 (hover-background '(hover:bg-stone-800/75
                                      dark:hover:bg-stone-400))
                  (border-size 'border-2)
                  (border-color '(border-stone-700/75 dark:border-stone-400/75))
@@ -53,8 +53,8 @@
 (define* (icon-button #:key icon
                       content
                       (type 'button)
-                      (background '(bg-stone-700 dark:bg-stone-200))
-                      (hover-background '(hover:bg-stone-900/75
+                      (background '(bg-stone-600/90 dark:bg-stone-300/90))
+                      (hover-background '(hover:bg-stone-800/75
                                           dark:hover:bg-stone-100))
                       (border-size 'border-2)
                       (border-color '(border-stone-700/75
