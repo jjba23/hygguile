@@ -47,9 +47,9 @@ I'd encourage navigating to the ~src/hygguile~ directory and studying the code t
 ;; or if you want more control, you can go more low-level
 (button "click here"
             #:type 'submit
-            #:background 'bg-green-700
-            #:hover-background 'hover:bg-green-900
-            #:border-color 'border-green-900)
+            #:background '(bg-green-700 dark:bg-green-500)
+            #:hover-background '(hover:bg-green-900 dark:hover:bg-green-700)
+            #:border-color '(border-stone-200))
 
 #+end_src
 
