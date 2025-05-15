@@ -120,6 +120,14 @@ You can always choose to import hygguile using a prefix to avoid name clashes if
 
 --------
 
+* Projects that use Hygguile
+
+- WikiMusic :: https://codeberg.org/jjba23/wikimusic
+- LucidPlan :: https://codeberg.org/jjba23/lucidplan
+- Byggsteg :: https://codeberg.org/jjba23/byggsteg
+
+--------
+
 * Code of conduct
 
 This project adheres to the jointhefreeworld code of conduct. Find it here:
@@ -139,3 +147,4 @@ We welcome everyone to feel invited to the hygguile Project, and encourage activ
 Find here the Backlog and Kanban boards for hygguile: https://lucidplan.jointhefreeworld.org/tickets/hygguile
 
 -----
+
