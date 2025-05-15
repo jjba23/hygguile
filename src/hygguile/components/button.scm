@@ -25,13 +25,13 @@
 
 (define* (button content
                  #:key (type 'button)
-                 (background '(bg-stone-600/90 dark:bg-stone-300/90))
-                 (hover-background '(hover:bg-stone-800/75
-                                     dark:hover:bg-stone-400))
+                 (background '(bg-stone-600/90 dark:bg-stone-500/90))
+                 (hover-background '(hover:bg-stone-800/90
+                                     dark:hover:bg-stone-700))
                  (border-size 'border-2)
-                 (border-color '(border-stone-700/75 dark:border-stone-400/75))
+                 (border-color '(border-stone-700/75))
                  (shadow 'shadow-md)
-                 (color '(text-stone-200 dark:text-stone-800))
+                 (color '(text-stone-100))
                  (rounding 'rounded-2xl)
                  (on-click ""))
   (let ((button-css (append '(py-2 px-3
@@ -53,28 +53,29 @@
 (define* (icon-button #:key icon
                       content
                       (type 'button)
-                      (background '(bg-stone-600/90 dark:bg-stone-300/90))
-                      (hover-background '(hover:bg-stone-800/75
-                                          dark:hover:bg-stone-100))
+
+                      (background '(bg-stone-600/90 dark:bg-stone-500/90))
+                      (hover-background '(hover:bg-stone-800/90
+                                          dark:hover:bg-stone-700))
                       (border-size 'border-2)
-                      (border-color '(border-stone-700/75
-                                      dark:border-stone-400/75))
+                      (border-color '(border-stone-700/75))
                       (shadow 'shadow-md)
-                      (color '(text-stone-200 dark:text-stone-800))
+                      (color '(text-stone-100))
+
                       (on-click "")
                       (rounding 'rounded-2xl)
-                      (icon-css '(text-stone-100 dark:text-stone-900 text-xl)))
+                      (icon-css '(text-stone-100 dark:text-stone-100 text-xl)))
   (let ((button-css (append '(py-2 px-3
                                    max-w-prose
                                    font-bold
                                    cursor-pointer
                                    font-sans
                                    text-sm)
-                            color hover-background background
+                            color
+                            hover-background
+                            background
                             border-color
-                            (list rounding
-                                  border-size
-                                  shadow))))
+                            (list rounding border-size shadow))))
     `(button (@ (onclick ,on-click)
                 (type ,(symbol->string type))
                 (class ,(mk-class button-css)))
@@ -100,18 +101,17 @@
 (define* (ui-mode-button #:key (icon 'faders)
                          (content "ui mode")
                          (type 'button)
-                         (background '(bg-stone-600/90 dark:bg-stone-300/90))
-                         (hover-background '(hover:bg-stone-800/75
-                                             dark:hover:bg-stone-400))
+                         (background '(bg-stone-600/90 dark:bg-stone-500/90))
+                         (hover-background '(hover:bg-stone-800/90
+                                             dark:hover:bg-stone-700))
                          (border-size 'border-2)
-                         (border-color '(border-stone-700/75
-                                         dark:border-stone-400/75))
+                         (border-color '(border-stone-700/75))
                          (shadow 'shadow-md)
-                         (foreground '(text-stone-100 dark:text-stone-900))
+                         (foreground '(text-stone-100))
                          (on-click "hygguileToggleDarkTheme()")
                          (rounding 'rounded-2xl)
-                         (icon-css '(text-stone-100 dark:text-stone-900
-                                                    text-xl)))
+                         (icon-css '(text-stone-100 
+                                     text-xl)))
   (let ((button-css (append border-color background hover-background
                             foreground
                             `(py-2 px-3
