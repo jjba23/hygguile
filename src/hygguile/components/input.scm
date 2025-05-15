@@ -28,6 +28,7 @@
                 (required #f)
                 (input-css '(p-3 max-w-prose rounded-xl border-stone-200 dark:border-stone-700
                                  dark:text-stone-300
+                                 bg-stone-200/75
                                  dark:bg-stone-700/75
                                  border-2 shadow-md))
                 (label-css '(text-sm font-bold text-stone-600 dark:text-stone-300))
@@ -53,6 +54,7 @@
                                        border-stone-200 dark:border-stone-700
                                        dark:text-stone-300
                                        dark:bg-stone-700/75
+                                       bg-stone-200/75
                                        border-2
                                        min-h-72
                                        shadow-md
