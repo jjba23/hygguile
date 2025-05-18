@@ -417,11 +417,11 @@ formatting."
                                           #:name "textarea-1"))))))
 
 (define footer
-  (footer `(,(p "Copyright &copy; Josep Bigorra &lt;jjbigorra@gmail.com&gt;") ,
+  (footer `(,(em "Copyright &copy; Josep Bigorra &lt;jjbigorra@gmail.com&gt;") ,
             (em "licensed under the LGPL v3, or newer at your convenience")
             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-3
                                              align-center items-center))))
-                 ,(p "find the source code here:")
+                 ,(em "find the source code here:")
                  ,(a "https://codeberg.org/jjba23/hygguile")))
           ))
 
