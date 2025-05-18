@@ -71,11 +71,13 @@ With it you can get neat HTML output:
 
 * Installing and Using
 
-See the [[file:Makefile][Makefile]] for more details and common tasks.
-
 You should take the files at ~resources~ and load them into your web app, in the way you like. This means loading CSS, JS and TTF files.
 
 You can take a look at the ~showcase.scm~ file which includes some facilities and advanced techniques to load these things.
+
+In summary hygguile provides everything for you, from Javascript, to CSS, to fonts, but it's all modular and flexible, so you are in charge of loading what you like.
+
+See the [[file:Makefile][Makefile]] for more details and common tasks.
 
 To install it you can download the source code files and add them to your ~GUILE_LOAD_PATH~ or even better, use a Guix shell ~manifest.scm~ and add the package with something like this:
 
