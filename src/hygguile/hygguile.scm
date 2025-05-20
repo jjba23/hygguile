@@ -33,6 +33,8 @@
                         ui-mode-button
                         toggle-dark-theme-js copy-pre-inner-text-js
                         remember-dark-theme-js
+                        col
+                        row
                         footer
                         with-footer
                         hr

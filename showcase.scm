@@ -306,10 +306,11 @@ formatting."
            (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
                 (div ,(eval-string tt))
                 (button (@ (class ,(mk-class '(font-light text-sm
-                                                          text-stone-700 dark:text-stone-200)))
+                                                          text-stone-700
+                                                          dark:text-stone-200)))
                            (onclick ,(format #f
-                                             "document.getElementById('~a-example').classList.toggle('hidden')"
-                                             uid)))
+                                      "document.getElementById('~a-example').classList.toggle('hidden')"
+                                      uid)))
                         ,(icon #:type 'dots-three
                                #:icon-css '(text-xl))))
            (div (@ (id ,(format #f "~a-example" uid))
@@ -333,8 +334,9 @@ formatting."
                      ,(icon-button #:icon 'copy
                                    #:content "copy"
 
-                                   #:on-click (format #f "hygguileCopyPreInnerText('~a')"
-                                                      uid))))))))
+                                   #:on-click (format #f
+                                               "hygguileCopyPreInnerText('~a')"
+                                               uid))))))))
 
 (define button-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
@@ -347,8 +349,11 @@ formatting."
                   ,(as-example '(icon-button #:icon 'gear
                                              #:content "gear"
                                              #:background '(bg-teal-700)
-                                             #:color '(text-stone-200 dark:text-stone-100)
-                                             #:icon-css '(text-stone-100 dark:text-stone-100 text-xl)
+                                             #:color '(text-stone-200
+                                                       dark:text-stone-100)
+                                             #:icon-css '(text-stone-100
+                                                          dark:text-stone-100
+                                                          text-xl)
                                              #:hover-background '(hover:bg-teal-900)))
                   ,(as-example '(icon-button #:icon 'user
                                              #:content "user"
@@ -359,8 +364,11 @@ formatting."
                   ,(as-example '(icon-button #:icon 'airplane-tilt
                                              #:content "airplane-tilt"
                                              #:background '(bg-orange-700)
-                                             #:color '(text-stone-200 dark:text-stone-100)
-                                             #:icon-css '(text-stone-100 dark:text-stone-100 text-xl)
+                                             #:color '(text-stone-200
+                                                       dark:text-stone-100)
+                                             #:icon-css '(text-stone-100
+                                                          dark:text-stone-100
+                                                          text-xl)
                                              #:hover-background '(hover:bg-orange-900)))))))
 
 (define typography-section
@@ -422,12 +430,20 @@ formatting."
             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-3
                                              align-center items-center))))
                  ,(em "find the source code here:")
-                 ,(a "https://codeberg.org/jjba23/hygguile")))
-          ))
+                 ,(a "https://codeberg.org/jjba23/hygguile")))))
 
-(define settings-section `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
-                                ,(sub-h2 "settings:")
-                                ,(ui-mode-button))))
+(define settings-section
+  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
+         ,(sub-h2 "settings:")
+         ,(ui-mode-button))))
+
+(define containers-section
+  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
+         ,(sub-h2 "containers:")
+         ,(row `(,(p "first element") ,(p "second element")
+                 ,(p "third element")))
+         ,(col `(,(p "first element") ,(p "second element")
+                 ,(p "third element"))))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
@@ -443,18 +459,20 @@ formatting."
                              ,(hr)
                              ,typography-section
                              ,(hr)
-                             ,forms-section))
+                             ,forms-section
+                             ,(hr)
+                             ,containers-section))
                #:footer footer))
 
 (define* (html-template #:key title body)
   `("<!DOCTYPE html>" (html (@ (lang en))
                             (head (title ,title)
                                   (style ,(assoc-ref asset-library
-                                                     "resources/css/fonts.css"))
+                                           "resources/css/fonts.css"))
                                   (style ,(assoc-ref asset-library
-                                                     "resources/css/phosphor.css"))
+                                           "resources/css/phosphor.css"))
                                   (style (@ (type "text/tailwindcss"))
-                                    "
+                                   "
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme {
@@ -465,13 +483,14 @@ formatting."
                                   (meta (@ (name viewport)
                                            (content
                                             "width=device-width, initial-scale=1.0")))
-                                  (meta (@(charset "UTF-8")))
+                                  (meta (@ (charset "UTF-8")))
                                   (script ,(assoc-ref asset-library
-                                                      "resources/js/tailwind.js"))
+                                            "resources/js/tailwind.js"))
                                   (script ,toggle-dark-theme-js)
                                   (script ,copy-pre-inner-text-js)
                                   (script ,remember-dark-theme-js))
-                            (body (@ (class ,(mk-class '(bg-white dark:bg-stone-800)))))
+                            (body (@ (class ,(mk-class '(bg-white
+                                                         dark:bg-stone-800)))))
                             ,@body)))
 
 (define (showcase)
@@ -535,9 +554,9 @@ formatting."
             "prefix 'data infix '(more data) suffix")
 
 (test-equal "Real-world like string"
-  (pretty-quote
-   "(quote user) #:content \"user\" #:background (quote bg-amber-400) #:hover-background (quote hover:bg-amber-600) #:color (quote text-stone-900) #:icon-css (quote (text-stone-900 text-xl))")
-  "'user #:content \"user\" #:background 'bg-amber-400 #:hover-background 'hover:bg-amber-600 #:color 'text-stone-900 #:icon-css '(text-stone-900 text-xl)")
+ (pretty-quote
+  "(quote user) #:content \"user\" #:background (quote bg-amber-400) #:hover-background (quote hover:bg-amber-600) #:color (quote text-stone-900) #:icon-css (quote (text-stone-900 text-xl))")
+ "'user #:content \"user\" #:background 'bg-amber-400 #:hover-background 'hover:bg-amber-600 #:color 'text-stone-900 #:icon-css '(text-stone-900 text-xl)")
 
 (test-equal "Multiple occurrences of the same quoted expression"
             (pretty-quote "(quote same) and also (quote same)")

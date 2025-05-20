@@ -19,7 +19,7 @@
   #:use-module (hygguile abstraction)
   #:use-module (hygguile components icon)
   #:use-module (srfi srfi-64)
-  #:export (footer with-footer hr))
+  #:export (footer with-footer hr col row))
 
 (define* (with-footer #:key main footer)
   `((div (@ (class ,(mk-class '(flex flex-col justify-between min-h-screen))))
@@ -44,3 +44,31 @@
                                                 justify-left
                                                 py-10)))))
             ,content)))
+
+(define* (row content
+              #:key (gap 'gap-6)
+              (shadow 'shadow-md)
+              (wrap 'flex-wrap)
+              (padding-y 'py-5)
+              (padding-x 'px-3)
+              (rounding 'rounded-lg)
+              (background '(bg-stone-200/75 dark:bg-stone-900))
+              (items 'items-center))
+  `((div (@ (class ,(mk-class (append '(flex flex-row)
+                                      background
+                                      (list items wrap shadow gap padding-x padding-y rounding)))))
+         ,content)))
+
+(define* (col content
+              #:key (gap 'gap-6)
+              (shadow 'shadow-md)
+              (wrap 'flex-nowrap)
+              (padding-y 'py-5)
+              (padding-x 'px-3)
+              (rounding 'rounded-lg)
+              (background '(bg-stone-200/75 dark:bg-stone-900))
+              (items 'items-center))
+  `((div (@ (class ,(mk-class (append '(flex flex-col)
+                                      background
+                                      (list items wrap shadow gap padding-x padding-y rounding )))))
+         ,content)))
