@@ -15,15 +15,6 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
-(load "./src/hygguile/abstraction.scm")
-(load "./src/hygguile/js.scm")
-(load "./src/hygguile/components/icon.scm")
-(load "./src/hygguile/components/button.scm")
-(load "./src/hygguile/components/select.scm")
-(load "./src/hygguile/components/input.scm")
-(load "./src/hygguile/components/container.scm")
-(load "./src/hygguile/components/typography.scm")
-(load "./src/hygguile/hygguile.scm")
 
 (use-modules (ice-9 string-fun)
              (ice-9 textual-ports)
