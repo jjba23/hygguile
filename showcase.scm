@@ -34,7 +34,6 @@
              (sxml ssax)
              (sxml transform)
              (srfi srfi-13)
-             (srfi srfi-64)
              (hygguile hygguile)
              (uuid generate))
 
@@ -278,25 +277,6 @@ formatting."
 ;; ====== Showcase section ======
 ;;
 
-(define (string-drop-first-last-n s n)
-  (if (> (string-length s) 2)
-
-      (string-take (string-drop s n)
-                   (- (string-length s)
-                      (+ 1 n))) s))
-
-(define (pretty-quote str)
-  (regexp-substitute/global #f
-                            "\\((quote [^)]*)\\)*"
-                            str
-                            'pre
-                            (lambda (m)
-                              
-                              (let* ((mm (string-drop-first-last-n (match:substring
-                                                                    m) 1)))
-                                (string-replace-substring mm "quote " "'")))
-                            'post))
-
 (define (as-example thunk)
   (let* ((tt (with-output-to-string (lambda ()
                                       (write thunk))))
@@ -309,8 +289,8 @@ formatting."
                                                           text-stone-700
                                                           dark:text-stone-200)))
                            (onclick ,(format #f
-                                      "document.getElementById('~a-example').classList.toggle('hidden')"
-                                      uid)))
+                                             "document.getElementById('~a-example').classList.toggle('hidden')"
+                                             uid)))
                         ,(icon #:type 'dots-three
                                #:icon-css '(text-xl))))
            (div (@ (id ,(format #f "~a-example" uid))
@@ -335,8 +315,8 @@ formatting."
                                    #:content "copy"
 
                                    #:on-click (format #f
-                                               "hygguileCopyPreInnerText('~a')"
-                                               uid))))))))
+                                                      "hygguileCopyPreInnerText('~a')"
+                                                      uid))))))))
 
 (define button-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
@@ -510,56 +490,3 @@ formatting."
 >>= successfully built hygguile showcase to destination: dist/index.html
 ")
 
-;; ====== Test ======
-
-(test-begin "pretty-quote tests")
-
-(test-equal "No quoted expressions"
-            (pretty-quote "some text without quotes")
-            "some text without quotes")
-
-(test-equal "Single simple quoted expression"
-            (pretty-quote "(quote user)") "'user")
-
-(test-equal "Multiple simple quoted expressions"
-            (pretty-quote "(quote name) and (quote age)") "'name and 'age")
-
-(test-equal "Quoted expression with spaces"
-            (pretty-quote "(quote some value)") "'some value")
-
-(test-equal "Quoted expression with special characters (excluding ')')'"
-            (pretty-quote "(quote value-with-$&+,./:;=?@_~)")
-            "'value-with-$&+,./:;=?@_~")
-
-(test-equal "Quoted expression with nested parentheses"
-            (pretty-quote "(quote (nested value))") "'(nested value)")
-
-(test-equal "Multiple quoted expressions with different types"
-            (pretty-quote "start (quote item) middle (quote (sub item)) end")
-            "start 'item middle '(sub item) end")
-
-(test-equal "Quoted expression at the beginning of the string"
-            (pretty-quote "(quote first) then more text")
-            "'first then more text")
-
-(test-equal "Quoted expression at the end of the string"
-            (pretty-quote "some text (quote last)") "some text 'last")
-
-(test-equal "Empty quoted expression"
-            (pretty-quote "(quote )") "'")
-
-(test-equal "String with a mix of quoted and non-quoted content"
-            (pretty-quote
-             "prefix (quote data) infix (quote (more data)) suffix")
-            "prefix 'data infix '(more data) suffix")
-
-(test-equal "Real-world like string"
- (pretty-quote
-  "(quote user) #:content \"user\" #:background (quote bg-amber-400) #:hover-background (quote hover:bg-amber-600) #:color (quote text-stone-900) #:icon-css (quote (text-stone-900 text-xl))")
- "'user #:content \"user\" #:background 'bg-amber-400 #:hover-background 'hover:bg-amber-600 #:color 'text-stone-900 #:icon-css '(text-stone-900 text-xl)")
-
-(test-equal "Multiple occurrences of the same quoted expression"
-            (pretty-quote "(quote same) and also (quote same)")
-            "'same and also 'same")
-
-(test-end)

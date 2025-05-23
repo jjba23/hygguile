@@ -17,6 +17,8 @@
 
 # Logging helpers
 
+.PHONY: test
+
 define hygguile-log-info
 	@printf "\n\033[1m[INFO] $(shell date --rfc-3339=seconds) - %s\033[0m\n" $(1)
 endef
@@ -30,11 +32,17 @@ fmt:
 
 # Development REPL
 repl:
-	guix shell -m manifest.scm -- guile --fresh-auto-compile -c '((@ (ares server) run-nrepl-server))'
+	guix shell -m manifest.scm -- \
+		guile -L ./src/hygguile/components \
+		-L ./src/hygguile \
+		-c '((@ (ares server) run-nrepl-server))'
 
 # Unit tests
 test:
-	guix shell -m manifest.scm -- guile --fresh-auto-compile run-tests.scm
+	guix shell -m manifest.scm -- \
+		guile -L ./src/hygguile \
+		-L ./test/hygguile \
+		-c "((@ (hygguile test-runners) run-project-tests))"
 
 serve:
 	darkhttpd ./dist --port 50054
@@ -48,3 +56,14 @@ deploy:
 	make showcase
 	rm -rfv /srv/http/hygguile.jointhefreeworld.org
 	cp -rfv dist /srv/http/hygguile.jointhefreeworld.org
+
+# (use-modules (ice-9 rdelim))
+# (use-modules (srfi srfi-64))
+
+# (define xs
+#   '("src/hygguile/abstraction.scm" "src/hygguile/components/icon.scm"
+#     "src/hygguile/components/button.scm" "src/hygguile/components/input.scm"
+#     "showcase.scm"))
+
+# (for-each (lambda (x)
+#             (load x)) xs)

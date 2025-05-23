@@ -15,13 +15,14 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
-(use-modules (ice-9 rdelim))
-(use-modules (srfi srfi-64))
+(define-module (hygguile components icon-test)
+  #:use-module (srfi srfi-64)
+  #:use-module (hygguile components icon))
 
-(define xs
-  '("src/hygguile/abstraction.scm" "src/hygguile/components/icon.scm"
-    "src/hygguile/components/button.scm" "src/hygguile/components/input.scm"
-    "showcase.scm"))
+(test-begin "icon")
 
-(for-each (lambda (x)
-            (load x)) xs)
+(test-equal "icon is an <i> element"
+  (car (icon #:type "lightbulb"))
+  'i)
+
+(test-end)

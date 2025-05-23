@@ -17,7 +17,6 @@
 
 (define-module (hygguile components input)
   #:use-module (hygguile abstraction)
-  #:use-module (srfi srfi-64)
   #:export (input textarea))
 
 (define* (input #:key label
@@ -72,17 +71,3 @@
                       '(not-required "")))
               ,value)))
 
-;; module tests
-(test-begin "input and textarea")
-
-(test-equal "input has a label"
-            (car (car (cdr (input #:label "hygguile-label"
-                                  #:name "hygguile-name"))))
-            'label)
-
-(test-equal "textarea has a label"
-            (car (car (cdr (textarea #:label "hygguile-label"
-                                     #:name "hygguile-name"))))
-            'label)
-
-(test-end)

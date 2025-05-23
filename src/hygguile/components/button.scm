@@ -19,7 +19,6 @@
   #:use-module (hygguile abstraction)
   #:use-module ((hygguile components icon)
                 #:prefix hyg:)
-  #:use-module (srfi srfi-64)
   #:export (button icon-button submit-button danger-submit-button
                    ui-mode-button))
 
@@ -130,26 +129,4 @@
                    ,(hyg:icon #:type icon
                               #:icon-css icon-css)
                    (span ,content))))))
-
-;; module tests
-(test-begin "buttons")
-
-(test-equal "danger-submit-button returns a valid button"
-            (car (danger-submit-button "hygguile"))
-            'button)
-
-(test-equal "submit-button returns a valid button"
-            (car (submit-button "hygguile"))
-            'button)
-
-(test-equal "icon-button returns a valid button"
-            (car (icon-button #:icon 'lightbulb
-                              #:content "hygguile"))
-            'button)
-
-(test-equal "button returns a valid button"
-            (car (button "hygguile"))
-            'button)
-
-(test-end)
 

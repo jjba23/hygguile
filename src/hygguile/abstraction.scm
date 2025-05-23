@@ -16,9 +16,9 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile abstraction)
-  #:use-module (srfi srfi-64)
   #:use-module (srfi srfi-1)
-  #:export (mk-class render-if-nestring render-if-nempty))
+  #:export (mk-class render-if-nestring render-if-nempty
+                     pretty-quote))
 
 ;; mk-class: Convert a list of symbols into a CSS `class` attribute pair.
 ;;
@@ -47,35 +47,27 @@
 
 (define* (render-if-nempty render-func item)
   (cond
-    ((or (nil? item)
-         (equal? item #f))
-     '())
-    (else (render-func item))))
+   ((or (nil? item)
+        (equal? item #f))
+    '())
+   (else (render-func item))))
 
-;; module tests
-(test-begin "abstraction tests")
 
-(test-equal "mk-class empty list returns empty class string"
-            (mk-class '()) "")
+(define (string-drop-first-last-n s n)
+  (if (> (string-length s) 2)
 
-(test-equal
- "mk-class list of symbols is converted to sorted space-separated string"
- (mk-class '(p-2 my-2 bg-stone-900/75 hover:bg-stone-800))
- "bg-stone-900/75 hover:bg-stone-800 my-2 p-2")
+      (string-take (string-drop s n)
+                   (- (string-length s)
+                      (+ 1 n))) s))
 
-(test-equal "mk-class list of symbols removes duplication"
-            (mk-class '(p-2 my-2 p-2 p-2 my-2)) "my-2 p-2")
-
-(test-equal "mk-class false value returns empty class string"
-            (mk-class #f) "")
-
-(test-equal "render-if-nestring with valid string" "HELLO"
-            (render-if-nestring string-upcase "hello"))
-(test-equal "render-if-nestring with empty string"
-            '()
-            (render-if-nestring string-upcase ""))
-(test-equal "render-if-nestring with #f"
-            '()
-            (render-if-nestring string-upcase #f))
-
-(test-end)
+(define (pretty-quote str)
+  (regexp-substitute/global #f
+                            "\\((quote [^)]*)\\)*"
+                            str
+                            'pre
+                            (lambda (m)
+                              
+                              (let* ((mm (string-drop-first-last-n (match:substring
+                                                                    m) 1)))
+                                (string-replace-substring mm "quote " "'")))
+                            'post))

@@ -18,7 +18,6 @@
 (define-module (hygguile components container)
   #:use-module (hygguile abstraction)
   #:use-module (hygguile components icon)
-  #:use-module (srfi srfi-64)
   #:export (footer with-footer hr col row))
 
 (define* (with-footer #:key main footer)
