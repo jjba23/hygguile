@@ -16,13 +16,14 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile components icon-test)
-  #:use-module (srfi srfi-64)
-  #:use-module (hygguile components icon))
+  #:use-module ((srfi srfi-64)
+                #:hide (define-test))
+  #:use-module (hygguile components icon)
+  #:use-module (hygguile test-utils))
 
-(test-begin "icon")
+(define-test test-icons
+             (test-group "hygguile icons"
+                         (test-equal "icon is an <i> element"
+                                     (car (icon #:type "lightbulb"))
+                                     'i)))
 
-(test-equal "icon is an <i> element"
-  (car (icon #:type "lightbulb"))
-  'i)
-
-(test-end)

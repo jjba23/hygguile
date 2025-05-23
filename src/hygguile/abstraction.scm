@@ -17,8 +17,13 @@
 
 (define-module (hygguile abstraction)
   #:use-module (srfi srfi-1)
-  #:export (mk-class render-if-nestring render-if-nempty
-                     pretty-quote))
+  #:use-module (srfi srfi-13)
+  #:use-module (ice-9 string-fun)
+  #:use-module (ice-9 textual-ports)
+  #:use-module (ice-9 format)
+  #:use-module (ice-9 match)
+  #:use-module (ice-9 regex)
+  #:export (mk-class render-if-nestring render-if-nempty pretty-quote))
 
 ;; mk-class: Convert a list of symbols into a CSS `class` attribute pair.
 ;;
@@ -47,11 +52,10 @@
 
 (define* (render-if-nempty render-func item)
   (cond
-   ((or (nil? item)
-        (equal? item #f))
-    '())
-   (else (render-func item))))
-
+    ((or (nil? item)
+         (equal? item #f))
+     '())
+    (else (render-func item))))
 
 (define (string-drop-first-last-n s n)
   (if (> (string-length s) 2)

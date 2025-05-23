@@ -33,15 +33,15 @@ fmt:
 # Development REPL
 repl:
 	guix shell -m manifest.scm -- \
-		guile -L ./src/hygguile/components \
-		-L ./src/hygguile \
+		guile \
+		-L ./src \
 		-c '((@ (ares server) run-nrepl-server))'
 
 # Unit tests
 test:
 	guix shell -m manifest.scm -- \
-		guile -L ./src/hygguile \
-		-L ./test/hygguile \
+		guile -L ./src \
+		-L ./test \
 		-c "((@ (hygguile test-runners) run-project-tests))"
 
 serve:

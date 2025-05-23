@@ -157,10 +157,8 @@ using LOAD-FILE procedure, which accepts path and relative to %load-path path."
         path
         (lambda (file-path _ flags _1 _2)
           (when (eq? flags 'regular)
-            (define relative-path
-              (string-drop file-path (1+ (string-length path))))
             (when (string-match test-file-pattern file-path)
-              (load-file file-path relative-path)))
+              (load-file file-path (string-drop file-path (1+ (string-length path))))))
           #t)))
      %load-path)))
 
@@ -187,7 +185,7 @@ using LOAD-FILE procedure, which accepts path and relative to %load-path path."
            test-modules)))
   runner)
 
-;; (test-runner-summary (run-project-tests))
+
 (define (run-project-tests-cli)
   (let* ((summary (test-runner-summary (run-project-tests)))
          (fail-count (assoc-ref summary 'fail)))
@@ -208,55 +206,4 @@ using LOAD-FILE procedure, which accepts path and relative to %load-path path."
   runner)
 
 
-;; (format #t "~y" (all-test-modules))
 
-;; (load-project-tests)
-
-;; (set! %previous-runner (run-project-tests))
-;; (rerun-tests %previous-runner
-;;              #:filter-fn (lambda (x) (equal? 'fail (assoc-ref x 'status))))
-
-;; (module-clear! (resolve-module '(rde serializers nginx-test)))
-;; (get-module-tests (resolve-module '(rde serializers nginx-test)))
-
-;; (run-module-tests (resolve-module '(rde serializers nginx-test)))
-
-;; (use-modules (ice-9 pretty-print))
-
-;; (rerun-tests %previous-runner)
-;; (define prev-runner (test-runner-default))
-
-;; (let ((runner %previous-runner))
-;;   (run-module-tests
-;;    (resolve-module '(rde serializers nginx-test))
-;;    #:runner runner)
-;;   (pretty-print (test-runner-test-results runner)))
-
-;; (re-run-failed-tests prev-runner)
-
-;; https://www.mail-archive.com/geiser-users%40nongnu.org/msg00323.html
-;; https://rednosehacker.com/revisiting-guile-xunit
-
-;; Test runners:
-;; https://github.com/aconchillo/guile-json/blob/master/tests/runner.scm
-;; https://luis-felipe.gitlab.io/guile-proba/
-;; https://git.systemreboot.net/run64/tree/bin/run64
-;; https://framagit.org/Jeko/guile-spec
-
-;; Common lisp testing frameworks:
-;; https://sabracrolleton.github.io/testing-framework
-
-;; Clojure testing libraries:
-;; https://jakemccrary.com/blog/2014/06/22/comparing-clojure-testing-libraries-output/
-
-;; Scheme testing libraries:
-;; https://github.com/tali713/mit-scheme/blob/master/tests/unit-testing.scm
-;; https://code.call-cc.org/svn/chicken-eggs/release/5/test/trunk/test.scm
-
-;; TODO:
-;; - Make test-assert to show line, where it fails.
-;; - Implement test-match, which uses ice-9 match like patterns and provides
-;;   meaningful report.
-
-
-;; https://docs.racket-lang.org/rackunit/api.html
