@@ -31,7 +31,8 @@
                         submit-button
                         danger-submit-button
                         ui-mode-button
-                        toggle-dark-theme-js copy-pre-inner-text-js
+                        toggle-dark-theme-js
+                        copy-pre-inner-text-js
                         remember-dark-theme-js
                         col
                         row
@@ -43,6 +44,7 @@
                         textarea
                         option
                         glyph-option
+                        select
                         h1
                         h2
                         h3

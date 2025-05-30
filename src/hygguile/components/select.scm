@@ -17,7 +17,7 @@
 
 (define-module (hygguile components select)
   #:use-module (hygguile abstraction)
-  #:export (option glyph-option))
+  #:export (option glyph-option select))
 
 (define* (option #:key value
                  (content #f)
@@ -41,3 +41,19 @@
                             (span ,glyph)
                             (span ,(if (not (equal? #f content)) content value))))))
 
+(define* (select #:key options on-change name id)
+  `((div (@ (class ,(mk-class '(flex flex-col gap-2 w-min))))
+         (select (@ (onchange ,on-change)
+                    (name ,name)
+                    (id ,id)
+                    (class ,(mk-class '(p-3 border-2
+                                            border-stone-200
+                                            dark:border-stone-700
+                                            bg-stone-300/75
+                                            dark:bg-stone-900
+                                            text-stone-800
+                                            dark:text-stone-300
+                                            text-md
+                                            rounded-xl
+                                            shadow-md))))
+                 ,options))))

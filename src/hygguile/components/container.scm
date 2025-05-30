@@ -54,9 +54,14 @@
               (rounding 'rounded-lg)
               (background '(bg-stone-200/75 dark:bg-stone-900))
               (items 'items-center))
-  `((div (@ (class ,(mk-class (append '(flex flex-row)
-                                      background
-                                      (list items wrap shadow gap padding-x padding-y rounding)))))
+  `((div (@ (class ,(mk-class (append '(flex flex-row) background
+                                      (list items
+                                            wrap
+                                            shadow
+                                            gap
+                                            padding-x
+                                            padding-y
+                                            rounding)))))
          ,content)))
 
 (define* (col content
@@ -68,7 +73,12 @@
               (rounding 'rounded-lg)
               (background '(bg-stone-200/75 dark:bg-stone-900))
               (items 'items-center))
-  `((div (@ (class ,(mk-class (append '(flex flex-col)
-                                      background
-                                      (list items wrap shadow gap padding-x padding-y rounding )))))
+  `((div (@ (class ,(mk-class (append '(flex flex-col) background
+                                      (list items
+                                            wrap
+                                            shadow
+                                            gap
+                                            padding-x
+                                            padding-y
+                                            rounding)))))
          ,content)))

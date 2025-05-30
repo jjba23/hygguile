@@ -24,7 +24,8 @@
                    ui-mode-button))
 
 (define* (button content
-                 #:key (type 'button)
+                 #:key id
+                 (type 'button)
                  (background '(bg-stone-600/90 dark:bg-stone-500/90))
                  (hover-background '(hover:bg-stone-800/90
                                      dark:hover:bg-stone-700))
@@ -32,6 +33,7 @@
                  (border-color '(border-stone-700/75))
                  (shadow 'shadow-md)
                  (color '(text-stone-100))
+                 (hidden #f)
                  (rounding 'rounded-2xl)
                  (on-click ""))
   (let ((button-css (append '(py-2 px-3
@@ -46,14 +48,18 @@
                             border-color
                             (list rounding shadow border-size))))
     `(button (@ (type ,(symbol->string type))
+                (id ,id)
                 (class ,(mk-class button-css))
+                ,(if hidden
+                     '(hidden "")
+                     '(visible ""))
                 (onclick ,on-click))
              ,content)))
 
-(define* (icon-button #:key icon
+(define* (icon-button #:key id
+                      icon
                       content
                       (type 'button)
-
                       (background '(bg-stone-600/90 dark:bg-stone-500/90))
                       (hover-background '(hover:bg-stone-800/90
                                           dark:hover:bg-stone-700))
@@ -61,7 +67,7 @@
                       (border-color '(border-stone-700/75))
                       (shadow 'shadow-md)
                       (color '(text-stone-100))
-
+                      (hidden #f)
                       (on-click "")
                       (rounding 'rounded-2xl)
                       (icon-css '(text-stone-100 dark:text-stone-100 text-xl)))
@@ -77,8 +83,12 @@
                             border-color
                             (list rounding border-size shadow))))
     `(button (@ (onclick ,on-click)
+                (id ,id)
                 (type ,(symbol->string type))
-                (class ,(mk-class button-css)))
+                (class ,(mk-class button-css))
+                ,(if hidden
+                     '(hidden "")
+                     '(visible "")))
              (div (@ (class ,(mk-class '(flex flex-row gap-1 items-center))))
                   ,(hyg:icon #:type icon
                              #:icon-css icon-css)
@@ -110,8 +120,7 @@
                          (foreground '(text-stone-100))
                          (on-click "hygguileToggleDarkTheme()")
                          (rounding 'rounded-2xl)
-                         (icon-css '(text-stone-100 
-                                     text-xl)))
+                         (icon-css '(text-stone-100 text-xl)))
   (let ((button-css (append border-color background hover-background
                             foreground
                             `(py-2 px-3

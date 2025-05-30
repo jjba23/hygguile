@@ -133,7 +133,7 @@
             (href #f))
   `((a (@ (href ,(if (not href) content href))
           (class ,(mk-class (append color hover
-                                    (list size  weight)))))
+                                    (list size weight)))))
        ,content)))
 
 (define* (mono content
