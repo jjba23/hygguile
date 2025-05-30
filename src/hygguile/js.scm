@@ -16,7 +16,6 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile js)
-  #:use-module (srfi srfi-64)
   #:export (toggle-dark-theme-js copy-pre-inner-text-js remember-dark-theme-js))
 
 (define toggle-dark-theme-js

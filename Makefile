@@ -17,6 +17,8 @@
 
 # Logging helpers
 
+.PHONY: test
+
 define hygguile-log-info
 	@printf "\n\033[1m[INFO] $(shell date --rfc-3339=seconds) - %s\033[0m\n" $(1)
 endef
@@ -30,18 +32,24 @@ fmt:
 
 # Development REPL
 repl:
-	guix shell -m manifest.scm -- guile --fresh-auto-compile -c '((@ (ares server) run-nrepl-server))'
+	guix shell -m manifest.scm -- \
+		guile \
+		-L ./src \
+		-c '((@ (ares server) run-nrepl-server))'
 
 # Unit tests
 test:
-	guix shell -m manifest.scm -- guile --fresh-auto-compile run-tests.scm
+	guix shell -m manifest.scm -- \
+		guile -L ./src \
+		-L ./test \
+		-c "((@ (hygguile test-runners) run-project-tests))"
 
 serve:
 	darkhttpd ./dist --port 50054
 showcase:
 	rm -rf dist && mkdir -p dist
 	cp -rf resources/ttf dist/ttf
-	guix shell -m manifest.scm -- guile --fresh-auto-compile showcase.scm
+	guix shell -m manifest.scm -- guile -L ./src showcase.scm
 dev:
 	watchexec -i "dist/**" -r -e scm,css,js -- "make showcase && make serve"
 deploy:

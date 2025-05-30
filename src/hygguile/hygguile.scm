@@ -30,6 +30,7 @@
                         icon-button
                         submit-button
                         danger-submit-button
+                        pretty-quote
                         ui-mode-button
                         toggle-dark-theme-js
                         copy-pre-inner-text-js
