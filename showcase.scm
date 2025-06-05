@@ -15,7 +15,6 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
-
 (use-modules (ice-9 string-fun)
              (ice-9 textual-ports)
              (ice-9 format)
@@ -41,8 +40,7 @@
                         (assoc-set! lib f min-contents)))) assets) lib))
 
 (define-public asset-library
-  (load-assets '("resources/css/phosphor.css"
-                 "resources/js/tailwind.js")))
+  (load-assets '("resources/css/phosphor.css" "resources/js/tailwind.js")))
 
 ;; ====== Serialize (SXML) ======
 
@@ -280,8 +278,8 @@ formatting."
                                                           text-stone-700
                                                           dark:text-stone-200)))
                            (onclick ,(format #f
-                                             "document.getElementById('~a-example').classList.toggle('hidden')"
-                                             uid)))
+                                      "document.getElementById('~a-example').classList.toggle('hidden')"
+                                      uid)))
                         ,(icon #:type 'dots-three
                                #:icon-css '(text-xl))))
            (div (@ (id ,(format #f "~a-example" uid))
@@ -306,8 +304,8 @@ formatting."
                                    #:content "copy"
 
                                    #:on-click (format #f
-                                                      "hygguileCopyPreInnerText('~a')"
-                                                      uid))))))))
+                                               "hygguileCopyPreInnerText('~a')"
+                                               uid))))))))
 
 (define button-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
@@ -401,7 +399,14 @@ formatting."
             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-3
                                              align-center items-center))))
                  ,(em "find the source code here:")
-                 ,(a "https://codeberg.org/jjba23/hygguile")))))
+                 ,(a "https://codeberg.org/jjba23/hygguile"))
+            (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
+                                             align-center items-center))))
+                 ,(em "version:")
+                 ,(mono (format #f "~a"
+                                (get-short-commit-sha))
+                        #:size 'text-sm
+                        #:weight 'font-light)))))
 
 (define settings-section
   `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
@@ -438,9 +443,15 @@ formatting."
 (define* (html-template #:key title body)
   `("<!DOCTYPE html>" (html (@ (lang en))
                             (head (title ,title)
-                                  (link (@(rel preconnect)(href "https://fonts.googleapis.com")))
-                                  (link (@(rel preconnect)(href "https://fonts.gstatic.com")(crossorigin "")))
-                                  (link (@(rel stylesheet)(href "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap")))
+                                  (link (@ (rel preconnect)
+                                           (href
+                                            "https://fonts.googleapis.com")))
+                                  (link (@ (rel preconnect)
+                                           (href "https://fonts.gstatic.com")
+                                           (crossorigin "")))
+                                  (link (@ (rel stylesheet)
+                                           (href
+                                            "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap")))
                                   (style ,(assoc-ref asset-library
                                            "resources/css/phosphor.css"))
                                   (style (@ (type "text/tailwindcss"))
@@ -481,5 +492,4 @@ formatting."
  "
 >>= successfully built hygguile showcase to destination: dist/index.html
 ")
-
 
