@@ -1,6 +1,6 @@
 steps:
   update-jointhefreeworld:
-    image: debian
+    image: curlimages/curl
     when:
       - event: [push]
         branch: [trunk]        
