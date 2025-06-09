@@ -23,7 +23,8 @@
   #:use-module (ice-9 format)
   #:use-module (ice-9 match)
   #:use-module (ice-9 regex)
-  #:export (mk-class render-if-nestring render-if-nempty pretty-quote))
+  #:export (mk-class render-if-nestring render-if-nempty pretty-quote
+                     syscall get-short-commit-sha))
 
 ;; mk-class: Convert a list of symbols into a CSS `class` attribute pair.
 ;;
@@ -75,3 +76,11 @@
                                                                     m) 1)))
                                 (string-replace-substring mm "quote " "'")))
                             'post))
+
+(define (syscall cmd)
+  (let* ((process (open-input-pipe cmd))
+         (process-output (get-string-all process)))
+    (close-pipe process) process-output))
+
+(define (get-short-commit-sha)
+  (syscall "git log --pretty=format:'%h' -n 1"))
