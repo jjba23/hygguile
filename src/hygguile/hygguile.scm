@@ -34,6 +34,7 @@
                         ui-mode-button
                         toggle-dark-theme-js
                         copy-pre-inner-text-js
+                        get-short-commit-sha
                         remember-dark-theme-js
                         col
                         row
