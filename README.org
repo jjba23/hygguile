@@ -10,7 +10,9 @@
 
 /cozy and professional user-interfaces for everyone/
 
-SXML and TailwindCSS UI component library for Lisp (Guile Scheme) software projects.
+Hygguile is a library that allows you to create cozy web user-interfaces using Guile Scheme, by defining an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and TailwindCSS.
+
+The project aims to provide reusable, professional-looking and accessible web components, whose names resemble the HTML counterparts, thus easing the learning curve, and reducing the cognitive load.
 
 /hygge + guile = hygguile/
 
@@ -108,10 +110,9 @@ See the [[file:Makefile][Makefile]] for more details and common tasks.
 To install it you can download the source code files and add them to your ~GUILE_LOAD_PATH~ or even better, use a Guix shell ~manifest.scm~ and add the package with something like this:
 
 #+begin_src scheme
-(define-public guile-hygguile
-  (package
+(package
     (name "guile-hygguile")
-    (version "0.3.6")
+    (version "0.5.4")
     (source
      (origin
        (method git-fetch)
@@ -120,21 +121,23 @@ To install it you can download the source code files and add them to your ~GUILE
              (commit (string-append "v" version))))
        (file-name (git-file-name name version))
        (sha256
-        (base32 "1zjlxv5z67g8p0zl8357nvsd7rdwqq50v0dpcjc37jy272zch494"))))
+        (base32 "0mjcjmd2hi0009lpniacqmqgyl9wgm447dsfcpz4bljjiy6hi6pn"))))
     (build-system guile-build-system)
     (native-inputs (list guile-3.0))
     (arguments
      (list
       #:source-directory "src"))
     (home-page "https://codeberg.org/jjba23/hygguile")
-    (synopsis
-     "SXML and TailwindCSS UI component library for Lisp (Guile Scheme) software projects")
+    (synopsis "Web UI component library for Guile Scheme projects")
     (description
-     "Cozy and professional user-interfaces for everyone.
-        SXML and TailwindCSS UI component library for Lisp (Guile Scheme) software projects.
-        hygge + guile = hygguile")
-    (license license:lgpl3+)))
+     "Hygguile is a library that allows you to create cozy web user-interfaces
+using Guile Scheme, by defining an expressive domain-specific language (DSL),
+and by leveraging the power of S-expressions, SXML and TailwindCSS.
 
+The project aims to provide reusable, professional-looking and accessible
+web components, whose names resemble the HTML counterparts, thus
+easing the learning curve, and reducing the cognitive load.")
+    (license license:lgpl3+))
 #+end_src
 
 
