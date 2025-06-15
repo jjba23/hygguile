@@ -20,7 +20,7 @@
   #:use-module ((hygguile components icon)
                 #:prefix hyg:)
   #:export (button icon-button submit-button danger-submit-button
-                   ui-mode-button))
+                   ui-mode-button light-button mono-button))
 
 (define* (button content
                  #:key id
@@ -32,6 +32,9 @@
                  (border-color '(border-stone-700/75))
                  (shadow 'shadow-md)
                  (color '(text-stone-100))
+                 (size 'text-sm)
+                 (family 'font-sans)
+                 (weight 'font-bold)
                  (hidden #f)
                  (rounding 'rounded-2xl)
                  (on-click ""))
@@ -43,6 +46,9 @@
                                    cursor-pointer)
                             color
                             background
+                            size
+                            family
+                            weight
                             hover-background
                             border-color
                             (list rounding shadow border-size))))
@@ -65,22 +71,25 @@
                       (border-size 'border-2)
                       (border-color '(border-stone-700/75))
                       (shadow 'shadow-md)
+                      (size 'text-sm)
+                      (family 'font-sans)
+                      (weight 'font-bold)
                       (color '(text-stone-100))
                       (hidden #f)
                       (on-click "")
                       (rounding 'rounded-2xl)
                       (icon-css '(text-stone-100 dark:text-stone-100 text-xl)))
-  (let ((button-css (append '(py-2 px-3
-                                   max-w-prose
-                                   font-bold
-                                   cursor-pointer
-                                   font-sans
-                                   text-sm)
+  (let ((button-css (append '(py-2 px-3 max-w-prose cursor-pointer)
                             color
                             hover-background
                             background
                             border-color
-                            (list rounding border-size shadow))))
+                            (list size
+                                  rounding
+                                  border-size
+                                  shadow
+                                  family
+                                  weight))))
     `(button (@ (onclick ,on-click)
                 (id ,id)
                 (type ,(symbol->string type))
@@ -107,6 +116,14 @@
           #:color '(text-stone-200)
           #:hover-background '(hover:bg-red-900)))
 
+(define* (mono-button content)
+  (button content
+          #:family 'font-mono))
+
+(define* (light-button content)
+  (button content
+          #:weight 'font-light))
+
 (define* (ui-mode-button #:key (icon 'faders)
                          (content "ui mode")
                          (type 'button)
@@ -116,21 +133,29 @@
                          (border-size 'border-2)
                          (border-color '(border-stone-700/75))
                          (shadow 'shadow-md)
+                         (size 'text-sm)
+                         (family 'font-sans)
+                         (weight 'font-bold)
                          (foreground '(text-stone-100))
                          (on-click "hygguileToggleDarkTheme()")
                          (rounding 'rounded-2xl)
                          (icon-css '(text-stone-100 text-xl)))
-  (let ((button-css (append border-color background hover-background
+  (let ((button-css (append border-color
+                            background
+                            hover-background
                             foreground
+                            border-size
+                            shadow
+                            size
+                            family
+                            weight
                             `(py-2 px-3
                                    ,rounding
                                    max-w-prose
                                    font-bold
                                    cursor-pointer
                                    font-sans
-                                   text-sm
-                                   ,border-size
-                                   ,shadow))))
+                                   text-sm))))
     `((button (@ (onclick ,on-click)
                  (type ,(symbol->string type))
                  (class ,(mk-class button-css)))

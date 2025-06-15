@@ -35,6 +35,8 @@
                         toggle-dark-theme-js
                         copy-pre-inner-text-js
                         get-short-commit-sha
+                        light-button
+                        mono-button
                         remember-dark-theme-js
                         col
                         row
