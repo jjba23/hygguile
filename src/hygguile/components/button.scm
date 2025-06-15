@@ -19,8 +19,12 @@
   #:use-module (hygguile abstraction)
   #:use-module ((hygguile components icon)
                 #:prefix hyg:)
-  #:export (button icon-button submit-button danger-submit-button
-                   ui-mode-button light-button mono-button))
+  #:export (button icon-button
+                   submit-button
+                   danger-submit-button
+                   ui-mode-button
+                   light-button
+                   mono-button))
 
 (define* (button content
                  #:key id
@@ -40,18 +44,17 @@
                  (on-click ""))
   (let ((button-css (append '(py-2 px-3
                                    max-w-prose
-                                   font-bold
-                                   font-sans
-                                   text-sm
                                    cursor-pointer)
                             color
                             background
-                            size
-                            family
-                            weight
                             hover-background
                             border-color
-                            (list rounding shadow border-size))))
+                            (list rounding
+                                  shadow
+                                  border-size
+                                  size
+                                  family
+                                  weight))))
     `(button (@ (type ,(symbol->string type))
                 (id ,id)
                 (class ,(mk-class button-css))
@@ -144,18 +147,10 @@
                             background
                             hover-background
                             foreground
-                            border-size
-                            shadow
-                            size
-                            family
-                            weight
+                            (list size shadow family weight border-size rounding)
                             `(py-2 px-3
-                                   ,rounding
                                    max-w-prose
-                                   font-bold
-                                   cursor-pointer
-                                   font-sans
-                                   text-sm))))
+                                   cursor-pointer))))
     `((button (@ (onclick ,on-click)
                  (type ,(symbol->string type))
                  (class ,(mk-class button-css)))
