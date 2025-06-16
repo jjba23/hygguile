@@ -44,6 +44,7 @@
                         with-footer
                         hr
                         icon
+                        dl dd dt
                         input
                         textarea
                         option

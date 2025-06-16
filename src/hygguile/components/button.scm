@@ -29,32 +29,31 @@
 (define* (button content
                  #:key id
                  (type 'button)
+                 (hidden #f)
+                 (on-click "")
                  (background '(bg-stone-600/90 dark:bg-stone-500/90))
                  (hover-background '(hover:bg-stone-800/90
                                      dark:hover:bg-stone-700))
-                 (border-size 'border-2)
+                 (border-size '(border-2))
                  (border-color '(border-stone-700/75))
-                 (shadow 'shadow-md)
+                 (shadow '(shadow-md))
                  (color '(text-stone-100))
-                 (size 'text-sm)
-                 (family 'font-sans)
-                 (weight 'font-bold)
-                 (hidden #f)
-                 (rounding 'rounded-2xl)
-                 (on-click ""))
-  (let ((button-css (append '(py-2 px-3
-                                   max-w-prose
-                                   cursor-pointer)
+                 (size '(text-sm))
+                 (family '(font-sans))
+                 (weight '(font-bold))
+                 (rounding '(rounded-2xl))
+                 (extra-classes '(py-2 px-3 max-w-prose cursor-pointer)))
+  (let ((button-css (append extra-classes
                             color
                             background
                             hover-background
                             border-color
-                            (list rounding
-                                  shadow
-                                  border-size
-                                  size
-                                  family
-                                  weight))))
+                            rounding
+                            shadow
+                            border-size
+                            size
+                            family
+                            weight)))
     `(button (@ (type ,(symbol->string type))
                 (id ,id)
                 (class ,(mk-class button-css))
@@ -67,32 +66,35 @@
 (define* (icon-button #:key id
                       icon
                       content
+                      (hidden #f)
+                      (on-click "")
                       (type 'button)
                       (background '(bg-stone-600/90 dark:bg-stone-500/90))
                       (hover-background '(hover:bg-stone-800/90
                                           dark:hover:bg-stone-700))
-                      (border-size 'border-2)
+                      (border-size '(border-2))
                       (border-color '(border-stone-700/75))
-                      (shadow 'shadow-md)
-                      (size 'text-sm)
-                      (family 'font-sans)
-                      (weight 'font-bold)
+                      (shadow '(shadow-md))
+                      (size '(text-sm))
+                      (family '(font-sans))
+                      (weight '(font-bold))
                       (color '(text-stone-100))
-                      (hidden #f)
-                      (on-click "")
-                      (rounding 'rounded-2xl)
-                      (icon-css '(text-stone-100 dark:text-stone-100 text-xl)))
-  (let ((button-css (append '(py-2 px-3 max-w-prose cursor-pointer)
+                      (rounding '(rounded-2xl))
+                      (icon-css '(text-stone-100 dark:text-stone-100 text-xl))
+                      (extra-classes '(py-2 px-3 max-w-prose cursor-pointer))
+                      (icon-text-container-classes '(flex flex-row gap-1
+                                                          items-center)))
+  (let ((button-css (append extra-classes
                             color
                             hover-background
                             background
                             border-color
-                            (list size
-                                  rounding
-                                  border-size
-                                  shadow
-                                  family
-                                  weight))))
+                            size
+                            rounding
+                            border-size
+                            shadow
+                            family
+                            weight)))
     `(button (@ (onclick ,on-click)
                 (id ,id)
                 (type ,(symbol->string type))
@@ -100,7 +102,7 @@
                 ,(if hidden
                      '(hidden "")
                      '(visible "")))
-             (div (@ (class ,(mk-class '(flex flex-row gap-1 items-center))))
+             (div (@ (class ,(mk-class icon-text-container-classes)))
                   ,(hyg:icon #:type icon
                              #:icon-css icon-css)
                   (span ,content)))))
@@ -133,28 +135,34 @@
                          (background '(bg-stone-600/90 dark:bg-stone-500/90))
                          (hover-background '(hover:bg-stone-800/90
                                              dark:hover:bg-stone-700))
-                         (border-size 'border-2)
+                         (border-size '(border-2))
                          (border-color '(border-stone-700/75))
-                         (shadow 'shadow-md)
-                         (size 'text-sm)
-                         (family 'font-sans)
-                         (weight 'font-bold)
+                         (shadow '(shadow-md))
+                         (size '(text-sm))
+                         (family '(font-sans))
+                         (weight '(font-bold))
                          (foreground '(text-stone-100))
                          (on-click "hygguileToggleDarkTheme()")
-                         (rounding 'rounded-2xl)
-                         (icon-css '(text-stone-100 text-xl)))
+                         (rounding '(rounded-2xl))
+                         (icon-css '(text-stone-100 text-xl))
+                         (extra-classes '(py-2 px-3 max-w-prose cursor-pointer))
+                         (icon-text-container-classes '(flex flex-row gap-1
+                                                             items-center)))
   (let ((button-css (append border-color
                             background
                             hover-background
                             foreground
-                            (list size shadow family weight border-size rounding)
-                            `(py-2 px-3
-                                   max-w-prose
-                                   cursor-pointer))))
+                            size
+                            shadow
+                            family
+                            weight
+                            border-size
+                            rounding
+                            extra-classes)))
     `((button (@ (onclick ,on-click)
                  (type ,(symbol->string type))
                  (class ,(mk-class button-css)))
-              (div (@ (class ,(mk-class '(flex flex-row gap-1 items-center))))
+              (div (@ (class ,(mk-class icon-text-container-classes)))
                    ,(hyg:icon #:type icon
                               #:icon-css icon-css)
                    (span ,content))))))

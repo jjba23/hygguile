@@ -20,12 +20,12 @@
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:use-module (ice-9 textual-ports)
-  #:use-module (ice-9 popen)  
+  #:use-module (ice-9 popen)
   #:use-module (ice-9 format)
   #:use-module (ice-9 match)
   #:use-module (ice-9 regex)
-  #:export (mk-class render-if-nestring render-if-nempty pretty-quote
-                     syscall get-short-commit-sha))
+  #:export (mk-class render-if-nestring render-if-nempty pretty-quote syscall
+                     get-short-commit-sha))
 
 ;; mk-class: Convert a list of symbols into a CSS `class` attribute pair.
 ;;

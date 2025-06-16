@@ -405,8 +405,8 @@ formatting."
                  ,(em "version:")
                  ,(mono (format #f "~a"
                                 (get-short-commit-sha))
-                        #:size 'text-sm
-                        #:weight 'font-light)))))
+                        #:size '(text-sm)
+                        #:weight '(font-light))))))
 
 (define settings-section
   `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
@@ -420,6 +420,14 @@ formatting."
                  ,(p "third element")))
          ,(col `(,(p "first element") ,(p "second element")
                  ,(p "third element"))))))
+
+(define dl-section
+  `((div ,(dl (list (dt "foo:")
+                    (dd "bar")
+                    (dt "abcdefghij:")
+                    (dd "1234567890")
+                    (dt "some key:")
+                    (dd "some value"))))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
@@ -437,6 +445,8 @@ formatting."
                              ,(hr)
                              ,forms-section
                              ,(hr)
+                             ,dl-section
+                             ,(hr)
                              ,containers-section))
                #:footer footer))
 
@@ -452,10 +462,10 @@ formatting."
                                   (link (@ (rel stylesheet)
                                            (href
                                             "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap")))
-                                    (link (@ (rel stylesheet)
-                                             (type text/css)
-                                             (href
-                                              "https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css")))
+                                  (link (@ (rel stylesheet)
+                                           (type text/css)
+                                           (href
+                                            "https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css")))
                                   (style (@ (type "text/tailwindcss"))
                                    "
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));

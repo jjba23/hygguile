@@ -31,29 +31,34 @@
       (else `(option (@ (value ,value))
                      ,option-content)))))
 
-(define* (glyph-option #:key value glyph
+(define* (glyph-option #:key value
+                       glyph
                        (content #f)
-                       (selected-value #f))
-  (let ((option-flex-css '(flex gap-1)))
-    (option #:value value
-            #:selected-value selected-value
-            #:content `(div (@ (class ,(mk-class option-flex-css)))
-                            (span ,glyph)
-                            (span ,(if (not (equal? #f content)) content value))))))
+                       (selected-value #f)
+                       (option-flex-css '(flex gap-1)))
+  (option #:value value
+          #:selected-value selected-value
+          #:content `(div (@ (class ,(mk-class option-flex-css)))
+                          (span ,glyph)
+                          (span ,(if (not (equal? #f content)) content value)))))
 
-(define* (select #:key options on-change name id)
+(define* (select #:key options
+                 on-change
+                 name
+                 id
+                 (select-classes '(p-3 border-2
+                                       border-stone-200
+                                       dark:border-stone-700
+                                       bg-stone-300/75
+                                       dark:bg-stone-900
+                                       text-stone-800
+                                       dark:text-stone-300
+                                       text-md
+                                       rounded-xl
+                                       shadow-md)))
   `((div (@ (class ,(mk-class '(flex flex-col gap-2 w-min))))
          (select (@ (onchange ,on-change)
                     (name ,name)
                     (id ,id)
-                    (class ,(mk-class '(p-3 border-2
-                                            border-stone-200
-                                            dark:border-stone-700
-                                            bg-stone-300/75
-                                            dark:bg-stone-900
-                                            text-stone-800
-                                            dark:text-stone-300
-                                            text-md
-                                            rounded-xl
-                                            shadow-md))))
+                    (class ,(mk-class select-classes)))
                  ,options))))
