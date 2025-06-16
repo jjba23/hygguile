@@ -429,6 +429,7 @@ formatting."
                     (dt "some key:")
                     (dd "some value"))))))
 
+
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
                                                          mx-auto))))
