@@ -429,6 +429,16 @@ formatting."
                     (dt "some key:")
                     (dd "some value"))))))
 
+(define trigger-notifications-section
+  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
+         ,(button "trigger simple notification"
+                  #:on-click (trigger-notification-function-js #:title
+                              "You are notified!"))
+         ,(button "trigger full notification"
+                  #:on-click (trigger-notification-function-js #:title
+                              "Notified succesfully!"
+                              #:body
+                              "The reason we notified you like this is to showcase the possibilities that hygguile offers for easy and convenient, good-looking notifications.")))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
@@ -448,7 +458,9 @@ formatting."
                              ,(hr)
                              ,dl-section
                              ,(hr)
-                             ,containers-section))
+                             ,containers-section
+                             ,(hr)
+                             ,trigger-notifications-section))
                #:footer footer))
 
 (define* (html-template #:key title body)
@@ -484,9 +496,11 @@ formatting."
                                             "resources/js/tailwind.js"))
                                   (script ,toggle-dark-theme-js)
                                   (script ,copy-pre-inner-text-js)
+                                  (script ,show-notifications-from-url-js)
                                   (script ,remember-dark-theme-js))
                             (body (@ (class ,(mk-class '(bg-white
                                                          dark:bg-stone-800)))))
+                            ,notification-tray
                             ,@body)))
 
 (define (showcase)

@@ -16,7 +16,9 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile js)
-  #:export (toggle-dark-theme-js copy-pre-inner-text-js remember-dark-theme-js))
+  #:export (toggle-dark-theme-js copy-pre-inner-text-js remember-dark-theme-js
+                                 show-notification-from-url-js
+                                 trigger-notification-function-js))
 
 (define toggle-dark-theme-js
   "
@@ -65,5 +67,31 @@ document.addEventListener('DOMContentLoaded', () => {
   } else if (themePreference === 'light') {
     document.documentElement.setAttribute('data-theme', 'light')
   }
+})
+")
+
+(define* (trigger-notification-function-js #:key (title "")
+                                           (body "")
+                                           (duration 8))
+  (format #f "
+(() => {
+  const params = new URLSearchParams(window.location.search);
+  params.set('notify-title', `~a`)
+  params.set('notify-body', `~a`)
+  params.set('notify-duration', ~a)
+  window.location.search = params;
+})()
+"
+          title body duration))
+
+(define* show-notifications-from-url-js
+  "
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const notificationTitle = params.get('notify-title', `~a`)
+    const notificationBody = params.get('notify-body', `~a`)
+    const notificationDuration = params.get('notify-duration', ~a)
+    const notification = `<div><h4>${notificationTitle}</h4><p>${notificationBody}</p></div>`
+    document.getElementById('notification-tray').innerHTML = notification
 })
 ")

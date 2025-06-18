@@ -23,6 +23,7 @@
   #:use-module (hygguile components icon)
   #:use-module (hygguile components input)
   #:use-module (hygguile components select)
+  #:use-module (hygguile components notification)  
   #:use-module (hygguile components typography)
   #:re-export (mk-class render-if-nestring
                         render-if-nempty
@@ -37,6 +38,9 @@
                         get-short-commit-sha
                         light-button
                         mono-button
+                        trigger-notification-function-js
+                        notification-tray
+                        show-notifications-from-url-js
                         remember-dark-theme-js
                         col
                         row
