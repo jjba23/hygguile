@@ -66,8 +66,6 @@ With it you can get neat HTML output:
 ;; <p class="bg-stone-200 my-2 p-2">Some paragraph</p>  
 #+end_src
 
-[[https://jointhefreeworld.org/static-assets/hygguile/hygguile-small.jpg]]
-
 
 --------
 
@@ -193,3 +191,5 @@ Find here the Backlog and Kanban boards for hygguile: https://lucidplan.jointhef
 
 -----
 
+
+[[https://jointhefreeworld.org/static-assets/hygguile/hygguile-small.jpg]]
