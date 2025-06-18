@@ -17,7 +17,7 @@
 
 (define-module (hygguile js)
   #:export (toggle-dark-theme-js copy-pre-inner-text-js remember-dark-theme-js
-                                 show-notification-from-url-js
+                                 show-notifications-from-url-js
                                  trigger-notification-function-js))
 
 (define toggle-dark-theme-js
@@ -88,10 +88,18 @@ document.addEventListener('DOMContentLoaded', () => {
   "
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
-    const notificationTitle = params.get('notify-title', `~a`)
-    const notificationBody = params.get('notify-body', `~a`)
-    const notificationDuration = params.get('notify-duration', ~a)
-    const notification = `<div><h4>${notificationTitle}</h4><p>${notificationBody}</p></div>`
+    if(params.get('notify-body') == null && params.get('notify-title') == null){
+        return
+    }
+    const notificationTitle = params.get('notify-title') ?? \"\"
+    const notificationBody = params.get('notify-body') ?? \"\"
+    const notificationDuration = params.get('notify-duration') ?? 8
+    const notification = `<div class=\" ` +
+    'max-w-full sm:max-w-90 rounded-xl bg-stone-200/90 border-stone-500 dark:bg-stone-900/90 border-2 dark:border-stone-800' +
+    'text-stone-700 dark:text-stone-300 font-sans py-6 px-4' +
+    `\"><h4 class=\"text-xl text-stone-800 dark:text-stone-200\">${notificationTitle}</h4>` +
+    `<p>${notificationBody}</p>` + `</div>`
     document.getElementById('notification-tray').innerHTML = notification
+// TODO add timed removal of notification
 })
 ")

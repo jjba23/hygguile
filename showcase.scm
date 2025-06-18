@@ -444,7 +444,8 @@ formatting."
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
                                                          mx-auto))))
                              (div (@ (class ,(mk-class '(flex flex-col gap-4))))
-                                  ,(h1 "hygguile")
+                                  (a (@(href "/"))
+                                     ,(h1 "hygguile"))
                                   ,(sub-h2
                                     "cozy and professional user-interfaces for everyone"))
                              ,(hr)
