@@ -37,18 +37,18 @@
                 (label-css '(text-sm font-bold text-stone-600
                                      dark:text-stone-300))
                 (input-flex-css '(my-2 flex flex-col gap-1)))
-  `((div (@ (class ,(mk-class input-flex-css))))
-    (label (@ (class ,(mk-class label-css))
-              (for ,name))
-           ,label)
-    (input (@ (class ,(mk-class input-css))
-              (name ,name)
-              (placeholder ,placeholder)
-              (value ,value)
-              (type ,(symbol->string type))
-              ,(if required
-                   '(required "")
-                   '(not-required ""))) "")))
+  `((div (@ (class ,(mk-class input-flex-css)))
+         (label (@ (class ,(mk-class label-css))
+                   (for ,name))
+                ,label)
+         (input (@ (class ,(mk-class input-css))
+                   (name ,name)
+                   (placeholder ,placeholder)
+                   (value ,value)
+                   (type ,(symbol->string type))
+                   ,(if required
+                        '(required "")
+                        '(not-required ""))) ""))))
 
 (define* (textarea #:key label
                    name
@@ -62,19 +62,20 @@
                                        bg-stone-200/75
                                        border-2
                                        min-h-72
+                                       min-w-90
                                        shadow-md
                                        min-w-prose))
                    (label-css '(text-sm font-bold text-stone-600
                                         dark:text-stone-300))
                    (textarea-flex-css '(my-2 flex flex-col gap-1 w-full)))
-  `((div (@ (class ,(mk-class textarea-flex-css))))
-    (label (@ (class ,(mk-class label-css))
-              (for ,name))
-           ,label)
-    (textarea (@ (class ,(mk-class textarea-css))
-                 (name ,name)
-                 ,(if required
-                      '(required "")
-                      '(not-required "")))
-              ,value)))
+  `((div (@ (class ,(mk-class textarea-flex-css)))
+         (label (@ (class ,(mk-class label-css))
+                   (for ,name))
+                ,label)
+         (textarea (@ (class ,(mk-class textarea-css))
+                      (name ,name)
+                      ,(if required
+                           '(required "")
+                           '(not-required "")))
+                   ,value))))
 
