@@ -16,10 +16,14 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile js)
-  #:export (toggle-dark-theme-js copy-pre-inner-text-js remember-dark-theme-js))
+  #:use-module (hygguile abstraction)
+  #:export (toggle-dark-theme-js copy-pre-inner-text-js remember-dark-theme-js
+                                 show-notifications-from-url-js
+                                 trigger-notification-function-js))
 
-(define toggle-dark-theme-js
-  "
+(define (toggle-dark-theme-js)
+  `((script
+     "
 function hygguileSaveDarkThemePreference(preference) {
   document.documentElement.setAttribute('data-theme', preference)
   localStorage.setItem('data-theme', preference)
@@ -40,10 +44,10 @@ function hygguileToggleDarkTheme() {
     }
   }
 }
-")
+")))
 
-(define copy-pre-inner-text-js
-  "
+(define (copy-pre-inner-text-js)
+  `((script "
 function hygguileCopyPreInnerText(elementId) {
   const id = elementId + '-pre'
   console.log('copying inner text of element: ' + id)
@@ -54,10 +58,10 @@ function hygguileCopyPreInnerText(elementId) {
 
   console.log(el.innerText)
 }
-")
+")))
 
-(define remember-dark-theme-js
-  "
+(define (remember-dark-theme-js)
+  `((script "
 document.addEventListener('DOMContentLoaded', () => {
   const themePreference = localStorage.getItem('data-theme')
   if (themePreference === 'dark') {
@@ -66,4 +70,85 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.setAttribute('data-theme', 'light')
   }
 })
-")
+")))
+
+(define* (trigger-notification-function-js #:key (title "")
+                                           (body "")
+                                           (duration 5000)
+                                           (body-font-family "font-sans"))
+  (format #f
+          "
+(() => {
+  const params = new URLSearchParams(window.location.search);
+  params.set('notify-title', `~a`)
+  params.set('notify-body', `~a`)
+  params.set('notify-duration-millis', ~a)
+  params.set('notify-body-font-family', `~a`)
+  window.location.search = params;
+})()
+"
+          title
+          body
+          duration
+          body-font-family))
+
+(define* (show-notifications-from-url-js #:key (header-classes (mk-class '(text-xl
+                                                                           text-stone-800
+                                                                           dark:text-stone-200)))
+                                         (close-icon-on-click
+                                          "document.getElementById('notification-tray').innerHTML = ''")
+                                         (close-icon-classes (mk-class '(ph
+                                                                         ph-x
+                                                                         text-stone-800
+                                                                         cursor-pointer
+                                                                         dark:text-stone-200
+                                                                         text-xl)))
+                                         (title-container-classes (mk-class '(flex
+                                                                              flex-row
+                                                                              justify-between
+                                                                              flex-wrap
+                                                                              gap-10
+                                                                              items-center)))
+                                         (notification-tray-container-classes (mk-class '
+                                                                               (max-w-full
+                                                                                animate-wiggle
+                                                                                sm:max-w-120
+                                                                                rounded-xl
+                                                                                bg-stone-200/90
+                                                                                border-stone-500
+                                                                                dark:bg-stone-900/90
+                                                                                border-2
+                                                                                dark:border-stone-800
+                                                                                text-stone-700
+                                                                                dark:text-stone-300
+                                                                                font-sans
+                                                                                py-6
+                                                                                px-4
+                                                                                flex
+                                                                                flex-col
+                                                                                gap-6))))
+  `((script ,(format #f
+              "
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    if(params.get('notify-body') == null && params.get('notify-title') == null){
+        return
+    }
+    const notificationTitle = params.get('notify-title') ?? \"\"
+    const notificationBody = params.get('notify-body') ?? \"\"
+    const notificationDurationMillis = params.get('notify-duration-millis') ?? 3000
+    const notificationBodyFontFamily = params.get('notify-body-font-family') ?? 'font-sans'
+    const notification = `<div class=\"~a\">` +
+      `<div class=\"~a\"><h4 class=\"~a\">${notificationTitle}</h4><i onclick=\"~a\" class=\"~a\"></i></div>` +
+      `<p id=\"notification-body\">${notificationBody}</p>` + `</div>`
+    document.getElementById('notification-tray').innerHTML = notification
+    document.getElementById('notification-body').classList.toggle(notificationBodyFontFamily)
+
+    setTimeout(() => { document.getElementById('notification-tray').innerHTML = '' }, notificationDurationMillis);
+})
+"
+              notification-tray-container-classes
+              title-container-classes
+              header-classes
+              close-icon-on-click
+              close-icon-classes))))

@@ -23,10 +23,15 @@
   #:use-module (hygguile components icon)
   #:use-module (hygguile components input)
   #:use-module (hygguile components select)
+  #:use-module (hygguile components notification)
   #:use-module (hygguile components typography)
+  #:use-module (hygguile css)
   #:re-export (mk-class render-if-nestring
                         render-if-nempty
+                        custom-fonts
+                        phosphor-icons
                         button
+                        custom-tailwind-theme
                         icon-button
                         submit-button
                         danger-submit-button
@@ -37,6 +42,9 @@
                         get-short-commit-sha
                         light-button
                         mono-button
+                        trigger-notification-function-js
+                        notification-tray
+                        show-notifications-from-url-js
                         remember-dark-theme-js
                         col
                         row
@@ -44,7 +52,9 @@
                         with-footer
                         hr
                         icon
-                        dl dd dt
+                        dl
+                        dd
+                        dt
                         input
                         textarea
                         option

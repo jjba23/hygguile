@@ -48,7 +48,6 @@ serve:
 	darkhttpd ./dist --port 50054
 showcase:
 	-rm -rf dist && mkdir -p dist
-	-cp -rf resources/ttf dist/ttf
 	guix shell -m manifest.scm -- guile -L ./src showcase.scm
 dev:
 	watchexec -i "dist/**" -r -e scm,css,js -- "make showcase && make serve"
