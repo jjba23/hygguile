@@ -16,12 +16,14 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile js)
+  #:use-module (hygguile abstraction)
   #:export (toggle-dark-theme-js copy-pre-inner-text-js remember-dark-theme-js
                                  show-notifications-from-url-js
                                  trigger-notification-function-js))
 
-(define toggle-dark-theme-js
-  "
+(define (toggle-dark-theme-js)
+  `((script
+     "
 function hygguileSaveDarkThemePreference(preference) {
   document.documentElement.setAttribute('data-theme', preference)
   localStorage.setItem('data-theme', preference)
@@ -42,10 +44,10 @@ function hygguileToggleDarkTheme() {
     }
   }
 }
-")
+")))
 
-(define copy-pre-inner-text-js
-  "
+(define (copy-pre-inner-text-js)
+  `((script "
 function hygguileCopyPreInnerText(elementId) {
   const id = elementId + '-pre'
   console.log('copying inner text of element: ' + id)
@@ -56,10 +58,10 @@ function hygguileCopyPreInnerText(elementId) {
 
   console.log(el.innerText)
 }
-")
+")))
 
-(define remember-dark-theme-js
-  "
+(define (remember-dark-theme-js)
+  `((script "
 document.addEventListener('DOMContentLoaded', () => {
   const themePreference = localStorage.getItem('data-theme')
   if (themePreference === 'dark') {
@@ -68,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.setAttribute('data-theme', 'light')
   }
 })
-")
+")))
 
 (define* (trigger-notification-function-js #:key (title "")
                                            (body "")
@@ -84,8 +86,41 @@ document.addEventListener('DOMContentLoaded', () => {
 "
           title body duration))
 
-(define* show-notifications-from-url-js
-  "
+(define* (show-notifications-from-url-js #:key (header-classes (mk-class '(text-xl
+                                                                           text-stone-800
+                                                                           dark:text-stone-200)))
+                                         (close-icon-on-click
+                                          "document.getElementById('notification-tray').innerHTML = ''")
+                                         (close-icon-classes (mk-class '(ph
+                                                                         ph-x
+                                                                         text-stone-800
+                                                                         cursor-pointer
+                                                                         dark:text-stone-200
+                                                                         text-xl)))
+                                         (title-container-classes (mk-class '(flex
+                                                                              flex-row
+                                                                              justify-between
+                                                                              flex-wrap
+                                                                              gap-10
+                                                                              items-center)))
+                                         (notification-tray-container-classes (mk-class '
+                                                                               (max-w-full
+                                                                                animate-wiggle
+                                                                                sm:max-w-120
+                                                                                rounded-xl
+                                                                                bg-stone-200/90
+                                                                                border-stone-500
+                                                                                dark:bg-stone-900/90
+                                                                                border-2
+                                                                                dark:border-stone-800
+                                                                                text-stone-700
+                                                                                dark:text-stone-300
+                                                                                font-sans
+                                                                                py-6
+                                                                                px-4)))
+                                         (notification-timeout-millis 3000))
+  `((script ,(format #f
+              "
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     if(params.get('notify-body') == null && params.get('notify-title') == null){
@@ -94,12 +129,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const notificationTitle = params.get('notify-title') ?? \"\"
     const notificationBody = params.get('notify-body') ?? \"\"
     const notificationDuration = params.get('notify-duration') ?? 8
-    const notification = `<div class=\" ` +
-    'max-w-full sm:max-w-90 rounded-xl bg-stone-200/90 border-stone-500 dark:bg-stone-900/90 border-2 dark:border-stone-800' +
-    'text-stone-700 dark:text-stone-300 font-sans py-6 px-4' +
-    `\"><h4 class=\"text-xl text-stone-800 dark:text-stone-200\">${notificationTitle}</h4>` +
-    `<p>${notificationBody}</p>` + `</div>`
+    const notification = `<div class=\"~a\">` +
+      `<div class=\"~a\"><h4 class=\"~a\">${notificationTitle}</h4><i onclick=\"~a\" class=\"~a\"></i></div>` +
+      `<p>${notificationBody}</p>` + `</div>`
     document.getElementById('notification-tray').innerHTML = notification
-// TODO add timed removal of notification
+    setTimeout(() => { document.getElementById('notification-tray').innerHTML = '' }, ~a);
 })
-")
+"
+              notification-tray-container-classes
+              title-container-classes
+              header-classes
+              close-icon-on-click
+              close-icon-classes
+              notification-timeout-millis))))

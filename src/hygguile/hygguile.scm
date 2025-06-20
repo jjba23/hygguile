@@ -25,9 +25,13 @@
   #:use-module (hygguile components select)
   #:use-module (hygguile components notification)  
   #:use-module (hygguile components typography)
+  #:use-module (hygguile css)
   #:re-export (mk-class render-if-nestring
                         render-if-nempty
+                        custom-fonts
+                        phosphor-icons
                         button
+                        custom-tailwind-theme
                         icon-button
                         submit-button
                         danger-submit-button
