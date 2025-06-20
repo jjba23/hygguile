@@ -186,6 +186,7 @@ It basically works with the query params:
 - ~notify-title~ required string representing the notification title
 - ~notify-body~ optional string representing the notification body/message
 - ~notify-duration-millis~ optional integer representing the milliseconds to show the notification
+- ~notify-body-font-family~ optional symbol choice between font-sans and font-mono
 
 -----------------
 

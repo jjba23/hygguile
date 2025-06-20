@@ -23,7 +23,7 @@
   #:use-module (hygguile components icon)
   #:use-module (hygguile components input)
   #:use-module (hygguile components select)
-  #:use-module (hygguile components notification)  
+  #:use-module (hygguile components notification)
   #:use-module (hygguile components typography)
   #:use-module (hygguile css)
   #:re-export (mk-class render-if-nestring
@@ -52,7 +52,9 @@
                         with-footer
                         hr
                         icon
-                        dl dd dt
+                        dl
+                        dd
+                        dt
                         input
                         textarea
                         option

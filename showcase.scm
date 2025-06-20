@@ -304,8 +304,12 @@ formatting."
                                    #:content "copy"
 
                                    #:on-click (format #f
-                                               "hygguileCopyPreInnerText('~a')"
-                                               uid))))))))
+                                               "hygguileCopyPreInnerText('~a'); ~a"
+                                               uid
+                                               (trigger-notification-function-js
+                                                #:title "Copied to clipboard!"
+                                                #:body t
+                                                #:body-font-family "font-mono")))))))))
 
 (define button-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
@@ -444,7 +448,7 @@ formatting."
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
                                                          mx-auto))))
                              (div (@ (class ,(mk-class '(flex flex-col gap-4))))
-                                  (a (@(href "/"))
+                                  (a (@ (href "/"))
                                      ,(h1 "hygguile"))
                                   ,(sub-h2
                                     "cozy and professional user-interfaces for everyone"))
@@ -480,10 +484,10 @@ formatting."
                                   ,(copy-pre-inner-text-js)
                                   ,(show-notifications-from-url-js)
                                   ,(remember-dark-theme-js)
-                            (body (@ (class ,(mk-class '(bg-white
-                                                         dark:bg-stone-800))))
-                            ,notification-tray
-                            ,@body)))))
+                                  (body (@ (class ,(mk-class '(bg-white
+                                                               dark:bg-stone-800))))
+                                        ,notification-tray
+                                        ,@body)))))
 
 (define (showcase)
   (with-output-to-string (lambda ()
