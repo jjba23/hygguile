@@ -86,18 +86,23 @@ https://www.gnu.org/licenses/fdl-1.3.html
 
 hygguile is also available via the Guix package manager, as ~guile-hygguile~. It is recommended that you use Guix to work on your Guile Scheme projects, and install hygguile this way (in your manifest.scm for example).
 
-You should take the files at ~resources~ and load them into your web app, in the way you like. This means loading some Javascript files and CSS files, all at your decision.
+You should take the files at ~resources~ and load them into your web app, in the way you like.
+This means loading some Javascript files and CSS files, all at your decision. Tailwind CSS v4 is required to be loaded in any favourite way.
 
 You can take a look at the ~showcase.scm~ file which includes some facilities and advanced techniques to load these things.
 
 In summary hygguile provides everything for you, from Javascript, to CSS, but it's all modular and flexible, so you are in charge of loading what you like.
 
-A recommendation is to use IBM Plex fonts, wiggle animations, Phosphor icons, and some other conveniences, since Hygguile is built relying on some underlying technologies. It's all free for you to change or modify though, the functions are also customizable with key arguments, check the ~hygguile css~ and ~js~ modules too.
+A recommendation is to use IBM Plex fonts, hygguile 's custom animations and theme, Phosphor icons, and some other conveniences, since Hygguile is built relying on some underlying technologies.
+
+It's all free for you to change or modify though, the functions are also customizable with key arguments, check the ~hygguile css~ and ~js~ modules too.
 
 The recommended snippet in your SXML ~head~
 #+begin_src scheme
 (meta (@ (name viewport)(content "width=device-width, initial-scale=1.0")))
 (meta (@ (charset "UTF-8")))
+;; also load tailwind in some way, depending on your app
+;; (script ,(assoc-ref asset-library "resources/js/tailwind.js"))
 ,(custom-fonts)
 ,(phosphor-icons)
 ,(custom-tailwind-theme)
@@ -138,15 +143,7 @@ To install it you can download the source code files and add them to your ~GUILE
 #+end_src
 
 
-You can always choose to import hygguile using a prefix to avoid name clashes if they happen.
-
-#+begin_src scheme
-(use-modules
-  ((hygguile hygguile) #:prefix hyg:))
-#+end_src
-
-
---------
+----------------
 
 * Projects that use Hygguile
 
@@ -178,3 +175,28 @@ Find here the Backlog and Kanban boards for hygguile: https://lucidplan.jointhef
 
 
 [[https://jointhefreeworld.org/static-assets/hygguile/hygguile-small.jpg]]
+
+---------------
+
+* Notification system
+
+Hygguile provides a notification system that can easily be used from within your web applications, by using URL parameters.
+
+It basically works with the query params:
+- ~notify-title~ required string representing the notification title
+- ~notify-body~ optional string representing the notification body/message
+- ~notify-duration-millis~ optional integer representing the milliseconds to show the notification
+
+-----------------
+
+* Naming convention and conflict
+
+You can always choose to import hygguile using a prefix to avoid name clashes if they happen.
+
+#+begin_src scheme
+(use-modules
+  ((hygguile hygguile) #:prefix hyg:))
+#+end_src
+
+
+--------

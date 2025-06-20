@@ -74,13 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 (define* (trigger-notification-function-js #:key (title "")
                                            (body "")
-                                           (duration 8))
+                                           (duration 5000))
   (format #f "
 (() => {
   const params = new URLSearchParams(window.location.search);
   params.set('notify-title', `~a`)
   params.set('notify-body', `~a`)
-  params.set('notify-duration', ~a)
+  params.set('notify-duration-millis', ~a)
   window.location.search = params;
 })()
 "
@@ -117,8 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                                                                 dark:text-stone-300
                                                                                 font-sans
                                                                                 py-6
-                                                                                px-4)))
-                                         (notification-timeout-millis 3000))
+                                                                                px-4))))
   `((script ,(format #f
               "
 document.addEventListener('DOMContentLoaded', () => {
@@ -128,17 +127,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const notificationTitle = params.get('notify-title') ?? \"\"
     const notificationBody = params.get('notify-body') ?? \"\"
-    const notificationDuration = params.get('notify-duration') ?? 8
+    const notificationDurationMillis = params.get('notify-duration-millis') ?? 3000
     const notification = `<div class=\"~a\">` +
       `<div class=\"~a\"><h4 class=\"~a\">${notificationTitle}</h4><i onclick=\"~a\" class=\"~a\"></i></div>` +
       `<p>${notificationBody}</p>` + `</div>`
     document.getElementById('notification-tray').innerHTML = notification
-    setTimeout(() => { document.getElementById('notification-tray').innerHTML = '' }, ~a);
+    setTimeout(() => { document.getElementById('notification-tray').innerHTML = '' }, notificationDurationMillis);
 })
 "
               notification-tray-container-classes
               title-container-classes
               header-classes
               close-icon-on-click
-              close-icon-classes
-              notification-timeout-millis))))
+              close-icon-classes))))
