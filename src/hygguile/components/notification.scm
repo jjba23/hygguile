@@ -20,8 +20,6 @@
   #:export (notification-tray))
 
 (define notification-tray
-  `((div (@ (class ,(mk-class '(py-6 px-4))))
-         (div (@ (id notification-tray)
-                 (class ,(mk-class '(sm:fixed sm:z-40 sm:top-8 sm:right-8))))
-              ""))))
+  `((div (@ (id notification-tray)
+            (class ,(mk-class '(sm:fixed sm:z-40 sm:top-8 sm:right-8)))) "")))
 
