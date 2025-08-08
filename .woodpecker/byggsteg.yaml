@@ -30,6 +30,7 @@ clone:
   
 steps:
   get-byggsteg-token:
+    name: "🔒 Get token @ Byggsteg"    
     image: *get_token_image
     when:
       - event: [ push ]
@@ -42,6 +43,7 @@ steps:
       BYGGSTEG_URL: *jointhefreeworld_byggsteg_url
       
   submit-byggsteg-job:
+    name: "💼 Submit job @ Byggsteg"    
     image: *submit_job_image
     when:
       - event: [ push ]
@@ -56,6 +58,7 @@ steps:
             (clone-url . "%%CI_REPO_CLONE_URL%%")))
             
   poll-byggsteg-job:
+    name: "🔄 Poll job status @ Byggsteg"    
     image: *poll_job_image
     when:
       - event: [ push ]
