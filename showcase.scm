@@ -313,7 +313,7 @@ formatting."
 
 (define button-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             ,(sub-h2 "buttons")
+             ,(sub-h2 "🔳 Buttons")
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(button "button"))
                   ,(as-example '(submit-button "submit-button"))
@@ -346,7 +346,7 @@ formatting."
 
 (define typography-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
-         ,(sub-h2 "typography")
+         ,(sub-h2 "α Typography")
          (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-8))))
               (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
                        ,(as-example '(h1
@@ -389,7 +389,7 @@ formatting."
 
 (define forms-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             ,(sub-h2 "forms")
+             ,(sub-h2 "☑️ Forms")
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 w-full))))
                   ,(as-example '(input #:label "some input:"
                                        #:name "input-1"
@@ -414,7 +414,7 @@ formatting."
 
 (define settings-section
   `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
-         ,(sub-h2 "settings:")
+         ,(sub-h2 "⚙️ Settings")
          ,(ui-mode-button))))
 
 (define containers-section
@@ -444,6 +444,31 @@ formatting."
                               #:body
                               "The reason we notified you like this is to showcase the possibilities that hygguile offers for easy and convenient, good-looking notifications.")))))
 
+(define carousel-section
+  (let* ((imgs '(("WikiMusic Logo" . "https://jointhefreeworld.org/static-assets/wikimusic/img/wikimusic.jpg")
+                 "https://jointhefreeworld.org/static-assets/byggsteg/logo.png"
+                 "https://jointhefreeworld.org/static-assets/lucidplan/img/logo.jpg"
+                 "https://jointhefreeworld.org/static-assets/sss/dall-e-3-thumb.png"
+                 "https://jointhefreeworld.org/static-assets/guile-show-hub/guile-show-hub-small.png"))
+         (render-img-with-figcaption (lambda (l)
+                                       `((figure (img (@ (class ,(mk-class '(max-w-32
+                                                                             rounded-xl)))
+                                                         (src ,(cond
+                                                                 ((string? l)
+                                                                  l)
+                                                                 ((pair? l)
+                                                                  (cdr l))))))
+
+                                                 ,(cond
+                                                    ((string? l)
+                                                     '())
+                                                    ((pair? l)
+                                                     `(figcaption (@(class ,(mk-class '(text-stone-600 dark:text-stone-400 text-lg font-light)))) ,(car l))))))))
+         (image-fragments (map render-img-with-figcaption imgs)))
+    (list
+     (sub-h2 "🎠 Carousels")
+      (image-carousel #:images image-fragments))))
+
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
                                                          mx-auto))))
@@ -464,6 +489,8 @@ formatting."
                              ,dl-section
                              ,(hr)
                              ,containers-section
+                             ,(hr)
+                             ,carousel-section
                              ,(hr)
                              ,trigger-notifications-section))
                #:footer footer))
