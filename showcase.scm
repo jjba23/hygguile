@@ -313,7 +313,9 @@ formatting."
 
 (define button-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             ,(sub-h2 "🔳 Buttons")
+             (div (@(class ,(mk-class '(flex flex-row flex-wrap gap-2 align-center items-center))))
+                  (span "🔳")
+                  ,(sub-h2 "Buttons"))
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(button "button"))
                   ,(as-example '(submit-button "submit-button"))
@@ -346,7 +348,9 @@ formatting."
 
 (define typography-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
-         ,(sub-h2 "α Typography")
+         (div (@(class ,(mk-class '(flex flex-row flex-wrap gap-2 items-center align-center))))
+              ,(em "α" #:size '(text-xl))
+              ,(sub-h2 "Typography"))
          (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-8))))
               (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
                        ,(as-example '(h1

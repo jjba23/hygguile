@@ -20,7 +20,7 @@
   #:export (image-carousel))
 
 (define* (image-carousel #:key (carousel-list-css '(flex gap-8 p-4 list-none
-                                                   overflow-x-scroll snap-x))
+                                                   overflow-x-scroll snap-x bg-stone-200/70 dark:bg-stone-700/70 rounded-xl my-6))
                    (carousel-item-css '(w-64 h-1/2 snap-center shrink-0))
                    (carousel-item-content-css '(flex align-center
                                                      justify-center
