@@ -389,7 +389,10 @@ formatting."
 
 (define forms-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             ,(sub-h2 "☑️ Forms")
+             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
+                                              align-center items-center))))
+                  (span "☑️")
+                  ,(sub-h2 "Forms"))
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 w-full))))
                   ,(as-example '(input #:label "some input:"
                                        #:name "input-1"
@@ -413,17 +416,26 @@ formatting."
                         #:weight '(font-light))))))
 
 (define settings-section
-  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
-         ,(sub-h2 "⚙️ Settings")
-         ,(ui-mode-button))))
+  `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
+                                          align-center items-center))))
+              (span "⚙️")
+              ,(sub-h2 "Settings"))
+         (div ,(ui-mode-button)))))
 
 (define containers-section
-  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
-         ,(sub-h2 "containers:")
-         ,(row `(,(p "first element") ,(p "second element")
-                 ,(p "third element")))
-         ,(col `(,(p "first element") ,(p "second element")
-                 ,(p "third element"))))))
+  `((div (@ (class ,(mk-class '(flex flex-col gap-6 align-center))))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
+                                          align-center items-center))))
+              (span "📦")
+              ,(sub-h2 "Containers"))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6
+                                          align-center items-center))))
+
+              ,(row `(,(p "first element") ,(p "second element")
+                      ,(p "third element")))
+              ,(col `(,(p "first element") ,(p "second element")
+                      ,(p "third element")))))))
 
 (define dl-section
   `((div ,(dl (list (dt "foo:")
@@ -463,11 +475,15 @@ formatting."
                                                     ((string? l)
                                                      '())
                                                     ((pair? l)
-                                                     `(figcaption (@(class ,(mk-class '(text-stone-600 dark:text-stone-400 text-lg font-light)))) ,(car l))))))))
+                                                     `(figcaption (@ (class ,(mk-class '
+                                                                              (text-stone-600
+                                                                               dark:text-stone-400
+                                                                               text-lg
+                                                                               font-light))))
+                                                                  ,(car l))))))))
          (image-fragments (map render-img-with-figcaption imgs)))
-    (list
-     (sub-h2 "🎠 Carousels")
-      (image-carousel #:images image-fragments))))
+    (list (sub-h2 "🎠 Carousels")
+          (image-carousel #:images image-fragments))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
