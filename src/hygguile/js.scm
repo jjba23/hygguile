@@ -19,6 +19,7 @@
   #:use-module (hygguile abstraction)
   #:export (toggle-dark-theme-js copy-pre-inner-text-js remember-dark-theme-js
                                  show-notifications-from-url-js
+                                 carousel-button-js
                                  trigger-notification-function-js))
 
 (define (toggle-dark-theme-js)
@@ -152,3 +153,18 @@ document.addEventListener('DOMContentLoaded', () => {
               header-classes
               close-icon-on-click
               close-icon-classes))))
+
+(define (carousel-button-js)
+  `((script "
+function handleCarouselClick(direction, id) {
+  const list = document.getElementById(id)
+  const item = document.querySelector('.carousel-list-item')
+  const itemWidth = item.offsetWidth
+
+  if (direction === 'previous') {
+    list.scrollBy({ left: -itemWidth, behavior: 'smooth' })
+  } else {
+    list.scrollBy({ left: itemWidth, behavior: 'smooth' })
+  }
+}
+")))

@@ -40,6 +40,7 @@
                         ui-mode-button
                         toggle-dark-theme-js
                         copy-pre-inner-text-js
+                        carousel-button-js
                         get-short-commit-sha
                         light-button
                         mono-button
@@ -48,7 +49,7 @@
                         show-notifications-from-url-js
                         remember-dark-theme-js
                         col
-                        image-carousel
+                        carousel
                         row
                         footer
                         with-footer

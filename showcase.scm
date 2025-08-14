@@ -313,7 +313,8 @@ formatting."
 
 (define button-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             (div (@(class ,(mk-class '(flex flex-row flex-wrap gap-2 align-center items-center))))
+             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
+                                              align-center items-center))))
                   (span "🔳")
                   ,(sub-h2 "Buttons"))
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
@@ -348,8 +349,10 @@ formatting."
 
 (define typography-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
-         (div (@(class ,(mk-class '(flex flex-row flex-wrap gap-2 items-center align-center))))
-              ,(em "α" #:size '(text-xl))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
+                                          items-center align-center))))
+              ,(em "α"
+                   #:size '(text-xl))
               ,(sub-h2 "Typography"))
          (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-8))))
               (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
@@ -442,7 +445,11 @@ formatting."
                       ,(p "third element")))))))
 
 (define dl-section
-  `((div ,(dl (list (dt "foo:")
+  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 align-center
+                                     items-center))))
+         (span "🗒️")
+         ,(sub-h2 "Detail lists"))
+    (div ,(dl (list (dt "foo:")
                     (dd "bar")
                     (dt "abcdefghij:")
                     (dd "1234567890")
@@ -466,6 +473,12 @@ formatting."
                  "https://jointhefreeworld.org/static-assets/lucidplan/img/logo.jpg"
                  "https://jointhefreeworld.org/static-assets/sss/dall-e-3-thumb.png"
                  "https://jointhefreeworld.org/static-assets/guile-show-hub/guile-show-hub-small.png"))
+         (other-content '("VENI VIDI VICI" "Alea iacta est"
+                          "Carpe diem"
+                          "COGITO ERGO SUM"
+                          "IN VINO VERITAS"
+                          "ACTA NON VERBA"
+                          "DEUS EX MACHINA"))
          (render-img-with-figcaption (lambda (l)
                                        `((figure (img (@ (class ,(mk-class '(max-w-32
                                                                              rounded-xl)))
@@ -485,9 +498,20 @@ formatting."
                                                                                text-lg
                                                                                font-light))))
                                                                   ,(car l))))))))
-         (image-fragments (map render-img-with-figcaption imgs)))
+         (render-other-content (lambda (c)
+                                 `((div (@ (class ,(mk-class '(text-stone-600
+                                                               dark:text-stone-300
+                                                               text-2xl
+                                                               font-light))))
+                                        ,c))))
+         (fragments (map render-img-with-figcaption imgs))
+         (other-fragments (map render-other-content other-content)))
     (list (sub-h2 "🎠 Carousels")
-          (image-carousel #:images image-fragments))))
+          `(div (@ (class ,(mk-class '(flex flex-col gap-6))))
+                ,(carousel #:id 'other-carousel
+                           #:images other-fragments)
+                ,(carousel #:id 'showcase-carousel
+                           #:images fragments)))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
@@ -504,13 +528,13 @@ formatting."
                              ,(hr)
                              ,typography-section
                              ,(hr)
-                             ,forms-section
+                             ,carousel-section
                              ,(hr)
                              ,dl-section
                              ,(hr)
                              ,containers-section
                              ,(hr)
-                             ,carousel-section
+                             ,forms-section
                              ,(hr)
                              ,trigger-notifications-section))
                #:footer footer))
@@ -530,6 +554,7 @@ formatting."
                                   ,(toggle-dark-theme-js)
                                   ,(copy-pre-inner-text-js)
                                   ,(show-notifications-from-url-js)
+                                  ,(carousel-button-js)
                                   ,(remember-dark-theme-js)
                                   (body (@ (class ,(mk-class '(bg-white
                                                                dark:bg-stone-800))))
