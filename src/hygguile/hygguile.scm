@@ -24,7 +24,8 @@
   #:use-module (hygguile components input)
   #:use-module (hygguile components select)
   #:use-module (hygguile components notification)
-  #:use-module (hygguile components typography)
+  #:use-module (hygguile components typography) 
+  #:use-module (hygguile components carousel) 
   #:use-module (hygguile css)
   #:re-export (mk-class render-if-nestring
                         render-if-nempty
@@ -39,6 +40,7 @@
                         ui-mode-button
                         toggle-dark-theme-js
                         copy-pre-inner-text-js
+                        carousel-button-js
                         get-short-commit-sha
                         light-button
                         mono-button
@@ -47,6 +49,7 @@
                         show-notifications-from-url-js
                         remember-dark-theme-js
                         col
+                        carousel
                         row
                         footer
                         with-footer
