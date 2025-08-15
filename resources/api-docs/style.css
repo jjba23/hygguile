@@ -17,273 +17,310 @@
   along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 */
                                      
-/* VARIABLES */
+
+/*------------------------------------------------------------------------------
+  1. ROOT & COLOR DEFINITIONS
+------------------------------------------------------------------------------*/
+
 :root {
-    color-scheme: light dark;
-    /* Colors */
-    --bg-color: #F0F0F0;
-    --border-color: silver;
-    --link-color: #245C8A;
-    --sheet-color: white;
-    --sheet-shadow: gray;
-    --symbol-color: saddlebrown;
-    --text-color: #333;
-    /* Fonts */
-    --base-font-size: 16px;
+  color-scheme: light dark;
+
+  /* Fonts */
+  --font-sans: "IBM Plex Sans", "Roboto", sans-serif;  
+  --font-mono: "IBM Plex Mono", "Fira Code", "JetBrains Mono", ui-monospace, monospace;
+  --font-size-base: 1rem; /* 16px */
+  --line-height-base: 1.6;
+
+  /* Sizing & Spacing */
+  --spacing-unit: 1rem;
+  --container-width: 80ch; /* Optimal for readability */
+  --border-radius: 4px;
+
+  /* Transitions */
+  --transition-speed: 0.2s ease-in-out;
+
+  /* Light Theme (Modern Default) */
+  --bg-primary: #f5f5f7;
+  --bg-secondary: #ffffff;
+  --text-primary: #1d1d1f;
+  --text-secondary: #555555;
+  --accent-primary: #007aff;
+  --accent-secondary: #0056b3;
+  --border-color: #d2d2d7;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --code-bg: #eef0f2;
+  --code-text: #d73a49; /* A common syntax color for contrast */
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        --bg-color: #191919;
-        --border-color: black;
-        --link-color: #8EB2CD;
-        --sheet-color: #222;
-        --sheet-shadow: var(--border-color);
-        --symbol-color: darkkhaki;
-        --text-color: #F5F5F5;
-    }
-}
-/* END VARIABLES */
-
-
-
-/* NATIVE ELEMENTS */
-a:link,
-a:visited {
-    color: var(--link-color);
-    text-decoration: none;
+  :root {
+    /* Dark Theme (Hacker Aesthetic) */
+    --bg-primary: #0a0e14;
+    --bg-secondary: #161b22;
+    --text-primary: #c9d1d9;
+    --text-secondary: #8b949e;
+    --accent-primary: #a4f396; /* Neon Green */
+    --accent-secondary: #d2f8cc;
+    --border-color: rgba(57, 255, 20, 0.2);
+    --shadow-color: rgba(57, 255, 20, 0.5);
+    --code-bg: #010409;
+    --code-text: var(--text-primary);
+  }
 }
 
-a:active,
-a:focus,
-a:hover {
-    text-decoration: underline;
-}
-
-abbr,
-acronym {
-    cursor: help;
-}
-
-blockquote {
-    border-color: var(--text-color);
-    border-style: none none none solid;
-    border-width: 0.5em;
-    margin-left: 0em;
-    padding-left: 1.5em;
-}
-
-body {
-    background-color: var(--sheet-color);
-    box-shadow: 0 0 2px var(--sheet-shadow);
-    box-sizing: border-box;
-    color: var(--text-color);
-    font-family: sans-serif;
-    font-size: var(--base-font-size);
-    margin: 50px auto;
-    max-width: 960px;
-    padding: 50px;
-}
-
-code,
-samp,
-tt,
-var {
-    color: var(--symbol-color);
-}
-
-div.example,
-div.lisp {
-    margin: 0px;
-}
-
-dl {
-    margin: 3em 0em;
-}
-
-dl dl {
-    margin: 0em;
-}
-
-dt {
-    background-color: var(--bg-color);
-    padding: 0.5em;
-}
-
-dd dt {
-    background-color: transparent;
-    border-color: var(--border-color);
-    border-style: none none none dotted;
-    border-width: 0.5em;
-    padding: 0.5em;
-}
-
-h1,
-h2,
-h2.contents-heading,
-h3,
-h4 {
-    padding: 20px 0px 0px 0px;
-    font-weight: normal;
-}
-
-h1 {
-    font-size: 2.4em;
-}
-
-h2 {
-    font-size: 2.2em;
-    font-weight: bold;
-}
-
-h3 {
-    font-size: 1.8em;
-}
-
-h4 {
-    font-size: 1.4em;
-}
-
-hr {
-    background-color: var(--border-color);
-    border-style: none;
-    height: 1px;
-    margin: 0px;
+/*------------------------------------------------------------------------------
+  2. GLOBAL RESETS & BASE STYLES
+------------------------------------------------------------------------------*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html {
-    background-color: var(--bg-color);
+  background-color: var(--bg-primary);
+  font-size: var(--font-size-base);
+  scroll-behavior: smooth;
+  /* Subtle scanline effect for the background */
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+}
+
+body {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: var(--line-height-base);
+  margin: calc(var(--spacing-unit) * 2) auto;
+  padding: calc(var(--spacing-unit) * 2);
+  max-width: var(--container-width);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2), 0 0 5px var(--shadow-color);
 }
 
 img {
-    max-width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--border-color);
+  margin: calc(var(--spacing-unit) * 2) 0;
+}
+
+/*------------------------------------------------------------------------------
+  3. TYPOGRAPHY
+------------------------------------------------------------------------------*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  margin: var(--spacing-unit) 0;
+  color: var(--accent-primary);
+  text-shadow: 0 0 5px var(--shadow-color);
+}
+
+h1::before {
+  content: "~# ";
+  opacity: 0.6;
+}
+
+h2::before {
+  content: ">> ";
+}
+
+h1 {
+  font-size: 2.2rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: calc(var(--spacing-unit) / 2);
+}
+h2 {
+  font-size: 1.8rem;
+}
+h3 {
+  font-size: 1.4rem;
+}
+h4 {
+  font-size: 1.2rem;
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all var(--transition-speed);
+  text-shadow: 0 0 3px var(--shadow-color);
+}
+
+a:hover,
+a:focus {
+  color: var(--accent-secondary);
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-shadow: 0 0 8px var(--shadow-color);
+}
+
+blockquote {
+  margin-left: 0;
+  padding-left: var(--spacing-unit);
+  border-left: 3px solid var(--accent-primary);
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+abbr[title] {
+  cursor: help;
+  text-decoration: underline;
+  text-decoration-style: dotted;
 }
 
 li {
-    padding: 5px;
+  padding: calc(var(--spacing-unit) / 4) 0;
 }
 
-pre.display,
-pre.example-preformatted,
-pre.format,
-pre.lisp-preformatted,
-pre.verbatim{
-    overflow: auto;
+/*------------------------------------------------------------------------------
+  4. CODE & PREFORMATTED TEXT
+------------------------------------------------------------------------------*/
+
+/* Inline code */
+code,
+samp,
+tt,
+var,
+.key {
+  font-family: var(--font-mono);
+  background-color: var(--code-bg);
+  color: var(--code-text);
+  padding: 0.2em 0.4em;
+  border-radius: var(--border-radius);
+  font-size: 0.9em;
+  border: 1px solid var(--border-color);
 }
 
-pre.example-preformatted,
-pre.lisp-preformatted,
-pre.verbatim {
-    background-color: #2D3743;
-    border-color: black;
-    border-style: solid;
-    border-width: thin;
-    color: #E1E1E1;
-    font-size: smaller;
-    padding: 1em;
+/* Code blocks */
+pre {
+  font-family: var(--font-mono);    
+  background-color: var(--code-bg);
+  padding: var(--spacing-unit);
+  margin: var(--spacing-unit) 0;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  overflow-x: auto;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+  font-size: 0.9em;
 }
 
-pre.menu-comment-preformatted {
-    border-color: var(--bg-color);
-    border-bottom-style: solid;
-    border-width: thin;
-    font-family: sans;
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  font-size: 1em;
+  color: inherit;
 }
 
-strong.def-name {
-    font-size: var(--base-font-size);
-}
+/*------------------------------------------------------------------------------
+  5. TABLES & DEFINITION LISTS
+------------------------------------------------------------------------------*/
 
 table {
-    border-collapse: collapse;
-    margin: 40px 0px;
+  width: 100%;
+  border-collapse: collapse;
+  margin: calc(var(--spacing-unit) * 2) 0;
 }
 
-table.cp-entries-printindex *,
-table.fn-entries-printindex *,
-table.ky-entries-printindex *,
-table.pg-entries-printindex *,
-table.tp-entries-printindex *,
-table.vr-entries-printindex * {
-    background-color: inherit;
-    border-style: none;
-}
-
-td,
-th {
-    border-color: var(--border-color);
-    border-style: solid;
-    border-width: thin;
-    padding: 10px;
+th,
+td {
+  padding: calc(var(--spacing-unit) / 1.5);
+  text-align: left;
+  border: 1px solid var(--border-color);
 }
 
 th {
-    background-color: var(--bg-color);
-}
-/* END NATIVE ELEMENTS */
-
-
-
-/* CLASSES */
-.contents {
-    margin-bottom: 4em;
+  background-color: var(--bg-primary);
+  color: var(--accent-primary);
+  font-weight: 600;
 }
 
-.def-type {
-    color: var(--text-color);
+dl {
+  margin: var(--spacing-unit) 0;
 }
 
-.def-var-arguments {
-    color: var(--text-color);
+dt {
+  background-color: var(--bg-primary);
+  padding: calc(var(--spacing-unit) / 2);
+  font-weight: bold;
+  border-top: 1px solid var(--border-color);
+}
+
+dd {
+  padding: var(--spacing-unit);
+  margin-left: 0;
+  border: 1px solid var(--border-color);
+  border-top: none;
+}
+
+/*------------------------------------------------------------------------------
+  6. COMPONENTS & CLASSES
+------------------------------------------------------------------------------*/
+
+.nav-panel {
+  background-color: var(--bg-primary);
+  padding: calc(var(--spacing-unit) / 2) var(--spacing-unit);
+  border-bottom: 1px solid var(--border-color);
+  margin: calc(var(--spacing-unit) * -2) calc(var(--spacing-unit) * -2)
+    calc(var(--spacing-unit) * 2);
+  font-size: 0.9em;
 }
 
 .float {
-    margin: 3em 0em;
-}
-
-.caption {
-    font-size: smaller;
-    text-align: center;
+  margin: calc(var(--spacing-unit) * 2) 0;
 }
 
 .float > img {
-    display: block;
-    margin: auto;
+  margin-inline: auto;
+}
+
+.caption {
+  font-size: 0.9em;
+  text-align: center;
+  color: var(--text-secondary);
+  margin-top: calc(var(--spacing-unit) / 2);
 }
 
 .footnote {
-    font-size: smaller;
-    margin: 5em 0em;
+  font-size: 0.9em;
+  margin: calc(var(--spacing-unit) * 3) 0;
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--spacing-unit);
 }
 
 .footnote h3 {
-    display: inline;
-    font-size: small;
+  display: inline;
+  font-size: 1em;
 }
 
-.key {
-    color: var(--symbol-color);
+.menu table {
+  border: none;
 }
-
-.menu * {
-    border-style: none;
-}
-
-.menu td {
-    padding: 0.5em 0em;
-}
-
-.menu td:last-child {
-    width: 60%;
-}
-
+.menu td,
 .menu th {
-    background-color: inherit;
+  border-style: none;
+  padding: 0.5em 0;
+  background-color: transparent;
 }
-
-.nav-panel {
-    background-color: var(--bg-color);
-    font-size: small;
-    padding: 0.2em 1em;
+.menu td:last-child {
+  width: 60%;
 }
-/* END CLASSES */

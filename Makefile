@@ -54,6 +54,7 @@ dev:
 	watchexec -i "dist/**" -r -e scm,css,js -- "make showcase && make serve"
 
 docs:
+	-rm -rfv doc
 	guix shell -m manifest.scm -- documenta api ./src/hygguile
 	guix shell -m manifest.scm -- texi2any -v --html \
 		--css-include=./resources/api-docs/style.css ./doc/api/index.texi
