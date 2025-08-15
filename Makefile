@@ -17,9 +17,10 @@
 
 # Logging helpers
 
-.PHONY: test
+.PHONY: test docs
 
 API_DOCS_CSS_URL:="https://jointhefreeworld.org/static-assets/api-docs/css/style.css"
+DEPLOY_WWW:="/srv/http/jointhefreeworld.org"
 
 define hygguile-log-info
 	@printf "\n\033[1m[INFO] $(shell date --rfc-3339=seconds) - %s\033[0m\n" $(1)
@@ -48,6 +49,7 @@ test:
 
 serve:
 	darkhttpd ./dist --port 50054
+
 showcase:
 	-rm -rf dist && mkdir -p dist
 	guix shell -m manifest.scm -- guile -L ./src showcase.scm
@@ -55,6 +57,7 @@ showcase:
 dev:
 	watchexec -i "dist/**" -r -e scm,css,js -- "make showcase && make serve"
 
+# docs: Generate technical API documentation
 docs:
 	-rm -rfv doc
 	guix shell -m manifest.scm -- documenta api ./src/hygguile
@@ -62,11 +65,12 @@ docs:
 		--css-ref=$(API_DOCS_CSS_URL) ./doc/api/index.texi
 	mv ./index ./doc/api-dist
 
+# deploy: Deploys the project and documentation to a web server directory.
 deploy: showcase docs
 	-rm -rfv /srv/http/hygguile.jointhefreeworld.org
 	-cp -rfv dist /srv/http/hygguile.jointhefreeworld.org
-	-rm -rfv /srv/http/jointhefreeworld.org/api-docs/hygguile
-	-mkdir -p /srv/http/jointhefreeworld.org/api-docs/hygguile
-	-mv doc/api-dist/* /srv/http/jointhefreeworld.org/api-docs/hygguile/
+	-rm -rfv $(DEPLOY_WWW)/api-docs/hygguile
+	-mkdir -p $(DEPLOY_WWW)/api-docs/hygguile
+	-mv doc/api-dist/* $(DEPLOY_WWW)/api-docs/hygguile/
 	-rm -rfv doc
 
