@@ -19,6 +19,8 @@
 
 .PHONY: test
 
+API_DOCS_CSS_URL:="https://jointhefreeworld.org/static-assets/api-docs/css/style.css"
+
 define hygguile-log-info
 	@printf "\n\033[1m[INFO] $(shell date --rfc-3339=seconds) - %s\033[0m\n" $(1)
 endef
@@ -57,7 +59,7 @@ docs:
 	-rm -rfv doc
 	guix shell -m manifest.scm -- documenta api ./src/hygguile
 	guix shell -m manifest.scm -- texi2any -v --html \
-		--css-include=./resources/api-docs/style.css ./doc/api/index.texi
+		--css-ref=$(API_DOCS_CSS_URL) ./doc/api/index.texi
 	mv ./index ./doc/api-dist
 
 deploy: showcase docs
