@@ -55,7 +55,8 @@ dev:
 
 docs:
 	guix shell -m manifest.scm -- documenta api ./src/hygguile
-	guix shell -m manifest.scm -- texi2any -v --html ./doc/api/index.texi
+	guix shell -m manifest.scm -- texi2any -v --html \
+		--css-include=./resources/api-docs/style.css ./doc/api/index.texi
 	mv ./index ./doc/api-dist
 
 deploy: showcase docs
