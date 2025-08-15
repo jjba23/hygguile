@@ -22,6 +22,10 @@ You can find a showcase of the Hygguile library here:
 
 https://hygguile.jointhefreeworld.org/
 
+You can find hygguile's technical Guile Scheme API documentation here:
+
+https://jointhefreeworld.org/api-docs/hygguile/API.html
+
 If you like my work, please support me by [[https://bmc.link/jjbigorra][buying me a cup of coffee ☕]] so I can continue with a lot of motivation.
 
 ------------
