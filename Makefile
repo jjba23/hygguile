@@ -59,7 +59,7 @@ dev:
 
 # docs: Generate technical API documentation
 docs:
-	-rm -rfv doc
+	rm -rfv doc
 	guix shell -m manifest.scm -- documenta api ./src/hygguile
 	guix shell -m manifest.scm -- texi2any -v --html \
 		--css-ref=$(API_DOCS_CSS_URL) ./doc/api/index.texi
@@ -67,10 +67,10 @@ docs:
 
 # deploy: Deploys the project and documentation to a web server directory.
 deploy: showcase docs
-	-rm -rfv /srv/http/hygguile.jointhefreeworld.org
-	-cp -rfv dist /srv/http/hygguile.jointhefreeworld.org
-	-rm -rfv $(DEPLOY_WWW)/api-docs/hygguile
-	-mkdir -p $(DEPLOY_WWW)/api-docs/hygguile
-	-mv doc/api-dist/* $(DEPLOY_WWW)/api-docs/hygguile/
-	-rm -rfv doc
+	rm -rfv /srv/http/hygguile.jointhefreeworld.org
+	cp -rfv dist /srv/http/hygguile.jointhefreeworld.org
+	rm -rfv $(DEPLOY_WWW)/api-docs/hygguile
+	mkdir -p $(DEPLOY_WWW)/api-docs/hygguile
+	mv doc/api-dist/* $(DEPLOY_WWW)/api-docs/hygguile/
+	rm -rfv doc
 

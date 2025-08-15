@@ -40,6 +40,34 @@
 ;; (mk-class #f)                        ⇒ ""
 ;;
 (define* (mk-class xs)
+  "Return a sorted, space-separated string of unique class names from @var{xs}.
+
+@deffn Procedure mk-class xs
+Takes a list of symbols @var{xs}, removes any duplicates, converts them
+to strings, sorts them alphabetically, and returns them as a single,
+space-separated string. This is useful for creating a canonical CSS
+class attribute value.
+
+If @var{xs} is the empty list, an empty string is returned.
+
+@table @var
+@item xs
+A list of symbols.
+@end table
+
+@returns A string of unique, sorted names, joined by spaces.
+
+@example
+(mk-class '(input button primary input))
+@result{} \"button input primary\"
+
+(mk-class '(baz foo bar))
+@result{} \"bar baz foo\"
+
+(mk-class '())
+@result{} \"\"
+@end example
+@end deffn"  
   (cond
     ((nil? xs)
      "")
