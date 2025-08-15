@@ -60,6 +60,11 @@
         Simple routines for converting between binary and hex-and-dash string UUIDs are included.")
       (license license:gpl3+))))
 
-(packages->manifest (list (specification->package "make") guile-next
-                          guile-ares-rs guile-uuid guile-gcrypt))
+(packages->manifest (list (specification->package "make")
+                          guile-next
+                          texinfo
+                          guile-ares-rs
+                          guile-uuid
+                          guile-gcrypt
+                          guile-documenta))
 

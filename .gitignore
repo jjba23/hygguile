@@ -2,3 +2,5 @@
 dist/
 scratch.js
 .nrepl-port
+api-dist
+doc/api

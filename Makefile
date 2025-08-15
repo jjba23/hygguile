@@ -49,8 +49,19 @@ serve:
 showcase:
 	-rm -rf dist && mkdir -p dist
 	guix shell -m manifest.scm -- guile -L ./src showcase.scm
+
 dev:
 	watchexec -i "dist/**" -r -e scm,css,js -- "make showcase && make serve"
-deploy: showcase
+
+docs:
+	guix shell -m manifest.scm -- documenta api ./src/hygguile
+	guix shell -m manifest.scm -- texi2any -v --html ./doc/api/index.texi
+	mv ./index ./doc/api-dist
+
+deploy: showcase docs
 	-rm -rfv /srv/http/hygguile.jointhefreeworld.org
 	-cp -rfv dist /srv/http/hygguile.jointhefreeworld.org
+	-rm -rfv /srv/http/jointhefreeworld.org/api-docs/hygguile
+	-mkdir -p /srv/http/jointhefreeworld.org/api-docs/hygguile
+	-mv doc/api-dist/* /srv/http/jointhefreeworld.org/api-docs/hygguile/
+	-rm -rfv doc
