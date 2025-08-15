@@ -65,3 +65,4 @@ deploy: showcase docs
 	-mkdir -p /srv/http/jointhefreeworld.org/api-docs/hygguile
 	-mv doc/api-dist/* /srv/http/jointhefreeworld.org/api-docs/hygguile/
 	-rm -rfv doc
+
