@@ -64,7 +64,7 @@ A list of symbols.
 (mk-class '())
 @result{} \"\"
 @end example
-@end deffn"  
+@end deffn"
   (cond
     ((nil? xs)
      "")

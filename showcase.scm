@@ -509,9 +509,9 @@ formatting."
     (list (sub-h2 "🎠 Carousels")
           `(div (@ (class ,(mk-class '(flex flex-col gap-6))))
                 ,(carousel #:id 'other-carousel
-                           #:images other-fragments)
+                           #:fragments other-fragments)
                 ,(carousel #:id 'showcase-carousel
-                           #:images fragments)))))
+                           #:fragments fragments)))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
