@@ -91,8 +91,8 @@
 
 (define (dev)
   "Developer's setup."
-  (docs)
   (build)
+  (docs)
   (serve))
 
 (define (default)
