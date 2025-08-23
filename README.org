@@ -158,7 +158,7 @@ Alternatively, you can install it by downloading the source code files and addin
 --------------
 
 
-[[https://jointhefreeworld.org/static-assets/hygguile/hygguile-small-2.png]]
+[[https://jointhefreeworld.org/static-assets/hygguile/hygguile-2-small.png]]
 
 -------
 
