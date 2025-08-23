@@ -157,6 +157,11 @@ Alternatively, you can install it by downloading the source code files and addin
 
 --------------
 
+
+[[https://jointhefreeworld.org/static-assets/hygguile/hygguile-small-2.png]]
+
+-------
+
 * Code of conduct
 
 This project adheres to the jointhefreeworld code of conduct. Find it here:
@@ -175,10 +180,6 @@ We welcome everyone to feel invited to the hygguile Project, and encourage activ
 
 Find here the Backlog and Kanban boards for hygguile: https://lucidplan.jointhefreeworld.org/tickets/hygguile
 
------
-
-
-[[https://jointhefreeworld.org/static-assets/hygguile/hygguile-small.jpg]]
 
 ---------------
 
