@@ -71,7 +71,8 @@
   (delete-file-recursively deploy-dir)
   (mv "dist" deploy-dir)
   (remkdir-p (~ "~a/api-docs/~a" deploy-api-docs-dir project-name))
-  (mv "doc/api-dist/*" (~ "~a/api-docs/~a" deploy-api-docs-dir project-name))
+  (mv "doc/api-dist/*"
+      (~ "~a/api-docs/~a" deploy-api-docs-dir project-name))
   (delete-file-recursively "doc"))
 
 (define (test)
@@ -80,8 +81,13 @@
                         (~ "-c '((@ (~a test-runners) run-project-tests))'"
                            project-name))))
 
+(define (kill-server)
+  "Kill any running HTTP server in the same port."
+  ($ (list (~ "fuser -k ~a/tcp || true" http-port))))
+
 (define (serve)
   "Run HTTP server serving the rendered production result of running."
+  (kill-server)
   ($ (list (~ "darkhttpd ./dist --port ~a" http-port))))
 
 (define (build)
@@ -89,8 +95,7 @@
   (remkdir-p "dist")
   (manifest-shell (list "guile -L ./src showcase.scm")))
 
-(define (dev)
-  "Developer's setup."
+(define (build-and-serve)
   (build)
   (docs)
   (serve))
@@ -103,8 +108,11 @@
   "Alias to hot-reloading."
   (hot-reload))
 
+(define (dev)
+  "Developer's setup."
+  (hot-reload))
+
 (define (default)
   "Default task to be run, list available tasks."
   ($ '("maak --list")))
-
 

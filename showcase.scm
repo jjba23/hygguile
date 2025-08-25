@@ -468,9 +468,8 @@ formatting."
                               "The reason we notified you like this is to showcase the possibilities that hygguile offers for easy and convenient, good-looking notifications.")))))
 
 (define carousel-section
-  (let* ((imgs 
-               '(("Hygguile Logo" . "https://jointhefreeworld.org/static-assets/hygguile/hygguile-2-small.png")
-                 ("WikiMusic Logo" . "https://jointhefreeworld.org/static-assets/wikimusic/img/wikimusic.jpg")                 
+  (let* ((imgs '(("Hygguile Logo" . "https://jointhefreeworld.org/static-assets/hygguile/hygguile-2-small.png")
+                 ("WikiMusic Logo" . "https://jointhefreeworld.org/static-assets/wikimusic/img/wikimusic.jpg")
                  "https://jointhefreeworld.org/static-assets/byggsteg/logo.png"
                  "https://jointhefreeworld.org/static-assets/lucidplan/img/logo.jpg"
                  "https://jointhefreeworld.org/static-assets/sss/dall-e-3-thumb.png"
@@ -579,5 +578,4 @@ formatting."
  "
 >>= successfully built hygguile showcase to destination: dist/index.html
 ")
-
 

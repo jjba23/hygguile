@@ -30,6 +30,7 @@
              (gnu packages compression)
              (gnu packages texinfo)
              (gnu packages autotools)
+             (gnu packages web)
              ((guix licenses)
               #:prefix license:))
 
@@ -66,6 +67,6 @@
                           guile-ares-rs
                           guile-uuid
                           guile-gcrypt
+                          darkhttpd
                           guile-documenta))
-
 

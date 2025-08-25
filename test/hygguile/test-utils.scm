@@ -27,5 +27,3 @@
                    (set-procedure-property! test-name
                                             'srfi-64-test? #t)))))
 
-
-
