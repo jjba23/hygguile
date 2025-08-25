@@ -45,7 +45,7 @@ test:
 	guix shell -m manifest.scm -- \
 		guile -L ./src \
 		-L ./test \
-		-c "((@ (hygguile test-runners) run-project-tests))"
+		-c "((@ (veritas runner) run-tests))"
 
 serve:
 	darkhttpd ./dist --port 50054
