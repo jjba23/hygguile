@@ -70,8 +70,8 @@
   (docs)
   (delete-file-recursively deploy-dir)
   (mv "dist" deploy-dir)
-  (remkdir-p "~a/api-docs/~a" deploy-api-docs-dir project-name)
-  (mv "doc/api-dist/*" "~a/api-docs/~a" deploy-api-docs-dir project-name)
+  (remkdir-p (~ "~a/api-docs/~a" deploy-api-docs-dir project-name))
+  (mv "doc/api-dist/*" (~ "~a/api-docs/~a" deploy-api-docs-dir project-name))
   (delete-file-recursively "doc"))
 
 (define (test)
@@ -95,7 +95,16 @@
   (docs)
   (serve))
 
+(define (hot-reload)
+  "Hot-reloading developer's setup."
+  ($ '("direvent direvent.conf")))
+
+(define (hr)
+  "Alias to hot-reloading."
+  (hot-reload))
+
 (define (default)
   "Default task to be run, list available tasks."
   ($ '("maak --list")))
+
 

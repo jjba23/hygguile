@@ -110,3 +110,4 @@ A list of symbols.
 
 (define (get-short-commit-sha)
   (syscall "git log --pretty=format:'%h' -n 1"))
+
