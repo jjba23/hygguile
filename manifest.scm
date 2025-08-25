@@ -20,6 +20,7 @@
              (guix utils)
              (guix git-download)
              (guix download)
+             (gnu packages admin)
              (gnu packages guile)
              (gnu packages nss)
              (gnu packages gnupg)
@@ -98,5 +99,6 @@ runs them concurrently by default to ensure robust testing practices.")
                           guile-gcrypt
                           darkhttpd
                           guile-veritas
+                          direvent
                           guile-documenta))
 
