@@ -41,10 +41,6 @@
 (define project-name
   'hygguile)
 
-;; A comma-separated string of file extensions to monitor for the hot-reloading feature.
-(define hot-reload-file-types
-  "scm,css,js")
-
 ;; ====== Maak file tasks ======
 
 (define (fmt)
