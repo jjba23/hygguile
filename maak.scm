@@ -95,6 +95,12 @@
   (remkdir-p "dist")
   (manifest-shell (list "guile -L ./src showcase.scm")))
 
+(define (test-build-and-serve)
+  (test)
+  (build)
+  (docs)
+  (serve))
+
 (define (build-and-serve)
   (build)
   (docs)
