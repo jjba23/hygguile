@@ -15,15 +15,18 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
-(define-module (hygguile components icon-test)
-  #:use-module ((srfi srfi-64)
-                #:hide (define-test))
+(define-module (veritas unit components icon-spec)
+  #:use-module (veritas veritas)
   #:use-module (hygguile components icon)
-  #:use-module (hygguile test-utils))
+  #:export (spec))
 
-(define-test test-icons
-             (test-group "hygguile icons"
-                         (test-equal "icon is an <i> element"
-                                     (car (icon #:type "lightbulb"))
-                                     'i)))
+(define icon-suite
+  (suite "Icons"
+         (test "hygguile icons"
+               (assert-equal #:name "icon is an <i> element"
+                             #:got (car (icon #:type "lightbulb"))
+                             #:expect 'i))))
+
+(define (spec)
+  (veritas-run icon-suite))
 

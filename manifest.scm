@@ -61,6 +61,35 @@
         Simple routines for converting between binary and hex-and-dash string UUIDs are included.")
       (license license:gpl3+))))
 
+(define-public guile-veritas
+  (package
+    (name "guile-veritas")
+    (version "0.1.8")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://codeberg.org/jjba23/veritas.git")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "0yg9qqwlln6y9ay1yljxq4x35il5bz7fl7j9nz5dygvdfffqs1v0"))))
+    (build-system guile-build-system)
+    (arguments
+     (list
+      #:source-directory "src"))
+    (native-inputs (list guile-3.0))
+    (propagated-inputs (list guile-fibers guile-json-4))
+    (home-page "https://codeberg.org/jjba23/veritas")
+    (synopsis "Testing framework for Guile")
+    (description
+     "Veritas is a testing framework for Guile with an @acronym{EDSL,
+embedded domain specific language} to define test suites.  Emphasis is placed
+on legibility and maintainability of tests.  Veritas shuffles tests and
+runs them concurrently by default to ensure robust testing practices.")
+    (license license:lgpl3+)))
+
+
 (packages->manifest (list (specification->package "make")
                           guile-next
                           texinfo
@@ -68,5 +97,6 @@
                           guile-uuid
                           guile-gcrypt
                           darkhttpd
+                          guile-veritas
                           guile-documenta))
 

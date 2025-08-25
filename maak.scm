@@ -78,8 +78,7 @@
 (define (test)
   "Run project's tests."
   (manifest-shell (list "guile -L ./src -L ./test"
-                        (~ "-c '((@ (~a test-runners) run-project-tests))'"
-                           project-name))))
+                        "-c '((@ (veritas runner) run-tests))'")))
 
 (define (kill-server)
   "Kill any running HTTP server in the same port."
