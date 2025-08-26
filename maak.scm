@@ -19,7 +19,7 @@
   #:declarative? #t
   #:use-module (maak maak))
 
-;; ====== Maak file constants ======
+;; ====== Maak constants ======
 
 ;; The absolute URL for the CSS style-sheet used to style API documentation.
 (define api-docs-css-url
@@ -41,7 +41,7 @@
 (define project-name
   'hygguile)
 
-;; ====== Maak file tasks ======
+;; ====== Maak tasks ======
 
 (define (fmt)
   "Format Scheme source code files according to the Guix style guide."
