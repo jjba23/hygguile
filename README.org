@@ -5,7 +5,6 @@
 
 
 [[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]]  
-[[https://jointhefreeworld.org/ggg/dist/gnu-make.svg]] 
 [[https://jointhefreeworld.org/ggg/dist/license-lgpl3+.svg]]    [[https://jointhefreeworld.org/ggg/dist/license-fdl13+.svg]] [[https://jointhefreeworld.org/ggg/dist/css-tailwind4.svg]]
 
 /Cozy and professional user-interfaces for everyone/
@@ -116,7 +115,7 @@ The recommended snippet in your SXML ~head~
 ,(remember-dark-theme-js)
 #+end_src
 
-See the [[file:Makefile][Makefile]] for more details and common tasks.
+See the ~maak.scm~ for more details and common tasks.
 
 Alternatively, you can install it by downloading the source code files and adding them to your ~GUILE_LOAD_PATH~ or even better, use a Guix shell ~manifest.scm~ and add the package with something like this:
 

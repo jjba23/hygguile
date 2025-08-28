@@ -41,6 +41,8 @@
 (define project-name
   'hygguile)
 
+(define hot-reload-file-types '(scm js))
+
 ;; ====== Maak tasks ======
 
 (define (fmt)
@@ -103,7 +105,22 @@
 
 (define (hot-reload)
   "Hot-reloading developer's setup."
-  ($ '("direvent direvent.conf")))
+  (manifest-shell (list "watchexec 'maak test-build-and-serve'"
+                        "--clear"
+                        (~ "--exts ~a"
+                           (string-join (map symbol->string
+                                             hot-reload-file-types) ","))
+                        "--on-busy-update=restart"
+                        "--shell bash"
+                        "--watch .")))
+
+(define (hr)
+  "Alias to hot-reloading."
+  (hot-reload))
+
+(define (dev)
+  "Developer's setup."
+  (hot-reload))
 
 (define (hr)
   "Alias to hot-reloading."
