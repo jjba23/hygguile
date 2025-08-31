@@ -35,93 +35,105 @@
 (define* (h1 content
              #:key (weight '(font-bold))
              (color '(text-stone-700 dark:text-stone-300))
+             (family '(font-sans))
              (size '(text-4xl)))
-  `((h1 (@ (class ,(mk-class (append color size weight))))
+  `((h1 (@ (class ,(mk-class (append color size weight family))))
         ,content)))
 
 (define* (h2 content
              #:key (weight '(font-bold))
              (color '(text-stone-700 dark:text-stone-300))
+             (family '(font-sans))
              (size '(text-3xl)))
-  `((h2 (@ (class ,(mk-class (append color size weight))))
+  `((h2 (@ (class ,(mk-class (append color size weight family))))
         ,content)))
 
 (define* (h3 content
              #:key (weight '(font-bold))
              (color '(text-stone-700 dark:text-stone-300))
+             (family '(font-sans))
              (size '(text-2xl)))
-  `((h3 (@ (class ,(mk-class (append color size weight))))
+  `((h3 (@ (class ,(mk-class (append color size weight family))))
         ,content)))
 
 (define* (h4 content
              #:key (weight '(font-bold))
              (color '(text-stone-700 dark:text-stone-300))
+             (family '(font-sans))
              (size '(text-xl)))
-  `((h4 (@ (class ,(mk-class (append color size weight))))
+  `((h4 (@ (class ,(mk-class (append color size weight family))))
         ,content)))
 
 (define* (sub-h1 content
                  #:key (weight '(font-light))
                  (color '(text-stone-600 dark:text-stone-400))
+                 (family '(font-sans))
                  (style '(italic))
                  (size '(text-3xl)))
-  `((h1 (@ (class ,(mk-class (append color size weight style))))
+  `((h1 (@ (class ,(mk-class (append color size weight style family))))
         ,content)))
 
 (define* (sub-h2 content
                  #:key (weight '(font-light))
                  (style '(italic))
                  (color '(text-stone-600 dark:text-stone-400))
+                 (family '(font-sans))
                  (size '(text-2xl)))
-  `((h2 (@ (class ,(mk-class (append color size weight style))))
+  `((h2 (@ (class ,(mk-class (append color size weight style family))))
         ,content)))
 
 (define* (sub-h3 content
                  #:key (weight '(font-light))
                  (style '(italic))
                  (color '(text-stone-600 dark:text-stone-400))
+                 (family '(font-sans))
                  (size '(text-xl)))
-  `((h3 (@ (class ,(mk-class (append color size weight style))))
+  `((h3 (@ (class ,(mk-class (append color size weight style family))))
         ,content)))
 
 (define* (sub-h4 content
                  #:key (weight '(font-light))
                  (style '(italic))
                  (color '(text-stone-600 dark:text-stone-400))
+                 (family '(font-sans))
                  (size '(text-xl)))
-  `((h4 (@ (class ,(mk-class (append color size weight style))))
+  `((h4 (@ (class ,(mk-class (append color size weight style family))))
         ,content)))
 
 (define* (p content
             #:key (weight '(font-medium))
             (color '(text-stone-800 dark:text-stone-200))
+            (family '(font-sans))
             (size '(text-lg)))
-  `((p (@ (class ,(mk-class (append color size weight))))
+  `((p (@ (class ,(mk-class (append color size weight family))))
        ,content)))
 
 (define* (em content
              #:key (weight '(font-light))
              (color '(text-stone-600 dark:text-stone-400))
+             (family '(font-sans))
              (style '(italic))
              (size '(text-md)))
-  `((em (@ (class ,(mk-class (append color size weight style))))
+  `((em (@ (class ,(mk-class (append color size weight style family))))
         ,content)))
 
 (define* (strong content
                  #:key (weight '(font-bold))
                  (color '(text-stone-800 dark:text-stone-200))
+                 (family '(font-sans))
                  (size '(text-lg)))
-  `((strong (@ (class ,(mk-class (append color size weight))))
+  `((strong (@ (class ,(mk-class (append color size weight family))))
             ,content)))
 
 (define* (a content
             #:key (weight '(font-bold))
             (size '(text-lg))
             (color '(text-blue-500 dark:text-blue-400))
+            (family '(font-sans))
             (hover '(hover:text-blue-700 dark:hover:text-blue-600))
             (href #f))
   `((a (@ (href ,(if (not href) content href))
-          (class ,(mk-class (append color hover size weight))))
+          (class ,(mk-class (append color hover size weight family))))
        ,content)))
 
 (define* (mono content

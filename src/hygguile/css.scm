@@ -20,7 +20,8 @@
   #:export (custom-tailwind-theme custom-fonts phosphor-icons))
 
 (define* (custom-tailwind-theme #:key (sans-font "IBM Plex Sans")
-                                (mono-font "IBM Plex Mono"))
+                                (mono-font "IBM Plex Mono")
+                                (serif-font "IBM Plex Serif"))
   `((style (@ (type "text/tailwindcss"))
            ,(format #f
              "
@@ -29,6 +30,7 @@
 @theme {
   --font-sans: \"~a\", sans-serif;
   --font-mono: \"~a\", monospace;
+  --font-serif: \"~a\", serif;
   --animate-wiggle: wiggle 750ms ease-in-out 50ms;
 
   @keyframes wiggle {
@@ -42,7 +44,7 @@
   }
 }
 "
-             sans-font mono-font))))
+             sans-font mono-font serif-font))))
 
 (define* (custom-fonts #:key (preconnects `((link (@ (rel preconnect)
                                                      (href
