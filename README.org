@@ -206,3 +206,6 @@ You can always choose to import hygguile using a prefix to avoid name clashes if
 
 --------
 
+* Additional Tailwind goodies
+
+Hygguile defines some custom extensions on top of Tailwind CSS, like some additional colors (~bg-papayawhip~ , ~text-cafenoir~, etc.)
