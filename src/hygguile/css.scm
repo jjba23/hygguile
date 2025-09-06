@@ -42,6 +42,12 @@
       transform: rotate(3deg);
     }
   }
+
+  --color-burntumber: #943524;
+  --color-bistre: #261903;
+  --color-papayawhip: #FFF1D6;
+  --color-chinarose: #944C63;
+  --color-earthyellow: #F7AE50;
 }
 "
              sans-font mono-font serif-font))))
