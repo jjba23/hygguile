@@ -48,6 +48,7 @@
   --color-papayawhip: #FFF1D6;
   --color-chinarose: #944C63;
   --color-earthyellow: #F7AE50;
+  --color-cafenoir: #392605;
 }
 "
              sans-font mono-font serif-font))))
