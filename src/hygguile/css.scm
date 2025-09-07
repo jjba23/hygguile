@@ -43,6 +43,7 @@
     }
   }
 
+  --color-spicedterracotta: #BB7546;
   --color-burntumber: #943524;
   --color-bistre: #261903;
   --color-oldlace: #FFF8EB;
