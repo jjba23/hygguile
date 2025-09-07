@@ -45,6 +45,9 @@
 
   --color-burntumber: #943524;
   --color-bistre: #261903;
+  --color-oldlace: #FFF8EB;
+  --color-floralwhite: #FDF9ED;
+  --color-cornsilk: #FBF3DA;
   --color-papayawhip: #FFF1D6;
   --color-chinarose: #944C63;
   --color-earthyellow: #F7AE50;
