@@ -358,12 +358,32 @@ formatting."
               (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
                        ,(as-example '(h1
                                       "Sphinx of black quartz, judge my vow"))
+                       ,(as-example '(h1
+                                      "Sphinx of black quartz, judge my vow"
+                                      #:weight '(font-light)))
                        ,(as-example '(h2
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(h3
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(h4
                                       "Sphinx of black quartz, judge my vow")))
+              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+                       ,(as-example '(h1
+                                      "Sphinx of black quartz, judge my vow"
+                                      #:family '(font-serif)))
+                       ,(as-example '(h1
+                                      "Sphinx of black quartz, judge my vow"
+                                      #:family '(font-serif)
+                                      #:weight '(font-light)))
+                       ,(as-example '(h2
+                                      "Sphinx of black quartz, judge my vow"
+                                      #:family '(font-serif)))
+                       ,(as-example '(h3
+                                      "Sphinx of black quartz, judge my vow"
+                                      #:family '(font-serif)))
+                       ,(as-example '(h4
+                                      "Sphinx of black quartz, judge my vow"
+                                      #:family '(font-serif))))
               (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
                        ,(as-example '(sub-h1
                                       "Sphinx of black quartz, judge my vow"))
@@ -373,6 +393,7 @@ formatting."
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(sub-h4
                                       "Sphinx of black quartz, judge my vow")))
+
               (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
                        ,(as-example '(strong
                                       "Sphinx of black quartz, judge my vow"))
@@ -514,6 +535,80 @@ formatting."
                 ,(carousel #:id 'showcase-carousel
                            #:fragments fragments)))))
 
+(define* (mk-color-show #:key color text-class)
+  `((div (@ (class ,(mk-class (append (list (string->symbol (format #f "bg-~a"
+                                                                    color)))
+                                      '(rounded-2xl shadow-md
+                                                    p-4
+                                                    w-32
+                                                    h-32
+                                                    flex
+                                                    flex-col
+                                                    justify-end)))))
+         (span (@ (class ,(mk-class (append (list text-class)
+                                            '(text-sm)))))
+               ,(format #f "~a" color)))))
+
+(define (custom-colors-section)
+  (let* ((color-grid-class (mk-class '(flex flex-row
+                                            flex-wrap
+                                            gap-2
+                                            items-center
+                                            align-center
+                                            py-4))))
+    `( ,(sub-h2 "🎨 Colors")
+      (div ,(p
+             "Hygguile offers all Tailwind colors out of the box, in all their variants.")
+           (div (@ (class ,color-grid-class))
+                ,(mk-color-show #:color 'red-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'orange-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'amber-500
+                                #:text-class 'text-black)
+                ,(mk-color-show #:color 'yellow-500
+                                #:text-class 'text-black)
+                ,(mk-color-show #:color 'lime-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'green-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'emerald-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'teal-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'cyan-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'cyan-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'sky-500
+                                #:text-class 'text-white)                                
+                ,(mk-color-show #:color 'blue-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'indigo-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'violet-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'purple-500
+                                #:text-class 'text-white)                                
+                ,(mk-color-show #:color 'fuchsia-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'pink-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'rose-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'slate-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'gray-500
+                                #:text-class 'text-white)
+                ,(mk-color-show #:color 'zinc-500
+                                #:text-class 'text-white)                             
+                ,(mk-color-show #:color 'stone-500
+                                #:text-class 'text-white))
+           ,(p "It also offers some custom colors (no variants)")
+           (div (@ (class ,color-grid-class))
+                ,(mk-color-show #:color 'spicedterracotta
+                                #:text-class 'text-white))))))
+
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
                                                          mx-auto))))
@@ -528,6 +623,8 @@ formatting."
                              ,button-section
                              ,(hr)
                              ,typography-section
+                             ,(hr)
+                             ,(custom-colors-section)
                              ,(hr)
                              ,carousel-section
                              ,(hr)
