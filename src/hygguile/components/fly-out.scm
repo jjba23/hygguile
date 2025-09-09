@@ -29,18 +29,19 @@
              ,items))))
 
 (define* (fly-out-submenu #:key (li-class '(flyout-menu-container
-                                            cursor-pointer
-                                            px-4 py-4))
-                          (button-class '(flyout-submenu-button cursor-pointer))
+                                            cursor-pointer px-4 py-4))
+                          (button-class '(flyout-submenu-button cursor-pointer
+                                          flex text-stone-700
+                                          dark:text-stone-300))
                           (ul-class '(flyout-submenu))
-                          (button-title "Menu")
+                          (button-content (list (h4 "Menu")))
                           (items '()))
   `((li (@ (class ,(mk-class li-class)))
         (button (@ (class ,(mk-class button-class))
                    (aria-haspopup true)
                    (aria-expanded false)
                    (aria-controls submenu))
-                ,button-title)
+                ,button-content)
         (ul (@ (hidden "")
                (class ,(mk-class ul-class)))
             ,items))))

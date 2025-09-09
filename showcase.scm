@@ -536,18 +536,17 @@ formatting."
                            #:fragments fragments)))))
 
 (define some-fly-out-items
-  (list (fly-out-item `((a (@ (href "#")) "First item")))
-        (fly-out-item `((a (@ (href "#")) "Third item")))
-        (fly-out-submenu #:button-title "IN VINO VERITAS"
-                         #:items (list (fly-out-item `(a (@ (href "#")) "I"))
-                                       (fly-out-item `(a (@ (href "#")) "II"))
-                                       (fly-out-item `(a (@ (href "#")) "III"))
-                                       (fly-out-item `(a (@ (href "#")) "IV"))
-                                       (fly-out-item `(a (@ (href "#")) "V"))))
-                (fly-out-submenu #:button-title "λ Scheme"
-                         #:items (list (fly-out-item `(a (@ (href "#")) "Guile"))
-                                       (fly-out-item `(a (@ (href "#")) "Chicken"))))
-        
+  (list (fly-out-item (list (h4 "First item")))
+        (fly-out-item (list (h4 "Third item")))
+        (fly-out-submenu #:button-content (list (h4 "IN VINO VERITAS"))
+                         #:items (list (fly-out-item (list (h4 "I")))
+                                       (fly-out-item (list (h4 "II")))
+                                       (fly-out-item (list (h4 "III")))
+                                       (fly-out-item (list (h4 "IV")))
+                                       (fly-out-item (list (h4 "V")))))
+        (fly-out-submenu #:button-content (list (h4 "λ Scheme"))
+                         #:items (list (fly-out-item (list (h4 "Guile")))
+                                       (fly-out-item (list (h4 "Chicken")))))
 
         ))
 
