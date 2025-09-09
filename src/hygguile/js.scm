@@ -260,5 +260,33 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 })
 
+document.addEventListener('DOMContentLoaded', () => {
+  const HOVER_DELAY = 1200
+
+  const menuContainers = document.querySelectorAll('.flyout-menu-container')
+
+  menuContainers.forEach((menuContainer, i, p) => {
+    let hoverTimer
+    menuContainer.addEventListener('mouseenter', () => {
+      hoverTimer = setTimeout(() => {
+        const menuButton = menuContainer.querySelector('.flyout-submenu-button')
+        if (menuButton) {
+          const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
+
+          if (!isExpanded) {
+            menuButton.click()
+          }
+        }
+      }, HOVER_DELAY)
+    })
+
+    menuContainer.addEventListener('mouseleave', () => {
+      clearTimeout(hoverTimer)
+    })
+  })
+})
+
+
+
 
 ")))
