@@ -535,6 +535,26 @@ formatting."
                 ,(carousel #:id 'showcase-carousel
                            #:fragments fragments)))))
 
+(define some-fly-out-items
+  (list (fly-out-item `((a (@ (href "#")) "First item")))
+        (fly-out-item `((a (@ (href "#")) "Third item")))
+        (fly-out-submenu #:button-title "IN VINO VERITAS"
+                         #:items (list (fly-out-item `(a (@ (href "#")) "I"))
+                                       (fly-out-item `(a (@ (href "#")) "II"))
+                                       (fly-out-item `(a (@ (href "#")) "III"))
+                                       (fly-out-item `(a (@ (href "#")) "IV"))
+                                       (fly-out-item `(a (@ (href "#")) "V"))))
+                (fly-out-submenu #:button-title "λ Scheme"
+                         #:items (list (fly-out-item `(a (@ (href "#")) "Guile"))
+                                       (fly-out-item `(a (@ (href "#")) "Chicken"))))
+        
+
+        ))
+
+(define (fly-out-section)
+  (list (sub-h2 "🦋 Fly-out section")
+        (fly-out #:items some-fly-out-items)))
+
 (define* (mk-color-show #:key color text-class)
   `((div (@ (class ,(mk-class (append (list (string->symbol (format #f "bg-~a"
                                                                     color)))
@@ -626,8 +646,7 @@ formatting."
                                      ,(mk-color-show #:color 'chinarose
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'earthyellow
-                                                     #:text-class 'text-black)
-                                     )))))
+                                                     #:text-class 'text-black))))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
@@ -647,6 +666,8 @@ formatting."
                              ,(custom-colors-section)
                              ,(hr)
                              ,carousel-section
+                             ,(hr)
+                             ,(fly-out-section)
                              ,(hr)
                              ,dl-section
                              ,(hr)
@@ -674,6 +695,7 @@ formatting."
                                   ,(show-notifications-from-url-js)
                                   ,(carousel-button-js)
                                   ,(remember-dark-theme-js)
+                                  ,(fly-out-js)
                                   (body (@ (class ,(mk-class '(bg-white
                                                                dark:bg-stone-800))))
                                         ,notification-tray

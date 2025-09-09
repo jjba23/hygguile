@@ -17,12 +17,30 @@
 
 (define-module (hygguile css)
   #:use-module (hygguile abstraction)
+  #:use-module (ice-9 string-fun)
   #:export (custom-tailwind-theme custom-fonts phosphor-icons))
 
 (define* (custom-tailwind-theme #:key (sans-font "IBM Plex Sans")
                                 (mono-font "IBM Plex Mono")
                                 (serif-font "IBM Plex Serif"))
-  `((style (@ (type "text/tailwindcss"))
+  `((style (@ (type "text/css"))
+           "
+/* Flyout menu / dropdown */
+.flyout-submenu-button[aria-expanded=\"true\"]::after {
+  content: \"▲\";
+  padding-left: 0.8em;
+}
+
+.flyout-submenu-button[aria-expanded=\"false\"]::after {
+  content: \"▼\";
+  padding-left: 0.8em;
+}
+
+.flyout-submenu[hidden] {
+  display: none;
+}
+")
+    (style (@ (type "text/tailwindcss"))
            ,(format #f
              "
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
@@ -64,10 +82,17 @@
                                                      (href
                                                       "https://fonts.gstatic.com")
                                                      (crossorigin "")))))
-                       (stylesheet-href
-                        "https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"))
-  `(,preconnects (link (@ (rel stylesheet)
-                          (href ,stylesheet-href)))))
+                       (fonts `("IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"
+                                "IBM+Plex+Sans:ital,wght@0,100..700;1,100..700"
+                                "IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"))
+                       (display-swap "display=swap"))
+  (let* ((font-string (string-join fonts "&family=") ))
+    `(,preconnects (link (@ (rel stylesheet)
+                            (href ,(string-append
+                                    "https://fonts.googleapis.com/css2?family="
+                                    font-string "&" display-swap)))))))
+
+
 
 (define* (phosphor-icons #:key (stylesheet-href
                                 "https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"))

@@ -20,7 +20,8 @@
   #:export (toggle-dark-theme-js copy-pre-inner-text-js remember-dark-theme-js
                                  show-notifications-from-url-js
                                  carousel-button-js
-                                 trigger-notification-function-js))
+                                 trigger-notification-function-js
+                                 fly-out-js))
 
 (define (toggle-dark-theme-js)
   `((script
@@ -169,3 +170,123 @@ function handleCarouselClick(direction, id) {
 }
 ")))
 
+(define (fly-out-js)
+  `((script "
+document.addEventListener('DOMContentLoaded', () => {
+  const menuContainers = document.querySelectorAll('.flyout-menu-container') 
+
+  // Helper function to close a menu
+  const closeMenu = (button, menu) => {
+    button.setAttribute('aria-expanded', 'false')
+    menu.hidden = true
+  }
+
+  // Helper function to open a menu
+  const openMenu = (button, menu) => {
+    button.setAttribute('aria-expanded', 'true')
+    menu.hidden = false
+  }
+
+  menuContainers.forEach(container => {
+    const menuButton = container.querySelector('.flyout-submenu-button')
+    const dropdownMenu = container.querySelector('.flyout-submenu')
+
+    // If a component is missing its button or menu, skip it.
+    if (!menuButton || !dropdownMenu) {
+      return
+    }
+
+    const menuItems = dropdownMenu.querySelectorAll('a[href], button:not([disabled])')
+    const firstMenuItem = menuItems[0]
+    const lastMenuItem = menuItems[menuItems.length - 1]
+
+    // --- Event Listener for the Menu Button ---
+    menuButton.addEventListener('click', (event) => {
+      event.preventDefault()
+      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
+      if (isExpanded) {
+        closeMenu(menuButton, dropdownMenu)
+      } else {
+        openMenu(menuButton, dropdownMenu)
+      }
+    })
+
+    menuButton.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault()
+        openMenu(menuButton, dropdownMenu)
+        if (firstMenuItem) {
+          firstMenuItem.focus()
+        }
+      } else if (event.key === 'Escape') {
+        closeMenu(menuButton, dropdownMenu)
+        menuButton.focus()
+      }
+    })
+
+    // --- Event Listener for the Dropdown Menu ---
+    dropdownMenu.addEventListener('keydown', (event) => {
+      const { key } = event
+      const activeElement = document.activeElement
+
+      if (key === 'Escape') {
+        closeMenu(menuButton, dropdownMenu)
+        menuButton.focus()
+        return
+      }
+
+      if (key === 'ArrowUp') {
+        event.preventDefault()
+        if (activeElement === firstMenuItem) {
+          lastMenuItem.focus()
+        } else {
+          const currentIndex = Array.from(menuItems).indexOf(activeElement)
+          if (currentIndex > 0) {
+            menuItems[currentIndex - 1].focus()
+          }
+        }
+      } else if (key === 'ArrowDown') {
+        event.preventDefault()
+        if (activeElement === lastMenuItem) {
+          firstMenuItem.focus()
+        } else {
+          const currentIndex = Array.from(menuItems).indexOf(activeElement)
+          if (currentIndex < menuItems.length - 1) {
+            menuItems[currentIndex + 1].focus()
+          }
+        }
+      }
+    })
+  })
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+  const HOVER_DELAY = 2000
+
+  const menuContainers = document.querySelectorAll('.flyout-menu-container')
+
+  menuContainers.forEach((menuContainer, i, p) => {
+    let hoverTimer
+    menuContainer.addEventListener('mouseenter', () => {
+      hoverTimer = setTimeout(() => {
+        const menuButton = menuContainer.querySelector('.flyout-submenu-button')
+        if (menuButton) {
+          const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
+
+          if (!isExpanded) {
+            menuButton.click()
+          }
+        }
+      }, HOVER_DELAY)
+    })
+
+    menuContainer.addEventListener('mouseleave', () => {
+      clearTimeout(hoverTimer)
+    })
+  })
+})
+
+
+
+
+")))
