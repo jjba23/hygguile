@@ -20,7 +20,8 @@
   #:export (toggle-dark-theme-js copy-pre-inner-text-js remember-dark-theme-js
                                  show-notifications-from-url-js
                                  carousel-button-js
-                                 trigger-notification-function-js))
+                                 trigger-notification-function-js
+                                 fly-out-js))
 
 (define (toggle-dark-theme-js)
   `((script
@@ -169,3 +170,62 @@ function handleCarouselClick(direction, id) {
 }
 ")))
 
+(define (fly-out-js)
+  `((script "
+function firstChildByClass(element, className) {
+  for (const child of element.children) {
+    if (child.classList.contains(className)) {
+      return child
+    }
+  }
+  return null
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const menuButtons = document.querySelectorAll('.flyout-submenu-button')
+  menuButtons.forEach((menuButton, i, p) => {
+    let dropdownMenu = firstChildByClass(menuButton.parentElement, 'flyout-submenu')
+    menuButton.addEventListener('click', function() {
+      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
+      menuButton.setAttribute('aria-expanded', !isExpanded)
+      dropdownMenu.hidden = isExpanded
+    })
+
+
+    menuButton.addEventListener('keydown', function(event) {
+      if (event.key === 'ArrowDown') {
+        dropdownMenu.querySelector('li a').focus()
+      } else if (event.key === 'Escape') {
+        menuButton.focus()
+        dropdownMenu.hidden = true
+        menuButton.setAttribute('aria-expanded', 'false')
+      }
+    })
+  })
+
+  const dropdownMenus = document.querySelectorAll('.flyout-submenu')
+  dropdownMenus.forEach((dropdownMenu, i, p) => {
+    let menuButton = firstChildByClass(dropdownMenu.parentElement, 'flyout-submenu-button')
+    dropdownMenu.addEventListener('keydown', function(event) {
+      if (event.key === 'ArrowUp') {
+        const focusedItem = document.activeElement.parentElement
+        const previousItem = focusedItem.previousElementSibling
+        if (previousItem) {
+          previousItem.querySelector('a').focus()
+        }
+      } else if (event.key === 'ArrowDown') {
+        const focusedItem = document.activeElement.parentElement
+        const nextItem = focusedItem.nextElementSibling
+        if (nextItem) {
+          nextItem.querySelector('a').focus()
+        }
+      } else if (event.key === 'Escape') {
+        menuButton.focus()
+        dropdownMenu.hidden = true
+        menuButton.setAttribute('aria-expanded', 'false')
+      }
+    })
+  })
+})
+
+")))

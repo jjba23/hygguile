@@ -22,7 +22,21 @@
 (define* (custom-tailwind-theme #:key (sans-font "IBM Plex Sans")
                                 (mono-font "IBM Plex Mono")
                                 (serif-font "IBM Plex Serif"))
-  `((style (@ (type "text/tailwindcss"))
+  `((style (@(type "text/css"))
+      "
+.flyout-submenu-button[aria-expanded=\"true\"]::after {
+  content: \"▲\"; /* Arrow up to indicate expanded */
+}
+
+.flyout-submenu-button[aria-expanded=\"false\"]::after {
+  content: \"▼\"; /* Arrow down to indicate collapsed */
+}
+
+.flyout-submenu[hidden] {
+  display: none;
+}
+")
+    (style (@ (type "text/tailwindcss"))
            ,(format #f
              "
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));

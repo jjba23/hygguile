@@ -77,4 +77,5 @@
                         strong
                         pre
                         mono
+                        fly-out-js
                         code))

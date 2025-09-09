@@ -535,6 +535,24 @@ formatting."
                 ,(carousel #:id 'showcase-carousel
                            #:fragments fragments)))))
 
+(define (fly-out-section)
+  `(,(sub-h2 "🦋 Fly-out section") (nav (@ (class ,(mk-class '(py-4)))
+                                          (aria-label "Main"))
+                                       (ul (@ (class ,(mk-class '(flex
+                                                                  flex-row
+                                                                  gap-4))))
+                                           (li (a (@ (href "#")) "First"))
+                                           (li (@ (class ,(mk-class '(has-submenu))))
+                                               (button (@(class ,(mk-class '(flyout-submenu-button)))
+                                                        (aria-haspopup true)(aria-expanded false)(aria-controls submenu)) "Second")
+                                               (ul (@(hidden "")(class ,(mk-class '(flyout-submenu)))) (li (a (@ (href "#"))
+                                                          "Second I"))
+                                                   (li (a (@ (href "#"))
+                                                          "Second II"))
+                                                   (li (a (@ (href "#"))
+                                                          "Second III"))))
+                                           (li (a (@ (href "#")) "Third"))))))
+
 (define* (mk-color-show #:key color text-class)
   `((div (@ (class ,(mk-class (append (list (string->symbol (format #f "bg-~a"
                                                                     color)))
@@ -626,8 +644,7 @@ formatting."
                                      ,(mk-color-show #:color 'chinarose
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'earthyellow
-                                                     #:text-class 'text-black)
-                                     )))))
+                                                     #:text-class 'text-black))))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
@@ -647,6 +664,8 @@ formatting."
                              ,(custom-colors-section)
                              ,(hr)
                              ,carousel-section
+                             ,(hr)
+                             ,(fly-out-section)
                              ,(hr)
                              ,dl-section
                              ,(hr)
@@ -674,6 +693,7 @@ formatting."
                                   ,(show-notifications-from-url-js)
                                   ,(carousel-button-js)
                                   ,(remember-dark-theme-js)
+                                  ,(fly-out-js)
                                   (body (@ (class ,(mk-class '(bg-white
                                                                dark:bg-stone-800))))
                                         ,notification-tray
