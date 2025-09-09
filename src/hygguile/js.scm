@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 document.addEventListener('DOMContentLoaded', () => {
-  const HOVER_DELAY = 1200
+  const HOVER_DELAY = 2000
 
   const menuContainers = document.querySelectorAll('.flyout-menu-container')
 

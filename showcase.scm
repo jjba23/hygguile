@@ -535,28 +535,25 @@ formatting."
                 ,(carousel #:id 'showcase-carousel
                            #:fragments fragments)))))
 
+(define some-fly-out-items
+  (list (fly-out-item `((a (@ (href "#")) "First item")))
+        (fly-out-item `((a (@ (href "#")) "Third item")))
+        (fly-out-submenu #:button-title "IN VINO VERITAS"
+                         #:items (list (fly-out-item `(a (@ (href "#")) "I"))
+                                       (fly-out-item `(a (@ (href "#")) "II"))
+                                       (fly-out-item `(a (@ (href "#")) "III"))
+                                       (fly-out-item `(a (@ (href "#")) "IV"))
+                                       (fly-out-item `(a (@ (href "#")) "V"))))
+                (fly-out-submenu #:button-title "λ Scheme"
+                         #:items (list (fly-out-item `(a (@ (href "#")) "Guile"))
+                                       (fly-out-item `(a (@ (href "#")) "Chicken"))))
+        
+
+        ))
+
 (define (fly-out-section)
-  `(,(sub-h2 "🦋 Fly-out section") (nav (@ (class ,(mk-class '(py-4)))
-                                          (aria-label "Main"))
-                                       (ul (@ (class ,(mk-class '(flex
-                                                                  flex-row
-                                                                  gap-4))))
-                                           (li (a (@ (href "#")) "First"))
-                                           (li (@ (class ,(mk-class '(flyout-menu-container))))
-                                               (button (@ (class ,(mk-class '(flyout-submenu-button)))
-                                                          (aria-haspopup true)
-                                                          (aria-expanded false)
-                                                          (aria-controls
-                                                           submenu)) "Second")
-                                               (ul (@ (hidden "")
-                                                      (class ,(mk-class '(flyout-submenu))))
-                                                   (li (a (@ (href "#"))
-                                                          "Second I"))
-                                                   (li (a (@ (href "#"))
-                                                          "Second II"))
-                                                   (li (a (@ (href "#"))
-                                                          "Second III"))))
-                                           (li (a (@ (href "#")) "Third"))))))
+  (list (sub-h2 "🦋 Fly-out section")
+        (fly-out #:items some-fly-out-items)))
 
 (define* (mk-color-show #:key color text-class)
   `((div (@ (class ,(mk-class (append (list (string->symbol (format #f "bg-~a"
