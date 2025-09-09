@@ -172,60 +172,93 @@ function handleCarouselClick(direction, id) {
 
 (define (fly-out-js)
   `((script "
-function firstChildByClass(element, className) {
-  for (const child of element.children) {
-    if (child.classList.contains(className)) {
-      return child
-    }
-  }
-  return null
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-  const menuButtons = document.querySelectorAll('.flyout-submenu-button')
-  menuButtons.forEach((menuButton, i, p) => {
-    let dropdownMenu = firstChildByClass(menuButton.parentElement, 'flyout-submenu')
-    menuButton.addEventListener('click', function() {
+  const menuContainers = document.querySelectorAll('.flyout-menu-container') 
+
+  // Helper function to close a menu
+  const closeMenu = (button, menu) => {
+    button.setAttribute('aria-expanded', 'false')
+    menu.hidden = true
+  }
+
+  // Helper function to open a menu
+  const openMenu = (button, menu) => {
+    button.setAttribute('aria-expanded', 'true')
+    menu.hidden = false
+  }
+
+  menuContainers.forEach(container => {
+    const menuButton = container.querySelector('.flyout-submenu-button')
+    const dropdownMenu = container.querySelector('.flyout-submenu')
+
+    // If a component is missing its button or menu, skip it.
+    if (!menuButton || !dropdownMenu) {
+      return
+    }
+
+    const menuItems = dropdownMenu.querySelectorAll('a[href], button:not([disabled])')
+    const firstMenuItem = menuItems[0]
+    const lastMenuItem = menuItems[menuItems.length - 1]
+
+    // --- Event Listener for the Menu Button ---
+    menuButton.addEventListener('click', (event) => {
+      event.preventDefault()
       const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
-      menuButton.setAttribute('aria-expanded', !isExpanded)
-      dropdownMenu.hidden = isExpanded
-    })
-
-
-    menuButton.addEventListener('keydown', function(event) {
-      if (event.key === 'ArrowDown') {
-        dropdownMenu.querySelector('li a').focus()
-      } else if (event.key === 'Escape') {
-        menuButton.focus()
-        dropdownMenu.hidden = true
-        menuButton.setAttribute('aria-expanded', 'false')
+      if (isExpanded) {
+        closeMenu(menuButton, dropdownMenu)
+      } else {
+        openMenu(menuButton, dropdownMenu)
       }
     })
-  })
 
-  const dropdownMenus = document.querySelectorAll('.flyout-submenu')
-  dropdownMenus.forEach((dropdownMenu, i, p) => {
-    let menuButton = firstChildByClass(dropdownMenu.parentElement, 'flyout-submenu-button')
-    dropdownMenu.addEventListener('keydown', function(event) {
-      if (event.key === 'ArrowUp') {
-        const focusedItem = document.activeElement.parentElement
-        const previousItem = focusedItem.previousElementSibling
-        if (previousItem) {
-          previousItem.querySelector('a').focus()
-        }
-      } else if (event.key === 'ArrowDown') {
-        const focusedItem = document.activeElement.parentElement
-        const nextItem = focusedItem.nextElementSibling
-        if (nextItem) {
-          nextItem.querySelector('a').focus()
+    menuButton.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault()
+        openMenu(menuButton, dropdownMenu)
+        if (firstMenuItem) {
+          firstMenuItem.focus()
         }
       } else if (event.key === 'Escape') {
+        closeMenu(menuButton, dropdownMenu)
         menuButton.focus()
-        dropdownMenu.hidden = true
-        menuButton.setAttribute('aria-expanded', 'false')
+      }
+    })
+
+    // --- Event Listener for the Dropdown Menu ---
+    dropdownMenu.addEventListener('keydown', (event) => {
+      const { key } = event
+      const activeElement = document.activeElement
+
+      if (key === 'Escape') {
+        closeMenu(menuButton, dropdownMenu)
+        menuButton.focus()
+        return
+      }
+
+      if (key === 'ArrowUp') {
+        event.preventDefault()
+        if (activeElement === firstMenuItem) {
+          lastMenuItem.focus()
+        } else {
+          const currentIndex = Array.from(menuItems).indexOf(activeElement)
+          if (currentIndex > 0) {
+            menuItems[currentIndex - 1].focus()
+          }
+        }
+      } else if (key === 'ArrowDown') {
+        event.preventDefault()
+        if (activeElement === lastMenuItem) {
+          firstMenuItem.focus()
+        } else {
+          const currentIndex = Array.from(menuItems).indexOf(activeElement)
+          if (currentIndex < menuItems.length - 1) {
+            menuItems[currentIndex + 1].focus()
+          }
+        }
       }
     })
   })
 })
+
 
 ")))
