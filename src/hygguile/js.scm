@@ -172,26 +172,45 @@ function handleCarouselClick(direction, id) {
 
 (define (fly-out-js)
   `((script "
+const closeMenu = (button, menu) => {
+  button.setAttribute('aria-expanded', 'false')
+  menu.hidden = true
+}
+
+const openMenu = (button, menu) => {
+  button.setAttribute('aria-expanded', 'true')
+  menu.hidden = false
+}
+
+const HOVER_DELAY = 2000
+
 document.addEventListener('DOMContentLoaded', () => {
-  const menuContainers = document.querySelectorAll('.flyout-menu-container') 
+  const menuContainers = document.querySelectorAll('.flyout-menu-container')
 
-  // Helper function to close a menu
-  const closeMenu = (button, menu) => {
-    button.setAttribute('aria-expanded', 'false')
-    menu.hidden = true
-  }
+  menuContainers.forEach(menuContainer => {
+    let hoverTimer
+    menuContainer.addEventListener('mouseenter', () => {
+      hoverTimer = setTimeout(() => {
+        const menuButton = menuContainer.querySelector('.flyout-submenu-button')
+        if (menuButton) {
+          const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
 
-  // Helper function to open a menu
-  const openMenu = (button, menu) => {
-    button.setAttribute('aria-expanded', 'true')
-    menu.hidden = false
-  }
+          if (!isExpanded) {
+            menuButton.click()
+          }
+        }
+      }, HOVER_DELAY)
+    })
 
-  menuContainers.forEach(container => {
-    const menuButton = container.querySelector('.flyout-submenu-button')
-    const dropdownMenu = container.querySelector('.flyout-submenu')
+    menuContainer.addEventListener('mouseleave', () => {
+      clearTimeout(hoverTimer)
+    })
+  })
 
-    // If a component is missing its button or menu, skip it.
+  menuContainers.forEach(menuContainer => {
+    const menuButton = menuContainer.querySelector('.flyout-submenu-button')
+    const dropdownMenu = menuContainer.querySelector('.flyout-submenu')
+
     if (!menuButton || !dropdownMenu) {
       return
     }
@@ -200,7 +219,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstMenuItem = menuItems[0]
     const lastMenuItem = menuItems[menuItems.length - 1]
 
-    // --- Event Listener for the Menu Button ---
     menuButton.addEventListener('click', (event) => {
       event.preventDefault()
       const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
@@ -224,7 +242,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
 
-    // --- Event Listener for the Dropdown Menu ---
     dropdownMenu.addEventListener('keydown', (event) => {
       const { key } = event
       const activeElement = document.activeElement
@@ -260,31 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 })
 
-document.addEventListener('DOMContentLoaded', () => {
-  const HOVER_DELAY = 2000
-
-  const menuContainers = document.querySelectorAll('.flyout-menu-container')
-
-  menuContainers.forEach((menuContainer, i, p) => {
-    let hoverTimer
-    menuContainer.addEventListener('mouseenter', () => {
-      hoverTimer = setTimeout(() => {
-        const menuButton = menuContainer.querySelector('.flyout-submenu-button')
-        if (menuButton) {
-          const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
-
-          if (!isExpanded) {
-            menuButton.click()
-          }
-        }
-      }, HOVER_DELAY)
-    })
-
-    menuContainer.addEventListener('mouseleave', () => {
-      clearTimeout(hoverTimer)
-    })
-  })
-})
 
 
 
