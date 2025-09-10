@@ -699,17 +699,7 @@ formatting."
                                            (content
                                             "width=device-width, initial-scale=1.0")))
                                   (meta (@ (charset "UTF-8")))
-                                  (script ,(assoc-ref asset-library
-                                            "resources/js/tailwind.js"))
-                                  ,(custom-fonts)
-                                  ,(phosphor-icons)
-                                  ,(custom-tailwind-theme)
-                                  ,(toggle-dark-theme-js)
-                                  ,(copy-pre-inner-text-js)
-                                  ,(show-notifications-from-url-js)
-                                  ,(carousel-button-js)
-                                  ,(remember-dark-theme-js)
-                                  ,(fly-out-js)
+                                  ,hygguile-recommended-resources
                                   (body (@ (class ,(mk-class '(bg-white
                                                                dark:bg-stone-800))))
                                         ,notification-tray

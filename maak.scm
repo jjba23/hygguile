@@ -57,8 +57,7 @@
 
 (define (embed)
   "Embed static assets into Scheme code."
-  (manifest-shell '("guile -L ./src"
-                    "./scripts/embedder.scm")))
+  (manifest-shell '("guile -L ./src" "./scripts/embedder.scm")))
 
 (define (docs)
   "Generate technical API documentation for Hygguile."
@@ -70,6 +69,7 @@
 
 (define (deploy)
   "Generate documentation for the project and publish to web directory."
+  (embed)
   (build)
   (docs)
   (delete-file-recursively deploy-dir)
@@ -109,14 +109,15 @@
   (docs)
   (serve))
 
-
 (define (hot-reload)
   "Hot-reloading developer's setup."
+  (embed)
   (manifest-shell (list "watchexec"
                         "--clear"
                         (~ "--exts ~a"
                            (string-join (map symbol->string
                                              hot-reload-file-types) ","))
+                        "--ignore=src/hygguile/embed/*.scm"
                         "--on-busy-update=restart"
                         "--shell bash"
                         "--watch . --"

@@ -105,15 +105,21 @@ The recommended snippet in your SXML ~head~
 #+begin_src scheme
 (meta (@ (name viewport)(content "width=device-width, initial-scale=1.0")))
 (meta (@ (charset "UTF-8")))
-;; also load tailwind in some way, depending on your app
-;; (script ,(assoc-ref asset-library "resources/js/tailwind.js"))
-,(custom-fonts)
-,(phosphor-icons)
-,(custom-tailwind-theme)
-,(toggle-dark-theme-js)
-,(copy-pre-inner-text-js)
-,(show-notifications-from-url-js)
-,(remember-dark-theme-js)
+,hygguile-recommended-resources
+
+;; equivalent to loading:
+;;   tailwind-js
+;;   custom-fonts
+;;   phosphor-icons
+;;   custom-tailwind-css
+;;   fly-out-css
+;;   toggle-dark-theme-js
+;;   copy-pre-inner-text-js
+;;   show-notifications-from-url-js
+;;   carousel-button-js
+;;   remember-dark-theme-js
+;;   fly-out-js
+;; and more.....
 #+end_src
 
 See the ~maak.scm~ for more details and common tasks.

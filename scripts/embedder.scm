@@ -33,7 +33,9 @@
     (string-join embed-entries "\n\n")))
 
 (define* (mk-module #:key name method-names methods)
-  (list `(define-module (hygguile embed
+  (list license-text
+        "\n\n"
+        `(define-module (hygguile embed
                                   ,name)
            "\n"
            #:declarative? #t
@@ -75,7 +77,25 @@
   '(fly-out))
 
 (define tailwind-css-files
-  '(tailwind))
+  '(custom-tailwind))
+
+(define license-text ";; hygguile - cozy and professional user-interfaces for everyone
+
+;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+;; hygguile is free software: you can redistribute it and/or modify
+;; it under the terms of the Lesser GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; hygguile is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; Lesser GNU General Public License for more details.
+
+;; You should have received a copy of the Lesser GNU General Public License
+;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+")
 
 (let* ( ;full path to files to embed
         (js-embed-files (map (lambda (file)

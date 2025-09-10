@@ -19,8 +19,9 @@
   #:use-module (hygguile abstraction)
   #:use-module (hygguile js)
   #:use-module (hygguile embed js)
-  #:use-module (hygguile embed tailwind)
+  #:use-module (hygguile embed tailwind-js)
   #:use-module (hygguile embed css)
+  #:use-module (hygguile embed tailwind-css)
   #:use-module (hygguile components button)
   #:use-module (hygguile components container)
   #:use-module (hygguile components icon)
@@ -38,13 +39,14 @@
                  col
                  copy-pre-inner-text-js
                  custom-fonts
-                 custom-tailwind-theme
+                 custom-tailwind-css
                  danger-submit-button
                  dd
                  dl
                  dt
                  em
                  fly-out
+                 fly-out-css
                  fly-out-item
                  fly-out-js
                  fly-out-submenu
@@ -85,4 +87,18 @@
                  toggle-dark-theme-js
                  trigger-notification-function-js
                  ui-mode-button
-                 with-footer))
+                 with-footer)
+  #:export (hygguile-recommended-resources))
+
+(define hygguile-recommended-resources
+  (list (tailwind-js)
+        (custom-fonts)
+        (phosphor-icons)
+        (custom-tailwind-css)
+        (fly-out-css)
+        (toggle-dark-theme-js)
+        (copy-pre-inner-text-js)
+        (show-notifications-from-url-js)
+        (carousel-button-js)
+        (remember-dark-theme-js)
+        (fly-out-js)))

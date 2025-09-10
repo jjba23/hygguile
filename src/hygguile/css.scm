@@ -18,13 +18,9 @@
 (define-module (hygguile css)
   #:use-module (hygguile abstraction)
   #:use-module (ice-9 string-fun)
-  #:export (custom-tailwind-theme custom-fonts phosphor-icons))
-
-(define* (custom-tailwind-theme #:key (sans-font "IBM Plex Sans")
-                                (mono-font "IBM Plex Mono")
-                                (serif-font "IBM Plex Serif"))
-  `(
-    ))
+  #:use-module (hygguile embed css)
+  #:use-module (hygguile embed tailwind-css)
+  #:export (custom-fonts phosphor-icons))
 
 (define* (custom-fonts #:key (preconnects `((link (@ (rel preconnect)
                                                      (href
