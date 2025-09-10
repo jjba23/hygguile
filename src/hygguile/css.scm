@@ -25,20 +25,7 @@
                                 (serif-font "IBM Plex Serif"))
   `((style (@ (type "text/css"))
            "
-/* Flyout menu / dropdown */
-.flyout-submenu-button[aria-expanded=\"true\"]::after {
-  content: \"↑\";
-  padding-left: 0.8em;
-}
 
-.flyout-submenu-button[aria-expanded=\"false\"]::after {
-  content: \"↓\";
-  padding-left: 0.8em;
-}
-
-.flyout-submenu[hidden] {
-  display: none;
-}
 ")
     (style (@ (type "text/tailwindcss"))
            ,(format #f
