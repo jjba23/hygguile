@@ -4,7 +4,8 @@
              (ice-9 popen))
 
 (define* (mk-method-name #:key dir file extension)
-  (let* ((file-without-extension (string-replace-substring file
+  (let* ((file-without-extension (string-replace-substring (format #f "~a"
+                                                                   file)
                                                            (format #f ".~a"
                                                                    extension)
                                                            ""))
@@ -20,21 +21,47 @@
                                           ,(cdr cm)))) content-map)))
     (string-join embed-entries "\n\n")))
 
-(let* ((js-dir "./resources/js")
-       (tailwind-dir "./resources/js")
-       (css-dir "./resources/css")
-       ;; embed destination files
-       (js-dest-file "./src/hygguile/embed/js.scm")
-       (tailwind-dest-file "./src/hygguile/embed/tailwind.scm")
-       (css-dest-file "./src/hygguile/embed/css.scm")
-       ;; files to embed
-       (js-files '(carousel-button copy-pre-inner-text fly-out
-                                   remember-dark-theme toggle-dark-theme))
-       (tailwind-files '(tailwind))
-       (css-files '(fly-out))
-       ;; full path to files to embed
-       (js-embed-files (map (lambda (file)
-                              (format #f "~a/~a.js" js-dir file)) js-files))
+(define* (mk-module #:key name method-names methods)
+  (list `(define-module (hygguile embed
+                                  ,name)
+           "\n"
+           #:declarative? #t
+           "\n"
+           #:export ,method-names) "\n\n" methods))
+
+(define (get-method-name x)
+  (format #f "~a"
+          (car x)))
+
+(define js-dir
+  "./resources/js")
+(define tailwind-dir
+  "./resources/js")
+(define css-dir
+  "./resources/css")
+
+;; embed destination files
+(define js-dest-file
+  "./src/hygguile/embed/js.scm")
+(define tailwind-dest-file
+  "./src/hygguile/embed/tailwind.scm")
+(define css-dest-file
+  "./src/hygguile/embed/css.scm")
+
+;; files to embed
+(define js-files
+  '(carousel-button copy-pre-inner-text fly-out remember-dark-theme
+                    toggle-dark-theme))
+
+(define tailwind-files
+  '(tailwind))
+
+(define css-files
+  '(fly-out))
+
+(let* ( ;full path to files to embed
+        (js-embed-files (map (lambda (file)
+                               (format #f "~a/~a.js" js-dir file)) js-files))
        (tailwind-embed-files (map (lambda (file)
                                     (format #f "~a/~a.js" tailwind-dir file))
                                   tailwind-files))
@@ -66,16 +93,22 @@
        
        ;; generate methods
        (js-methods (mk-embed-method js-content-map))
+       (js-method-names (map car js-content-map))
        (tailwind-methods (mk-embed-method tailwind-content-map))
+       (tailwind-method-names (map car tailwind-content-map))
        (css-methods (mk-embed-method css-content-map))
+       (css-method-names (map car css-content-map))
 
        ;; bundle in modules
-       (js-module `(define-module (hygguile embed js)
-                     ,js-methods))
-       (tailwind-module `(define-module (hygguile embed tailwind)
-                           ,tailwind-methods))
-       (css-module `(define-module (hygguile embed css)
-                      ,css-methods)))
+       (js-module (mk-module #:name 'js
+                             #:method-names js-method-names
+                             #:methods js-methods))
+       (tailwind-module (mk-module #:name 'tailwind
+                                   #:method-names tailwind-method-names
+                                   #:methods tailwind-methods))
+       (css-module (mk-module #:name 'css
+                              #:method-names css-method-names
+                              #:methods css-methods)))
   
   (with-output-to-file js-dest-file
     (lambda ()
@@ -83,9 +116,9 @@
 
   (with-output-to-file tailwind-dest-file
     (lambda ()
-      (display tailwind-module)))
+      (for-each display tailwind-module)))
 
   (with-output-to-file css-dest-file
     (lambda ()
-      (display css-module))))
+      (for-each display css-module))))
 
