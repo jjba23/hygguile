@@ -103,23 +103,19 @@ It's all free for you to change or modify though, the functions are also customi
 
 The recommended snippet in your SXML ~head~
 #+begin_src scheme
-(meta (@ (name viewport)(content "width=device-width, initial-scale=1.0")))
-(meta (@ (charset "UTF-8")))
-,hygguile-recommended-resources
+,hygguile-recommended-meta
+;; equivalent to loading:
+;;   (meta (@ (name viewport)(content "width=device-width, initial-scale=1.0")))
+;;   (meta (@ (charset "UTF-8")))
 
+,hygguile-recommended-resources
 ;; equivalent to loading:
 ;;   tailwind-js
-;;   custom-fonts
-;;   phosphor-icons
 ;;   custom-tailwind-css
-;;   fly-out-css
-;;   toggle-dark-theme-js
-;;   copy-pre-inner-text-js
-;;   show-notifications-from-url-js
 ;;   carousel-button-js
 ;;   remember-dark-theme-js
 ;;   fly-out-js
-;; and more.....
+;;   and more.....
 #+end_src
 
 See the ~maak.scm~ for more details and common tasks.

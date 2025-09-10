@@ -88,7 +88,8 @@
                  trigger-notification-function-js
                  ui-mode-button
                  with-footer)
-  #:export (hygguile-recommended-resources))
+  #:export (doctype-html hygguile-recommended-meta
+                         hygguile-recommended-resources))
 
 (define hygguile-recommended-resources
   (list (tailwind-js)
@@ -102,3 +103,11 @@
         (carousel-button-js)
         (remember-dark-theme-js)
         (fly-out-js)))
+
+(define doctype-html
+  "<!DOCTYPE html>")
+
+(define hygguile-recommended-meta
+  (list `(meta (@ (name viewport)
+                  (content "width=device-width, initial-scale=1.0")))
+        `(meta (@ (charset "UTF-8")))))

@@ -24,17 +24,20 @@
     (string-join embed-entries "\n\n")))
 
 (define* (mk-js-embed-method content-map
-                             #:key (script-type "application/javascript"))
+                             #:key (script-type "text/javascript")
+                             (defer? #t))
   (let* ((embed-entries (map (lambda (cm)
                                (format #f "~s"
                                        `(define-public (,(car cm))
-                                          '((script (@ (type ,script-type))
+                                          '((script (@ (type ,script-type)
+                                                       ,(if defer?
+                                                            '(defer "")
+                                                            '(no-defer "")))
                                                     ,(cdr cm)))))) content-map)))
     (string-join embed-entries "\n\n")))
 
 (define* (mk-module #:key name method-names methods)
-  (list license-text
-        "\n\n"
+  (list license-text "\n\n"
         `(define-module (hygguile embed
                                   ,name)
            "\n"
@@ -79,7 +82,8 @@
 (define tailwind-css-files
   '(custom-tailwind))
 
-(define license-text ";; hygguile - cozy and professional user-interfaces for everyone
+(define license-text
+  ";; hygguile - cozy and professional user-interfaces for everyone
 
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
 

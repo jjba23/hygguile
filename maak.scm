@@ -70,6 +70,7 @@
 (define (deploy)
   "Generate documentation for the project and publish to web directory."
   (embed)
+  (fmt)
   (build)
   (docs)
   (delete-file-recursively deploy-dir)
@@ -112,6 +113,7 @@
 (define (hot-reload)
   "Hot-reloading developer's setup."
   (embed)
+  (fmt)
   (manifest-shell (list "watchexec"
                         "--clear"
                         (~ "--exts ~a"

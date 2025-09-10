@@ -19,6 +19,7 @@
   #:use-module (hygguile abstraction)
   #:use-module (ice-9 string-fun)
   #:use-module (hygguile embed css)
+  #:use-module (hygguile sxml)
   #:use-module (hygguile embed tailwind-css)
   #:export (custom-fonts phosphor-icons))
 
@@ -34,13 +35,23 @@
                                 "IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"))
                        (display-swap "display=swap"))
   (let* ((font-string (string-join fonts "&family=")))
-    `(,preconnects (link (@ (rel stylesheet)
+    `(,preconnects (link (@ (rel preload)
+                            (as style)
+                            (onload "this.onload=null;this.rel='stylesheet'")
                             (href ,(string-append
                                     "https://fonts.googleapis.com/css2?family="
-                                    font-string "&" display-swap)))))))
+                                    font-string "&" display-swap))))
+      (noscript (link (@ (rel stylesheet)
+                         (href ,(string-append
+                                 "https://fonts.googleapis.com/css2?family="
+                                 font-string "&" display-swap))))))))
 
 (define* (phosphor-icons #:key (stylesheet-href
                                 "https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"))
-  `((link (@ (rel stylesheet)
-             (type text/css)
-             (href ,stylesheet-href)))))
+  `((link (@ (rel preload)
+             (as style)
+             (onload "this.onload=null;this.rel='stylesheet'")
+             (href ,stylesheet-href)))
+    
+    (noscript (link (@ (rel stylesheet)
+                       (href ,stylesheet-href))))))
