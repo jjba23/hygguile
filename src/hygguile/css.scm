@@ -27,12 +27,12 @@
            "
 /* Flyout menu / dropdown */
 .flyout-submenu-button[aria-expanded=\"true\"]::after {
-  content: \"▲\";
+  content: \"↑\";
   padding-left: 0.8em;
 }
 
 .flyout-submenu-button[aria-expanded=\"false\"]::after {
-  content: \"▼\";
+  content: \"↓\";
   padding-left: 0.8em;
 }
 

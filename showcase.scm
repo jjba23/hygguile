@@ -536,17 +536,32 @@ formatting."
                            #:fragments fragments)))))
 
 (define some-fly-out-items
-  (list (fly-out-item (list (h4 "First item")))
-        (fly-out-item (list (h4 "Third item")))
-        (fly-out-submenu #:button-content (list (h4 "IN VINO VERITAS"))
-                         #:items (list (fly-out-item (list (h4 "I")))
-                                       (fly-out-item (list (h4 "II")))
-                                       (fly-out-item (list (h4 "III")))
-                                       (fly-out-item (list (h4 "IV")))
-                                       (fly-out-item (list (h4 "V")))))
-        (fly-out-submenu #:button-content (list (h4 "λ Scheme"))
-                         #:items (list (fly-out-item (list (a "Guile" #:href "https://www.gnu.org/s/guile/")))
-                                       (fly-out-item (list (a "Chicken" #:href "https://call-cc.org/")))))
+  (list (fly-out-item (list (h4 "First item"
+                                #:weight '(font-light))))
+        (fly-out-item (list (h4 "Third item"
+                                #:weight '(font-light))))
+        (fly-out-submenu #:button-content (list (h4 "IN VINO VERITAS"
+                                                    #:weight '(font-light)))
+                         #:items (list (fly-out-item (list (h4 "I"
+                                                               #:weight '(font-light))))
+                                       (fly-out-item (list (h4 "II"
+                                                               #:weight '(font-light))))
+                                       (fly-out-item (list (h4 "III"
+                                                               #:weight '(font-light))))
+                                       (fly-out-item (list (h4 "IV"
+                                                               #:weight '(font-light))))
+                                       (fly-out-item (list (h4 "V"
+                                                               #:weight '(font-light))))))
+        (fly-out-submenu #:button-content (list (h4 "λ Scheme"
+                                                    #:weight '(font-light)))
+                         #:items (list (fly-out-item (list (a "Guile"
+                                                            #:href
+                                                            "https://www.gnu.org/s/guile/"
+                                                            #:weight '(font-light))))
+                                       (fly-out-item (list (a "Chicken"
+                                                            #:href
+                                                            "https://call-cc.org/"
+                                                            #:weight '(font-light))))))
 
         ))
 
