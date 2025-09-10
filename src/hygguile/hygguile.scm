@@ -18,6 +18,7 @@
 (define-module (hygguile hygguile)
   #:use-module (hygguile abstraction)
   #:use-module (hygguile js)
+  #:use-module (hygguile embed-js)  
   #:use-module (hygguile components button)
   #:use-module (hygguile components container)
   #:use-module (hygguile components icon)
