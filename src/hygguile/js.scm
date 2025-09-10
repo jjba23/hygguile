@@ -182,6 +182,19 @@ const openMenu = (button, menu) => {
   menu.hidden = false
 }
 
+const closeAllOpenMenus = () => {
+  const menuContainers = document.querySelectorAll('.flyout-menu-container')
+  menuContainers.forEach(menuContainer => {
+    const menuButton = menuContainer.querySelector('.flyout-submenu-button')
+    if (menuButton) {
+      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
+      if (isExpanded) {
+        menuButton.click()
+      }
+    }
+  })
+}
+
 const HOVER_DELAY = 2000
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -196,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
 
           if (!isExpanded) {
+            closeAllOpenMenus()
             menuButton.click()
           }
         }
@@ -225,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isExpanded) {
         closeMenu(menuButton, dropdownMenu)
       } else {
+        closeAllOpenMenus()
         openMenu(menuButton, dropdownMenu)
       }
     })
@@ -276,9 +291,4 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   })
 })
-
-
-
-
-
 ")))
