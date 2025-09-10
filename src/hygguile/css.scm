@@ -23,44 +23,8 @@
 (define* (custom-tailwind-theme #:key (sans-font "IBM Plex Sans")
                                 (mono-font "IBM Plex Mono")
                                 (serif-font "IBM Plex Serif"))
-  `((style (@ (type "text/css"))
-           "
-
-")
-    (style (@ (type "text/tailwindcss"))
-           ,(format #f
-             "
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-
-@theme {
-  --font-sans: \"~a\", sans-serif;
-  --font-mono: \"~a\", monospace;
-  --font-serif: \"~a\", serif;
-  --animate-wiggle: wiggle 750ms ease-in-out 50ms;
-
-  @keyframes wiggle {
-    0%,
-    100% {
-      transform: rotate(-3deg);
-    }
-    50% {
-      transform: rotate(3deg);
-    }
-  }
-
-  --color-spicedterracotta: #BB7546;
-  --color-burntumber: #943524;
-  --color-bistre: #261903;
-  --color-oldlace: #FFF8EB;
-  --color-floralwhite: #FDF9ED;
-  --color-cornsilk: #FBF3DA;
-  --color-papayawhip: #FFF1D6;
-  --color-chinarose: #944C63;
-  --color-earthyellow: #F7AE50;
-  --color-cafenoir: #392605;
-}
-"
-             sans-font mono-font serif-font))))
+  `(
+    ))
 
 (define* (custom-fonts #:key (preconnects `((link (@ (rel preconnect)
                                                      (href

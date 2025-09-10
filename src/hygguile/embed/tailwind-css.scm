@@ -1,0 +1,5 @@
+(define-module (hygguile embed tailwind-css) 
+ #:declarative? #t 
+ #:export (tailwind-css))
+
+(define-public (tailwind-css) (quote ((style (@ (type "text/tailwindcss")) "@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));\n\n@theme {\n  --font-sans: \"IBM Plex Sans\", sans-serif;\n  --font-mono: \"IBM Plex Mono\", monospace;\n  --font-serif: \"IBM Plex Serif\", serif;\n  --animate-wiggle: wiggle 750ms ease-in-out 50ms;\n\n  @keyframes wiggle {\n    0%,\n    100% {\n      transform: rotate(-3deg);\n    }\n    50% {\n      transform: rotate(3deg);\n    }\n  }\n\n  --color-spicedterracotta: #BB7546;\n  --color-burntumber: #943524;\n  --color-bistre: #261903;\n  --color-oldlace: #FFF8EB;\n  --color-floralwhite: #FDF9ED;\n  --color-cornsilk: #FBF3DA;\n  --color-papayawhip: #FFF1D6;\n  --color-chinarose: #944C63;\n  --color-earthyellow: #F7AE50;\n  --color-cafenoir: #392605;\n}\n"))))

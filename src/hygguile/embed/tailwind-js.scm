@@ -1,4 +1,4 @@
-(define-module (hygguile embed tailwind) 
+(define-module (hygguile embed tailwind-js) 
  #:declarative? #t 
  #:export (tailwind-js))
 
