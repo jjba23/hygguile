@@ -545,8 +545,8 @@ formatting."
                                        (fly-out-item (list (h4 "IV")))
                                        (fly-out-item (list (h4 "V")))))
         (fly-out-submenu #:button-content (list (h4 "λ Scheme"))
-                         #:items (list (fly-out-item (list (h4 "Guile")))
-                                       (fly-out-item (list (h4 "Chicken")))))
+                         #:items (list (fly-out-item (list (a "Guile" #:href "https://www.gnu.org/s/guile/")))
+                                       (fly-out-item (list (a "Chicken" #:href "https://call-cc.org/")))))
 
         ))
 

@@ -33,8 +33,15 @@
                           (button-class '(flyout-submenu-button cursor-pointer
                                           flex text-stone-700
                                           dark:text-stone-300))
-                          (ul-class '(flyout-submenu z-10 absolute bg-stone-100/70 rounded-xl my-2 px-3 py-1))
-                          (button-content (list (h4 "Menu")))
+                          (ul-class '(flyout-submenu z-10
+                                                     absolute
+                                                     bg-stone-100/70
+                                                     rounded-xl
+                                                     shadow-md
+                                                     my-2
+                                                     px-3
+                                                     py-1))
+                          (button-content `((h4 "Menu")))
                           (items '()))
   `((li (@ (class ,(mk-class li-class)))
         (button (@ (class ,(mk-class button-class))
