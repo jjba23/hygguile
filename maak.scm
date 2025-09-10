@@ -41,7 +41,8 @@
 (define project-name
   'hygguile)
 
-(define hot-reload-file-types '(scm js))
+(define hot-reload-file-types
+  '(scm js))
 
 ;; ====== Maak tasks ======
 
@@ -112,7 +113,8 @@
                                              hot-reload-file-types) ","))
                         "--on-busy-update=restart"
                         "--shell bash"
-                        "--watch . --" "maak test-build-and-serve")))
+                        "--watch . --"
+                        "maak test-build-and-serve")))
 
 (define (hr)
   "Alias to hot-reloading."

@@ -22,7 +22,7 @@
   #:use-module (hygguile components container)
   #:use-module (hygguile components icon)
   #:use-module (hygguile components input)
-  #:use-module (hygguile components fly-out)  
+  #:use-module (hygguile components fly-out)
   #:use-module (hygguile components select)
   #:use-module (hygguile components notification)
   #:use-module (hygguile components typography)

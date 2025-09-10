@@ -17,7 +17,8 @@
 
 (define-module (hygguile js)
   #:use-module (hygguile abstraction)
-  #:export (toggle-dark-theme-js copy-pre-inner-text-js remember-dark-theme-js
+  #:export (toggle-dark-theme-js copy-pre-inner-text-js
+                                 remember-dark-theme-js
                                  show-notifications-from-url-js
                                  carousel-button-js
                                  trigger-notification-function-js
@@ -171,7 +172,8 @@ function handleCarouselClick(direction, id) {
 ")))
 
 (define (fly-out-js)
-  `((script "
+  `((script
+     "
 const closeMenu = (button, menu) => {
   button.setAttribute('aria-expanded', 'false')
   menu.hidden = true

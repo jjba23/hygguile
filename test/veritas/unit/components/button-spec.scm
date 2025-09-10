@@ -41,6 +41,5 @@
                              #:got (car (button "hygguile"))
                              #:expect 'button))))
 
-
 (define (spec)
   (veritas-run button-suite))
