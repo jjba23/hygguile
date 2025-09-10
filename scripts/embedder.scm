@@ -112,7 +112,7 @@
   
   (with-output-to-file js-dest-file
     (lambda ()
-      (display js-module)))
+      (for-each display js-module)))
 
   (with-output-to-file tailwind-dest-file
     (lambda ()
