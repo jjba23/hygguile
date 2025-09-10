@@ -18,7 +18,9 @@
 (define-module (hygguile hygguile)
   #:use-module (hygguile abstraction)
   #:use-module (hygguile js)
-  #:use-module (hygguile embed-js)  
+  #:use-module (hygguile embed js)
+  #:use-module (hygguile embed tailwind)
+  #:use-module (hygguile embed css)
   #:use-module (hygguile components button)
   #:use-module (hygguile components container)
   #:use-module (hygguile components icon)
@@ -29,58 +31,58 @@
   #:use-module (hygguile components typography)
   #:use-module (hygguile components carousel)
   #:use-module (hygguile css)
-  #:re-export (mk-class render-if-nestring
-                        render-if-nempty
-                        custom-fonts
-                        phosphor-icons
-                        button
-                        custom-tailwind-theme
-                        icon-button
-                        submit-button
-                        danger-submit-button
-                        pretty-quote
-                        ui-mode-button
-                        toggle-dark-theme-js
-                        copy-pre-inner-text-js
-                        carousel-button-js
-                        get-short-commit-sha
-                        light-button
-                        mono-button
-                        trigger-notification-function-js
-                        notification-tray
-                        show-notifications-from-url-js
-                        remember-dark-theme-js
-                        col
-                        carousel
-                        row
-                        footer
-                        with-footer
-                        hr
-                        icon
-                        dl
-                        dd
-                        dt
-                        input
-                        textarea
-                        option
-                        glyph-option
-                        select
-                        h1
-                        h2
-                        h3
-                        h4
-                        sub-h1
-                        sub-h2
-                        sub-h3
-                        sub-h4
-                        p
-                        em
-                        a
-                        strong
-                        pre
-                        mono
-                        fly-out
-                        fly-out-submenu
-                        fly-out-item
-                        fly-out-js
-                        code))
+  #:re-export (a button
+                 carousel
+                 carousel-button-js
+                 code
+                 col
+                 copy-pre-inner-text-js
+                 custom-fonts
+                 custom-tailwind-theme
+                 danger-submit-button
+                 dd
+                 dl
+                 dt
+                 em
+                 fly-out
+                 fly-out-item
+                 fly-out-js
+                 fly-out-submenu
+                 footer
+                 get-short-commit-sha
+                 glyph-option
+                 h1
+                 h2
+                 h3
+                 h4
+                 hr
+                 icon
+                 icon-button
+                 input
+                 light-button
+                 mk-class
+                 mono
+                 mono-button
+                 notification-tray
+                 option
+                 p
+                 phosphor-icons
+                 pre
+                 pretty-quote
+                 remember-dark-theme-js
+                 render-if-nempty
+                 render-if-nestring
+                 row
+                 select
+                 show-notifications-from-url-js
+                 strong
+                 sub-h1
+                 sub-h2
+                 sub-h3
+                 sub-h4
+                 submit-button
+                 textarea
+                 toggle-dark-theme-js
+                 trigger-notification-function-js
+                 ui-mode-button
+                 with-footer))

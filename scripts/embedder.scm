@@ -14,11 +14,28 @@
                                                        "")))
     (string->symbol (format #f "~a-~a" fun-name-from-file extension))))
 
-(define* (mk-embed-method content-map)
+;; (define* (mk-embed-method content-map)
+;;   (let* ((embed-entries (map (lambda (cm)
+;;                                (format #f "~s"
+;;                                        `(define-public (,(car cm))
+;;                                           ,(cdr cm)))) content-map)))
+;;     (string-join embed-entries "\n\n")))
+
+(define* (mk-css-embed-method content-map
+                              #:key (style-type "text/css"))
   (let* ((embed-entries (map (lambda (cm)
                                (format #f "~s"
                                        `(define-public (,(car cm))
-                                          ,(cdr cm)))) content-map)))
+                                          `((style (@ (type ,style-type))
+                                                   ,(cdr cm)))))) content-map)))
+    (string-join embed-entries "\n\n")))
+
+(define* (mk-js-embed-method content-map #:key (script-type "application/javascript")) 
+  (let* ((embed-entries (map (lambda (cm)
+                               (format #f "~s"
+                                       `(define-public (,(car cm))
+                                          `((script (@(type ,script-type))
+                                                    ,(cdr cm)))))) content-map)))
     (string-join embed-entries "\n\n")))
 
 (define* (mk-module #:key name method-names methods)
@@ -92,11 +109,11 @@
        ;;
        
        ;; generate methods
-       (js-methods (mk-embed-method js-content-map))
+       (js-methods (mk-js-embed-method js-content-map))
        (js-method-names (map car js-content-map))
-       (tailwind-methods (mk-embed-method tailwind-content-map))
+       (tailwind-methods (mk-js-embed-method tailwind-content-map))
        (tailwind-method-names (map car tailwind-content-map))
-       (css-methods (mk-embed-method css-content-map))
+       (css-methods (mk-css-embed-method css-content-map))
        (css-method-names (map car css-content-map))
 
        ;; bundle in modules

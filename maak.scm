@@ -55,6 +55,11 @@
   (manifest-shell '("guile -L ./src"
                     "-c '((@ (ares server) run-nrepl-server))'")))
 
+(define (embed)
+  "Embed static assets into Scheme code."
+  (manifest-shell '("guile -L ./src"
+                    "./scripts/embedder.scm")))
+
 (define (docs)
   "Generate technical API documentation for Hygguile."
   (delete-file-recursively "doc")
@@ -104,6 +109,7 @@
   (docs)
   (serve))
 
+
 (define (hot-reload)
   "Hot-reloading developer's setup."
   (manifest-shell (list "watchexec"
@@ -126,10 +132,6 @@
 
 (define (hr)
   "Alias to hot-reloading."
-  (hot-reload))
-
-(define (dev)
-  "Developer's setup."
   (hot-reload))
 
 (define (default)
