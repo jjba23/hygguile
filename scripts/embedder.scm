@@ -16,7 +16,7 @@
 (define* (mk-embed-method content-map)
   (let* ((embed-entries (map (lambda (cm)
                                (format #f "~s"
-                                       `(define (,(car cm))
+                                       `(define-public (,(car cm))
                                           ,(cdr cm)))) content-map)))
     (string-join embed-entries "\n\n")))
 
@@ -24,9 +24,9 @@
        (tailwind-dir "./resources/js")
        (css-dir "./resources/css")
        ;; embed destination files
-       (js-dest-file "./src/hygguile/embed-js.scm")
-       (tailwind-dest-file "./src/hygguile/embed-tailwind.scm")
-       (css-dest-file "./src/hygguile/embed-css.scm")
+       (js-dest-file "./src/hygguile/embed/js.scm")
+       (tailwind-dest-file "./src/hygguile/embed/tailwind.scm")
+       (css-dest-file "./src/hygguile/embed/css.scm")
        ;; files to embed
        (js-files '(carousel-button copy-pre-inner-text fly-out
                                    remember-dark-theme toggle-dark-theme))
