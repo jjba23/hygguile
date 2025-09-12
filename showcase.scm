@@ -423,7 +423,11 @@
                                      ,(mk-color-show #:color 'chinarose
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'earthyellow
-                                                     #:text-class 'text-black))))))
+                                                     #:text-class 'text-black)
+                                     ,(mk-color-show #:color 'burgundy
+                                                     #:text-class 'text-white)
+                                     ,(mk-color-show #:color 'vinrouge
+                                                     #:text-class 'text-white))))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container

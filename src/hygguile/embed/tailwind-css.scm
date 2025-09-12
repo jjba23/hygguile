@@ -68,5 +68,7 @@
   --color-chinarose: #944C63;
   --color-earthyellow: #F7AE50;
   --color-cafenoir: #392605;
+  --color-vinrouge: #8d2f1a;
+  --color-burgundy: #5e1f11;
 }
 ")))
