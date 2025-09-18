@@ -45,7 +45,7 @@
                                       "document.getElementById('~a-example').classList.toggle('hidden')"
                                       uid)))
                         ,(icon #:type 'dots-three
-                               #:icon-css '(text-xl))))
+                               #:icon-css '(text-xl cursor-pointer))))
            (div (@ (id ,(format #f "~a-example" uid))
                    (class ,(mk-class '(hidden flex flex-col gap-2))))
                 (pre (@ (id ,(format #f "~a-pre" uid))
@@ -91,9 +91,10 @@
                                              #:background '(bg-teal-700)
                                              #:color '(text-stone-200
                                                        dark:text-stone-100)
+                                             #:size '(text-xs)
                                              #:icon-css '(text-stone-100
                                                           dark:text-stone-100
-                                                          text-xl)
+                                                          text-md)
                                              #:hover-background '(hover:bg-teal-900)))
                   ,(as-example '(icon-button #:icon 'user
                                              #:content "user"
@@ -101,9 +102,19 @@
                                              #:color '(text-stone-900)
                                              #:hover-background '(hover:bg-amber-600)
                                              #:icon-css '(text-xl)))
+                  ,(as-example '(icon-button #:icon 'calendar
+                                             #:content "Book now"
+                                             #:weight '(font-light)
+                                             #:size '(text-xl)
+                                             #:background '(bg-spicedterracotta)
+                                             #:color '(text-papayawhip)
+                                             #:hover-background '(hover:bg-cafenoir)
+                                             #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'airplane-tilt
                                              #:content "airplane-tilt"
-                                             #:background '(bg-orange-700)
+                                             #:background '(bg-chinarose)
+                                             #:size '(text-xl)
+                                             #:weight '(font-medium)
                                              #:color '(text-stone-200
                                                        dark:text-stone-100)
                                              #:icon-css '(text-stone-100
