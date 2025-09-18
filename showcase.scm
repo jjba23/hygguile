@@ -37,7 +37,8 @@
     `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
            (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
                 (div ,(eval-string tt))
-                (button (@ (class ,(mk-class '(font-light text-sm
+                (button (@ (aria-label "Show code for example")
+                           (class ,(mk-class '(font-light text-sm
                                                           text-stone-700
                                                           dark:text-stone-200)))
                            (onclick ,(format #f
@@ -267,6 +268,11 @@
          (render-img-with-figcaption (lambda (l)
                                        `((figure (img (@ (class ,(mk-class '(max-w-32
                                                                              rounded-xl)))
+                                                         (alt ,(cond
+                                                                 ((pair? l)
+                                                                  (car l))
+                                                                 (else
+                                                                  "Carousel Image")))
                                                          (src ,(cond
                                                                  ((string? l)
                                                                   l)

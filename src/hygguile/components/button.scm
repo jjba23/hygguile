@@ -27,7 +27,7 @@
                    mono-button))
 
 (define* (button content
-                 #:key id
+                 #:key (id "")
                  (type 'button)
                  (hidden #f)
                  (on-click "")
@@ -63,7 +63,7 @@
                 (onclick ,on-click))
              ,content)))
 
-(define* (icon-button #:key id
+(define* (icon-button #:key (id "")
                       icon
                       content
                       (hidden #f)

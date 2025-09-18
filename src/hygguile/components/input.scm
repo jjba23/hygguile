@@ -73,6 +73,7 @@
                    (for ,name))
                 ,label)
          (textarea (@ (class ,(mk-class textarea-css))
+                      (id ,name)
                       (name ,name)
                       ,(if required
                            '(required "")
