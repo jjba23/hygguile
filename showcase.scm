@@ -98,22 +98,20 @@
                                              #:hover-background '(hover:bg-teal-900)))
                   ,(as-example '(icon-button #:icon 'user
                                              #:content "user"
-                                             #:background '(bg-amber-400)
+                                             #:background '(bg-earthyellow)
                                              #:color '(text-stone-900)
-                                             #:hover-background '(hover:bg-amber-600)
+                                             #:hover-background '(hover:bg-amber-500)
                                              #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'calendar
                                              #:content "Book now"
                                              #:weight '(font-light)
-                                             #:size '(text-xl)
-                                             #:background '(bg-spicedterracotta)
+                                             #:background '(bg-vinrouge)
                                              #:color '(text-papayawhip)
                                              #:hover-background '(hover:bg-cafenoir)
                                              #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'airplane-tilt
                                              #:content "airplane-tilt"
                                              #:background '(bg-chinarose)
-                                             #:size '(text-xl)
                                              #:weight '(font-medium)
                                              #:color '(text-stone-200
                                                        dark:text-stone-100)
