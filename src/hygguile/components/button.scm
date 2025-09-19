@@ -39,6 +39,7 @@
                  (shadow '(shadow-md))
                  (color '(text-stone-100))
                  (size '(text-sm))
+                 (active '(active:scale-95))
                  (family '(font-sans))
                  (weight '(font-bold))
                  (rounding '(rounded-2xl))
@@ -52,6 +53,7 @@
                             shadow
                             border-size
                             size
+                            active
                             family
                             weight)))
     `(button (@ (type ,(symbol->string type))
@@ -80,6 +82,7 @@
                       (weight '(font-bold))
                       (color '(text-stone-100))
                       (rounding '(rounded-2xl))
+                      (active '(active:scale-95))
                       (icon-css '(text-stone-100 dark:text-stone-100 text-xl))
                       (extra-classes '(py-2 px-3 max-w-prose cursor-pointer))
                       (icon-text-container-classes '(flex flex-row gap-1
@@ -90,6 +93,7 @@
                             background
                             border-color
                             size
+                            active
                             rounding
                             border-size
                             shadow
@@ -139,6 +143,7 @@
                          (border-color '(border-stone-700/75))
                          (shadow '(shadow-md))
                          (size '(text-sm))
+                         (active '(active:scale-95))
                          (family '(font-sans))
                          (weight '(font-bold))
                          (foreground '(text-stone-100))
@@ -153,6 +158,7 @@
                             hover-background
                             foreground
                             size
+                            active
                             shadow
                             family
                             weight
