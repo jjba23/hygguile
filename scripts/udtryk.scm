@@ -86,76 +86,95 @@
     (900 900)
     (black 900)))
 
-(define* (mk-udtryk #:key (font-size "0.2rem")
-                    (margin "0.2rem")
-                    (gap "0.2rem")
-                    (weight 1)
-                    (sans
-                     "'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'")
-                    (serif
-                     "'IBM Plex Serif', ui-serif, serif, 'Times New Roman'")
+(define font-size-multiplier
+  (make-parameter "0.24rem"))
+(define margin-multiplier
+  (make-parameter "0.24rem"))
+(define padding-multiplier
+  (make-parameter "0.24rem"))
+(define gap-multiplier
+  (make-parameter "0.24rem"))
+(define rounded-multiplier
+  (make-parameter "0.1rem"))
+(define width-multiplier
+  (make-parameter "0.4rem"))
+(define weight-multiplier
+  (make-parameter 1))
 
-                    (mono "'IBM Plex Mono', monospace")
-                    (padding "0.2rem"))
-  (append (css* #:class 'text
+(define mono-font-family
+  (make-parameter "'IBM Plex Mono', monospace"))
+(define serif-font-family
+  (make-parameter "'IBM Plex Serif', ui-serif, serif, 'Times New Roman'"))
+(define sans-font-family
+  (make-parameter (string-join '("'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif,"
+                                 "'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'")
+                               " ")))
+
+(define* (mk-udtryk)
+  (append (list (css-reset))
+          (css* #:class 'text
                 #:sizes default-tshirt-sizes
                 #:properties '(font-size)
-                #:multiplier font-size)
+                #:multiplier (font-size-multiplier))
+          (css* #:class 'rounded
+                #:sizes default-tshirt-sizes
+                #:properties '(border-radius)
+                #:multiplier (rounded-multiplier))
           ;; ====== Paddings ======
           (css* #:class 'p
                 #:sizes default-numeric-sizes
                 #:direct-size? #t
                 #:properties '(padding)
-                #:multiplier padding)
+                #:multiplier (padding-multiplier))
           (css* #:class 'px
                 #:sizes default-numeric-sizes
                 #:direct-size? #t
                 #:properties '(padding-left padding-right)
-                #:multiplier padding)
+                #:multiplier (padding-multiplier))
           (css* #:class 'py
                 #:sizes default-numeric-sizes
                 #:direct-size? #t
                 #:properties '(padding-top padding-bottom)
-                #:multiplier padding)
+                #:multiplier (padding-multiplier))
           ;; ====== Margins ======
           (css* #:class 'm
                 #:sizes default-numeric-sizes
                 #:direct-size? #t
                 #:properties '(margin)
-                #:multiplier margin)
+                #:multiplier (margin-multiplier))
           (css* #:class 'mx
                 #:sizes default-numeric-sizes
                 #:direct-size? #t
                 #:properties '(margin-left margin-right)
-                #:multiplier margin)
+                #:multiplier (margin-multiplier))
           (css* #:class 'my
                 #:sizes default-numeric-sizes
                 #:direct-size? #t
                 #:properties '(margin-top margin-bottom)
-                #:multiplier margin)
+                #:multiplier (margin-multiplier))
           (css* #:class 'mt
                 #:sizes default-numeric-sizes
                 #:direct-size? #t
                 #:properties '(margin-top)
-                #:multiplier margin)
+                #:multiplier (margin-multiplier))
           (css* #:class 'mb
                 #:sizes default-numeric-sizes
                 #:direct-size? #t
                 #:properties '(margin-bottom)
-                #:multiplier margin)
+                #:multiplier (margin-multiplier))
 
           ;; ====== Font Weights ======
           (css* #:class 'font
                 #:sizes default-weight-sizes
                 #:properties '(font-weight)
-                #:multiplier weight)
+                #:multiplier (weight-multiplier))
 
           ;; ====== Flex utilities ======
           (css* #:class 'gap
                 #:sizes default-numeric-sizes
                 #:direct-size? #t
                 #:properties '(gap)
-                #:multiplier gap)
+                #:multiplier (gap-multiplier))
           (list (css #:class 'flex
                      #:properties '((display flex)))
                 (css #:class 'flex-col
@@ -164,22 +183,81 @@
                      #:properties '((flex-direction row)))
                 (css #:class 'flex-wrap
                      #:properties '((flex-wrap wrap)))
+                (css #:class 'items-center
+                     #:properties '((align-items center)))
                 (css #:class 'justify-center
                      #:properties '((justify-content center))))
+          ;; ====== Width ======
+          (css* #:class 'max-w
+                #:sizes default-numeric-sizes
+                #:direct-size? #t
+                #:properties '(max-width)
+                #:multiplier (width-multiplier))
           ;; ====== Font utilities ======
           (list (css #:class 'font-sans
-                     #:properties `((font-family ,sans)))
+                     #:properties `((font-family ,(sans-font-family))))
                 (css #:class 'font-mono
-                     #:properties `((font-family ,mono)))
+                     #:properties `((font-family ,(mono-font-family))))
                 (css #:class 'font-serif
-                     #:properties `((font-family ,serif))))
+                     #:properties `((font-family ,(serif-font-family)))))
           ;; ====== Display utilities ======
           (list (css #:class 'hidden
                      #:properties `((display none)))
+                (css #:class 'overflow-x-scroll
+                     #:properties '((overflow-x scroll)))
+                (css #:class 'italic
+                     #:properties `((font-style italic)))
                 (css #:class 'text-center
                      #:properties '((text-align center)))
                 (css #:class 'cursor-pointer
                      #:properties `((cursor pointer))))))
+
+(define css-reset
+  (make-parameter "
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+"))
 
 ;; ===========================
 
@@ -200,3 +278,4 @@
   (with-output-to-file udtryk-dest-file
     (lambda ()
       (for-each display-css udtryk))))
+
