@@ -96,7 +96,7 @@
         ,content)))
 
 (define* (dt content
-             #:key (dt-classes '(padding-y-md pb-1))
+             #:key (dt-classes '(py-2 pb-1))
              (weight '(font-light))
              (style '(italic))
              (color '(text-stone-600 dark:text-stone-400))
@@ -105,8 +105,7 @@
         ,content)))
 
 (define* (dd content
-             #:key (dd-classes '(padding-x-md text-stone-600
-                                              dark:text-stone-200))
+             #:key (dd-classes '(px-2 text-stone-600 dark:text-stone-200))
              (weight '(font-medium))
              (color '(text-stone-600 dark:text-stone-400))
              (size '(text-lg)))

@@ -1,13 +1,13 @@
-.text-xxs { font-size: calc(0.2em * 1); }
-.text-xs { font-size: calc(0.2em * 2); }
-.text-sm { font-size: calc(0.2em * 3); }
-.text-md { font-size: calc(0.2em * 4); }
-.text-lg { font-size: calc(0.2em * 5); }
-.text-xl { font-size: calc(0.2em * 6); }
-.text-2xl { font-size: calc(0.2em * 7); }
-.text-3xl { font-size: calc(0.2em * 8); }
-.text-4xl { font-size: calc(0.2em * 9); }
-.text-5xl { font-size: calc(0.2em * 10); }
+.text-xxs { font-size: calc(0.2rem * 1); }
+.text-xs { font-size: calc(0.2rem * 2); }
+.text-sm { font-size: calc(0.2rem * 3); }
+.text-md { font-size: calc(0.2rem * 4); }
+.text-lg { font-size: calc(0.2rem * 5); }
+.text-xl { font-size: calc(0.2rem * 6); }
+.text-2xl { font-size: calc(0.2rem * 7); }
+.text-3xl { font-size: calc(0.2rem * 8); }
+.text-4xl { font-size: calc(0.2rem * 9); }
+.text-5xl { font-size: calc(0.2rem * 10); }
 .p-1 { padding: calc(0.2rem * 1); }
 .p-2 { padding: calc(0.2rem * 2); }
 .p-3 { padding: calc(0.2rem * 3); }
@@ -192,6 +192,46 @@
 .mb-64 { margin-bottom: calc(0.2rem * 64); }
 .mb-72 { margin-bottom: calc(0.2rem * 72); }
 .mb-128 { margin-bottom: calc(0.2rem * 128); }
+.gap-1 { gap: calc(0.2rem * 1); }
+.gap-2 { gap: calc(0.2rem * 2); }
+.gap-3 { gap: calc(0.2rem * 3); }
+.gap-4 { gap: calc(0.2rem * 4); }
+.gap-5 { gap: calc(0.2rem * 5); }
+.gap-6 { gap: calc(0.2rem * 6); }
+.gap-7 { gap: calc(0.2rem * 7); }
+.gap-8 { gap: calc(0.2rem * 8); }
+.gap-9 { gap: calc(0.2rem * 9); }
+.gap-10 { gap: calc(0.2rem * 10); }
+.gap-11 { gap: calc(0.2rem * 11); }
+.gap-12 { gap: calc(0.2rem * 12); }
+.gap-14 { gap: calc(0.2rem * 14); }
+.gap-16 { gap: calc(0.2rem * 16); }
+.gap-18 { gap: calc(0.2rem * 18); }
+.gap-20 { gap: calc(0.2rem * 20); }
+.gap-22 { gap: calc(0.2rem * 22); }
+.gap-24 { gap: calc(0.2rem * 24); }
+.gap-28 { gap: calc(0.2rem * 28); }
+.gap-32 { gap: calc(0.2rem * 32); }
+.gap-64 { gap: calc(0.2rem * 64); }
+.gap-72 { gap: calc(0.2rem * 72); }
+.gap-128 { gap: calc(0.2rem * 128); }
+.font-100 { font-weight: calc(1 * 100); }
+.font-thin { font-weight: calc(1 * 100); }
+.font-200 { font-weight: calc(1 * 200); }
+.font-300 { font-weight: calc(1 * 300); }
+.font-light { font-weight: calc(1 * 300); }
+.font-400 { font-weight: calc(1 * 400); }
+.font-500 { font-weight: calc(1 * 500); }
+.font-medium { font-weight: calc(1 * 500); }
+.font-600 { font-weight: calc(1 * 600); }
+.font-700 { font-weight: calc(1 * 700); }
+.font-bold { font-weight: calc(1 * 700); }
+.font-800 { font-weight: calc(1 * 800); }
+.font-900 { font-weight: calc(1 * 900); }
+.font-black { font-weight: calc(1 * 900); }
 .flex { display: flex; }
 .flex-col { flex-direction: column; }
 .flex-row { flex-direction: row; }
+.font-sans { font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; }
+.font-mono { font-family: 'IBM Plex Mono', monospace; }
+.font-serif { font-family: 'IBM Plex Serif', ui-serif, serif, 'Times New Roman'; }

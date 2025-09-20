@@ -61,6 +61,22 @@
         72
         128))
 
+(define default-weight-sizes
+  '((100 100)
+    (thin 100)
+    (200 200)
+    (300 300)
+    (light 300)
+    (400 400)
+    (500 500)
+    (medium 500)
+    (600 600)
+    (700 700)
+    (bold 700)
+    (800 800)
+    (900 900)
+    (black 900)))
+
 (define* (ud-numeric #:key class properties
                      (multiplier "0.8em")
                      (sizes default-numeric-sizes))
@@ -71,6 +87,18 @@
                                              multiplier s)) properties) " ")))
        sizes))
 
+(define* (ud-weight #:key class properties
+                    (multiplier "0.8em")
+                    (sizes default-weight-sizes))
+  (map (lambda (s)
+         (format #f ".~a-~a { ~a }" class
+                 (car s)
+                 (string-join (map (lambda (p)
+                                     (format #f "~a: calc(~a * ~a);" p
+                                             multiplier
+                                             (cadr s))) properties) " ")))
+       sizes))
+
 (define* (ud #:key class properties)
   (format #f ".~a { ~a }" class
           (string-join (map (lambda (p)
@@ -78,8 +106,16 @@
                                       (car p)
                                       (cadr p))) properties) " ")))
 
-(define* (mk-udtryk #:key (font-size "0.2em")
+(define* (mk-udtryk #:key (font-size "0.2rem")
                     (margin "0.2rem")
+                    (gap "0.2rem")
+                    (weight 1)
+                    (sans
+                     "'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'")
+                    (serif
+                     "'IBM Plex Serif', ui-serif, serif, 'Times New Roman'")
+
+                    (mono "'IBM Plex Mono', monospace")
                     (padding "0.2rem"))
   (append (ud-tshirt #:class 'text
                      #:properties '(font-size)
@@ -108,12 +144,24 @@
           (ud-numeric #:class 'mb
                       #:properties '(margin-bottom)
                       #:multiplier margin)
+          (ud-numeric #:class 'gap
+                      #:properties '(gap)
+                      #:multiplier gap)
+          (ud-weight #:class 'font
+                     #:properties '(font-weight)
+                     #:multiplier weight)
           (list (ud #:class 'flex
                     #:properties '((display flex)))
                 (ud #:class 'flex-col
                     #:properties '((flex-direction column)))
                 (ud #:class 'flex-row
                     #:properties '((flex-direction row)))
+                (ud #:class 'font-sans
+                    #:properties `((font-family ,sans)))
+                (ud #:class 'font-mono
+                    #:properties `((font-family ,mono)))
+                (ud #:class 'font-serif
+                    #:properties `((font-family ,serif)))
 
                 )))
 
