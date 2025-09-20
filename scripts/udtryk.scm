@@ -24,11 +24,10 @@
     ("4xl" 9)
     ("5xl" 10)))
 
-(define* (mk-tshirt-sized-class #:key class properties
-                                (multiplier "0.8em")
-                                (sizes default-tshirt-sizes))
+(define* (ud-tshirt #:key class properties
+                    (multiplier "0.8em")
+                    (sizes default-tshirt-sizes))
   (map (lambda (s)
-         (write s)
          (format #f ".~a-~a { ~a }" class
                  (car s)
                  (string-join (map (lambda (p)
@@ -37,30 +36,86 @@
                                              (cadr s))) properties) " ")))
        sizes))
 
+(define default-numeric-sizes
+  (list 1
+        2
+        3
+        4
+        5
+        6
+        7
+        8
+        9
+        10
+        11
+        12
+        14
+        16
+        18
+        20
+        22
+        24
+        28
+        32
+        64
+        72
+        128))
+
+(define* (ud-numeric #:key class properties
+                     (multiplier "0.8em")
+                     (sizes default-numeric-sizes))
+  (map (lambda (s)
+         (format #f ".~a-~a { ~a }" class s
+                 (string-join (map (lambda (p)
+                                     (format #f "~a: calc(~a * ~a);" p
+                                             multiplier s)) properties) " ")))
+       sizes))
+
+(define* (ud #:key class properties)
+  (format #f ".~a { ~a }" class
+          (string-join (map (lambda (p)
+                              (format #f "~a: ~a;"
+                                      (car p)
+                                      (cadr p))) properties) " ")))
+
 (define* (mk-udtryk #:key (font-size "0.2em")
                     (margin "0.2rem")
                     (padding "0.2rem"))
-  (append (mk-tshirt-sized-class #:class 'text
-                                 #:properties '(font-size)
-                                 #:multiplier font-size)
-          (mk-tshirt-sized-class #:class 'padding
-                                 #:properties '(padding)
-                                 #:multiplier padding)
-          (mk-tshirt-sized-class #:class 'padding-x
-                                 #:properties '(padding-left padding-right)
-                                 #:multiplier padding)
-          (mk-tshirt-sized-class #:class 'padding-y
-                                 #:properties '(padding-top padding-bottom)
-                                 #:multiplier padding)
-          (mk-tshirt-sized-class #:class 'margin
-                                 #:properties '(margin)
-                                 #:multiplier margin)
-          (mk-tshirt-sized-class #:class 'margin-x
-                                 #:properties '(margin-left margin-right)
-                                 #:multiplier margin)
-          (mk-tshirt-sized-class #:class 'margin-y
-                                 #:properties '(margin-top margin-bottom)
-                                 #:multiplier margin)))
+  (append (ud-tshirt #:class 'text
+                     #:properties '(font-size)
+                     #:multiplier font-size)
+          (ud-numeric #:class 'p
+                      #:properties '(padding)
+                      #:multiplier padding)
+          (ud-numeric #:class 'px
+                      #:properties '(padding-left padding-right)
+                      #:multiplier padding)
+          (ud-numeric #:class 'py
+                      #:properties '(padding-top padding-bottom)
+                      #:multiplier padding)
+          (ud-numeric #:class 'm
+                      #:properties '(margin)
+                      #:multiplier margin)
+          (ud-numeric #:class 'mx
+                      #:properties '(margin-left margin-right)
+                      #:multiplier margin)
+          (ud-numeric #:class 'mt
+                      #:properties '(margin-top margin-bottom)
+                      #:multiplier margin)
+          (ud-numeric #:class 'mt
+                      #:properties '(margin-top)
+                      #:multiplier margin)
+          (ud-numeric #:class 'mb
+                      #:properties '(margin-bottom)
+                      #:multiplier margin)
+          (list (ud #:class 'flex
+                    #:properties '((display flex)))
+                (ud #:class 'flex-col
+                    #:properties '((flex-direction column)))
+                (ud #:class 'flex-row
+                    #:properties '((flex-direction row)))
+
+                )))
 
 ;; ===========================
 
