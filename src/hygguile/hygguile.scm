@@ -19,9 +19,8 @@
   #:use-module (hygguile abstraction)
   #:use-module (hygguile js)
   #:use-module (hygguile embed js)
-  #:use-module (hygguile embed tailwind-js)
+  #:use-module (hygguile embed udtryk)
   #:use-module (hygguile embed css)
-  #:use-module (hygguile embed tailwind-css)
   #:use-module (hygguile components button)
   #:use-module (hygguile components container)
   #:use-module (hygguile components icon)
@@ -39,7 +38,7 @@
                  col
                  copy-pre-inner-text-js
                  custom-fonts
-                 custom-tailwind-css
+
                  danger-submit-button
                  dd
                  dl
@@ -92,10 +91,10 @@
                          hygguile-recommended-resources))
 
 (define hygguile-recommended-resources
-  (list (tailwind-js)
+  (list (udtryk-css)
         (custom-fonts)
         (phosphor-icons)
-        (custom-tailwind-css)
+
         (fly-out-css)
         (toggle-dark-theme-js)
         (copy-pre-inner-text-js)

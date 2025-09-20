@@ -370,7 +370,7 @@
                                             py-4))))
     `(,(sub-h2 "🎨 Colors") (div (@ (class ,(mk-class '(py-3))))
                                 ,(p
-                                  "Hygguile offers all Tailwind colors out of the box, in all their variants.")
+                                  "Hygguile offers colors out of the box, in all their variants.")
                                 (div (@ (class ,color-grid-class))
                                      ,(mk-color-show #:color 'red-500
                                                      #:text-class 'text-white)

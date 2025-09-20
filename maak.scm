@@ -59,6 +59,10 @@
   "Embed static assets into Scheme code."
   (manifest-shell '("guile -L ./src" "./scripts/embedder.scm")))
 
+(define (udtryk)
+  "Generate production CSS."
+  (manifest-shell '("guile -L ./src" "./scripts/udtryk.scm")))
+
 (define (docs)
   "Generate technical API documentation for Hygguile."
   (delete-file-recursively "doc")
@@ -69,9 +73,9 @@
 
 (define (deploy)
   "Generate documentation for the project and publish to web directory."
-  (embed)
   (fmt)
   (build)
+  (embed)
   (docs)
   (delete-file-recursively deploy-dir)
   (mv "dist" deploy-dir)
@@ -97,11 +101,13 @@
 (define (build)
   "Build production release of the project."
   (remkdir-p "dist")
+  (udtryk)
   (manifest-shell (list "guile -L ./src showcase.scm")))
 
 (define (test-build-and-serve)
   (test)
   (build)
+  (embed)
   (docs)
   (serve))
 

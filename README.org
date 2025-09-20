@@ -5,11 +5,11 @@
 
 
 [[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]]  
-[[https://jointhefreeworld.org/ggg/dist/license-lgpl3+.svg]]    [[https://jointhefreeworld.org/ggg/dist/license-fdl13+.svg]] [[https://jointhefreeworld.org/ggg/dist/css-tailwind4.svg]]
+[[https://jointhefreeworld.org/ggg/dist/license-lgpl3+.svg]]    [[https://jointhefreeworld.org/ggg/dist/license-fdl13+.svg]] 
 
 /Cozy and professional user-interfaces for everyone/
 
-Hygguile is an opinionated, batteries-included library writte in Guile Scheme, that allows you to create cozy web user-interfaces, by defining an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and TailwindCSS.
+Hygguile is an opinionated, batteries-included library writte in Guile Scheme, that allows you to create cozy web user-interfaces, by defining an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and modern CSS.
 
 The project aims to provide reusable, professional-looking and accessible web components, whose names resemble the HTML counterparts, thus easing the learning curve, and reducing the cognitive load.
 
@@ -110,8 +110,6 @@ The recommended snippet in your SXML ~head~
 
 ,hygguile-recommended-resources
 ;; equivalent to loading:
-;;   tailwind-js
-;;   custom-tailwind-css
 ;;   carousel-button-js
 ;;   remember-dark-theme-js
 ;;   fly-out-js
