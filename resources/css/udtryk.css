@@ -331,6 +331,25 @@ ol, ul { list-style: none; }
 .flex-wrap { flex-wrap: wrap; }
 .items-center { align-items: center; }
 .justify-center { justify-content: center; }
+.border-1 { border-width: 1.00px; border-style: solid; }
+.border-2 { border-width: 2.00px; border-style: solid; }
+.border-4 { border-width: 4.00px; border-style: solid; }
+.border-6 { border-width: 6.00px; border-style: solid; }
+.border-8 { border-width: 8.00px; border-style: solid; }
+.border-10 { border-width: 10.00px; border-style: solid; }
+.border-12 { border-width: 12.00px; border-style: solid; }
+.border-14 { border-width: 14.00px; border-style: solid; }
+.border-16 { border-width: 16.00px; border-style: solid; }
+.border-18 { border-width: 18.00px; border-style: solid; }
+.border-20 { border-width: 20.00px; border-style: solid; }
+.border-22 { border-width: 22.00px; border-style: solid; }
+.border-24 { border-width: 24.00px; border-style: solid; }
+.border-28 { border-width: 28.00px; border-style: solid; }
+.border-32 { border-width: 32.00px; border-style: solid; }
+.border-48 { border-width: 48.00px; border-style: solid; }
+.border-64 { border-width: 64.00px; border-style: solid; }
+.border-72 { border-width: 72.00px; border-style: solid; }
+.border-128 { border-width: 128.00px; border-style: solid; }
 .w-1 { width: 0.30rem; }
 .w-2 { width: 0.60rem; }
 .w-4 { width: 1.20rem; }
@@ -1261,408 +1280,30 @@ ol, ul { list-style: none; }
 .text-red-900/90 { color: rgba(128, 0, 0, 0.9) }
 .text-red-900/95 { color: rgba(128, 0, 0, 0.95) }
 .text-red-900 { color: rgba(128, 0, 0, 1) }
-.border-orange-100/5 { border-color: rgba(255, 218, 185, 0.05) }
-.border-orange-100/10 { border-color: rgba(255, 218, 185, 0.1) }
-.border-orange-100/15 { border-color: rgba(255, 218, 185, 0.15) }
-.border-orange-100/20 { border-color: rgba(255, 218, 185, 0.2) }
-.border-orange-100/25 { border-color: rgba(255, 218, 185, 0.25) }
-.border-orange-100/30 { border-color: rgba(255, 218, 185, 0.3) }
-.border-orange-100/40 { border-color: rgba(255, 218, 185, 0.4) }
-.border-orange-100/50 { border-color: rgba(255, 218, 185, 0.5) }
-.border-orange-100/60 { border-color: rgba(255, 218, 185, 0.6) }
-.border-orange-100/70 { border-color: rgba(255, 218, 185, 0.7) }
-.border-orange-100/75 { border-color: rgba(255, 218, 185, 0.75) }
-.border-orange-100/80 { border-color: rgba(255, 218, 185, 0.8) }
-.border-orange-100/90 { border-color: rgba(255, 218, 185, 0.9) }
-.border-orange-100/95 { border-color: rgba(255, 218, 185, 0.95) }
-.border-orange-100 { border-color: rgba(255, 218, 185, 1) }
-.border-orange-200/5 { border-color: rgba(255, 160, 122, 0.05) }
-.border-orange-200/10 { border-color: rgba(255, 160, 122, 0.1) }
-.border-orange-200/15 { border-color: rgba(255, 160, 122, 0.15) }
-.border-orange-200/20 { border-color: rgba(255, 160, 122, 0.2) }
-.border-orange-200/25 { border-color: rgba(255, 160, 122, 0.25) }
-.border-orange-200/30 { border-color: rgba(255, 160, 122, 0.3) }
-.border-orange-200/40 { border-color: rgba(255, 160, 122, 0.4) }
-.border-orange-200/50 { border-color: rgba(255, 160, 122, 0.5) }
-.border-orange-200/60 { border-color: rgba(255, 160, 122, 0.6) }
-.border-orange-200/70 { border-color: rgba(255, 160, 122, 0.7) }
-.border-orange-200/75 { border-color: rgba(255, 160, 122, 0.75) }
-.border-orange-200/80 { border-color: rgba(255, 160, 122, 0.8) }
-.border-orange-200/90 { border-color: rgba(255, 160, 122, 0.9) }
-.border-orange-200/95 { border-color: rgba(255, 160, 122, 0.95) }
-.border-orange-200 { border-color: rgba(255, 160, 122, 1) }
-.border-orange-300/5 { border-color: rgba(255, 127, 80, 0.05) }
-.border-orange-300/10 { border-color: rgba(255, 127, 80, 0.1) }
-.border-orange-300/15 { border-color: rgba(255, 127, 80, 0.15) }
-.border-orange-300/20 { border-color: rgba(255, 127, 80, 0.2) }
-.border-orange-300/25 { border-color: rgba(255, 127, 80, 0.25) }
-.border-orange-300/30 { border-color: rgba(255, 127, 80, 0.3) }
-.border-orange-300/40 { border-color: rgba(255, 127, 80, 0.4) }
-.border-orange-300/50 { border-color: rgba(255, 127, 80, 0.5) }
-.border-orange-300/60 { border-color: rgba(255, 127, 80, 0.6) }
-.border-orange-300/70 { border-color: rgba(255, 127, 80, 0.7) }
-.border-orange-300/75 { border-color: rgba(255, 127, 80, 0.75) }
-.border-orange-300/80 { border-color: rgba(255, 127, 80, 0.8) }
-.border-orange-300/90 { border-color: rgba(255, 127, 80, 0.9) }
-.border-orange-300/95 { border-color: rgba(255, 127, 80, 0.95) }
-.border-orange-300 { border-color: rgba(255, 127, 80, 1) }
-.border-orange-400/5 { border-color: rgba(255, 165, 0, 0.05) }
-.border-orange-400/10 { border-color: rgba(255, 165, 0, 0.1) }
-.border-orange-400/15 { border-color: rgba(255, 165, 0, 0.15) }
-.border-orange-400/20 { border-color: rgba(255, 165, 0, 0.2) }
-.border-orange-400/25 { border-color: rgba(255, 165, 0, 0.25) }
-.border-orange-400/30 { border-color: rgba(255, 165, 0, 0.3) }
-.border-orange-400/40 { border-color: rgba(255, 165, 0, 0.4) }
-.border-orange-400/50 { border-color: rgba(255, 165, 0, 0.5) }
-.border-orange-400/60 { border-color: rgba(255, 165, 0, 0.6) }
-.border-orange-400/70 { border-color: rgba(255, 165, 0, 0.7) }
-.border-orange-400/75 { border-color: rgba(255, 165, 0, 0.75) }
-.border-orange-400/80 { border-color: rgba(255, 165, 0, 0.8) }
-.border-orange-400/90 { border-color: rgba(255, 165, 0, 0.9) }
-.border-orange-400/95 { border-color: rgba(255, 165, 0, 0.95) }
-.border-orange-400 { border-color: rgba(255, 165, 0, 1) }
-.border-orange-500/5 { border-color: rgba(255, 140, 0, 0.05) }
-.border-orange-500/10 { border-color: rgba(255, 140, 0, 0.1) }
-.border-orange-500/15 { border-color: rgba(255, 140, 0, 0.15) }
-.border-orange-500/20 { border-color: rgba(255, 140, 0, 0.2) }
-.border-orange-500/25 { border-color: rgba(255, 140, 0, 0.25) }
-.border-orange-500/30 { border-color: rgba(255, 140, 0, 0.3) }
-.border-orange-500/40 { border-color: rgba(255, 140, 0, 0.4) }
-.border-orange-500/50 { border-color: rgba(255, 140, 0, 0.5) }
-.border-orange-500/60 { border-color: rgba(255, 140, 0, 0.6) }
-.border-orange-500/70 { border-color: rgba(255, 140, 0, 0.7) }
-.border-orange-500/75 { border-color: rgba(255, 140, 0, 0.75) }
-.border-orange-500/80 { border-color: rgba(255, 140, 0, 0.8) }
-.border-orange-500/90 { border-color: rgba(255, 140, 0, 0.9) }
-.border-orange-500/95 { border-color: rgba(255, 140, 0, 0.95) }
-.border-orange-500 { border-color: rgba(255, 140, 0, 1) }
-.border-orange-600/5 { border-color: rgba(255, 69, 0, 0.05) }
-.border-orange-600/10 { border-color: rgba(255, 69, 0, 0.1) }
-.border-orange-600/15 { border-color: rgba(255, 69, 0, 0.15) }
-.border-orange-600/20 { border-color: rgba(255, 69, 0, 0.2) }
-.border-orange-600/25 { border-color: rgba(255, 69, 0, 0.25) }
-.border-orange-600/30 { border-color: rgba(255, 69, 0, 0.3) }
-.border-orange-600/40 { border-color: rgba(255, 69, 0, 0.4) }
-.border-orange-600/50 { border-color: rgba(255, 69, 0, 0.5) }
-.border-orange-600/60 { border-color: rgba(255, 69, 0, 0.6) }
-.border-orange-600/70 { border-color: rgba(255, 69, 0, 0.7) }
-.border-orange-600/75 { border-color: rgba(255, 69, 0, 0.75) }
-.border-orange-600/80 { border-color: rgba(255, 69, 0, 0.8) }
-.border-orange-600/90 { border-color: rgba(255, 69, 0, 0.9) }
-.border-orange-600/95 { border-color: rgba(255, 69, 0, 0.95) }
-.border-orange-600 { border-color: rgba(255, 69, 0, 1) }
-.border-orange-700/5 { border-color: rgba(210, 105, 30, 0.05) }
-.border-orange-700/10 { border-color: rgba(210, 105, 30, 0.1) }
-.border-orange-700/15 { border-color: rgba(210, 105, 30, 0.15) }
-.border-orange-700/20 { border-color: rgba(210, 105, 30, 0.2) }
-.border-orange-700/25 { border-color: rgba(210, 105, 30, 0.25) }
-.border-orange-700/30 { border-color: rgba(210, 105, 30, 0.3) }
-.border-orange-700/40 { border-color: rgba(210, 105, 30, 0.4) }
-.border-orange-700/50 { border-color: rgba(210, 105, 30, 0.5) }
-.border-orange-700/60 { border-color: rgba(210, 105, 30, 0.6) }
-.border-orange-700/70 { border-color: rgba(210, 105, 30, 0.7) }
-.border-orange-700/75 { border-color: rgba(210, 105, 30, 0.75) }
-.border-orange-700/80 { border-color: rgba(210, 105, 30, 0.8) }
-.border-orange-700/90 { border-color: rgba(210, 105, 30, 0.9) }
-.border-orange-700/95 { border-color: rgba(210, 105, 30, 0.95) }
-.border-orange-700 { border-color: rgba(210, 105, 30, 1) }
-.border-orange-800/5 { border-color: rgba(139, 69, 19, 0.05) }
-.border-orange-800/10 { border-color: rgba(139, 69, 19, 0.1) }
-.border-orange-800/15 { border-color: rgba(139, 69, 19, 0.15) }
-.border-orange-800/20 { border-color: rgba(139, 69, 19, 0.2) }
-.border-orange-800/25 { border-color: rgba(139, 69, 19, 0.25) }
-.border-orange-800/30 { border-color: rgba(139, 69, 19, 0.3) }
-.border-orange-800/40 { border-color: rgba(139, 69, 19, 0.4) }
-.border-orange-800/50 { border-color: rgba(139, 69, 19, 0.5) }
-.border-orange-800/60 { border-color: rgba(139, 69, 19, 0.6) }
-.border-orange-800/70 { border-color: rgba(139, 69, 19, 0.7) }
-.border-orange-800/75 { border-color: rgba(139, 69, 19, 0.75) }
-.border-orange-800/80 { border-color: rgba(139, 69, 19, 0.8) }
-.border-orange-800/90 { border-color: rgba(139, 69, 19, 0.9) }
-.border-orange-800/95 { border-color: rgba(139, 69, 19, 0.95) }
-.border-orange-800 { border-color: rgba(139, 69, 19, 1) }
-.border-orange-900/5 { border-color: rgba(128, 0, 0, 0.05) }
-.border-orange-900/10 { border-color: rgba(128, 0, 0, 0.1) }
-.border-orange-900/15 { border-color: rgba(128, 0, 0, 0.15) }
-.border-orange-900/20 { border-color: rgba(128, 0, 0, 0.2) }
-.border-orange-900/25 { border-color: rgba(128, 0, 0, 0.25) }
-.border-orange-900/30 { border-color: rgba(128, 0, 0, 0.3) }
-.border-orange-900/40 { border-color: rgba(128, 0, 0, 0.4) }
-.border-orange-900/50 { border-color: rgba(128, 0, 0, 0.5) }
-.border-orange-900/60 { border-color: rgba(128, 0, 0, 0.6) }
-.border-orange-900/70 { border-color: rgba(128, 0, 0, 0.7) }
-.border-orange-900/75 { border-color: rgba(128, 0, 0, 0.75) }
-.border-orange-900/80 { border-color: rgba(128, 0, 0, 0.8) }
-.border-orange-900/90 { border-color: rgba(128, 0, 0, 0.9) }
-.border-orange-900/95 { border-color: rgba(128, 0, 0, 0.95) }
-.border-orange-900 { border-color: rgba(128, 0, 0, 1) }
-.border-stone-100/5 { border-color: rgba(245, 245, 245, 0.05) }
-.border-stone-100/10 { border-color: rgba(245, 245, 245, 0.1) }
-.border-stone-100/15 { border-color: rgba(245, 245, 245, 0.15) }
-.border-stone-100/20 { border-color: rgba(245, 245, 245, 0.2) }
-.border-stone-100/25 { border-color: rgba(245, 245, 245, 0.25) }
-.border-stone-100/30 { border-color: rgba(245, 245, 245, 0.3) }
-.border-stone-100/40 { border-color: rgba(245, 245, 245, 0.4) }
-.border-stone-100/50 { border-color: rgba(245, 245, 245, 0.5) }
-.border-stone-100/60 { border-color: rgba(245, 245, 245, 0.6) }
-.border-stone-100/70 { border-color: rgba(245, 245, 245, 0.7) }
-.border-stone-100/75 { border-color: rgba(245, 245, 245, 0.75) }
-.border-stone-100/80 { border-color: rgba(245, 245, 245, 0.8) }
-.border-stone-100/90 { border-color: rgba(245, 245, 245, 0.9) }
-.border-stone-100/95 { border-color: rgba(245, 245, 245, 0.95) }
-.border-stone-100 { border-color: rgba(245, 245, 245, 1) }
-.border-stone-200/5 { border-color: rgba(238, 238, 238, 0.05) }
-.border-stone-200/10 { border-color: rgba(238, 238, 238, 0.1) }
-.border-stone-200/15 { border-color: rgba(238, 238, 238, 0.15) }
-.border-stone-200/20 { border-color: rgba(238, 238, 238, 0.2) }
-.border-stone-200/25 { border-color: rgba(238, 238, 238, 0.25) }
-.border-stone-200/30 { border-color: rgba(238, 238, 238, 0.3) }
-.border-stone-200/40 { border-color: rgba(238, 238, 238, 0.4) }
-.border-stone-200/50 { border-color: rgba(238, 238, 238, 0.5) }
-.border-stone-200/60 { border-color: rgba(238, 238, 238, 0.6) }
-.border-stone-200/70 { border-color: rgba(238, 238, 238, 0.7) }
-.border-stone-200/75 { border-color: rgba(238, 238, 238, 0.75) }
-.border-stone-200/80 { border-color: rgba(238, 238, 238, 0.8) }
-.border-stone-200/90 { border-color: rgba(238, 238, 238, 0.9) }
-.border-stone-200/95 { border-color: rgba(238, 238, 238, 0.95) }
-.border-stone-200 { border-color: rgba(238, 238, 238, 1) }
-.border-stone-300/5 { border-color: rgba(220, 220, 220, 0.05) }
-.border-stone-300/10 { border-color: rgba(220, 220, 220, 0.1) }
-.border-stone-300/15 { border-color: rgba(220, 220, 220, 0.15) }
-.border-stone-300/20 { border-color: rgba(220, 220, 220, 0.2) }
-.border-stone-300/25 { border-color: rgba(220, 220, 220, 0.25) }
-.border-stone-300/30 { border-color: rgba(220, 220, 220, 0.3) }
-.border-stone-300/40 { border-color: rgba(220, 220, 220, 0.4) }
-.border-stone-300/50 { border-color: rgba(220, 220, 220, 0.5) }
-.border-stone-300/60 { border-color: rgba(220, 220, 220, 0.6) }
-.border-stone-300/70 { border-color: rgba(220, 220, 220, 0.7) }
-.border-stone-300/75 { border-color: rgba(220, 220, 220, 0.75) }
-.border-stone-300/80 { border-color: rgba(220, 220, 220, 0.8) }
-.border-stone-300/90 { border-color: rgba(220, 220, 220, 0.9) }
-.border-stone-300/95 { border-color: rgba(220, 220, 220, 0.95) }
-.border-stone-300 { border-color: rgba(220, 220, 220, 1) }
-.border-stone-400/5 { border-color: rgba(211, 211, 211, 0.05) }
-.border-stone-400/10 { border-color: rgba(211, 211, 211, 0.1) }
-.border-stone-400/15 { border-color: rgba(211, 211, 211, 0.15) }
-.border-stone-400/20 { border-color: rgba(211, 211, 211, 0.2) }
-.border-stone-400/25 { border-color: rgba(211, 211, 211, 0.25) }
-.border-stone-400/30 { border-color: rgba(211, 211, 211, 0.3) }
-.border-stone-400/40 { border-color: rgba(211, 211, 211, 0.4) }
-.border-stone-400/50 { border-color: rgba(211, 211, 211, 0.5) }
-.border-stone-400/60 { border-color: rgba(211, 211, 211, 0.6) }
-.border-stone-400/70 { border-color: rgba(211, 211, 211, 0.7) }
-.border-stone-400/75 { border-color: rgba(211, 211, 211, 0.75) }
-.border-stone-400/80 { border-color: rgba(211, 211, 211, 0.8) }
-.border-stone-400/90 { border-color: rgba(211, 211, 211, 0.9) }
-.border-stone-400/95 { border-color: rgba(211, 211, 211, 0.95) }
-.border-stone-400 { border-color: rgba(211, 211, 211, 1) }
-.border-stone-500/5 { border-color: rgba(192, 192, 192, 0.05) }
-.border-stone-500/10 { border-color: rgba(192, 192, 192, 0.1) }
-.border-stone-500/15 { border-color: rgba(192, 192, 192, 0.15) }
-.border-stone-500/20 { border-color: rgba(192, 192, 192, 0.2) }
-.border-stone-500/25 { border-color: rgba(192, 192, 192, 0.25) }
-.border-stone-500/30 { border-color: rgba(192, 192, 192, 0.3) }
-.border-stone-500/40 { border-color: rgba(192, 192, 192, 0.4) }
-.border-stone-500/50 { border-color: rgba(192, 192, 192, 0.5) }
-.border-stone-500/60 { border-color: rgba(192, 192, 192, 0.6) }
-.border-stone-500/70 { border-color: rgba(192, 192, 192, 0.7) }
-.border-stone-500/75 { border-color: rgba(192, 192, 192, 0.75) }
-.border-stone-500/80 { border-color: rgba(192, 192, 192, 0.8) }
-.border-stone-500/90 { border-color: rgba(192, 192, 192, 0.9) }
-.border-stone-500/95 { border-color: rgba(192, 192, 192, 0.95) }
-.border-stone-500 { border-color: rgba(192, 192, 192, 1) }
-.border-stone-600/5 { border-color: rgba(169, 169, 169, 0.05) }
-.border-stone-600/10 { border-color: rgba(169, 169, 169, 0.1) }
-.border-stone-600/15 { border-color: rgba(169, 169, 169, 0.15) }
-.border-stone-600/20 { border-color: rgba(169, 169, 169, 0.2) }
-.border-stone-600/25 { border-color: rgba(169, 169, 169, 0.25) }
-.border-stone-600/30 { border-color: rgba(169, 169, 169, 0.3) }
-.border-stone-600/40 { border-color: rgba(169, 169, 169, 0.4) }
-.border-stone-600/50 { border-color: rgba(169, 169, 169, 0.5) }
-.border-stone-600/60 { border-color: rgba(169, 169, 169, 0.6) }
-.border-stone-600/70 { border-color: rgba(169, 169, 169, 0.7) }
-.border-stone-600/75 { border-color: rgba(169, 169, 169, 0.75) }
-.border-stone-600/80 { border-color: rgba(169, 169, 169, 0.8) }
-.border-stone-600/90 { border-color: rgba(169, 169, 169, 0.9) }
-.border-stone-600/95 { border-color: rgba(169, 169, 169, 0.95) }
-.border-stone-600 { border-color: rgba(169, 169, 169, 1) }
-.border-stone-700/5 { border-color: rgba(128, 128, 128, 0.05) }
-.border-stone-700/10 { border-color: rgba(128, 128, 128, 0.1) }
-.border-stone-700/15 { border-color: rgba(128, 128, 128, 0.15) }
-.border-stone-700/20 { border-color: rgba(128, 128, 128, 0.2) }
-.border-stone-700/25 { border-color: rgba(128, 128, 128, 0.25) }
-.border-stone-700/30 { border-color: rgba(128, 128, 128, 0.3) }
-.border-stone-700/40 { border-color: rgba(128, 128, 128, 0.4) }
-.border-stone-700/50 { border-color: rgba(128, 128, 128, 0.5) }
-.border-stone-700/60 { border-color: rgba(128, 128, 128, 0.6) }
-.border-stone-700/70 { border-color: rgba(128, 128, 128, 0.7) }
-.border-stone-700/75 { border-color: rgba(128, 128, 128, 0.75) }
-.border-stone-700/80 { border-color: rgba(128, 128, 128, 0.8) }
-.border-stone-700/90 { border-color: rgba(128, 128, 128, 0.9) }
-.border-stone-700/95 { border-color: rgba(128, 128, 128, 0.95) }
-.border-stone-700 { border-color: rgba(128, 128, 128, 1) }
-.border-stone-800/5 { border-color: rgba(105, 105, 105, 0.05) }
-.border-stone-800/10 { border-color: rgba(105, 105, 105, 0.1) }
-.border-stone-800/15 { border-color: rgba(105, 105, 105, 0.15) }
-.border-stone-800/20 { border-color: rgba(105, 105, 105, 0.2) }
-.border-stone-800/25 { border-color: rgba(105, 105, 105, 0.25) }
-.border-stone-800/30 { border-color: rgba(105, 105, 105, 0.3) }
-.border-stone-800/40 { border-color: rgba(105, 105, 105, 0.4) }
-.border-stone-800/50 { border-color: rgba(105, 105, 105, 0.5) }
-.border-stone-800/60 { border-color: rgba(105, 105, 105, 0.6) }
-.border-stone-800/70 { border-color: rgba(105, 105, 105, 0.7) }
-.border-stone-800/75 { border-color: rgba(105, 105, 105, 0.75) }
-.border-stone-800/80 { border-color: rgba(105, 105, 105, 0.8) }
-.border-stone-800/90 { border-color: rgba(105, 105, 105, 0.9) }
-.border-stone-800/95 { border-color: rgba(105, 105, 105, 0.95) }
-.border-stone-800 { border-color: rgba(105, 105, 105, 1) }
-.border-stone-900/5 { border-color: rgba(47, 79, 79, 0.05) }
-.border-stone-900/10 { border-color: rgba(47, 79, 79, 0.1) }
-.border-stone-900/15 { border-color: rgba(47, 79, 79, 0.15) }
-.border-stone-900/20 { border-color: rgba(47, 79, 79, 0.2) }
-.border-stone-900/25 { border-color: rgba(47, 79, 79, 0.25) }
-.border-stone-900/30 { border-color: rgba(47, 79, 79, 0.3) }
-.border-stone-900/40 { border-color: rgba(47, 79, 79, 0.4) }
-.border-stone-900/50 { border-color: rgba(47, 79, 79, 0.5) }
-.border-stone-900/60 { border-color: rgba(47, 79, 79, 0.6) }
-.border-stone-900/70 { border-color: rgba(47, 79, 79, 0.7) }
-.border-stone-900/75 { border-color: rgba(47, 79, 79, 0.75) }
-.border-stone-900/80 { border-color: rgba(47, 79, 79, 0.8) }
-.border-stone-900/90 { border-color: rgba(47, 79, 79, 0.9) }
-.border-stone-900/95 { border-color: rgba(47, 79, 79, 0.95) }
-.border-stone-900 { border-color: rgba(47, 79, 79, 1) }
-.border-red-100/5 { border-color: rgba(255, 240, 240, 0.05) }
-.border-red-100/10 { border-color: rgba(255, 240, 240, 0.1) }
-.border-red-100/15 { border-color: rgba(255, 240, 240, 0.15) }
-.border-red-100/20 { border-color: rgba(255, 240, 240, 0.2) }
-.border-red-100/25 { border-color: rgba(255, 240, 240, 0.25) }
-.border-red-100/30 { border-color: rgba(255, 240, 240, 0.3) }
-.border-red-100/40 { border-color: rgba(255, 240, 240, 0.4) }
-.border-red-100/50 { border-color: rgba(255, 240, 240, 0.5) }
-.border-red-100/60 { border-color: rgba(255, 240, 240, 0.6) }
-.border-red-100/70 { border-color: rgba(255, 240, 240, 0.7) }
-.border-red-100/75 { border-color: rgba(255, 240, 240, 0.75) }
-.border-red-100/80 { border-color: rgba(255, 240, 240, 0.8) }
-.border-red-100/90 { border-color: rgba(255, 240, 240, 0.9) }
-.border-red-100/95 { border-color: rgba(255, 240, 240, 0.95) }
-.border-red-100 { border-color: rgba(255, 240, 240, 1) }
-.border-red-200/5 { border-color: rgba(250, 128, 114, 0.05) }
-.border-red-200/10 { border-color: rgba(250, 128, 114, 0.1) }
-.border-red-200/15 { border-color: rgba(250, 128, 114, 0.15) }
-.border-red-200/20 { border-color: rgba(250, 128, 114, 0.2) }
-.border-red-200/25 { border-color: rgba(250, 128, 114, 0.25) }
-.border-red-200/30 { border-color: rgba(250, 128, 114, 0.3) }
-.border-red-200/40 { border-color: rgba(250, 128, 114, 0.4) }
-.border-red-200/50 { border-color: rgba(250, 128, 114, 0.5) }
-.border-red-200/60 { border-color: rgba(250, 128, 114, 0.6) }
-.border-red-200/70 { border-color: rgba(250, 128, 114, 0.7) }
-.border-red-200/75 { border-color: rgba(250, 128, 114, 0.75) }
-.border-red-200/80 { border-color: rgba(250, 128, 114, 0.8) }
-.border-red-200/90 { border-color: rgba(250, 128, 114, 0.9) }
-.border-red-200/95 { border-color: rgba(250, 128, 114, 0.95) }
-.border-red-200 { border-color: rgba(250, 128, 114, 1) }
-.border-red-300/5 { border-color: rgba(233, 150, 122, 0.05) }
-.border-red-300/10 { border-color: rgba(233, 150, 122, 0.1) }
-.border-red-300/15 { border-color: rgba(233, 150, 122, 0.15) }
-.border-red-300/20 { border-color: rgba(233, 150, 122, 0.2) }
-.border-red-300/25 { border-color: rgba(233, 150, 122, 0.25) }
-.border-red-300/30 { border-color: rgba(233, 150, 122, 0.3) }
-.border-red-300/40 { border-color: rgba(233, 150, 122, 0.4) }
-.border-red-300/50 { border-color: rgba(233, 150, 122, 0.5) }
-.border-red-300/60 { border-color: rgba(233, 150, 122, 0.6) }
-.border-red-300/70 { border-color: rgba(233, 150, 122, 0.7) }
-.border-red-300/75 { border-color: rgba(233, 150, 122, 0.75) }
-.border-red-300/80 { border-color: rgba(233, 150, 122, 0.8) }
-.border-red-300/90 { border-color: rgba(233, 150, 122, 0.9) }
-.border-red-300/95 { border-color: rgba(233, 150, 122, 0.95) }
-.border-red-300 { border-color: rgba(233, 150, 122, 1) }
-.border-red-400/5 { border-color: rgba(205, 92, 92, 0.05) }
-.border-red-400/10 { border-color: rgba(205, 92, 92, 0.1) }
-.border-red-400/15 { border-color: rgba(205, 92, 92, 0.15) }
-.border-red-400/20 { border-color: rgba(205, 92, 92, 0.2) }
-.border-red-400/25 { border-color: rgba(205, 92, 92, 0.25) }
-.border-red-400/30 { border-color: rgba(205, 92, 92, 0.3) }
-.border-red-400/40 { border-color: rgba(205, 92, 92, 0.4) }
-.border-red-400/50 { border-color: rgba(205, 92, 92, 0.5) }
-.border-red-400/60 { border-color: rgba(205, 92, 92, 0.6) }
-.border-red-400/70 { border-color: rgba(205, 92, 92, 0.7) }
-.border-red-400/75 { border-color: rgba(205, 92, 92, 0.75) }
-.border-red-400/80 { border-color: rgba(205, 92, 92, 0.8) }
-.border-red-400/90 { border-color: rgba(205, 92, 92, 0.9) }
-.border-red-400/95 { border-color: rgba(205, 92, 92, 0.95) }
-.border-red-400 { border-color: rgba(205, 92, 92, 1) }
-.border-red-500/5 { border-color: rgba(220, 20, 60, 0.05) }
-.border-red-500/10 { border-color: rgba(220, 20, 60, 0.1) }
-.border-red-500/15 { border-color: rgba(220, 20, 60, 0.15) }
-.border-red-500/20 { border-color: rgba(220, 20, 60, 0.2) }
-.border-red-500/25 { border-color: rgba(220, 20, 60, 0.25) }
-.border-red-500/30 { border-color: rgba(220, 20, 60, 0.3) }
-.border-red-500/40 { border-color: rgba(220, 20, 60, 0.4) }
-.border-red-500/50 { border-color: rgba(220, 20, 60, 0.5) }
-.border-red-500/60 { border-color: rgba(220, 20, 60, 0.6) }
-.border-red-500/70 { border-color: rgba(220, 20, 60, 0.7) }
-.border-red-500/75 { border-color: rgba(220, 20, 60, 0.75) }
-.border-red-500/80 { border-color: rgba(220, 20, 60, 0.8) }
-.border-red-500/90 { border-color: rgba(220, 20, 60, 0.9) }
-.border-red-500/95 { border-color: rgba(220, 20, 60, 0.95) }
-.border-red-500 { border-color: rgba(220, 20, 60, 1) }
-.border-red-600/5 { border-color: rgba(255, 0, 0, 0.05) }
-.border-red-600/10 { border-color: rgba(255, 0, 0, 0.1) }
-.border-red-600/15 { border-color: rgba(255, 0, 0, 0.15) }
-.border-red-600/20 { border-color: rgba(255, 0, 0, 0.2) }
-.border-red-600/25 { border-color: rgba(255, 0, 0, 0.25) }
-.border-red-600/30 { border-color: rgba(255, 0, 0, 0.3) }
-.border-red-600/40 { border-color: rgba(255, 0, 0, 0.4) }
-.border-red-600/50 { border-color: rgba(255, 0, 0, 0.5) }
-.border-red-600/60 { border-color: rgba(255, 0, 0, 0.6) }
-.border-red-600/70 { border-color: rgba(255, 0, 0, 0.7) }
-.border-red-600/75 { border-color: rgba(255, 0, 0, 0.75) }
-.border-red-600/80 { border-color: rgba(255, 0, 0, 0.8) }
-.border-red-600/90 { border-color: rgba(255, 0, 0, 0.9) }
-.border-red-600/95 { border-color: rgba(255, 0, 0, 0.95) }
-.border-red-600 { border-color: rgba(255, 0, 0, 1) }
-.border-red-700/5 { border-color: rgba(178, 34, 34, 0.05) }
-.border-red-700/10 { border-color: rgba(178, 34, 34, 0.1) }
-.border-red-700/15 { border-color: rgba(178, 34, 34, 0.15) }
-.border-red-700/20 { border-color: rgba(178, 34, 34, 0.2) }
-.border-red-700/25 { border-color: rgba(178, 34, 34, 0.25) }
-.border-red-700/30 { border-color: rgba(178, 34, 34, 0.3) }
-.border-red-700/40 { border-color: rgba(178, 34, 34, 0.4) }
-.border-red-700/50 { border-color: rgba(178, 34, 34, 0.5) }
-.border-red-700/60 { border-color: rgba(178, 34, 34, 0.6) }
-.border-red-700/70 { border-color: rgba(178, 34, 34, 0.7) }
-.border-red-700/75 { border-color: rgba(178, 34, 34, 0.75) }
-.border-red-700/80 { border-color: rgba(178, 34, 34, 0.8) }
-.border-red-700/90 { border-color: rgba(178, 34, 34, 0.9) }
-.border-red-700/95 { border-color: rgba(178, 34, 34, 0.95) }
-.border-red-700 { border-color: rgba(178, 34, 34, 1) }
-.border-red-800/5 { border-color: rgba(139, 0, 0, 0.05) }
-.border-red-800/10 { border-color: rgba(139, 0, 0, 0.1) }
-.border-red-800/15 { border-color: rgba(139, 0, 0, 0.15) }
-.border-red-800/20 { border-color: rgba(139, 0, 0, 0.2) }
-.border-red-800/25 { border-color: rgba(139, 0, 0, 0.25) }
-.border-red-800/30 { border-color: rgba(139, 0, 0, 0.3) }
-.border-red-800/40 { border-color: rgba(139, 0, 0, 0.4) }
-.border-red-800/50 { border-color: rgba(139, 0, 0, 0.5) }
-.border-red-800/60 { border-color: rgba(139, 0, 0, 0.6) }
-.border-red-800/70 { border-color: rgba(139, 0, 0, 0.7) }
-.border-red-800/75 { border-color: rgba(139, 0, 0, 0.75) }
-.border-red-800/80 { border-color: rgba(139, 0, 0, 0.8) }
-.border-red-800/90 { border-color: rgba(139, 0, 0, 0.9) }
-.border-red-800/95 { border-color: rgba(139, 0, 0, 0.95) }
-.border-red-800 { border-color: rgba(139, 0, 0, 1) }
-.border-red-900/5 { border-color: rgba(128, 0, 0, 0.05) }
-.border-red-900/10 { border-color: rgba(128, 0, 0, 0.1) }
-.border-red-900/15 { border-color: rgba(128, 0, 0, 0.15) }
-.border-red-900/20 { border-color: rgba(128, 0, 0, 0.2) }
-.border-red-900/25 { border-color: rgba(128, 0, 0, 0.25) }
-.border-red-900/30 { border-color: rgba(128, 0, 0, 0.3) }
-.border-red-900/40 { border-color: rgba(128, 0, 0, 0.4) }
-.border-red-900/50 { border-color: rgba(128, 0, 0, 0.5) }
-.border-red-900/60 { border-color: rgba(128, 0, 0, 0.6) }
-.border-red-900/70 { border-color: rgba(128, 0, 0, 0.7) }
-.border-red-900/75 { border-color: rgba(128, 0, 0, 0.75) }
-.border-red-900/80 { border-color: rgba(128, 0, 0, 0.8) }
-.border-red-900/90 { border-color: rgba(128, 0, 0, 0.9) }
-.border-red-900/95 { border-color: rgba(128, 0, 0, 0.95) }
-.border-red-900 { border-color: rgba(128, 0, 0, 1) }
+.border-orange-100 { border-color: rgb(255, 218, 185) }
+.border-orange-200 { border-color: rgb(255, 160, 122) }
+.border-orange-300 { border-color: rgb(255, 127, 80) }
+.border-orange-400 { border-color: rgb(255, 165, 0) }
+.border-orange-500 { border-color: rgb(255, 140, 0) }
+.border-orange-600 { border-color: rgb(255, 69, 0) }
+.border-orange-700 { border-color: rgb(210, 105, 30) }
+.border-orange-800 { border-color: rgb(139, 69, 19) }
+.border-orange-900 { border-color: rgb(128, 0, 0) }
+.border-stone-100 { border-color: rgb(245, 245, 245) }
+.border-stone-200 { border-color: rgb(238, 238, 238) }
+.border-stone-300 { border-color: rgb(220, 220, 220) }
+.border-stone-400 { border-color: rgb(211, 211, 211) }
+.border-stone-500 { border-color: rgb(192, 192, 192) }
+.border-stone-600 { border-color: rgb(169, 169, 169) }
+.border-stone-700 { border-color: rgb(128, 128, 128) }
+.border-stone-800 { border-color: rgb(105, 105, 105) }
+.border-stone-900 { border-color: rgb(47, 79, 79) }
+.border-red-100 { border-color: rgb(255, 240, 240) }
+.border-red-200 { border-color: rgb(250, 128, 114) }
+.border-red-300 { border-color: rgb(233, 150, 122) }
+.border-red-400 { border-color: rgb(205, 92, 92) }
+.border-red-500 { border-color: rgb(220, 20, 60) }
+.border-red-600 { border-color: rgb(255, 0, 0) }
+.border-red-700 { border-color: rgb(178, 34, 34) }
+.border-red-800 { border-color: rgb(139, 0, 0) }
+.border-red-900 { border-color: rgb(128, 0, 0) }

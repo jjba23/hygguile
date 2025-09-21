@@ -35,7 +35,7 @@
                  (hover-background '(hover:bg-stone-800/90
                                      dark:hover:bg-stone-700))
                  (border-size '(border-2))
-                 (border-color '(border-stone-700/75))
+                 (border-color '(border-stone-700))
                  (shadow '(shadow-md))
                  (color '(text-stone-100))
                  (size '(text-sm))
@@ -75,7 +75,7 @@
                       (hover-background '(hover:bg-stone-800/90
                                           dark:hover:bg-stone-700))
                       (border-size '(border-2))
-                      (border-color '(border-stone-700/75))
+                      (border-color '(border-stone-700))
                       (shadow '(shadow-md))
                       (size '(text-sm))
                       (family '(font-sans))
@@ -140,7 +140,7 @@
                          (hover-background '(hover:bg-stone-800/90
                                              dark:hover:bg-stone-700))
                          (border-size '(border-2))
-                         (border-color '(border-stone-700/75))
+                         (border-color '(border-stone-700))
                          (shadow '(shadow-md))
                          (size '(text-sm))
                          (active '(active:scale-95))

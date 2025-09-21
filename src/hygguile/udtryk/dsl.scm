@@ -28,6 +28,7 @@
 (define* (css* #:key (selector ".")
                class
                properties
+               (other-properties '())
                (direct-size? #f)
                multiplier
                (unit "rem")
@@ -36,11 +37,15 @@
          (~ "~a~a-~a { ~a }" selector class
             (if direct-size? s
                 (car s))
-            (string-join (map (lambda (p)
-                                (~ "~a: ~,2f~a;" p
-                                   (* multiplier
-                                      (if direct-size? s
-                                          (cadr s))) unit)) properties) " ")))
+            (string-join (append (map (lambda (p)
+                                        (~ "~a: ~,2f~a;" p
+                                           (* multiplier
+                                              (if direct-size? s
+                                                  (cadr s))) unit)) properties)
+                                 (map (lambda (op)
+                                        (~ "~a: ~a;"
+                                           (car op)
+                                           (cadr op))) other-properties)) " ")))
        sizes))
 
 (define (list-combinations list1 list2)
@@ -54,10 +59,16 @@
                      properties
                      name
                      palette
-                     alphas
-                     weights)
-  (let* ((alphas-and-weights (list-combinations alphas weights)))
-    
+                     (alphas '())
+                     weights
+                     (namespace 'rgba))
+  (let* ((alphas-and-weights ;(list-combinations alphas weights)
+                             (if (nil? alphas)
+                                 (list-combinations '((("" 1))) weights)
+                                 (list-combinations alphas weights))))
+    (display "\n==================")
+    (write alphas-and-weights)
+
     (map (lambda (aw)
            (map (lambda (a)
                   (~ "~a~a-~a-~a~a { ~a }"
@@ -70,15 +81,18 @@
                          (~ "/~a"
                             (car a))) ;alpha
                      (string-join (map (lambda (p)
-                                         (~ "~a: rgba(~a, ~a)" p
+                                         (~ "~a: ~a(~a~a)" p namespace
                                             (string-join (map (lambda (x)
                                                                 (~ "~a" x))
                                                               (car (assoc-ref
                                                                     palette
                                                                     (caadr aw))))
                                                          ", ")
-
-                                            (cadr a))) properties) " ")
+                                            (if (equal? namespace
+                                                        'rgba)
+                                                (~ ", ~a"
+                                                   (cadr a)) ""))) properties)
+                                  " ")
 
                      ))
                 (car aw))) alphas-and-weights)))

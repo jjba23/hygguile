@@ -225,7 +225,8 @@
                                              #:properties '(border-color)
                                              #:name (car p)
                                              #:palette (cdr p)
-                                             #:alphas default-alphas
+                                             #:namespace 'rgb
+                                             #:alphas '((("" 1)))
                                              #:weights default-color-weights))
                                (default-palettes)))))
 
@@ -249,6 +250,18 @@
                         #:properties '(border-radius)
                         #:multiplier (rounded-multiplier))))
 
+(define border-style
+  (make-parameter 'solid))
+
+(define borders
+  (make-parameter (css* #:class 'border
+                        #:sizes default-numeric-sizes
+                        #:properties '(border-width)
+                        #:other-properties `((border-style ,(border-style)))
+                        #:direct-size? #t
+                        #:multiplier 1
+                        #:unit "px")))
+
 (define* (udtryk)
   (append reset-css
           (css* #:class 'text
@@ -260,6 +273,7 @@
           (margins)
           (weights)
           (flex-utilities)
+          (borders)
           (widths)
           (heights)
           (font-families)
