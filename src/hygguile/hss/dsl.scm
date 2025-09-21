@@ -31,19 +31,20 @@
          ;; Formats a string like "width: 10.00px;"
          (~ "~a: ~,2f~a;" p calculated-value unit)) properties))
 
-(define (generate-static-declarations other-properties)
+(define (generate-static-declarations properties)
   "Creates a list of CSS properties from fixed key-value pairs."
   (map (lambda (op)
          ;; Formats a string like "display: block;"
          (~ "~a: ~a;"
             (car op)
-            (cadr op))) other-properties))
+            (cadr op))) properties))
 
 (define (build-selector selector class size direct-size?)
   "Constructs the CSS selector, adding a size suffix if needed."
   (if direct-size?
       (~ "~a~a-~a" selector class size)
-      (~ "~a~a-~a" selector class (car size))))
+      (~ "~a~a-~a" selector class
+         (car size))))
 
 (define (build-rule-for-size size
                              selector
@@ -68,6 +69,11 @@
     
     ;; Format the final CSS rule, e.g., ".item-sm { width: 10.00px; }"
     (~ "~a { ~a }" sel declarations-string)))
+
+(define* (css #:key class properties
+              (selector "."))
+  (~ "~a~a { ~a }" selector class
+     (string-join (generate-static-declarations properties) " ")))
 
 (define* (css* #:key (selector ".")
                class
@@ -135,14 +141,6 @@
 
                      ))
                 (car aw))) alphas-and-weights)))
-
-(define* (css #:key class properties
-              (selector "."))
-  (~ "~a~a { ~a }" selector class
-     (string-join (map (lambda (p)
-                         (~ "~a: ~a;"
-                            (car p)
-                            (cadr p))) properties) " ")))
 
 (define* (display-css xs)
   (cond
