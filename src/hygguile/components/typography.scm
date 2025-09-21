@@ -152,7 +152,7 @@
                (rounding '(rounded-lg))
                (shadow '(shadow-md))
                (padding-y '(py-1))
-               (padding-x '(px-3))
+               (padding-x '(px-4))
                (code-classes '(font-mono)))
   `((code (@ (class ,(mk-class (append color
                                        background

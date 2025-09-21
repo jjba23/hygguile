@@ -139,11 +139,14 @@
   (make-parameter (append (css* #:class 'font
                                 #:sizes default-weights
                                 #:properties '(font-weight)
+                                #:rounded-to-integer? #t
                                 #:multiplier (weight-multiplier)
                                 #:unit ""))))
 
 (define widths
-  (make-parameter (append (css* #:class 'w
+  (make-parameter (append (list (css #:class 'min-w-screen
+                                     #:properties '((min-width "1vw"))))
+                          (css* #:class 'w
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
                                 #:properties '(width)
@@ -160,7 +163,9 @@
                                 #:multiplier (width-multiplier)))))
 
 (define heights
-  (make-parameter (append (css* #:class 'h
+  (make-parameter (append (list (css #:class 'min-h-screen
+                                     #:properties '((min-height "1vh"))))
+                          (css* #:class 'h
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
                                 #:properties '(height)
@@ -184,6 +189,58 @@
                         (css #:class 'font-serif
                              #:properties `((font-family ,(serif-font-family)))))))
 
+(define flex-justifies
+  (make-parameter (map (lambda (x)
+                         (css #:class (string->symbol (format #f "justify-~a"
+                                                              (car x)))
+                              #:properties `((justify-content ,(cadr x)))))
+                       '((start flex-start)
+                         (end flex-end)
+                         (end-safe "safe flex-end")
+                         (center center)
+                         (center-safe "safe center")
+                         (between space-between)
+                         (around space-around)
+                         (evenly space-evenly)
+                         (stretch stretch)
+                         (baseline baseline)
+                         (normal normal)))))
+
+(define scroll-snap-type
+  (make-parameter "proximity"))
+
+(define scroll-snap-types
+  (make-parameter (map (lambda (x)
+                         (css #:class (string->symbol (format #f "snap-~a"
+                                                              (car x)))
+                              #:properties `((scroll-snap-type ,(cadr x)))))
+                       `((none none)
+                         (x ,(format #f "x ~a"
+                                     (scroll-snap-type)))
+                         (y ,(format #f "y ~a"
+                                     (scroll-snap-type)))
+                         (both ,(format #f "both ~a"
+                                        (scroll-snap-type)))))))
+
+;; snap-none
+
+;; scroll-snap-type: none;
+;; snap-x
+
+;; scroll-snap-type: x var(--tw-scroll-snap-strictness);
+;; snap-y
+
+;; scroll-snap-type: y var(--tw-scroll-snap-strictness);
+;; snap-both
+
+;; scroll-snap-type: both var(--tw-scroll-snap-strictness);
+;; snap-mandatory
+
+;; --tw-scroll-snap-strictness: mandatory;
+;; snap-proximity
+
+;; --tw-scroll-snap-strictness: proximity;
+
 (define flex-utilities
   (make-parameter (append (css* #:class 'gap
                                 #:sizes default-numeric-sizes
@@ -198,10 +255,26 @@
                                      #:properties '((flex-direction row)))
                                 (css #:class 'flex-wrap
                                      #:properties '((flex-wrap wrap)))
+                                (css #:class 'flex-nowrap
+                                     #:properties '((flex-wrap nowrap)))
                                 (css #:class 'items-center
-                                     #:properties '((align-items center)))
-                                (css #:class 'justify-center
-                                     #:properties '((justify-content center)))))))
+                                     #:properties '((align-items center)))))))
+
+(define z-index
+  (make-parameter (css* #:class 'z
+                        #:sizes default-numeric-sizes
+                        #:direct-size? #t
+                        #:rounded-to-integer? #t
+                        #:properties '(z-index)
+                        #:multiplier 1
+                        #:unit "")))
+
+;; We work with rgba by default for colors
+;;
+;;
+;; You can do this for using colors without transparency
+;; #:namespace 'rgb
+;; #:alphas '((("" 1)))
 
 (define colors
   (make-parameter (append (map (lambda (p)
@@ -226,8 +299,6 @@
                                              #:name (car p)
                                              #:palette (cdr p)
                                              #:alphas default-alphas
-                                             ;; #:namespace 'rgb
-                                             ;; #:alphas '((("" 1)))
                                              #:weights default-color-weights))
                                (default-palettes)))))
 
@@ -263,14 +334,28 @@
                         #:multiplier 1
                         #:unit "px")))
 
+(define positions
+  (make-parameter (map (lambda (x)
+                         (css #:class (string->symbol (format #f "position-~a"
+                                                              (car x)))
+                              #:properties `((position ,(cadr x)))))
+                       '((absolute absolute)
+                         (relative relative)))))
+
+;; ============ Stylesheet Generation Entry-point =========================
+
 (define* (hss)
   (append reset-css
           (css* #:class 'text
                 #:sizes default-tshirt-sizes
                 #:properties '(font-size)
                 #:multiplier (font-size-multiplier))
+          (positions)
+          (flex-justifies)
+          (z-index)
           (roundings)
           (paddings)
+          (scroll-snap-types)
           (margins)
           (weights)
           (flex-utilities)

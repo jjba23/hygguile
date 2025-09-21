@@ -40,7 +40,7 @@
                                                      rounded-xl
                                                      shadow-md
                                                      my-2
-                                                     px-3
+                                                     px-4
                                                      py-1))
                           (button-content `((h4 "Menu")))
                           (items '()))

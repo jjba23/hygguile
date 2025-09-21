@@ -43,7 +43,7 @@
                  (family '(font-sans))
                  (weight '(font-bold))
                  (rounding '(rounded-2xl))
-                 (extra-classes '(py-2 px-3 max-w-prose cursor-pointer)))
+                 (extra-classes '(py-2 px-4 max-w-prose cursor-pointer)))
   (let ((button-css (append extra-classes
                             color
                             background
@@ -84,7 +84,7 @@
                       (rounding '(rounded-2xl))
                       (active '(active:scale-95))
                       (icon-css '(text-stone-100 dark:text-stone-100 text-xl))
-                      (extra-classes '(py-2 px-3 max-w-prose cursor-pointer))
+                      (extra-classes '(py-2 px-4 max-w-prose cursor-pointer))
                       (icon-text-container-classes '(flex flex-row gap-1
                                                           items-center)))
   (let ((button-css (append extra-classes
@@ -150,7 +150,7 @@
                          (on-click "hygguileToggleDarkTheme()")
                          (rounding '(rounded-2xl))
                          (icon-css '(text-stone-100 text-xl))
-                         (extra-classes '(py-2 px-3 max-w-prose cursor-pointer))
+                         (extra-classes '(py-2 px-4 max-w-prose cursor-pointer))
                          (icon-text-container-classes '(flex flex-row gap-1
                                                              items-center)))
   (let ((button-css (append border-color

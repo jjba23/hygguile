@@ -19,25 +19,31 @@
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
+  #:use-module (ice-9 format)
   #:export (~ css css* css-color* display-css list-combinations))
 
 (define* (~ #:rest args)
   (apply format
          (append '(#f) args)))
 
-(define* (generate-sized-declarations #:key properties calculated-value unit)
+(define* (generate-sized-declarations #:key properties calculated-value unit
+                                      (rounded-to-integer? #f))
   "Creates a list of CSS properties from a calculated value."
   (map (lambda (p)
          ;; Formats a string like "width: 10.00px;"
-         (~ "~a: ~,2f~a;" p calculated-value unit)) properties))
+         (format #f
+                 (if rounded-to-integer? "~a:~d~a;" "~a:~,2f~a;") p
+                 (if rounded-to-integer?
+                     (round calculated-value) calculated-value) unit))
+       properties))
 
 (define* (generate-static-declarations #:key properties)
   "Creates a list of CSS properties from fixed key-value pairs."
   (map (lambda (op)
          ;; Formats a string like "display: block;"
-         (~ "~a: ~a;"
-            (car op)
-            (cadr op))) properties))
+         (format #f "~a:~a;"
+                 (car op)
+                 (cadr op))) properties))
 
 (define* (build-selector #:key selector class size direct-size?)
   "Constructs the CSS selector, adding a size suffix if needed."
@@ -50,6 +56,7 @@
                               selector
                               class
                               properties
+                              (rounded-to-integer? #f)
                               (other-properties '())
                               multiplier
                               unit
@@ -65,17 +72,19 @@
                                                   #:calculated-value (*
                                                                       multiplier
                                                                       base-value)
+                                                  #:rounded-to-integer?
+                                                  rounded-to-integer?
                                                   #:unit unit))
          (static-decs (generate-static-declarations #:properties
                                                     other-properties))
          (declarations-string (string-join (append sized-decs static-decs) " ")))
     
     ;; Format the final CSS rule, e.g., ".item-sm { width: 10.00px; }"
-    (~ "~a { ~a }" sel declarations-string)))
+    (~ "~a {~a}" sel declarations-string)))
 
 (define* (css #:key class properties
               (selector "."))
-  (~ "~a~a { ~a }" selector class
+  (~ "~a~a {~a}" selector class
      (string-join (generate-static-declarations #:properties properties) " ")))
 
 (define* (css* #:key (selector ".")
@@ -83,6 +92,7 @@
                properties
                (other-properties '())
                (direct-size? #f)
+               (rounded-to-integer? #f)
                multiplier
                (unit "rem")
                sizes)
@@ -91,6 +101,7 @@
                               #:selector selector
                               #:class class
                               #:properties properties
+                              #:rounded-to-integer? rounded-to-integer?
                               #:other-properties other-properties
                               #:multiplier multiplier
                               #:unit unit
@@ -122,7 +133,7 @@
                                    ", "))
          (color-alpha (if (equal? namespace
                                   'rgba)
-                          (~ ", ~a"
+                          (~ ",~a"
                              (cadar alpha-weight)) ""))
          (props (string-join (map (lambda (p)
                                     (~ "~a: ~a(~a~a)" p namespace tri-channel
@@ -158,9 +169,8 @@
 
 (define* (display-css xs)
   (cond
-    ((string? xs)
-     (display xs)
-     (display "\n"))
     ((list? xs)
      (for-each display-css xs))
-    (else (display xs))))
+    (else (begin
+            (display xs)
+            (display "\n")))))

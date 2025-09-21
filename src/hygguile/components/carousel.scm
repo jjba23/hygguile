@@ -42,8 +42,8 @@
                    (carousel-button-css '(absolute top-1/4
                                                    w-18
                                                    h-18
-                                                   bg-stone-400/25
-                                                   dark:bg-stone-800/25
+                                                   bg-stone-400/20
+                                                   dark:bg-stone-800/20
                                                    rounded-xl
                                                    text-stone-800
                                                    dark:text-stone-200

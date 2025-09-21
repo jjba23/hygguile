@@ -52,11 +52,10 @@
                         (class ,(mk-class '(font-medium text-stone-800
                                                         dark:text-stone-200
                                                         text-md
-                                                        bg-stone-200/75
-                                                        dark:bg-stone-700/75
+                                                        bg-stone-200/70
+                                                        dark:bg-stone-700/70
                                                         rounded-lg
                                                         shadow-md
-
                                                         text-wrap
                                                         py-4
                                                         px-4

@@ -214,6 +214,6 @@ You can always choose to import hygguile using a prefix to avoid name clashes if
 
 --------
 
-* Additional Tailwind goodies
+** TODO generate CSS documentation like tailwind does, but by analyzing hss.css directly and perform analysis
 
-Hygguile defines some custom extensions on top of Tailwind CSS, like some additional colors (~bg-papayawhip~ , ~text-cafenoir~, etc.)
+** TODO make color blocks interactive buttons and let you browse the palette + - from 100 to 900
