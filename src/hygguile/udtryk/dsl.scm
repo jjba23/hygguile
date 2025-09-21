@@ -37,8 +37,7 @@
             (if direct-size? s
                 (car s))
             (string-join (map (lambda (p)
-                                (write p)
-                                (~ "~a: ~a~a;" p
+                                (~ "~a: ~,2f~a;" p
                                    (* multiplier
                                       (if direct-size? s
                                           (cadr s))) unit)) properties) " ")))

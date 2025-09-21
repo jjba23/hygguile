@@ -59,6 +59,149 @@
   (make-parameter (string-join '("'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif,"
                                  "'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'")
                                " ")))
+
+(define paddings
+  (make-parameter (append (css* #:class 'p
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(padding)
+                                #:multiplier (padding-multiplier))
+                          (css* #:class 'px
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(padding-left padding-right)
+                                #:multiplier (padding-multiplier))
+                          (css* #:class 'py
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(padding-top padding-bottom)
+                                #:multiplier (padding-multiplier))
+                          (css* #:class 'pt
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(padding-top)
+                                #:multiplier (padding-multiplier))
+                          (css* #:class 'pb
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(padding-bottom)
+                                #:multiplier (padding-multiplier))
+                          (css* #:class 'pl
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(padding-left)
+                                #:multiplier (padding-multiplier))
+                          (css* #:class 'pr
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(padding-right)
+                                #:multiplier (padding-multiplier)))))
+
+(define margins
+  (make-parameter (append (css* #:class 'm
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(margin)
+                                #:multiplier (margin-multiplier))
+                          (css* #:class 'mx
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(margin-left margin-right)
+                                #:multiplier (margin-multiplier))
+                          (css* #:class 'ml
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(margin-left)
+                                #:multiplier (margin-multiplier))
+                          (css* #:class 'mr
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(margin-right)
+                                #:multiplier (margin-multiplier))
+                          (css* #:class 'my
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(margin-top margin-bottom)
+                                #:multiplier (margin-multiplier))
+                          (css* #:class 'mt
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(margin-top)
+                                #:multiplier (margin-multiplier))
+                          (css* #:class 'mb
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(margin-bottom)
+                                #:multiplier (margin-multiplier)))))
+
+(define weights
+  (make-parameter (append (css* #:class 'font
+                                #:sizes default-weights
+                                #:properties '(font-weight)
+                                #:multiplier (weight-multiplier)
+                                #:unit ""))))
+
+(define widths
+  (make-parameter (append (css* #:class 'w
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(width)
+                                #:multiplier (width-multiplier))
+                          (css* #:class 'min-w
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(min-width)
+                                #:multiplier (width-multiplier))
+                          (css* #:class 'max-w
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(max-width)
+                                #:multiplier (width-multiplier)))))
+
+(define heights
+  (make-parameter (append (css* #:class 'h
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(height)
+                                #:multiplier (height-multiplier))
+                          (css* #:class 'min-h
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(min-height)
+                                #:multiplier (height-multiplier))
+                          (css* #:class 'max-h
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(max-height)
+                                #:multiplier (height-multiplier)))))
+
+(define font-families
+  (make-parameter (list (css #:class 'font-sans
+                             #:properties `((font-family ,(sans-font-family))))
+                        (css #:class 'font-mono
+                             #:properties `((font-family ,(mono-font-family))))
+                        (css #:class 'font-serif
+                             #:properties `((font-family ,(serif-font-family)))))))
+
+(define flex-utilities
+  (make-parameter (append (css* #:class 'gap
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:properties '(gap)
+                                #:multiplier (gap-multiplier))
+                          (list (css #:class 'flex
+                                     #:properties '((display flex)))
+                                (css #:class 'flex-col
+                                     #:properties '((flex-direction column)))
+                                (css #:class 'flex-row
+                                     #:properties '((flex-direction row)))
+                                (css #:class 'flex-wrap
+                                     #:properties '((flex-wrap wrap)))
+                                (css #:class 'items-center
+                                     #:properties '((align-items center)))
+                                (css #:class 'justify-center
+                                     #:properties '((justify-content center)))))))
+
 (define* (udtryk)
   (append reset-css
           (css* #:class 'text
@@ -69,113 +212,13 @@
                 #:sizes default-tshirt-sizes
                 #:properties '(border-radius)
                 #:multiplier (rounded-multiplier))
-          ;; ====== Paddings ======
-          (css* #:class 'p
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(padding)
-                #:multiplier (padding-multiplier))
-          (css* #:class 'px
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(padding-left padding-right)
-                #:multiplier (padding-multiplier))
-          (css* #:class 'py
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(padding-top padding-bottom)
-                #:multiplier (padding-multiplier))
-          ;; ====== Margins ======
-          (css* #:class 'm
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(margin)
-                #:multiplier (margin-multiplier))
-          (css* #:class 'mx
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(margin-left margin-right)
-                #:multiplier (margin-multiplier))
-          (css* #:class 'my
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(margin-top margin-bottom)
-                #:multiplier (margin-multiplier))
-          (css* #:class 'mt
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(margin-top)
-                #:multiplier (margin-multiplier))
-          (css* #:class 'mb
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(margin-bottom)
-                #:multiplier (margin-multiplier))
-
-          ;; ====== Font Weights ======
-          (css* #:class 'font
-                #:sizes default-weights
-                #:properties '(font-weight)
-                #:multiplier (weight-multiplier)
-                #:unit "")
-
-          ;; ====== Flex utilities ======
-          (css* #:class 'gap
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(gap)
-                #:multiplier (gap-multiplier))
-          (list (css #:class 'flex
-                     #:properties '((display flex)))
-                (css #:class 'flex-col
-                     #:properties '((flex-direction column)))
-                (css #:class 'flex-row
-                     #:properties '((flex-direction row)))
-                (css #:class 'flex-wrap
-                     #:properties '((flex-wrap wrap)))
-                (css #:class 'items-center
-                     #:properties '((align-items center)))
-                (css #:class 'justify-center
-                     #:properties '((justify-content center))))
-          ;; ====== Width ======
-          (css* #:class 'w
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(width)
-                #:multiplier (width-multiplier))
-          (css* #:class 'min-w
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(min-width)
-                #:multiplier (width-multiplier))
-          (css* #:class 'max-w
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(max-width)
-                #:multiplier (width-multiplier))
-          ;; ====== Height ======
-          (css* #:class 'h
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(height)
-                #:multiplier (height-multiplier))
-          (css* #:class 'min-h
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(min-height)
-                #:multiplier (height-multiplier))
-          (css* #:class 'max-h
-                #:sizes default-numeric-sizes
-                #:direct-size? #t
-                #:properties '(max-height)
-                #:multiplier (height-multiplier))
-          ;; ====== Font utilities ======
-          (list (css #:class 'font-sans
-                     #:properties `((font-family ,(sans-font-family))))
-                (css #:class 'font-mono
-                     #:properties `((font-family ,(mono-font-family))))
-                (css #:class 'font-serif
-                     #:properties `((font-family ,(serif-font-family)))))
+          (paddings)
+          (margins)
+          (weights)
+          (flex-utilities)
+          (widths)
+          (heights)
+          (font-families)
           ;; ====== Display utilities ======
           (list (css #:class 'hidden
                      #:properties `((display none)))
