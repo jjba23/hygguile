@@ -446,7 +446,7 @@
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-10 px-2 container
-                                                         mx-auto))))
+                                                          mx-auto))))
                              (div (@ (class ,(mk-class '(flex flex-col gap-4))))
                                   (a (@ (href "/"))
                                      ,(h1 "hygguile"))

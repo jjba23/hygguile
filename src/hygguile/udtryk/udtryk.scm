@@ -35,19 +35,19 @@
                                  udtryk))
 
 (define font-size-multiplier
-  (make-parameter "0.24rem"))
+  (make-parameter 0.24))
 (define margin-multiplier
-  (make-parameter "0.24rem"))
+  (make-parameter 0.24))
 (define padding-multiplier
-  (make-parameter "0.24rem"))
+  (make-parameter 0.24))
 (define gap-multiplier
-  (make-parameter "0.24rem"))
+  (make-parameter 0.24))
 (define rounded-multiplier
-  (make-parameter "0.1rem"))
+  (make-parameter 0.1))
 (define width-multiplier
-  (make-parameter "0.3rem"))
+  (make-parameter 0.3))
 (define height-multiplier
-  (make-parameter "0.3rem"))
+  (make-parameter 0.3))
 (define weight-multiplier
   (make-parameter 1))
 
@@ -116,7 +116,8 @@
           (css* #:class 'font
                 #:sizes default-weights
                 #:properties '(font-weight)
-                #:multiplier (weight-multiplier))
+                #:multiplier (weight-multiplier)
+                #:unit "")
 
           ;; ====== Flex utilities ======
           (css* #:class 'gap

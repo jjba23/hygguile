@@ -29,16 +29,20 @@
                class
                properties
                (direct-size? #f)
-               (multiplier "0.7em")
+               multiplier
+               (unit "rem")
                sizes)
   (map (lambda (s)
          (~ "~a~a-~a { ~a }" selector class
             (if direct-size? s
                 (car s))
             (string-join (map (lambda (p)
-                                (~ "~a: calc(~a * ~a);" p multiplier
-                                   (if direct-size? s
-                                       (cadr s)))) properties) " "))) sizes))
+                                (write p)
+                                (~ "~a: ~a~a;" p
+                                   (* multiplier
+                                      (if direct-size? s
+                                          (cadr s))) unit)) properties) " ")))
+       sizes))
 
 (define* (css #:key class properties
               (selector "."))
