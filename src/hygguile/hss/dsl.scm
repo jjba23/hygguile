@@ -25,13 +25,13 @@
   (apply format
          (append '(#f) args)))
 
-(define (generate-sized-declarations properties calculated-value unit)
+(define* (generate-sized-declarations #:key properties calculated-value unit)
   "Creates a list of CSS properties from a calculated value."
   (map (lambda (p)
          ;; Formats a string like "width: 10.00px;"
          (~ "~a: ~,2f~a;" p calculated-value unit)) properties))
 
-(define (generate-static-declarations properties)
+(define* (generate-static-declarations #:key properties)
   "Creates a list of CSS properties from fixed key-value pairs."
   (map (lambda (op)
          ;; Formats a string like "display: block;"
@@ -39,32 +39,35 @@
             (car op)
             (cadr op))) properties))
 
-(define (build-selector selector class size direct-size?)
+(define* (build-selector #:key selector class size direct-size?)
   "Constructs the CSS selector, adding a size suffix if needed."
   (if direct-size?
       (~ "~a~a-~a" selector class size)
       (~ "~a~a-~a" selector class
          (car size))))
 
-(define (build-rule-for-size size
-                             selector
-                             class
-                             properties
-                             other-properties
-                             multiplier
-                             unit
-                             direct-size?)
+(define* (build-rule-for-size #:key size
+                              selector
+                              class
+                              properties
+                              (other-properties '())
+                              multiplier
+                              unit
+                              (direct-size? #f))
   "Builds a complete CSS rule for a single size element."
-  (let* ((sel (build-selector selector class size direct-size?))
-         ;; Determine the base value from 's'
+  (let* ((sel (build-selector #:selector selector
+                              #:class class
+                              #:size size
+                              #:direct-size? direct-size?))
          (base-value (if direct-size? size
                          (cadr size)))
-         ;; Generate the two types of CSS declarations
-         (sized-decs (generate-sized-declarations properties
-                                                  (* multiplier base-value)
-                                                  unit))
-         (static-decs (generate-static-declarations other-properties))
-         ;; Combine declarations into one string: "prop1: val; prop2: val;"
+         (sized-decs (generate-sized-declarations #:properties properties
+                                                  #:calculated-value (*
+                                                                      multiplier
+                                                                      base-value)
+                                                  #:unit unit))
+         (static-decs (generate-static-declarations #:properties
+                                                    other-properties))
          (declarations-string (string-join (append sized-decs static-decs) " ")))
     
     ;; Format the final CSS rule, e.g., ".item-sm { width: 10.00px; }"
@@ -73,7 +76,7 @@
 (define* (css #:key class properties
               (selector "."))
   (~ "~a~a { ~a }" selector class
-     (string-join (generate-static-declarations properties) " ")))
+     (string-join (generate-static-declarations #:properties properties) " ")))
 
 (define* (css* #:key (selector ".")
                class
@@ -84,20 +87,56 @@
                (unit "rem")
                sizes)
   (map (lambda (size)
-         (build-rule-for-size size
-                              selector
-                              class
-                              properties
-                              other-properties
-                              multiplier
-                              unit
-                              direct-size?)) sizes))
+         (build-rule-for-size #:size size
+                              #:selector selector
+                              #:class class
+                              #:properties properties
+                              #:other-properties other-properties
+                              #:multiplier multiplier
+                              #:unit unit
+                              #:direct-size? direct-size?)) sizes))
 
 (define (list-combinations list1 list2)
   "Computes all combinations (Cartesian product) of elements from two lists."
   (append-map (lambda (x)
                 (map (lambda (y)
                        (list x y)) list2)) list1))
+
+(define* (mk-color #:key alpha-weight
+                   x
+                   palette
+                   namespace
+                   properties
+                   selector
+                   class
+                   name)
+  (display (~ "\nalpha-weight: ~a" alpha-weight))
+  (display (~ "\nx: ~a" x))
+  (let* ((weight-name (caadr alpha-weight))
+         (alpha-name (if (equal? ""
+                                 (car x)) ""
+                         (~ "\\/~a"
+                            (car x))))
+         (tri-channel (string-join (map (lambda (x)
+                                          (~ "~a" x))
+                                        (car (assoc-ref palette
+
+                                                        (caadr alpha-weight))))
+                                   ", "))
+         (color-alpha (if (equal? namespace
+                                  'rgba)
+                          (~ ", ~a"
+                             (cadr x)) ""))
+         (props (string-join (map (lambda (p)
+                                    (~ "~a: ~a(~a~a)" p namespace tri-channel
+                                       color-alpha)) properties) " ")))
+    (~ "~a~a-~a-~a~a { ~a }"
+       selector
+       class
+       name
+       weight-name
+       alpha-name
+       props)))
 
 (define* (css-color* #:key (selector ".")
                      class
@@ -107,40 +146,20 @@
                      (alphas '())
                      weights
                      (namespace 'rgba))
-  (let* ((alphas-and-weights ;(list-combinations alphas weights)
-                             (if (nil? alphas)
+  (let* ((alphas-and-weights (if (nil? alphas)
                                  (list-combinations '((("" 1))) weights)
                                  (list-combinations alphas weights))))
-    (display "\n==================")
-    (write alphas-and-weights)
-
-    (map (lambda (aw)
-           (map (lambda (a)
-                  (~ "~a~a-~a-~a~a { ~a }"
-                     selector
-                     class
-                     name
-                     (caadr aw) ;weight
-                     (if (equal? ""
-                                 (car a)) ""
-                         (~ "\\/~a"
-                            (car a))) ;alpha
-                     (string-join (map (lambda (p)
-                                         (~ "~a: ~a(~a~a)" p namespace
-                                            (string-join (map (lambda (x)
-                                                                (~ "~a" x))
-                                                              (car (assoc-ref
-                                                                    palette
-                                                                    (caadr aw))))
-                                                         ", ")
-                                            (if (equal? namespace
-                                                        'rgba)
-                                                (~ ", ~a"
-                                                   (cadr a)) ""))) properties)
-                                  " ")
-
-                     ))
-                (car aw))) alphas-and-weights)))
+    
+    (map (lambda (alpha-weight)
+           (map (lambda (x)
+                  (mk-color #:alpha-weight alpha-weight
+                            #:x x
+                            #:palette palette
+                            #:namespace namespace
+                            #:properties properties
+                            #:selector selector
+                            #:class class
+                            #:name name)) alpha-weight)) alphas-and-weights)))
 
 (define* (display-css xs)
   (cond
