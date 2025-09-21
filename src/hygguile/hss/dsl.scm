@@ -25,6 +25,50 @@
   (apply format
          (append '(#f) args)))
 
+(define (generate-sized-declarations properties calculated-value unit)
+  "Creates a list of CSS properties from a calculated value."
+  (map (lambda (p)
+         ;; Formats a string like "width: 10.00px;"
+         (~ "~a: ~,2f~a;" p calculated-value unit)) properties))
+
+(define (generate-static-declarations other-properties)
+  "Creates a list of CSS properties from fixed key-value pairs."
+  (map (lambda (op)
+         ;; Formats a string like "display: block;"
+         (~ "~a: ~a;"
+            (car op)
+            (cadr op))) other-properties))
+
+(define (build-selector selector class size direct-size?)
+  "Constructs the CSS selector, adding a size suffix if needed."
+  (if direct-size?
+      (~ "~a~a-~a" selector class size)
+      (~ "~a~a-~a" selector class (car size))))
+
+(define (build-rule-for-size size
+                             selector
+                             class
+                             properties
+                             other-properties
+                             multiplier
+                             unit
+                             direct-size?)
+  "Builds a complete CSS rule for a single size element."
+  (let* ((sel (build-selector selector class size direct-size?))
+         ;; Determine the base value from 's'
+         (base-value (if direct-size? size
+                         (cadr size)))
+         ;; Generate the two types of CSS declarations
+         (sized-decs (generate-sized-declarations properties
+                                                  (* multiplier base-value)
+                                                  unit))
+         (static-decs (generate-static-declarations other-properties))
+         ;; Combine declarations into one string: "prop1: val; prop2: val;"
+         (declarations-string (string-join (append sized-decs static-decs) " ")))
+    
+    ;; Format the final CSS rule, e.g., ".item-sm { width: 10.00px; }"
+    (~ "~a { ~a }" sel declarations-string)))
+
 (define* (css* #:key (selector ".")
                class
                properties
@@ -33,20 +77,15 @@
                multiplier
                (unit "rem")
                sizes)
-  (map (lambda (s)
-         (~ "~a~a-~a { ~a }" selector class
-            (if direct-size? s
-                (car s))
-            (string-join (append (map (lambda (p)
-                                        (~ "~a: ~,2f~a;" p
-                                           (* multiplier
-                                              (if direct-size? s
-                                                  (cadr s))) unit)) properties)
-                                 (map (lambda (op)
-                                        (~ "~a: ~a;"
-                                           (car op)
-                                           (cadr op))) other-properties)) " ")))
-       sizes))
+  (map (lambda (size)
+         (build-rule-for-size size
+                              selector
+                              class
+                              properties
+                              other-properties
+                              multiplier
+                              unit
+                              direct-size?)) sizes))
 
 (define (list-combinations list1 list2)
   "Computes all combinations (Cartesian product) of elements from two lists."
@@ -78,7 +117,7 @@
                      (caadr aw) ;weight
                      (if (equal? ""
                                  (car a)) ""
-                         (~ "/~a"
+                         (~ "\\/~a"
                             (car a))) ;alpha
                      (string-join (map (lambda (p)
                                          (~ "~a: ~a(~a~a)" p namespace

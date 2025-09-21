@@ -225,8 +225,9 @@
                                              #:properties '(border-color)
                                              #:name (car p)
                                              #:palette (cdr p)
-                                             #:namespace 'rgb
-                                             #:alphas '((("" 1)))
+                                             #:alphas default-alphas
+                                             ;; #:namespace 'rgb
+                                             ;; #:alphas '((("" 1)))
                                              #:weights default-color-weights))
                                (default-palettes)))))
 
@@ -261,6 +262,15 @@
                         #:direct-size? #t
                         #:multiplier 1
                         #:unit "px")))
+
+;; .active\:scale-95 {
+;;     &:active {
+;;         --tw-scale-x: 95%;
+;;         --tw-scale-y: 95%;
+;;         --tw-scale-z: 95%;
+;;         scale: var(--tw-scale-x) var(--tw-scale-y);
+;;     }
+;; }
 
 (define* (hss)
   (append reset-css
