@@ -128,7 +128,7 @@
                    #:size '(text-xl))
               ,(sub-h2 "Typography"))
          (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-8))))
-              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+              (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
                        ,(as-example '(h1
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(h1
@@ -140,7 +140,7 @@
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(h4
                                       "Sphinx of black quartz, judge my vow")))
-              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+              (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
                        ,(as-example '(h1
                                       "Sphinx of black quartz, judge my vow"
                                       #:family '(font-serif)))
@@ -157,7 +157,7 @@
                        ,(as-example '(h4
                                       "Sphinx of black quartz, judge my vow"
                                       #:family '(font-serif))))
-              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+              (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
                        ,(as-example '(sub-h1
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(sub-h2
@@ -167,13 +167,13 @@
                        ,(as-example '(sub-h4
                                       "Sphinx of black quartz, judge my vow")))
 
-              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+              (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
                        ,(as-example '(strong
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(p "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(em
                                       "Sphinx of black quartz, judge my vow")))
-              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+              (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
                        ,(as-example '(mono
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(code
@@ -204,7 +204,7 @@
 (define footer
   (footer `(,(em "Copyright &copy; Josep Bigorra &lt;jjbigorra@gmail.com&gt;") ,
             (em "licensed under the LGPL v3, or newer at your convenience")
-            (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-3
+            (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-4
                                              align-center items-center))))
                  ,(em "find the source code here:")
                  ,(a "https://codeberg.org/jjba23/hygguile"))
@@ -368,7 +368,7 @@
                                             items-center
                                             align-center
                                             py-4))))
-    `(,(sub-h2 "🎨 Colors") (div (@ (class ,(mk-class '(py-3))))
+    `(,(sub-h2 "🎨 Colors") (div (@ (class ,(mk-class '(py-4))))
                                 ,(p
                                   "Hygguile offers colors out of the box, in all their variants.")
                                 (div (@ (class ,color-grid-class))
@@ -445,7 +445,7 @@
                                                      #:text-class 'text-white))))))
 
 (define (showcase-body)
-  (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
+  (with-footer #:main `((div (@ (class ,(mk-class '(py-10 px-2 container
                                                          mx-auto))))
                              (div (@ (class ,(mk-class '(flex flex-col gap-4))))
                                   (a (@ (href "/"))

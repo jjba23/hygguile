@@ -52,7 +52,7 @@
   (cond
     ((string? xs)
      (display xs)
-     (newline))
+     (display " "))
     ((list? xs)
      (for-each display-css xs))
     (else (display xs))))

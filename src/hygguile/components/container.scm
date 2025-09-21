@@ -39,7 +39,7 @@
                  #:key (background '(bg-stone-200 dark:bg-stone-900))
                  (shadow '(shadow-xl))
                  (footer-classes '(flex flex-col
-                                        gap-3
+                                        gap-4
                                         items-left
                                         px-6
                                         md:px-12

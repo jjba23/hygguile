@@ -22,53 +22,6 @@
   #:use-module (hygguile udtryk dsl)
   #:export (reset-css))
 
-(define reset-css
-  (list (css #:class (string-join (map symbol->string big-html-reset-list)
-                                  ", ")
-             #:properties '((margin 0)
-                            (padding 0)
-                            (border 0)
-                            (font-size "100%")
-                            (font inherit)
-                            (vertical-align baseline))
-             #:selector "")
-        (css #:class (string-join (map symbol->string
-                                       '(article aside
-                                                 details
-                                                 figcaption
-                                                 figure
-                                                 footer
-                                                 header
-                                                 hgroup
-                                                 menu
-                                                 nav
-                                                 section)) ", ")
-             #:properties '((display block))
-             #:selector "")
-        (css #:class 'body
-             #:properties '((line-height 1))
-             #:selector "")
-        (css #:class (string-join (map symbol->string
-                                       '(blockquote q)) ", ")
-             #:properties '((quotes none))
-             #:selector "")
-        (css #:class 'table
-             #:properties '((border-collapse collapse)
-                            (border-spacing 0))
-             #:selector "")
-        (css #:class (string-join (map symbol->string
-                                       '(blockquote:before blockquote:after
-
-                                                           q:before q:after))
-                                  ", ")
-             #:properties '((content "''")
-                            (content none))
-             #:selector "")
-        (css #:class (string-join (map symbol->string
-                                       '(ol ul)) ", ")
-             #:properties '((list-style none))
-             #:selector "")))
-
 (define big-html-reset-list
   '(html body
          div
@@ -150,3 +103,55 @@
          mark
          audio
          video))
+
+(define reset-css
+  (list (css #:class (string-join (map symbol->string big-html-reset-list)
+                                  ", ")
+             #:properties '((margin 0)
+                            (padding 0)
+                            (border 0)
+                            (font-size "100%")
+                            (font inherit)
+                            (vertical-align baseline))
+             #:selector "")
+        (css #:class (string-join (map symbol->string
+                                       '(article aside
+                                                 details
+                                                 figcaption
+                                                 figure
+                                                 footer
+                                                 header
+                                                 hgroup
+                                                 menu
+                                                 nav
+                                                 section)) ", ")
+             #:properties '((display block))
+             #:selector "")
+        (css #:class 'button
+             #:properties '((background transparent)
+                            (border none))
+             #:selector "")
+        (css #:class 'body
+             #:properties '((line-height 1))
+             #:selector "")
+        (css #:class (string-join (map symbol->string
+                                       '(blockquote q)) ", ")
+             #:properties '((quotes none))
+             #:selector "")
+        (css #:class 'table
+             #:properties '((border-collapse collapse)
+                            (border-spacing 0))
+             #:selector "")
+        (css #:class (string-join (map symbol->string
+                                       '(blockquote:before blockquote:after
+
+                                                           q:before q:after))
+                                  ", ")
+             #:properties '((content "''")
+                            (content none))
+             #:selector "")
+        (css #:class (string-join (map symbol->string
+                                       '(ol ul)) ", ")
+             #:properties '((list-style none))
+             #:selector "")))
+

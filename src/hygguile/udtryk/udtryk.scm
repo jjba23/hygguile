@@ -28,6 +28,7 @@
                                  rounded-multiplier
                                  width-multiplier
                                  weight-multiplier
+                                 height-multiplier
                                  mono-font-family
                                  sans-font-family
                                  serif-font-family
@@ -44,7 +45,9 @@
 (define rounded-multiplier
   (make-parameter "0.1rem"))
 (define width-multiplier
-  (make-parameter "0.4rem"))
+  (make-parameter "0.3rem"))
+(define height-multiplier
+  (make-parameter "0.3rem"))
 (define weight-multiplier
   (make-parameter 1))
 
@@ -111,7 +114,7 @@
 
           ;; ====== Font Weights ======
           (css* #:class 'font
-                #:sizes default-weight-sizes
+                #:sizes default-weights
                 #:properties '(font-weight)
                 #:multiplier (weight-multiplier))
 
@@ -134,11 +137,37 @@
                 (css #:class 'justify-center
                      #:properties '((justify-content center))))
           ;; ====== Width ======
+          (css* #:class 'w
+                #:sizes default-numeric-sizes
+                #:direct-size? #t
+                #:properties '(width)
+                #:multiplier (width-multiplier))
+          (css* #:class 'min-w
+                #:sizes default-numeric-sizes
+                #:direct-size? #t
+                #:properties '(min-width)
+                #:multiplier (width-multiplier))
           (css* #:class 'max-w
                 #:sizes default-numeric-sizes
                 #:direct-size? #t
                 #:properties '(max-width)
                 #:multiplier (width-multiplier))
+          ;; ====== Height ======
+          (css* #:class 'h
+                #:sizes default-numeric-sizes
+                #:direct-size? #t
+                #:properties '(height)
+                #:multiplier (height-multiplier))
+          (css* #:class 'min-h
+                #:sizes default-numeric-sizes
+                #:direct-size? #t
+                #:properties '(min-height)
+                #:multiplier (height-multiplier))
+          (css* #:class 'max-h
+                #:sizes default-numeric-sizes
+                #:direct-size? #t
+                #:properties '(max-height)
+                #:multiplier (height-multiplier))
           ;; ====== Font utilities ======
           (list (css #:class 'font-sans
                      #:properties `((font-family ,(sans-font-family))))
