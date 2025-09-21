@@ -103,20 +103,17 @@
                        (list x y)) list2)) list1))
 
 (define* (mk-color #:key alpha-weight
-                   x
                    palette
                    namespace
                    properties
                    selector
                    class
                    name)
-  (display (~ "\nalpha-weight: ~a" alpha-weight))
-  (display (~ "\nx: ~a" x))
   (let* ((weight-name (caadr alpha-weight))
          (alpha-name (if (equal? ""
-                                 (car x)) ""
+                                 (caar alpha-weight)) ""
                          (~ "\\/~a"
-                            (car x))))
+                            (caar alpha-weight))))
          (tri-channel (string-join (map (lambda (x)
                                           (~ "~a" x))
                                         (car (assoc-ref palette
@@ -126,7 +123,7 @@
          (color-alpha (if (equal? namespace
                                   'rgba)
                           (~ ", ~a"
-                             (cadr x)) ""))
+                             (cadar alpha-weight)) ""))
          (props (string-join (map (lambda (p)
                                     (~ "~a: ~a(~a~a)" p namespace tri-channel
                                        color-alpha)) properties) " ")))
@@ -151,15 +148,13 @@
                                  (list-combinations alphas weights))))
     
     (map (lambda (alpha-weight)
-           (map (lambda (x)
-                  (mk-color #:alpha-weight alpha-weight
-                            #:x x
-                            #:palette palette
-                            #:namespace namespace
-                            #:properties properties
-                            #:selector selector
-                            #:class class
-                            #:name name)) alpha-weight)) alphas-and-weights)))
+           (mk-color #:alpha-weight alpha-weight
+                     #:palette palette
+                     #:namespace namespace
+                     #:properties properties
+                     #:selector selector
+                     #:class class
+                     #:name name)) alphas-and-weights)))
 
 (define* (display-css xs)
   (cond
