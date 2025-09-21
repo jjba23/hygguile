@@ -202,6 +202,23 @@
                                 (css #:class 'justify-center
                                      #:properties '((justify-content center)))))))
 
+(define orange
+  (make-parameter '((100 (255 218 185))
+                    (200 (255 160 122))
+                    (300 (255 127 80))
+                    (400 (255 165 0))
+                    (500 (255 140 0))
+                    (600 (255 69 0))
+                    (700 (210 105 30))
+                    (800 (139 69 19))
+                    (900 (128 0 0)))))
+
+(define colors
+  (make-parameter (append (css-color* #:class 'bg
+                                      #:properties '(background)
+                                      #:name 'orange
+                                      #:palette (orange)))))
+
 (define* (udtryk)
   (append reset-css
           (css* #:class 'text
@@ -219,6 +236,7 @@
           (widths)
           (heights)
           (font-families)
+          (colors)
           ;; ====== Display utilities ======
           (list (css #:class 'hidden
                      #:properties `((display none)))

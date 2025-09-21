@@ -19,7 +19,7 @@
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
-  #:export (~ css css* display-css))
+  #:export (~ css css* css-color* display-css))
 
 (define* (~ #:rest args)
   (apply format
@@ -42,6 +42,25 @@
                                       (if direct-size? s
                                           (cadr s))) unit)) properties) " ")))
        sizes))
+
+(define* (css-color* #:key (selector ".")
+                     class
+                     properties
+                     name
+                     palette
+                     (spectrum "rgb"))
+  (map (lambda (s)
+         (~ "~a~a-~a-~a { ~a }"
+            selector
+            class
+            name
+            (car s)
+            (string-join (map (lambda (p)
+                                (~ "~a: ~a(~a);" p spectrum
+                                   (string-join (map (lambda (x)
+                                                       (format #f "~a" x))
+                                                     (cadr s)) ", ")))
+                              properties) " "))) palette))
 
 (define* (css #:key class properties
               (selector "."))
