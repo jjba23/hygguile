@@ -219,9 +219,35 @@
                                              #:palette (cdr p)
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
+                               (default-palettes))
+                          (map (lambda (p)
+                                 (css-color* #:class 'border
+                                             #:properties '(border-color)
+                                             #:name (car p)
+                                             #:palette (cdr p)
+                                             #:alphas default-alphas
+                                             #:weights default-color-weights))
                                (default-palettes)))))
 
-(colors)
+(define text-utilities
+  (make-parameter (list (css #:class 'italic
+                             #:properties `((font-style italic)))
+                        (css #:class 'text-center
+                             #:properties '((text-align center))))))
+
+(define display-utilities
+  (make-parameter (list (css #:class 'hidden
+                             #:properties `((display none)))
+                        (css #:class 'overflow-x-scroll
+                             #:properties '((overflow-x scroll)))
+                        (css #:class 'cursor-pointer
+                             #:properties `((cursor pointer))))))
+
+(define roundings
+  (make-parameter (css* #:class 'rounded
+                        #:sizes default-tshirt-sizes
+                        #:properties '(border-radius)
+                        #:multiplier (rounded-multiplier))))
 
 (define* (udtryk)
   (append reset-css
@@ -229,10 +255,7 @@
                 #:sizes default-tshirt-sizes
                 #:properties '(font-size)
                 #:multiplier (font-size-multiplier))
-          (css* #:class 'rounded
-                #:sizes default-tshirt-sizes
-                #:properties '(border-radius)
-                #:multiplier (rounded-multiplier))
+          (roundings)
           (paddings)
           (margins)
           (weights)
@@ -240,15 +263,6 @@
           (widths)
           (heights)
           (font-families)
-          (colors)
-          ;; ====== Display utilities ======
-          (list (css #:class 'hidden
-                     #:properties `((display none)))
-                (css #:class 'overflow-x-scroll
-                     #:properties '((overflow-x scroll)))
-                (css #:class 'italic
-                     #:properties `((font-style italic)))
-                (css #:class 'text-center
-                     #:properties '((text-align center)))
-                (css #:class 'cursor-pointer
-                     #:properties `((cursor pointer))))))
+          (display-utilities)
+          (colors)))
+

@@ -19,7 +19,7 @@
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
-  #:export (default-colors default-palettes orange red))
+  #:export (default-colors default-palettes orange red stone))
 
 (define default-colors
   (make-parameter '(orange red)))
@@ -46,8 +46,21 @@
                     (800 (139 0 0))
                     (900 (128 0 0)))))
 
+(define stone
+  (make-parameter '((100 (245 245 245))
+                    (200 (238 238 238))
+                    (300 (220 220 220))
+                    (400 (211 211 211))
+                    (500 (192 192 192))
+                    (600 (169 169 169))
+                    (700 (128 128 128))
+                    (800 (105 105 105))
+                    (900 (47 79 79)))))
+
 (define default-palettes
   (make-parameter (list (cons 'orange
                               (orange))
+                        (cons 'stone
+                              (stone))
                         (cons 'red
                               (red)))))
