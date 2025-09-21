@@ -19,7 +19,7 @@
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
-  #:export (~ css css* css-color* display-css))
+  #:export (~ css css* css-color* display-css list-combinations))
 
 (define* (~ #:rest args)
   (apply format
@@ -43,24 +43,35 @@
                                           (cadr s))) unit)) properties) " ")))
        sizes))
 
+(define (list-combinations list1 list2)
+  "Computes all combinations (Cartesian product) of elements from two lists."
+  (append-map (lambda (x)
+                (map (lambda (y)
+                       (list x y)) list2)) list1))
+
 (define* (css-color* #:key (selector ".")
                      class
                      properties
                      name
                      palette
-                     (spectrum "rgb"))
-  (map (lambda (s)
-         (~ "~a~a-~a-~a { ~a }"
-            selector
-            class
-            name
-            (car s)
-            (string-join (map (lambda (p)
-                                (~ "~a: ~a(~a);" p spectrum
-                                   (string-join (map (lambda (x)
-                                                       (format #f "~a" x))
-                                                     (cadr s)) ", ")))
-                              properties) " "))) palette))
+                     alphas
+                     weights)
+  (let* ((alphas-and-weights (list-combinations alphas weights)))
+    (map (lambda (c)
+           (map (lambda (aw)
+                  (map (lambda (a)
+                         (~ "~a~a-~a-~a/~a { ~a }"
+                            selector
+                            class
+                            name
+                            (caadr aw)
+                            (car a)
+                            (string-join (map (lambda (p)
+                                                (~ "~a: rgba(~a, ~a)" p c
+                                                   (cadr a))) properties) " ")
+
+                            ))
+                       (car aw))) alphas-and-weights)) palette)))
 
 (define* (css #:key class properties
               (selector "."))

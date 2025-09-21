@@ -19,7 +19,8 @@
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
-  #:export (default-tshirt-sizes default-numeric-sizes default-weights))
+  #:export (default-tshirt-sizes default-numeric-sizes default-weights
+                                 default-alphas default-color-weights))
 
 (define default-tshirt-sizes
   `(("xxs" 1)
@@ -70,3 +71,34 @@
     (900 900)
     (black 900)))
 
+(define default-color-weights
+  '((100 100)
+    (200 200)
+    (300 300)
+    (400 400)
+    (500 500)
+    (600 600)
+    (700 700)
+    (800 800)
+    (900 900)))
+
+(define default-alphas
+  '(((5 0.05)
+     (10 0.1)
+     (15 0.15)
+     (20 0.2)
+     (25 0.25)
+     (30 0.3)
+     (35 0.35)
+     (40 0.4)
+     (45 0.45)
+     (50 0.5)
+     (55 0.55)
+     (60 0.6)
+     (65 0.65)
+     (70 0.7)
+     (75 0.75)
+     (80 0.8)
+     (85 0.85)
+     (90 0.9)
+     (95 0.95))))

@@ -217,7 +217,12 @@
   (make-parameter (append (css-color* #:class 'bg
                                       #:properties '(background)
                                       #:name 'orange
-                                      #:palette (orange)))))
+                                      #:palette (orange)
+                                      #:alphas default-alphas
+                                      #:weights default-color-weights))))
+
+(colors)
+(list-combinations default-alphas default-color-weights)
 
 (define* (udtryk)
   (append reset-css
