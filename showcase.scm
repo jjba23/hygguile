@@ -479,6 +479,8 @@
                         (head (title ,title)
                               ,hygguile-recommended-meta
                               ,hygguile-recommended-resources
+                              (link (@ (rel stylesheet)
+                                       (href "hss.css")))
                               (body (@ (class ,(mk-class '(bg-white
                                                            dark:bg-stone-800))))
                                     ,notification-tray

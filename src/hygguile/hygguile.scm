@@ -19,7 +19,6 @@
   #:use-module (hygguile abstraction)
   #:use-module (hygguile js)
   #:use-module (hygguile embed js)
-  #:use-module (hygguile embed udtryk)
   #:use-module (hygguile embed css)
   #:use-module (hygguile components button)
   #:use-module (hygguile components container)
@@ -91,10 +90,8 @@
                          hygguile-recommended-resources))
 
 (define hygguile-recommended-resources
-  (list (udtryk-css)
-        (custom-fonts)
+  (list (custom-fonts)
         (phosphor-icons)
-
         (fly-out-css)
         (toggle-dark-theme-js)
         (copy-pre-inner-text-js)
@@ -109,4 +106,4 @@
 (define hygguile-recommended-meta
   (list `(meta (@ (name viewport)
                   (content "width=device-width, initial-scale=1.0")))
-        `(meta (@ (charset "UTF-8")))))
+        `(meta (@ (charset UTF-8)))))

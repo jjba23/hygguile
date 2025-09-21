@@ -15,7 +15,7 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
-(define-module (hygguile udtryk colors)
+(define-module (hygguile hss colors)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
@@ -47,15 +47,15 @@
                     (900 (128 0 0)))))
 
 (define stone
-  (make-parameter '((100 (245 245 245))
-                    (200 (238 238 238))
-                    (300 (220 220 220))
-                    (400 (211 211 211))
-                    (500 (192 192 192))
-                    (600 (169 169 169))
-                    (700 (128 128 128))
-                    (800 (105 105 105))
-                    (900 (47 79 79)))))
+  (make-parameter '((100 (212 217 217))
+                    (200 (190 197 197))
+                    (300 (158 169 169))
+                    (400 (125 140 140))
+                    (500 (86 97 97))
+                    (600 (67 76 76))
+                    (700 (68 64 59))
+                    (800 (48 54 54))
+                    (900 (29 32 32)))))
 
 (define default-palettes
   (make-parameter (list (cons 'orange

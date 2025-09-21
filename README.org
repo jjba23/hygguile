@@ -9,10 +9,14 @@
 
 /Cozy and professional user-interfaces for everyone/
 
-Hygguile is an opinionated, batteries-included library writte in Guile Scheme, that allows you to create cozy web user-interfaces, by defining an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and modern CSS.
+Hygguile is an opinionated, batteries-included library written in Guile Scheme, that allows you to create cozy web user-interfaces, by defining an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and modern CSS.
 
-The project aims to provide reusable, professional-looking and accessible web components, whose names resemble the HTML counterparts, thus easing the learning curve, and reducing the cognitive load.
+The project is made of two main parts:
 
+- ~hss~ is the base CSS library, generated with Scheme, inspired by Tailwind CSS and adopting some of its syntax, making it easy to learn for most developers, and leveraging powerful utility classes. See ~resources/css/hss.css~ .
+- ~hygguile~ is the component library, which aims to provide reusable, professional-looking and accessible web components, whose names resemble the HTML counterparts, thus easing the learning curve, and reducing the cognitive load.
+
+/hss = hyggue style sheets/
 /hygge + guile = hygguile/
 
 This project is licensed under the Lesser GNU General Public License v3 or later.
@@ -55,11 +59,7 @@ I'd encourage navigating to the ~src/hygguile~ directory and studying the code t
 
 #+end_src
 
-One of the main abstractions we use is the ~mk-class~ procedure, which takes a list of symbols and converts it into an ordered set of classes and consequently to an HTML compatible class list. We have adopted Tailwind's syntax since it's clear and concise, and well documented.
-
-Thanks to the ~mk-class~ abstraction we could at some point even change the underlying implementation to use something different than Tailwind CSS by converting class names. This gives us an effective sort of dependency injection in CSS, making us a bit more independent of CSS library hygguile is built on.
-
-With it you can get neat HTML output:
+One of the main abstractions we use is the ~mk-class~ procedure, which takes a list of symbols and converts it into an ordered set of classes and consequently to an HTML compatible class list. Thanks to the (optional) ~mk-class~ abstraction you get a sorted and unique set of classes (avoiding some mistakes). With it you can get neat HTML output:
 
 #+begin_src scheme
 (define my-component
@@ -95,11 +95,18 @@ Most of the resources are optional. Tailwind CSS is a required runtime dependenc
 
 You can take a look at the ~showcase.scm~ file which includes some facilities and advanced techniques to load these things.
 
-In summary hygguile provides everything for you, from Javascript, to CSS, but it's all modular and flexible, so you are in charge of loading what you like.
+In summary hygguile provides everything for you, from JavaScript, to CSS, but it's all modular and flexible, so you are in charge of loading what you like.
 
 A recommendation is to use IBM Plex fonts, hygguile 's custom animations and theme, Phosphor icons, and some other conveniences, since Hygguile is built relying on some underlying technologies.
 
 It's all free for you to change or modify though, the functions are also customizable with key arguments, check the ~hygguile css~ and ~js~ modules too.
+
+It's needed to load ~hss.css~ in your preferred manner, in SXML it can look like this:
+#+begin_src scheme
+(link (@ (rel stylesheet) (href "hss.css")))
+#+end_src
+
+This is preferable to embedding it directly in a ~<style>~ block due to its size, and because we can then efficiently cache this file on the server side. It will also speed up the load times.
 
 The recommended snippet in your SXML ~head~
 #+begin_src scheme

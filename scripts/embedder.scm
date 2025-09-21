@@ -55,18 +55,12 @@
 (define css-dir
   "./resources/css")
 
-(define udtryk-dir
-  "./resources/css")
-
 ;; embed destination files
 (define js-dest-file
   "./src/hygguile/embed/js.scm")
 
 (define css-dest-file
   "./src/hygguile/embed/css.scm")
-
-(define udtryk-dest-file
-  "./src/hygguile/embed/udtryk.scm")
 
 ;; files to embed
 (define js-files
@@ -75,9 +69,6 @@
 
 (define css-files
   '(fly-out))
-
-(define udtryk-files
-  '(udtryk))
 
 (define license-text
   ";; hygguile - cozy and professional user-interfaces for everyone
@@ -103,9 +94,6 @@
                                (format #f "~a/~a.js" js-dir file)) js-files))
        (css-embed-files (map (lambda (file)
                                (format #f "~a/~a.css" css-dir file)) css-files))
-       (udtryk-embed-files (map (lambda (file)
-                                  (format #f "~a/~a.css" udtryk-dir file))
-                                udtryk-files))
        ;; load contents into maps
        (js-content-map (map (lambda (file)
                               (cons (mk-method-name #:dir js-dir
@@ -119,12 +107,6 @@
                                                      #:extension 'css)
                                      (get-string-all (open-input-file file))))
                              css-embed-files))
-       (udtryk-content-map (map (lambda (file)
-                                  (cons (mk-method-name #:dir udtryk-dir
-                                                        #:file file
-                                                        #:extension 'css)
-                                        (get-string-all (open-input-file file))))
-                                udtryk-embed-files))
        ;;
        ;; ====== generate Scheme code to embed =======
        ;;
@@ -134,8 +116,6 @@
        (js-method-names (map car js-content-map))
        (css-methods (mk-css-embed-method css-content-map))
        (css-method-names (map car css-content-map))
-       (udtryk-methods (mk-css-embed-method udtryk-content-map))
-       (udtryk-method-names (map car udtryk-content-map))
 
        ;; bundle in modules
        (js-module (mk-module #:name 'js
@@ -143,10 +123,7 @@
                              #:methods js-methods))
        (css-module (mk-module #:name 'css
                               #:method-names css-method-names
-                              #:methods css-methods))
-       (udtryk-module (mk-module #:name 'udtryk
-                                 #:method-names udtryk-method-names
-                                 #:methods udtryk-methods)))
+                              #:methods css-methods)))
   
   (with-output-to-file js-dest-file
     (lambda ()
@@ -154,9 +131,5 @@
 
   (with-output-to-file css-dest-file
     (lambda ()
-      (for-each display css-module)))
-
-  (with-output-to-file udtryk-dest-file
-    (lambda ()
-      (for-each display udtryk-module))))
+      (for-each display css-module))))
 

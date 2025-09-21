@@ -15,14 +15,14 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
-(define-module (hygguile udtryk udtryk)
+(define-module (hygguile hss hss)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
-  #:use-module (hygguile udtryk dsl)
-  #:use-module (hygguile udtryk colors)
-  #:use-module (hygguile udtryk sizes)
-  #:use-module (hygguile udtryk reset)
+  #:use-module (hygguile hss dsl)
+  #:use-module (hygguile hss colors)
+  #:use-module (hygguile hss sizes)
+  #:use-module (hygguile hss reset)
   #:export (font-size-multiplier margin-multiplier
                                  padding-multiplier
                                  gap-multiplier
@@ -33,7 +33,7 @@
                                  mono-font-family
                                  sans-font-family
                                  serif-font-family
-                                 udtryk))
+                                 hss))
 
 (define font-size-multiplier
   (make-parameter 0.24))
@@ -262,7 +262,7 @@
                         #:multiplier 1
                         #:unit "px")))
 
-(define* (udtryk)
+(define* (hss)
   (append reset-css
           (css* #:class 'text
                 #:sizes default-tshirt-sizes
