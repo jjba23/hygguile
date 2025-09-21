@@ -57,21 +57,31 @@
                      alphas
                      weights)
   (let* ((alphas-and-weights (list-combinations alphas weights)))
-    (map (lambda (c)
-           (map (lambda (aw)
-                  (map (lambda (a)
-                         (~ "~a~a-~a-~a/~a { ~a }"
-                            selector
-                            class
-                            name
-                            (caadr aw)
-                            (car a)
-                            (string-join (map (lambda (p)
-                                                (~ "~a: rgba(~a, ~a)" p c
-                                                   (cadr a))) properties) " ")
+    
+    (map (lambda (aw)
+           (map (lambda (a)
+                  (~ "~a~a-~a-~a~a { ~a }"
+                     selector
+                     class
+                     name
+                     (caadr aw) ;weight
+                     (if (equal? ""
+                                 (car a)) ""
+                         (~ "/~a"
+                            (car a))) ;alpha
+                     (string-join (map (lambda (p)
+                                         (~ "~a: rgba(~a, ~a)" p
+                                            (string-join (map (lambda (x)
+                                                                (~ "~a" x))
+                                                              (car (assoc-ref
+                                                                    palette
+                                                                    (caadr aw))))
+                                                         ", ")
 
-                            ))
-                       (car aw))) alphas-and-weights)) palette)))
+                                            (cadr a))) properties) " ")
+
+                     ))
+                (car aw))) alphas-and-weights)))
 
 (define* (css #:key class properties
               (selector "."))
@@ -85,7 +95,7 @@
   (cond
     ((string? xs)
      (display xs)
-     (display " "))
+     (display "\n"))
     ((list? xs)
      (for-each display-css xs))
     (else (display xs))))

@@ -20,6 +20,7 @@
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:use-module (hygguile udtryk dsl)
+  #:use-module (hygguile udtryk colors)
   #:use-module (hygguile udtryk sizes)
   #:use-module (hygguile udtryk reset)
   #:export (font-size-multiplier margin-multiplier
@@ -202,27 +203,25 @@
                                 (css #:class 'justify-center
                                      #:properties '((justify-content center)))))))
 
-(define orange
-  (make-parameter '((100 (255 218 185))
-                    (200 (255 160 122))
-                    (300 (255 127 80))
-                    (400 (255 165 0))
-                    (500 (255 140 0))
-                    (600 (255 69 0))
-                    (700 (210 105 30))
-                    (800 (139 69 19))
-                    (900 (128 0 0)))))
-
 (define colors
-  (make-parameter (append (css-color* #:class 'bg
-                                      #:properties '(background)
-                                      #:name 'orange
-                                      #:palette (orange)
-                                      #:alphas default-alphas
-                                      #:weights default-color-weights))))
+  (make-parameter (append (map (lambda (p)
+                                 (css-color* #:class 'bg
+                                             #:properties '(background)
+                                             #:name (car p)
+                                             #:palette (cdr p)
+                                             #:alphas default-alphas
+                                             #:weights default-color-weights))
+                               (default-palettes))
+                          (map (lambda (p)
+                                 (css-color* #:class 'text
+                                             #:properties '(color)
+                                             #:name (car p)
+                                             #:palette (cdr p)
+                                             #:alphas default-alphas
+                                             #:weights default-color-weights))
+                               (default-palettes)))))
 
 (colors)
-(list-combinations default-alphas default-color-weights)
 
 (define* (udtryk)
   (append reset-css
