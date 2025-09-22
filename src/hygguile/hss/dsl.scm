@@ -143,22 +143,22 @@
                                         (car (assoc-ref palette
 
                                                         (caadr alpha-weight))))
-                                   ", "))
+                                   ","))
          (color-alpha (if (equal? namespace
                                   'rgba)
                           (~ ",~a"
                              (cadar alpha-weight)) ""))
          (prop (string-join (map (lambda (p)
-                                   (~ "~a: ~a(~a~a)" p namespace tri-channel
+                                   (~ "~a:~a(~a~a)" p namespace tri-channel
                                       color-alpha)) declarations) " ")))
-    (list (~ "~a~a-~a-~a~a { ~a }"
+    (list (~ "~a~a-~a-~a~a{~a}"
              selector-type
              selector
              name
              weight-name
              alpha-name
              prop)
-          (~ "~adark\\:~a-~a-~a~a { ~a {~a} }"
+          (~ "~adark\\:~a-~a-~a~a{~a{~a}}"
              selector-type
              selector
              name
