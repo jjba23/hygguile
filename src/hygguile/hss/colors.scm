@@ -94,6 +94,16 @@
                     (700 (204 173 0))
                     (900 (102 76 0)))))
 
+(define blue-hue
+  '(40 147 204))
+
+(define blue
+  (make-parameter `((100 ,(lighten blue-hue 42))
+                    (300 ,(lighten blue-hue 22))
+                    (500 ,blue-hue)
+                    (700 ,(darken blue-hue 22))
+                    (900 ,(darken blue-hue 42)))))
+
 (define asparagus
   '(103 141 88))
 
@@ -148,11 +158,11 @@
   '(255 241 214))
 
 (define papaya-whip
-  (make-parameter `((100 ,(lighten papaya-whip-hue 42))
-                    (300 ,(lighten papaya-whip-hue 22))
+  (make-parameter `((100 ,(lighten papaya-whip-hue 22))
+                    (300 ,(lighten papaya-whip-hue 12))
                     (500 ,papaya-whip-hue)
-                    (700 ,(darken papaya-whip-hue 22))
-                    (900 ,(darken papaya-whip-hue 42)))))
+                    (700 ,(darken papaya-whip-hue 12))
+                    (900 ,(darken papaya-whip-hue 22)))))
 
 (define cornsilk-hue
   '(251 243 218))
@@ -195,6 +205,8 @@
                               (stone))
                         (cons 'purple
                               (purple))
+                          (cons 'blue
+                              (blue))
                         (cons 'green
                               (green))
                         (cons 'yellow

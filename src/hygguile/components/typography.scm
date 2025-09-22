@@ -127,7 +127,7 @@
 
 (define* (a content
             #:key (weight '(font-bold))
-            (size '(text-lg))
+            (size '(text-md))
             (color '(text-blue-500 dark:text-blue-500))
             (family '(font-sans))
             (hover '(hover:text-blue-700 dark:hover:text-blue-700))

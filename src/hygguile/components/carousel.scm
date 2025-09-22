@@ -28,6 +28,7 @@
                                              bg-stone-300/75
                                              dark:bg-stone-700/75
                                              rounded-xl
+                                             shadow-md
                                              my-6))
                    (item-width '(w-64))
                    (item-height '(h-1/2))
@@ -38,7 +39,7 @@
                                                      font-sans
                                                      text-xl
                                                      font-bold))
-                   (carousel-list-wrapper-css '(relative))
+                   (carousel-list-wrapper-css '(relative ))
                    (carousel-button-css '(absolute top-1/4
                                                    w-18
                                                    h-18

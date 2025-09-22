@@ -432,8 +432,9 @@
                                                           mx-auto))))
                              (div (@ (class ,(mk-class '(flex flex-col gap-4))))
                                   (a (@ (href "/"))
-                                     ,(h1 "hygguile"))
-                                  ,(sub-h2
+                                     ,(h1 "Hygguile + HSS"))
+                                  ,(sub-h4 "Hygge Style Sheets")
+                                  ,(sub-h3
                                     "cozy and professional user-interfaces for everyone"))
                              ,(hr)
                              ,settings-section
