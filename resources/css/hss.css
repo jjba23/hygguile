@@ -16,9 +16,9 @@ ol, ul {list-style:none;}
 .text-3xl {font-size:1.92rem;}
 .text-4xl {font-size:2.16rem;}
 .text-5xl {font-size:2.40rem;}
-.position-absolute {position:absolute;}
-.position-fixed {position:fixed;}
-.position-relative {position:relative;}
+.absolute {position:absolute;}
+.fixed {position:fixed;}
+.relative {position:relative;}
 .justify-start {justify-content:flex-start;}
 .justify-end {justify-content:flex-end;}
 .justify-end-safe {justify-content:safe flex-end;}
@@ -30,6 +30,14 @@ ol, ul {list-style:none;}
 .justify-stretch {justify-content:stretch;}
 .justify-baseline {justify-content:baseline;}
 .justify-normal {justify-content:normal;}
+.items-start {align-items:flex-start;}
+.items-end {align-items:flex-end;}
+.items-end-safe {align-items:safe flex-end;}
+.items-center {align-items:center;}
+.items-center-safe {align-items:safe center;}
+.items-baseline {align-items:baseline;}
+.items-baseline-last {align-items:last baseline;}
+.items-stretch {align-items:stretch;}
 .z-1 {z-index:1;}
 .z-2 {z-index:2;}
 .z-4 {z-index:4;}

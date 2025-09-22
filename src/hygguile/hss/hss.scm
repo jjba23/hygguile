@@ -215,6 +215,21 @@
                          (baseline baseline)
                          (normal normal)))))
 
+(define flex-aligns
+  (make-parameter (map (lambda (x)
+                         (css #:selector (string->symbol (format #f
+                                                                 "items-~a"
+                                                                 (car x)))
+                              #:declarations `((align-items ,(cadr x)))))
+                       '((start flex-start)
+                         (end flex-end)
+                         (end-safe "safe flex-end")
+                         (center center)
+                         (center-safe "safe center")
+                         (baseline baseline)
+                         (baseline-last "last baseline")
+                         (stretch stretch)))))
+
 (define shadows
   (make-parameter (map (lambda (x)
                          (css #:selector (string->symbol (format #f
@@ -386,7 +401,7 @@
 (define positions
   (make-parameter (map (lambda (x)
                          (css #:selector (string->symbol (format #f
-                                                          "position-~a"
+                                                          "~a"
                                                           (car x)))
                               #:declarations `((position ,(cadr x)))))
                        '((absolute absolute)
@@ -421,6 +436,7 @@
                 #:multiplier (font-size-multiplier))
           (positions)
           (flex-justifies)
+          (flex-aligns)
           (z-index)
           (roundings)
           (paddings)

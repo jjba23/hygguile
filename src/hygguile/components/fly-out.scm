@@ -21,7 +21,7 @@
 
 (define* (fly-out #:key (aria-label "Fly-out selection menu")
                   (nav-class '(py-4))
-                  (top-ul-class '(flex flex-row flex-wrap justify-center gap-4))
+                  (top-ul-class '(flex flex-row flex-wrap justify-center items-start gap-4))
                   (items '()))
   `((nav (@ (class ,(mk-class nav-class))
             (aria-label ,aria-label))
