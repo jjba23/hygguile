@@ -184,6 +184,15 @@
                     (700 ,(darken floral-white-hue 22))
                     (900 ,(darken floral-white-hue 42)))))
 
+(define teal-hue '(2 128 144))
+
+(define teal
+  (make-parameter `((100 ,(lighten teal-hue 42))
+                    (300 ,(lighten teal-hue 22))
+                    (500 ,teal-hue)
+                    (700 ,(darken teal-hue 22))
+                    (900 ,(darken teal-hue 42)))))
+
 (define default-palettes
   (make-parameter (list (cons 'orange
                               (orange))
@@ -197,6 +206,7 @@
                               (china-rose))
                         (cons 'floralwhite
                               (floral-white))
+                        (cons 'teal (teal))
                         (cons 'cornsilk
                               (cornsilk))
                         (cons 'papayawhip

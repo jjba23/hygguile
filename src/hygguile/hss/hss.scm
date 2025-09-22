@@ -51,6 +51,8 @@
   (make-parameter 0.24))
 (define weight-multiplier
   (make-parameter 1))
+(define prose-size
+  (make-parameter "82ch"))
 (define shadow-multiplier
   (make-parameter 0.3))
 
@@ -149,7 +151,9 @@
 
 (define widths
   (make-parameter (append (list (css #:selector 'min-w-screen
-                                     #:declarations '((min-width "1vw"))))
+                                     #:declarations '((min-width "1vw")))
+                                (css #:selector 'max-w-prose
+                                     #:declarations `((max-width ,(prose-size)))))
                           (css* #:selector 'w
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
@@ -386,6 +390,7 @@
                                                           (car x)))
                               #:declarations `((position ,(cadr x)))))
                        '((absolute absolute)
+                         (fixed fixed)
                          (relative relative)))))
 
 (define fade-in-page-transition

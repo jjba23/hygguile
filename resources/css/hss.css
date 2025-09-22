@@ -17,6 +17,7 @@ ol, ul {list-style:none;}
 .text-4xl {font-size:2.16rem;}
 .text-5xl {font-size:2.40rem;}
 .position-absolute {position:absolute;}
+.position-fixed {position:fixed;}
 .position-relative {position:relative;}
 .justify-start {justify-content:flex-start;}
 .justify-end {justify-content:flex-end;}
@@ -371,6 +372,7 @@ ol, ul {list-style:none;}
 .border-96 {border-width:96.00px; border-style:solid;}
 .border-128 {border-width:128.00px; border-style:solid;}
 .min-w-screen {min-width:1vw;}
+.max-w-prose {max-width:82ch;}
 .w-1 {width:0.24rem;}
 .w-2 {width:0.48rem;}
 .w-4 {width:0.96rem;}
@@ -1030,6 +1032,96 @@ ol, ul {list-style:none;}
 .dark\:bg-floralwhite-700{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(231,227,215,1) !important}}
 .bg-floralwhite-900{background:rgba(211,207,195,1)}
 .dark\:bg-floralwhite-900{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(211,207,195,1) !important}}
+.bg-teal-100\/0{background:rgba(44,170,186,0.0)}
+.dark\:bg-teal-100\/0{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(44,170,186,0.0) !important}}
+.bg-teal-300\/0{background:rgba(24,150,166,0.0)}
+.dark\:bg-teal-300\/0{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(24,150,166,0.0) !important}}
+.bg-teal-500\/0{background:rgba(2,128,144,0.0)}
+.dark\:bg-teal-500\/0{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(2,128,144,0.0) !important}}
+.bg-teal-700\/0{background:rgba(0,106,122,0.0)}
+.dark\:bg-teal-700\/0{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,106,122,0.0) !important}}
+.bg-teal-900\/0{background:rgba(0,86,102,0.0)}
+.dark\:bg-teal-900\/0{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,86,102,0.0) !important}}
+.bg-teal-100\/5{background:rgba(44,170,186,0.05)}
+.dark\:bg-teal-100\/5{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(44,170,186,0.05) !important}}
+.bg-teal-300\/5{background:rgba(24,150,166,0.05)}
+.dark\:bg-teal-300\/5{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(24,150,166,0.05) !important}}
+.bg-teal-500\/5{background:rgba(2,128,144,0.05)}
+.dark\:bg-teal-500\/5{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(2,128,144,0.05) !important}}
+.bg-teal-700\/5{background:rgba(0,106,122,0.05)}
+.dark\:bg-teal-700\/5{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,106,122,0.05) !important}}
+.bg-teal-900\/5{background:rgba(0,86,102,0.05)}
+.dark\:bg-teal-900\/5{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,86,102,0.05) !important}}
+.bg-teal-100\/10{background:rgba(44,170,186,0.1)}
+.dark\:bg-teal-100\/10{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(44,170,186,0.1) !important}}
+.bg-teal-300\/10{background:rgba(24,150,166,0.1)}
+.dark\:bg-teal-300\/10{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(24,150,166,0.1) !important}}
+.bg-teal-500\/10{background:rgba(2,128,144,0.1)}
+.dark\:bg-teal-500\/10{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(2,128,144,0.1) !important}}
+.bg-teal-700\/10{background:rgba(0,106,122,0.1)}
+.dark\:bg-teal-700\/10{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,106,122,0.1) !important}}
+.bg-teal-900\/10{background:rgba(0,86,102,0.1)}
+.dark\:bg-teal-900\/10{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,86,102,0.1) !important}}
+.bg-teal-100\/25{background:rgba(44,170,186,0.2)}
+.dark\:bg-teal-100\/25{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(44,170,186,0.2) !important}}
+.bg-teal-300\/25{background:rgba(24,150,166,0.2)}
+.dark\:bg-teal-300\/25{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(24,150,166,0.2) !important}}
+.bg-teal-500\/25{background:rgba(2,128,144,0.2)}
+.dark\:bg-teal-500\/25{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(2,128,144,0.2) !important}}
+.bg-teal-700\/25{background:rgba(0,106,122,0.2)}
+.dark\:bg-teal-700\/25{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,106,122,0.2) !important}}
+.bg-teal-900\/25{background:rgba(0,86,102,0.2)}
+.dark\:bg-teal-900\/25{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,86,102,0.2) !important}}
+.bg-teal-100\/50{background:rgba(44,170,186,0.5)}
+.dark\:bg-teal-100\/50{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(44,170,186,0.5) !important}}
+.bg-teal-300\/50{background:rgba(24,150,166,0.5)}
+.dark\:bg-teal-300\/50{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(24,150,166,0.5) !important}}
+.bg-teal-500\/50{background:rgba(2,128,144,0.5)}
+.dark\:bg-teal-500\/50{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(2,128,144,0.5) !important}}
+.bg-teal-700\/50{background:rgba(0,106,122,0.5)}
+.dark\:bg-teal-700\/50{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,106,122,0.5) !important}}
+.bg-teal-900\/50{background:rgba(0,86,102,0.5)}
+.dark\:bg-teal-900\/50{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,86,102,0.5) !important}}
+.bg-teal-100\/75{background:rgba(44,170,186,0.7)}
+.dark\:bg-teal-100\/75{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(44,170,186,0.7) !important}}
+.bg-teal-300\/75{background:rgba(24,150,166,0.7)}
+.dark\:bg-teal-300\/75{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(24,150,166,0.7) !important}}
+.bg-teal-500\/75{background:rgba(2,128,144,0.7)}
+.dark\:bg-teal-500\/75{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(2,128,144,0.7) !important}}
+.bg-teal-700\/75{background:rgba(0,106,122,0.7)}
+.dark\:bg-teal-700\/75{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,106,122,0.7) !important}}
+.bg-teal-900\/75{background:rgba(0,86,102,0.7)}
+.dark\:bg-teal-900\/75{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,86,102,0.7) !important}}
+.bg-teal-100\/90{background:rgba(44,170,186,0.9)}
+.dark\:bg-teal-100\/90{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(44,170,186,0.9) !important}}
+.bg-teal-300\/90{background:rgba(24,150,166,0.9)}
+.dark\:bg-teal-300\/90{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(24,150,166,0.9) !important}}
+.bg-teal-500\/90{background:rgba(2,128,144,0.9)}
+.dark\:bg-teal-500\/90{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(2,128,144,0.9) !important}}
+.bg-teal-700\/90{background:rgba(0,106,122,0.9)}
+.dark\:bg-teal-700\/90{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,106,122,0.9) !important}}
+.bg-teal-900\/90{background:rgba(0,86,102,0.9)}
+.dark\:bg-teal-900\/90{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,86,102,0.9) !important}}
+.bg-teal-100\/95{background:rgba(44,170,186,0.95)}
+.dark\:bg-teal-100\/95{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(44,170,186,0.95) !important}}
+.bg-teal-300\/95{background:rgba(24,150,166,0.95)}
+.dark\:bg-teal-300\/95{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(24,150,166,0.95) !important}}
+.bg-teal-500\/95{background:rgba(2,128,144,0.95)}
+.dark\:bg-teal-500\/95{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(2,128,144,0.95) !important}}
+.bg-teal-700\/95{background:rgba(0,106,122,0.95)}
+.dark\:bg-teal-700\/95{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,106,122,0.95) !important}}
+.bg-teal-900\/95{background:rgba(0,86,102,0.95)}
+.dark\:bg-teal-900\/95{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,86,102,0.95) !important}}
+.bg-teal-100{background:rgba(44,170,186,1)}
+.dark\:bg-teal-100{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(44,170,186,1) !important}}
+.bg-teal-300{background:rgba(24,150,166,1)}
+.dark\:bg-teal-300{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(24,150,166,1) !important}}
+.bg-teal-500{background:rgba(2,128,144,1)}
+.dark\:bg-teal-500{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(2,128,144,1) !important}}
+.bg-teal-700{background:rgba(0,106,122,1)}
+.dark\:bg-teal-700{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,106,122,1) !important}}
+.bg-teal-900{background:rgba(0,86,102,1)}
+.dark\:bg-teal-900{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(0,86,102,1) !important}}
 .bg-cornsilk-100\/0{background:rgba(255,255,255,0.0)}
 .dark\:bg-cornsilk-100\/0{&:where([data-theme=dark], [data-theme=dark] *){background:rgba(255,255,255,0.0) !important}}
 .bg-cornsilk-300\/0{background:rgba(255,255,240,0.0)}
@@ -2476,6 +2568,96 @@ ol, ul {list-style:none;}
 .dark\:text-floralwhite-700{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(231,227,215,1) !important}}
 .text-floralwhite-900{color:rgba(211,207,195,1)}
 .dark\:text-floralwhite-900{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(211,207,195,1) !important}}
+.text-teal-100\/0{color:rgba(44,170,186,0.0)}
+.dark\:text-teal-100\/0{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(44,170,186,0.0) !important}}
+.text-teal-300\/0{color:rgba(24,150,166,0.0)}
+.dark\:text-teal-300\/0{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(24,150,166,0.0) !important}}
+.text-teal-500\/0{color:rgba(2,128,144,0.0)}
+.dark\:text-teal-500\/0{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(2,128,144,0.0) !important}}
+.text-teal-700\/0{color:rgba(0,106,122,0.0)}
+.dark\:text-teal-700\/0{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,106,122,0.0) !important}}
+.text-teal-900\/0{color:rgba(0,86,102,0.0)}
+.dark\:text-teal-900\/0{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,86,102,0.0) !important}}
+.text-teal-100\/5{color:rgba(44,170,186,0.05)}
+.dark\:text-teal-100\/5{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(44,170,186,0.05) !important}}
+.text-teal-300\/5{color:rgba(24,150,166,0.05)}
+.dark\:text-teal-300\/5{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(24,150,166,0.05) !important}}
+.text-teal-500\/5{color:rgba(2,128,144,0.05)}
+.dark\:text-teal-500\/5{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(2,128,144,0.05) !important}}
+.text-teal-700\/5{color:rgba(0,106,122,0.05)}
+.dark\:text-teal-700\/5{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,106,122,0.05) !important}}
+.text-teal-900\/5{color:rgba(0,86,102,0.05)}
+.dark\:text-teal-900\/5{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,86,102,0.05) !important}}
+.text-teal-100\/10{color:rgba(44,170,186,0.1)}
+.dark\:text-teal-100\/10{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(44,170,186,0.1) !important}}
+.text-teal-300\/10{color:rgba(24,150,166,0.1)}
+.dark\:text-teal-300\/10{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(24,150,166,0.1) !important}}
+.text-teal-500\/10{color:rgba(2,128,144,0.1)}
+.dark\:text-teal-500\/10{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(2,128,144,0.1) !important}}
+.text-teal-700\/10{color:rgba(0,106,122,0.1)}
+.dark\:text-teal-700\/10{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,106,122,0.1) !important}}
+.text-teal-900\/10{color:rgba(0,86,102,0.1)}
+.dark\:text-teal-900\/10{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,86,102,0.1) !important}}
+.text-teal-100\/25{color:rgba(44,170,186,0.2)}
+.dark\:text-teal-100\/25{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(44,170,186,0.2) !important}}
+.text-teal-300\/25{color:rgba(24,150,166,0.2)}
+.dark\:text-teal-300\/25{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(24,150,166,0.2) !important}}
+.text-teal-500\/25{color:rgba(2,128,144,0.2)}
+.dark\:text-teal-500\/25{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(2,128,144,0.2) !important}}
+.text-teal-700\/25{color:rgba(0,106,122,0.2)}
+.dark\:text-teal-700\/25{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,106,122,0.2) !important}}
+.text-teal-900\/25{color:rgba(0,86,102,0.2)}
+.dark\:text-teal-900\/25{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,86,102,0.2) !important}}
+.text-teal-100\/50{color:rgba(44,170,186,0.5)}
+.dark\:text-teal-100\/50{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(44,170,186,0.5) !important}}
+.text-teal-300\/50{color:rgba(24,150,166,0.5)}
+.dark\:text-teal-300\/50{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(24,150,166,0.5) !important}}
+.text-teal-500\/50{color:rgba(2,128,144,0.5)}
+.dark\:text-teal-500\/50{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(2,128,144,0.5) !important}}
+.text-teal-700\/50{color:rgba(0,106,122,0.5)}
+.dark\:text-teal-700\/50{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,106,122,0.5) !important}}
+.text-teal-900\/50{color:rgba(0,86,102,0.5)}
+.dark\:text-teal-900\/50{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,86,102,0.5) !important}}
+.text-teal-100\/75{color:rgba(44,170,186,0.7)}
+.dark\:text-teal-100\/75{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(44,170,186,0.7) !important}}
+.text-teal-300\/75{color:rgba(24,150,166,0.7)}
+.dark\:text-teal-300\/75{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(24,150,166,0.7) !important}}
+.text-teal-500\/75{color:rgba(2,128,144,0.7)}
+.dark\:text-teal-500\/75{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(2,128,144,0.7) !important}}
+.text-teal-700\/75{color:rgba(0,106,122,0.7)}
+.dark\:text-teal-700\/75{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,106,122,0.7) !important}}
+.text-teal-900\/75{color:rgba(0,86,102,0.7)}
+.dark\:text-teal-900\/75{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,86,102,0.7) !important}}
+.text-teal-100\/90{color:rgba(44,170,186,0.9)}
+.dark\:text-teal-100\/90{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(44,170,186,0.9) !important}}
+.text-teal-300\/90{color:rgba(24,150,166,0.9)}
+.dark\:text-teal-300\/90{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(24,150,166,0.9) !important}}
+.text-teal-500\/90{color:rgba(2,128,144,0.9)}
+.dark\:text-teal-500\/90{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(2,128,144,0.9) !important}}
+.text-teal-700\/90{color:rgba(0,106,122,0.9)}
+.dark\:text-teal-700\/90{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,106,122,0.9) !important}}
+.text-teal-900\/90{color:rgba(0,86,102,0.9)}
+.dark\:text-teal-900\/90{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,86,102,0.9) !important}}
+.text-teal-100\/95{color:rgba(44,170,186,0.95)}
+.dark\:text-teal-100\/95{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(44,170,186,0.95) !important}}
+.text-teal-300\/95{color:rgba(24,150,166,0.95)}
+.dark\:text-teal-300\/95{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(24,150,166,0.95) !important}}
+.text-teal-500\/95{color:rgba(2,128,144,0.95)}
+.dark\:text-teal-500\/95{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(2,128,144,0.95) !important}}
+.text-teal-700\/95{color:rgba(0,106,122,0.95)}
+.dark\:text-teal-700\/95{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,106,122,0.95) !important}}
+.text-teal-900\/95{color:rgba(0,86,102,0.95)}
+.dark\:text-teal-900\/95{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,86,102,0.95) !important}}
+.text-teal-100{color:rgba(44,170,186,1)}
+.dark\:text-teal-100{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(44,170,186,1) !important}}
+.text-teal-300{color:rgba(24,150,166,1)}
+.dark\:text-teal-300{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(24,150,166,1) !important}}
+.text-teal-500{color:rgba(2,128,144,1)}
+.dark\:text-teal-500{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(2,128,144,1) !important}}
+.text-teal-700{color:rgba(0,106,122,1)}
+.dark\:text-teal-700{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,106,122,1) !important}}
+.text-teal-900{color:rgba(0,86,102,1)}
+.dark\:text-teal-900{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(0,86,102,1) !important}}
 .text-cornsilk-100\/0{color:rgba(255,255,255,0.0)}
 .dark\:text-cornsilk-100\/0{&:where([data-theme=dark], [data-theme=dark] *){color:rgba(255,255,255,0.0) !important}}
 .text-cornsilk-300\/0{color:rgba(255,255,240,0.0)}
@@ -3922,6 +4104,96 @@ ol, ul {list-style:none;}
 .dark\:border-floralwhite-700{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(231,227,215,1) !important}}
 .border-floralwhite-900{border-color:rgba(211,207,195,1)}
 .dark\:border-floralwhite-900{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(211,207,195,1) !important}}
+.border-teal-100\/0{border-color:rgba(44,170,186,0.0)}
+.dark\:border-teal-100\/0{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(44,170,186,0.0) !important}}
+.border-teal-300\/0{border-color:rgba(24,150,166,0.0)}
+.dark\:border-teal-300\/0{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(24,150,166,0.0) !important}}
+.border-teal-500\/0{border-color:rgba(2,128,144,0.0)}
+.dark\:border-teal-500\/0{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(2,128,144,0.0) !important}}
+.border-teal-700\/0{border-color:rgba(0,106,122,0.0)}
+.dark\:border-teal-700\/0{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,106,122,0.0) !important}}
+.border-teal-900\/0{border-color:rgba(0,86,102,0.0)}
+.dark\:border-teal-900\/0{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,86,102,0.0) !important}}
+.border-teal-100\/5{border-color:rgba(44,170,186,0.05)}
+.dark\:border-teal-100\/5{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(44,170,186,0.05) !important}}
+.border-teal-300\/5{border-color:rgba(24,150,166,0.05)}
+.dark\:border-teal-300\/5{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(24,150,166,0.05) !important}}
+.border-teal-500\/5{border-color:rgba(2,128,144,0.05)}
+.dark\:border-teal-500\/5{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(2,128,144,0.05) !important}}
+.border-teal-700\/5{border-color:rgba(0,106,122,0.05)}
+.dark\:border-teal-700\/5{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,106,122,0.05) !important}}
+.border-teal-900\/5{border-color:rgba(0,86,102,0.05)}
+.dark\:border-teal-900\/5{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,86,102,0.05) !important}}
+.border-teal-100\/10{border-color:rgba(44,170,186,0.1)}
+.dark\:border-teal-100\/10{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(44,170,186,0.1) !important}}
+.border-teal-300\/10{border-color:rgba(24,150,166,0.1)}
+.dark\:border-teal-300\/10{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(24,150,166,0.1) !important}}
+.border-teal-500\/10{border-color:rgba(2,128,144,0.1)}
+.dark\:border-teal-500\/10{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(2,128,144,0.1) !important}}
+.border-teal-700\/10{border-color:rgba(0,106,122,0.1)}
+.dark\:border-teal-700\/10{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,106,122,0.1) !important}}
+.border-teal-900\/10{border-color:rgba(0,86,102,0.1)}
+.dark\:border-teal-900\/10{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,86,102,0.1) !important}}
+.border-teal-100\/25{border-color:rgba(44,170,186,0.2)}
+.dark\:border-teal-100\/25{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(44,170,186,0.2) !important}}
+.border-teal-300\/25{border-color:rgba(24,150,166,0.2)}
+.dark\:border-teal-300\/25{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(24,150,166,0.2) !important}}
+.border-teal-500\/25{border-color:rgba(2,128,144,0.2)}
+.dark\:border-teal-500\/25{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(2,128,144,0.2) !important}}
+.border-teal-700\/25{border-color:rgba(0,106,122,0.2)}
+.dark\:border-teal-700\/25{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,106,122,0.2) !important}}
+.border-teal-900\/25{border-color:rgba(0,86,102,0.2)}
+.dark\:border-teal-900\/25{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,86,102,0.2) !important}}
+.border-teal-100\/50{border-color:rgba(44,170,186,0.5)}
+.dark\:border-teal-100\/50{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(44,170,186,0.5) !important}}
+.border-teal-300\/50{border-color:rgba(24,150,166,0.5)}
+.dark\:border-teal-300\/50{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(24,150,166,0.5) !important}}
+.border-teal-500\/50{border-color:rgba(2,128,144,0.5)}
+.dark\:border-teal-500\/50{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(2,128,144,0.5) !important}}
+.border-teal-700\/50{border-color:rgba(0,106,122,0.5)}
+.dark\:border-teal-700\/50{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,106,122,0.5) !important}}
+.border-teal-900\/50{border-color:rgba(0,86,102,0.5)}
+.dark\:border-teal-900\/50{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,86,102,0.5) !important}}
+.border-teal-100\/75{border-color:rgba(44,170,186,0.7)}
+.dark\:border-teal-100\/75{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(44,170,186,0.7) !important}}
+.border-teal-300\/75{border-color:rgba(24,150,166,0.7)}
+.dark\:border-teal-300\/75{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(24,150,166,0.7) !important}}
+.border-teal-500\/75{border-color:rgba(2,128,144,0.7)}
+.dark\:border-teal-500\/75{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(2,128,144,0.7) !important}}
+.border-teal-700\/75{border-color:rgba(0,106,122,0.7)}
+.dark\:border-teal-700\/75{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,106,122,0.7) !important}}
+.border-teal-900\/75{border-color:rgba(0,86,102,0.7)}
+.dark\:border-teal-900\/75{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,86,102,0.7) !important}}
+.border-teal-100\/90{border-color:rgba(44,170,186,0.9)}
+.dark\:border-teal-100\/90{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(44,170,186,0.9) !important}}
+.border-teal-300\/90{border-color:rgba(24,150,166,0.9)}
+.dark\:border-teal-300\/90{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(24,150,166,0.9) !important}}
+.border-teal-500\/90{border-color:rgba(2,128,144,0.9)}
+.dark\:border-teal-500\/90{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(2,128,144,0.9) !important}}
+.border-teal-700\/90{border-color:rgba(0,106,122,0.9)}
+.dark\:border-teal-700\/90{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,106,122,0.9) !important}}
+.border-teal-900\/90{border-color:rgba(0,86,102,0.9)}
+.dark\:border-teal-900\/90{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,86,102,0.9) !important}}
+.border-teal-100\/95{border-color:rgba(44,170,186,0.95)}
+.dark\:border-teal-100\/95{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(44,170,186,0.95) !important}}
+.border-teal-300\/95{border-color:rgba(24,150,166,0.95)}
+.dark\:border-teal-300\/95{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(24,150,166,0.95) !important}}
+.border-teal-500\/95{border-color:rgba(2,128,144,0.95)}
+.dark\:border-teal-500\/95{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(2,128,144,0.95) !important}}
+.border-teal-700\/95{border-color:rgba(0,106,122,0.95)}
+.dark\:border-teal-700\/95{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,106,122,0.95) !important}}
+.border-teal-900\/95{border-color:rgba(0,86,102,0.95)}
+.dark\:border-teal-900\/95{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,86,102,0.95) !important}}
+.border-teal-100{border-color:rgba(44,170,186,1)}
+.dark\:border-teal-100{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(44,170,186,1) !important}}
+.border-teal-300{border-color:rgba(24,150,166,1)}
+.dark\:border-teal-300{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(24,150,166,1) !important}}
+.border-teal-500{border-color:rgba(2,128,144,1)}
+.dark\:border-teal-500{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(2,128,144,1) !important}}
+.border-teal-700{border-color:rgba(0,106,122,1)}
+.dark\:border-teal-700{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,106,122,1) !important}}
+.border-teal-900{border-color:rgba(0,86,102,1)}
+.dark\:border-teal-900{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(0,86,102,1) !important}}
 .border-cornsilk-100\/0{border-color:rgba(255,255,255,0.0)}
 .dark\:border-cornsilk-100\/0{&:where([data-theme=dark], [data-theme=dark] *){border-color:rgba(255,255,255,0.0) !important}}
 .border-cornsilk-300\/0{border-color:rgba(255,255,240,0.0)}
