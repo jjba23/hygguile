@@ -40,8 +40,6 @@
 (define* (generate-static-declarations #:key declarations)
   "Creates a list of CSS declarations from fixed key-value pairs."
   (map (lambda (op)
-         (display (format #f "\n==========\n~a\n~a" op
-                          (list? (cadr op))))
          (format #f
                  (if (list? (cadr op)) "~a ~a" "~a:~a;")
                  (car op)
