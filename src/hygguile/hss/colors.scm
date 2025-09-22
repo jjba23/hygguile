@@ -26,7 +26,7 @@
 
 (define (darken xs n)
   (map (lambda (x)
-         (let* ((comp (- x n )))
+         (let* ((comp (- x n)))
            (if (< comp 0) 0 comp))) xs))
 
 (define (lighten xs n)
@@ -38,26 +38,28 @@
   '(243 113 43))
 
 (define orange
-  (make-parameter `((100 ,(lighten orange-crayola 40))
-                    (200 ,(lighten orange-crayola 30))
-                    (300 ,(lighten orange-crayola 20))
-                    (400 ,(lighten orange-crayola 10))
+  (make-parameter `((100 ,(lighten orange-crayola 42))
+                    (200 ,(lighten orange-crayola 32))
+                    (300 ,(lighten orange-crayola 22))
+                    (400 ,(lighten orange-crayola 12))
                     (500 ,orange-crayola)
-                    (600 ,(darken orange-crayola 10))
-                    (700 ,(darken orange-crayola 20))
-                    (800 ,(darken orange-crayola 30))
-                    (900 ,(darken orange-crayola 40)))))
+                    (600 ,(darken orange-crayola 12))
+                    (700 ,(darken orange-crayola 22))
+                    (800 ,(darken orange-crayola 32))
+                    (900 ,(darken orange-crayola 42)))))
+(define rojo
+  '(222 23 43))
 
 (define red
-  (make-parameter '((100 (255 240 240))
-                    (200 (250 128 114))
-                    (300 (233 150 122))
-                    (400 (205 92 92))
-                    (500 (220 20 60))
-                    (600 (255 0 0))
-                    (700 (178 34 34))
-                    (800 (139 0 0))
-                    (900 (128 0 0)))))
+  (make-parameter `((100 ,(lighten rojo 42))
+                    (200 ,(lighten rojo 32))
+                    (300 ,(lighten rojo 22))
+                    (400 ,(lighten rojo 12))
+                    (500 ,rojo)
+                    (600 ,(darken rojo 12))
+                    (700 ,(darken rojo 22))
+                    (800 ,(darken rojo 32))
+                    (900 ,(darken rojo 42)))))
 
 (define stone
   (make-parameter '((100 (212 217 217))
