@@ -358,6 +358,10 @@
                              #:declarations '((from ((opacity 0.2)))
                                               (to ((opacity 1))))))))
 
+(define active-scale
+  (make-parameter (list (css #:selector "active\\:scale-95"
+                             #:declarations '(("&:active" ((scale "95% 95%"))))))))
+
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define* (hss)
@@ -381,13 +385,6 @@
           (font-families)
           (display-utilities)
           (fade-in-page-transition)
+          (active-scale)
           (colors)))
 
-;; .active\:scale-95 {
-;;     &:active {
-;;         --tw-scale-x: 95%;
-;;         --tw-scale-y: 95%;
-;;         --tw-scale-z: 95%;
-;;         scale: var(--tw-scale-x) var(--tw-scale-y);
-;;     }
-;; }
