@@ -35,7 +35,6 @@
                                       (rounded-to-integer? #f))
   "Creates a list of CSS declarations from a calculated value."
   (map (lambda (p)
-         ;; Formats a string like "width: 10.00px;"
          (format #f
                  (if rounded-to-integer? "~a:~d~a;" "~a:~,2f~a;") p
                  (if rounded-to-integer?
@@ -72,6 +71,7 @@
                               (other-declarations '())
                               multiplier
                               unit
+                              (breakpoints '())
                               (direct-size? #f))
   "Builds a complete CSS rule for a single size element."
   (let* ((sel (build-selector #:selector-type selector-type
@@ -91,8 +91,15 @@
                                                     other-declarations))
          (declarations-string (string-join (append sized-decs static-decs) " ")))
     
-    ;; Format the final CSS rule, e.g., ".item-sm { width: 10.00px; }"
-    (~ "~a {~a}" sel declarations-string)))
+    (append (list (~ "~a {~a}" sel declarations-string))
+            (map (lambda (mq)
+                   (~ "@media (min-width: ~a) {~a~a\\:~a-~a {~a}}"
+                      (cadr mq)
+                      selector-type
+                      (car mq)
+                      selector
+                      size
+                      declarations-string)) breakpoints))))
 
 (define* (css #:key selector declarations
               (selector-type "."))
@@ -108,17 +115,19 @@
                (rounded-to-integer? #f)
                multiplier
                (unit "rem")
+               (breakpoints '())
                sizes)
-  (map (lambda (size)
-         (build-rule-for-size #:size size
-                              #:selector-type selector-type
-                              #:selector selector
-                              #:declarations declarations
-                              #:rounded-to-integer? rounded-to-integer?
-                              #:other-declarations other-declarations
-                              #:multiplier multiplier
-                              #:unit unit
-                              #:direct-size? direct-size?)) sizes))
+  (append-map (lambda (size)
+                (build-rule-for-size #:size size
+                                     #:selector-type selector-type
+                                     #:selector selector
+                                     #:declarations declarations
+                                     #:rounded-to-integer? rounded-to-integer?
+                                     #:other-declarations other-declarations
+                                     #:multiplier multiplier
+                                     #:unit unit
+                                     #:breakpoints breakpoints
+                                     #:direct-size? direct-size?)) sizes))
 
 (define (list-combinations list1 list2)
   "Computes all combinations (Cartesian product) of elements from two lists."

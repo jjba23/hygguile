@@ -56,6 +56,24 @@
 (define shadow-multiplier
   (make-parameter 0.3))
 
+(define sm-breakpoint
+  (make-parameter "640px"))
+
+(define md-breakpoint
+  (make-parameter "768px"))
+
+(define lg-breakpoint
+  (make-parameter "1024px"))
+
+(define xl-breakpoint
+  (make-parameter "1280px"))
+
+(define breakpoints
+  (make-parameter `((sm ,(sm-breakpoint))
+                    (md ,(md-breakpoint))
+                    (lg ,(lg-breakpoint))
+                    (xl ,(xl-breakpoint)))))
+
 (define mono-font-family
   (make-parameter "'IBM Plex Mono', monospace"))
 (define serif-font-family
@@ -158,7 +176,8 @@
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
                                 #:declarations '(width)
-                                #:multiplier (width-multiplier))
+                                #:multiplier (width-multiplier)
+                                #:breakpoints (breakpoints))
                           (css* #:selector 'min-w
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
@@ -291,13 +310,14 @@
                                         (scroll-snap-type)))))))
 
 (define scroll-snap-aligns
-  (make-parameter (map
-                   (lambda(x) (css #:selector (string->symbol (format #f "snap-~a" (car x)))
+  (make-parameter (map (lambda (x)
+                         (css #:selector (string->symbol (format #f "snap-~a"
+                                                                 (car x)))
                               #:declarations `((scroll-snap-align ,(cadr x)))))
-                   '((start start)
-                     (end end)
-                     (center center)
-                     (none none)))))
+                       '((start start)
+                         (end end)
+                         (center center)
+                         (none none)))))
 
 (define flex-utilities
   (make-parameter (append (css* #:selector 'gap
@@ -478,7 +498,7 @@
           (flex-justifies)
           (flex-aligns)
           (scroll-snap-aligns)
-          (scroll-snap-types)          
+          (scroll-snap-types)
           (z-index)
           (roundings)
           (paddings)
