@@ -360,6 +360,20 @@
                        '((absolute absolute)
                          (relative relative)))))
 
+(define fade-in-page-transition
+  (make-parameter (list (css #:class "@view-transition"
+                             #:selector ""
+                             #:properties '((navigation auto)))
+                        (css #:class (string-join '("::view-transition-old(root)"
+                                                    "::view-transition-new(root)")
+                                                  ", ")
+                             #:selector ""
+                             #:properties '((animation "fade 0.1s ease both")))
+                        (css #:class "@keyframes fade"
+                             #:selector ""
+                             #:properties '((from ((opacity 0.2)))
+                                            (to ((opacity 1))))))))
+
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define* (hss)
@@ -382,6 +396,7 @@
           (heights)
           (font-families)
           (display-utilities)
+          (fade-in-page-transition)
           (colors)))
 
 ;; .active\:scale-95 {

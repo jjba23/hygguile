@@ -43,7 +43,14 @@
          ;; Formats a string like "display: block;"
          (format #f "~a:~a;"
                  (car op)
-                 (cadr op))) properties))
+                 (if (list? (cadr op))
+                     (format #f "{~a}"
+                             (string-join (generate-static-declarations
+                                                                        #:properties
+                                                                        (cadr
+                                                                         op))
+                                          " "))
+                     (cadr op)))) properties))
 
 (define* (build-selector #:key selector class size direct-size?)
   "Constructs the CSS selector, adding a size suffix if needed."

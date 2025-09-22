@@ -504,6 +504,9 @@ ol, ul {list-style:none;}
 .hidden {display:none;}
 .overflow-x-scroll {overflow-x:scroll;}
 .cursor-pointer {cursor:pointer;}
+@view-transition {navigation:auto;}
+::view-transition-old(root), ::view-transition-new(root) {animation:fade 0.1s ease both;}
+@keyframes fade {from:{opacity:0.2;}; to:{opacity:1;};}
 .bg-orange-100\/0 { background: rgba(255, 155, 85,0.0) }
 .bg-orange-200\/0 { background: rgba(255, 145, 75,0.0) }
 .bg-orange-300\/0 { background: rgba(255, 135, 65,0.0) }
