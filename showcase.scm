@@ -59,6 +59,7 @@
                                                         text-wrap
                                                         py-4
                                                         px-4
+                                                        font-mono
                                                         overflow-x-scroll
                                                         whitespace-pre-wrap))))
                      ,t)

@@ -61,16 +61,19 @@
                     (800 ,(darken rojo 32))
                     (900 ,(darken rojo 42)))))
 
+(define silver
+  '(184 183 184))
+
 (define stone
-  (make-parameter '((100 (212 217 217))
-                    (200 (190 197 197))
-                    (300 (158 169 169))
-                    (400 (125 140 140))
-                    (500 (86 97 97))
-                    (600 (67 76 76))
-                    (700 (68 64 59))
-                    (800 (48 54 54))
-                    (900 (29 32 32)))))
+  (make-parameter `((100 ,(lighten silver 60))
+                    (200 ,(lighten silver 45))
+                    (300 ,(lighten silver 30))
+                    (400 ,(lighten silver 20))
+                    (500 ,silver)
+                    (600 ,(darken silver 20))
+                    (700 ,(darken silver 30))
+                    (800 ,(darken silver 45))
+                    (900 ,(darken silver 60)))))
 
 (define purple
   (make-parameter '((100 (245 230 255))
