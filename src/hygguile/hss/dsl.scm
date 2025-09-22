@@ -24,7 +24,7 @@
   #:export (~ css
               css*
               css-color*
-              display-css
+              format-css
               list-combinations
               where-dark
               ;;
@@ -38,6 +38,8 @@
               declaration?
               declaration-property
               declaration-value
+              r=
+              d=
               ;;
               ))
 
@@ -52,10 +54,16 @@
   (selector rule-selector)
   (declarations rule-declarations))
 
+(define r=
+  make-rule)
+
 (define-record-type declaration
   (make-declaration property value) declaration?
   (property declaration-property)
   (value declaration-value))
+
+(define d=
+  make-declaration)
 
 ;; ========================================================================
 
@@ -225,13 +233,37 @@
                             #:selector selector
                             #:name name)) alphas-and-weights)))
 
-(define* (display-css xs)
+(define* (format-css xs)
   (cond
     ((list? xs)
-     (for-each display-css xs))
-    (else (begin
-            (display xs)
-            (display "\n")))))
+     (map format-css xs))
+    ((rule? xs)
+     (format #f "~a {~a}\n"
+             (rule-selector xs)
+             (cond
+               ((rule? (rule-declarations xs))
+                (format-css (rule-declarations xs)))
+               ((list? (rule-declarations xs))
+                (string-join (map (lambda (xx)
+                                    (cond
+                                      ((rule? xx)
+                                       (format-css xx))
+                                      ((declaration? xx)
+                                       (format-declaration xx))
+                                      (else (format #f "~a" xx)))
+
+                                    )
+                                  (rule-declarations xs)) " "))
+               (else (begin                       
+                       (format-declaration (rule-declarations xs)))))))
+    ((declaration? xs)
+     (format-declaration xs))
+    (else (format #f "~a\n" xs))))
+
+(define (format-declaration xs)
+  (format #f "~a:~a;"
+          (declaration-property xs)
+          (declaration-value xs)))
 
 (define where-dark
   "&:where([data-theme=dark], [data-theme=dark] *)")

@@ -504,46 +504,52 @@
                                               (to ((opacity 1))))))))
 
 (define active-scale
-  (make-parameter (list (css #:selector "active\\:scale-95"
-                             #:declarations '(("&:active" ((scale "95% 95%"))))))))
+  (make-parameter (list (r= "active\\:scale-95"
+                            (list (r= "&:active"
+                                      (list (d= 'scale "95% 95%"))))))))
 
 (define shrinks
-  (make-parameter (list (css #:selector 'shrink
-                             #:declarations '((flex-shrink 1)))
-                        (css #:selector 'shrink-0
-                             #:declarations '((flex-shrink 0))))))
+  (make-parameter (list (r= 'shrink
+                            (list (d= 'flex-shrink 1)))
+                        (r= 'shrink-0
+                            (list (d= 'flex-shrink 0))))))
 
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define* (hss)
-  (write (make-rule ".text-sm"
-                    (list (make-declaration 'font-size "1rem"))))
-  (append reset-css
-          (css* #:selector 'text
-                #:sizes default-tshirt-sizes
-                #:declarations '(font-size)
-                #:breakpoints (breakpoints)
-                #:multiplier (font-size-multiplier))
-          (positions)
-          (absolute-positions)
-          (flex-justifies)
-          (flex-aligns)
-          (scroll-snap-aligns)
-          (scroll-snap-types)
-          (z-index)
-          (roundings)
-          (paddings)
-          (shadows)
-          (margins)
-          (weights)
-          (text-utilities)
-          (flex-utilities)
-          (borders)
-          (widths)
-          (heights)
-          (font-families)
-          (display-utilities)
-          (fade-in-page-transition)
+  (append (reset-css)
+          (shrinks)
           (active-scale)
-          (colors)))
+          (list (r= ".flex"
+                    (list (d= 'display
+                              'flex)))))
+
+  ;; (css* #:selector 'text
+  ;; #:sizes default-tshirt-sizes
+  ;; #:declarations '(font-size)
+  ;; #:breakpoints (breakpoints)
+  ;; #:multiplier (font-size-multiplier))
+  ;; (positions)
+  ;; (absolute-positions)
+  ;; (flex-justifies)
+  ;; (flex-aligns)
+  ;; (scroll-snap-aligns)
+  ;; (scroll-snap-types)
+  ;; (z-index)
+  ;; (roundings)
+  ;; (paddings)
+  ;; (shadows)
+  ;; (margins)
+  ;; (weights)
+  ;; (text-utilities)
+  ;; (flex-utilities)
+  ;; (borders)
+  ;; (widths)
+  ;; (heights)
+  ;; (font-families)
+  ;; (display-utilities)
+  ;; (fade-in-page-transition)
+  ;; (active-scale)
+  ;; (colors))
+  )
 
