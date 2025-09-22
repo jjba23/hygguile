@@ -46,9 +46,9 @@
 (define rounded-multiplier
   (make-parameter 0.1))
 (define width-multiplier
-  (make-parameter 0.3))
+  (make-parameter 0.24))
 (define height-multiplier
-  (make-parameter 0.3))
+  (make-parameter 0.24))
 (define weight-multiplier
   (make-parameter 1))
 (define shadow-multiplier

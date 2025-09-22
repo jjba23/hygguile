@@ -98,20 +98,20 @@
                                              #:hover-background '(hover:bg-teal-900)))
                   ,(as-example '(icon-button #:icon 'user
                                              #:content "user"
-                                             #:background '(bg-earthyellow)
+                                             #:background '(bg-earthyellow-500)
                                              #:color '(text-stone-900)
                                              #:hover-background '(hover:bg-amber-500)
                                              #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'calendar
                                              #:content "Book now"
                                              #:weight '(font-light)
-                                             #:background '(bg-vinrouge)
+                                             #:background '(bg-vinrouge-500)
                                              #:color '(text-papayawhip)
                                              #:hover-background '(hover:bg-cafenoir)
                                              #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'airplane-tilt
                                              #:content "airplane-tilt"
-                                             #:background '(bg-chinarose)
+                                             #:background '(bg-chinarose-500)
                                              #:weight '(font-medium)
                                              #:color '(text-stone-300
                                                        dark:text-stone-100)
@@ -371,7 +371,7 @@
                                             py-4))))
     `(,(sub-h2 "🎨 Colors") (div (@ (class ,(mk-class '(py-4))))
                                 ,(p
-                                  "Hygguile offers colors out of the box, in all their variants.")
+                                  "Hygguile offers colors in the 100, 300, 500, 700 and 900 variants.")
                                 (div (@ (class ,color-grid-class))
                                      ,(mk-color-show #:color 'red-500
                                                      #:text-class 'text-white)
@@ -388,8 +388,6 @@
                                      ,(mk-color-show #:color 'emerald-500
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'teal-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'cyan-500
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'cyan-500
                                                      #:text-class 'text-white)
@@ -417,12 +415,8 @@
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'stone-500
                                                      #:text-class 'text-white))
-                                ,(p
-                                  "It also offers some custom colors (no variants)")
                                 (div (@ (class ,color-grid-class))
-                                     ,(mk-color-show #:color 'spicedterracotta
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'burntumber
+                                     ,(mk-color-show #:color 'spicedterracotta-500
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'bistre
                                                      #:text-class 'text-white)
@@ -436,13 +430,13 @@
                                                      #:text-class 'text-black)
                                      ,(mk-color-show #:color 'papayawhip
                                                      #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'chinarose
+                                     ,(mk-color-show #:color 'chinarose-500
                                                      #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'earthyellow
+                                     ,(mk-color-show #:color 'earthyellow-500
                                                      #:text-class 'text-black)
                                      ,(mk-color-show #:color 'burgundy
                                                      #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'vinrouge
+                                     ,(mk-color-show #:color 'vinrouge-500
                                                      #:text-class 'text-white))))))
 
 (define (showcase-body)
