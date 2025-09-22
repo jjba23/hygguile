@@ -24,16 +24,29 @@
 (define default-colors
   (make-parameter '(orange red)))
 
+(define (darken xs n)
+  (map (lambda (x)
+         (let* ((comp (- x n )))
+           (if (< comp 0) 0 comp))) xs))
+
+(define (lighten xs n)
+  (map (lambda (x)
+         (let* ((comp (+ n x)))
+           (if (> comp 255) 255 comp))) xs))
+
+(define orange-crayola
+  '(243 113 43))
+
 (define orange
-  (make-parameter '((100 (255 218 185))
-                    (200 (255 160 122))
-                    (300 (255 127 80))
-                    (400 (255 165 0))
-                    (500 (255 140 0))
-                    (600 (255 69 0))
-                    (700 (210 105 30))
-                    (800 (139 69 19))
-                    (900 (128 0 0)))))
+  (make-parameter `((100 ,(lighten orange-crayola 40))
+                    (200 ,(lighten orange-crayola 30))
+                    (300 ,(lighten orange-crayola 20))
+                    (400 ,(lighten orange-crayola 10))
+                    (500 ,orange-crayola)
+                    (600 ,(darken orange-crayola 10))
+                    (700 ,(darken orange-crayola 20))
+                    (800 ,(darken orange-crayola 30))
+                    (900 ,(darken orange-crayola 40)))))
 
 (define red
   (make-parameter '((100 (255 240 240))
