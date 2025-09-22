@@ -65,15 +65,15 @@
   '(184 183 184))
 
 (define stone
-  (make-parameter `((100 ,(lighten silver 60))
-                    (200 ,(lighten silver 45))
-                    (300 ,(lighten silver 30))
-                    (400 ,(lighten silver 20))
+  (make-parameter `((100 ,(lighten silver 104))
+                    (200 ,(lighten silver 84))
+                    (300 ,(lighten silver 64))
+                    (400 ,(lighten silver 44))
                     (500 ,silver)
-                    (600 ,(darken silver 20))
-                    (700 ,(darken silver 30))
-                    (800 ,(darken silver 45))
-                    (900 ,(darken silver 60)))))
+                    (600 ,(darken silver 44))
+                    (700 ,(darken silver 64))
+                    (800 ,(darken silver 84))
+                    (900 ,(darken silver 104)))))
 
 (define purple
   (make-parameter '((100 (245 230 255))

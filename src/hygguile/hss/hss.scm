@@ -251,13 +251,6 @@
                         #:multiplier 1
                         #:unit "")))
 
-;; We work with rgba by default for colors
-;;
-;;
-;; You can do this for using colors without transparency
-;; #:namespace 'rgb
-;; #:alphas '((("" 1)))
-
 (define colors
   (make-parameter (append (map (lambda (p)
                                  (css-color* #:selector 'bg
@@ -273,6 +266,16 @@
                                      #:declarations '((background transparent)))
                                 (css #:selector 'bg-black
                                      #:declarations '((background black))))
+
+                          (list (css #:selector "dark\\:bg-white"
+                                     #:declarations `((,where-dark ((background
+                                                                     white)))))
+                                (css #:selector "dark\\:bg-transparent"
+                                     #:declarations `((,where-dark ((background
+                                                                     transparent)))))
+                                (css #:selector "dark\\:bg-black"
+                                     #:declarations `((,where-dark ((background
+                                                                     black))))))
                           (map (lambda (p)
                                  (css-color* #:selector 'text
                                              #:declarations '(color)
@@ -287,6 +290,15 @@
                                      #:declarations '((color transparent)))
                                 (css #:selector 'text-black
                                      #:declarations '((color black))))
+                          (list (css #:selector "dark\\:text-white"
+                                     #:declarations `((,where-dark ((color
+                                                                     white)))))
+                                (css #:selector "dark\\:text-transparent"
+                                     #:declarations `((,where-dark ((color
+                                                                     transparent)))))
+                                (css #:selector "dark\\:text-black"
+                                     #:declarations `((,where-dark ((color
+                                                                     black))))))
                           (map (lambda (p)
                                  (css-color* #:selector 'border
                                              #:declarations '(border-color)
@@ -301,7 +313,16 @@
                                      #:declarations '((border-color
                                                        transparent)))
                                 (css #:selector 'border-black
-                                     #:declarations '((border-color black)))))))
+                                     #:declarations '((border-color black))))
+                          (list (css #:selector "dark\\:border-white"
+                                     #:declarations `((,where-dark ((border-color
+                                                                     white)))))
+                                (css #:selector "dark\\:border-transparent"
+                                     #:declarations `((,where-dark ((border-color
+                                                                     transparent)))))
+                                (css #:selector "dark\\:border-black"
+                                     #:declarations `((,where-dark ((border-color
+                                                                     black)))))))))
 
 (define text-utilities
   (make-parameter (list (css #:selector 'italic

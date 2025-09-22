@@ -20,7 +20,12 @@
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:use-module (ice-9 format)
-  #:export (~ css css* css-color* display-css list-combinations))
+  #:export (~ css
+              css*
+              css-color*
+              display-css
+              list-combinations
+              where-dark))
 
 (define* (~ #:rest args)
   (apply format
@@ -143,16 +148,24 @@
                                   'rgba)
                           (~ ",~a"
                              (cadar alpha-weight)) ""))
-         (props (string-join (map (lambda (p)
+         (prop (string-join (map (lambda (p)
                                     (~ "~a: ~a(~a~a)" p namespace tri-channel
                                        color-alpha)) declarations) " ")))
-    (~ "~a~a-~a-~a~a { ~a }"
-       selector-type
-       selector
-       name
-       weight-name
-       alpha-name
-       props)))
+    (list (~ "~a~a-~a-~a~a { ~a }"
+             selector-type
+             selector
+             name
+             weight-name
+             alpha-name
+             prop)
+          (~ "~adark\\:~a-~a-~a~a { ~a {~a} }"
+             selector-type
+             selector
+             name
+             weight-name
+             alpha-name
+             where-dark
+             (~ "~a !important" prop)))))
 
 (define* (css-color* #:key (selector-type ".")
                      selector
@@ -166,14 +179,14 @@
                                  (list-combinations '((("" 1))) weights)
                                  (list-combinations alphas weights))))
     
-    (map (lambda (alpha-weight)
-           (mk-color #:alpha-weight alpha-weight
-                     #:palette palette
-                     #:namespace namespace
-                     #:declarations declarations
-                     #:selector-type selector-type
-                     #:selector selector
-                     #:name name)) alphas-and-weights)))
+    (append-map (lambda (alpha-weight)
+                  (mk-color #:alpha-weight alpha-weight
+                            #:palette palette
+                            #:namespace namespace
+                            #:declarations declarations
+                            #:selector-type selector-type
+                            #:selector selector
+                            #:name name)) alphas-and-weights)))
 
 (define* (display-css xs)
   (cond
@@ -182,3 +195,6 @@
     (else (begin
             (display xs)
             (display "\n")))))
+
+(define where-dark
+  "&:where([data-theme=dark], [data-theme=dark] *)")
