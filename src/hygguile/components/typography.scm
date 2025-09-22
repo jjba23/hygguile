@@ -66,7 +66,7 @@
 
 (define* (sub-h1 content
                  #:key (weight '(font-light))
-                 (color '(text-stone-600 dark:text-stone-400))
+                 (color '(text-stone-700 dark:text-stone-500))
                  (family '(font-sans))
                  (style '(italic))
                  (size '(text-3xl)))
@@ -76,7 +76,7 @@
 (define* (sub-h2 content
                  #:key (weight '(font-light))
                  (style '(italic))
-                 (color '(text-stone-600 dark:text-stone-400))
+                 (color '(text-stone-700 dark:text-stone-500))
                  (family '(font-sans))
                  (size '(text-2xl)))
   `((h2 (@ (class ,(mk-class (append color size weight style family))))
@@ -85,7 +85,7 @@
 (define* (sub-h3 content
                  #:key (weight '(font-light))
                  (style '(italic))
-                 (color '(text-stone-600 dark:text-stone-400))
+                 (color '(text-stone-700 dark:text-stone-500))
                  (family '(font-sans))
                  (size '(text-xl)))
   `((h3 (@ (class ,(mk-class (append color size weight style family))))
@@ -94,7 +94,7 @@
 (define* (sub-h4 content
                  #:key (weight '(font-light))
                  (style '(italic))
-                 (color '(text-stone-600 dark:text-stone-400))
+                 (color '(text-stone-700 dark:text-stone-500))
                  (family '(font-sans))
                  (size '(text-xl)))
   `((h4 (@ (class ,(mk-class (append color size weight style family))))
@@ -102,7 +102,7 @@
 
 (define* (p content
             #:key (weight '(font-medium))
-            (color '(text-stone-800 dark:text-stone-200))
+            (color '(text-stone-900 dark:text-stone-300))
             (family '(font-sans))
             (size '(text-lg)))
   `((p (@ (class ,(mk-class (append color size weight family))))
@@ -110,7 +110,7 @@
 
 (define* (em content
              #:key (weight '(font-light))
-             (color '(text-stone-600 dark:text-stone-400))
+             (color '(text-stone-700 dark:text-stone-500))
              (family '(font-sans))
              (style '(italic))
              (size '(text-md)))
@@ -119,7 +119,7 @@
 
 (define* (strong content
                  #:key (weight '(font-bold))
-                 (color '(text-stone-800 dark:text-stone-200))
+                 (color '(text-stone-900 dark:text-stone-300))
                  (family '(font-sans))
                  (size '(text-lg)))
   `((strong (@ (class ,(mk-class (append color size weight family))))
@@ -128,9 +128,9 @@
 (define* (a content
             #:key (weight '(font-bold))
             (size '(text-lg))
-            (color '(text-blue-500 dark:text-blue-400))
+            (color '(text-blue-500 dark:text-blue-500))
             (family '(font-sans))
-            (hover '(hover:text-blue-700 dark:hover:text-blue-600))
+            (hover '(hover:text-blue-700 dark:hover:text-blue-700))
             (href #f))
   `((a (@ (href ,(if (not href) content href))
           (class ,(mk-class (append color hover size weight family))))
@@ -138,7 +138,7 @@
 
 (define* (mono content
                #:key (weight '(font-medium))
-               (color '(text-stone-800 dark:text-stone-200))
+               (color '(text-stone-900 dark:text-stone-300))
                (size '(text-lg))
                (mono-classes '(font-mono)))
   `((p (@ (class ,(mk-class (append color mono-classes size weight))))
@@ -146,9 +146,9 @@
 
 (define* (code content
                #:key (weight '(font-medium))
-               (color '(text-stone-800 dark:text-stone-200))
+               (color '(text-stone-900 dark:text-stone-300))
                (size '(text-md))
-               (background '(bg-stone-200/70 dark:bg-stone-700/70))
+               (background '(bg-stone-300/70 dark:bg-stone-700/70))
                (rounding '(rounded-lg))
                (shadow '(shadow-md))
                (padding-y '(py-1))
@@ -167,9 +167,9 @@
 
 (define* (pre content
               #:key (weight '(font-medium))
-              (color '(text-stone-800 dark:text-stone-200))
+              (color '(text-stone-900 dark:text-stone-300))
               (size '(text-md))
-              (background '(bg-stone-200/70 dark:bg-stone-700/70))
+              (background '(bg-stone-300/70 dark:bg-stone-700/70))
               (rounding '(rounded-lg))
               (shadow '(shadow-md))
               (width '(w-full))

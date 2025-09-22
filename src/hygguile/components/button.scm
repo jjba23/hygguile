@@ -31,8 +31,8 @@
                  (type 'button)
                  (hidden #f)
                  (on-click "")
-                 (background '(bg-stone-600/90 dark:bg-stone-500/90))
-                 (hover-background '(hover:bg-stone-800/90
+                 (background '(bg-stone-700/90 dark:bg-stone-500/90))
+                 (hover-background '(hover:bg-stone-900/90
                                      dark:hover:bg-stone-700))
                  (border-size '(border-2))
                  (border-color '(border-stone-700))
@@ -71,8 +71,8 @@
                       (hidden #f)
                       (on-click "")
                       (type 'button)
-                      (background '(bg-stone-600/90 dark:bg-stone-500/90))
-                      (hover-background '(hover:bg-stone-800/90
+                      (background '(bg-stone-700/90 dark:bg-stone-500/90))
+                      (hover-background '(hover:bg-stone-900/90
                                           dark:hover:bg-stone-700))
                       (border-size '(border-2))
                       (border-color '(border-stone-700))
@@ -115,14 +115,14 @@
   (button content
           #:type 'submit
           #:background '(bg-green-700)
-          #:color '(text-stone-200)
+          #:color '(text-stone-300)
           #:hover-background '(hover:bg-green-900)))
 
 (define* (danger-submit-button content)
   (button content
           #:type 'submit
           #:background '(bg-red-700)
-          #:color '(text-stone-200)
+          #:color '(text-stone-300)
           #:hover-background '(hover:bg-red-900)))
 
 (define* (mono-button content)
@@ -136,8 +136,8 @@
 (define* (ui-mode-button #:key (icon 'faders)
                          (content "ui mode")
                          (type 'button)
-                         (background '(bg-stone-600/90 dark:bg-stone-500/90))
-                         (hover-background '(hover:bg-stone-800/90
+                         (background '(bg-stone-700/90 dark:bg-stone-500/90))
+                         (hover-background '(hover:bg-stone-900/90
                                              dark:hover:bg-stone-700))
                          (border-size '(border-2))
                          (border-color '(border-stone-700))

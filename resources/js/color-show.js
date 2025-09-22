@@ -20,7 +20,7 @@
 function cycleBgClass(currentClass) {
   const parts = currentClass.split('-')
   const currentNumber = parseInt(parts[2], 10)
-  const nextNumber = currentNumber >= 900 ? 100 : currentNumber + 100
+  const nextNumber = currentNumber >= 900 ? 100 : currentNumber + 200
   return `${parts[0]}-${parts[1]}-${nextNumber}`
 }
 

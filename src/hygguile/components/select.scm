@@ -47,11 +47,11 @@
                  name
                  id
                  (select-classes '(p-4 border-2
-                                       border-stone-200
+                                       border-stone-300
                                        dark:border-stone-700
                                        bg-stone-300/70
                                        dark:bg-stone-900
-                                       text-stone-800
+                                       text-stone-900
                                        dark:text-stone-300
                                        text-md
                                        rounded-xl

@@ -25,7 +25,7 @@
                                              list-none
                                              overflow-x-scroll
                                              snap-x
-                                             bg-stone-200/70
+                                             bg-stone-300/70
                                              dark:bg-stone-700/70
                                              rounded-xl
                                              my-6))
@@ -42,11 +42,11 @@
                    (carousel-button-css '(absolute top-1/4
                                                    w-18
                                                    h-18
-                                                   bg-stone-400/20
-                                                   dark:bg-stone-800/20
+                                                   bg-stone-500/20
+                                                   dark:bg-stone-900/20
                                                    rounded-xl
-                                                   text-stone-800
-                                                   dark:text-stone-200
+                                                   text-stone-900
+                                                   dark:text-stone-300
                                                    cursor-pointer
                                                    text-2xl))
                    (carousel-left-button-css '(left-3))

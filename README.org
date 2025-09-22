@@ -55,7 +55,7 @@ I'd encourage navigating to the ~src/hygguile~ directory and studying the code t
             #:type 'submit
             #:background '(bg-green-700 dark:bg-green-500)
             #:hover-background '(hover:bg-green-900 dark:hover:bg-green-700)
-            #:border-color '(border-stone-200))
+            #:border-color '(border-stone-300))
 
 #+end_src
 
@@ -63,10 +63,10 @@ One of the main abstractions we use is the ~mk-class~ procedure, which takes a l
 
 #+begin_src scheme
 (define my-component
-  `((p (@(class ,(mk-class '(my-2 p-2 bg-stone-200))) "Some paragraph")))
+  `((p (@(class ,(mk-class '(my-2 p-2 bg-stone-300))) "Some paragraph")))
 
 ;; this gives you
-;; <p class="bg-stone-200 my-2 p-2">Some paragraph</p>  
+;; <p class="bg-stone-300 my-2 p-2">Some paragraph</p>  
 #+end_src
 
 

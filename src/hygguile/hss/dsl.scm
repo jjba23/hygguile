@@ -149,8 +149,8 @@
                           (~ ",~a"
                              (cadar alpha-weight)) ""))
          (prop (string-join (map (lambda (p)
-                                    (~ "~a: ~a(~a~a)" p namespace tri-channel
-                                       color-alpha)) declarations) " ")))
+                                   (~ "~a: ~a(~a~a)" p namespace tri-channel
+                                      color-alpha)) declarations) " ")))
     (list (~ "~a~a-~a-~a~a { ~a }"
              selector-type
              selector

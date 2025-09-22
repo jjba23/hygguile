@@ -40,15 +40,15 @@
           body-font-family))
 
 (define* (show-notifications-from-url-js #:key (header-classes (mk-class '(text-xl
-                                                                           text-stone-800
-                                                                           dark:text-stone-200)))
+                                                                           text-stone-900
+                                                                           dark:text-stone-300)))
                                          (close-icon-on-click
                                           "document.getElementById('notification-tray').innerHTML = ''")
                                          (close-icon-classes (mk-class '(ph
                                                                          ph-x
-                                                                         text-stone-800
+                                                                         text-stone-900
                                                                          cursor-pointer
-                                                                         dark:text-stone-200
+                                                                         dark:text-stone-300
                                                                          text-xl)))
                                          (title-container-classes (mk-class '(flex
                                                                               flex-row
@@ -61,11 +61,11 @@
                                                                                 animate-wiggle
                                                                                 sm:max-w-120
                                                                                 rounded-xl
-                                                                                bg-stone-200/90
+                                                                                bg-stone-300/90
                                                                                 border-stone-500
                                                                                 dark:bg-stone-900/90
                                                                                 border-2
-                                                                                dark:border-stone-800
+                                                                                dark:border-stone-900
                                                                                 text-stone-700
                                                                                 dark:text-stone-300
                                                                                 font-sans

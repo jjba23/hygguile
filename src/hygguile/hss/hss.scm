@@ -51,6 +51,8 @@
   (make-parameter 0.3))
 (define weight-multiplier
   (make-parameter 1))
+(define shadow-multiplier
+  (make-parameter 0.3))
 
 (define mono-font-family
   (make-parameter "'IBM Plex Mono', monospace"))
@@ -60,6 +62,8 @@
   (make-parameter (string-join '("'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif,"
                                  "'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'")
                                " ")))
+
+;; ========================================================================
 
 (define paddings
   (make-parameter (append (css* #:selector 'p
@@ -206,6 +210,25 @@
                          (stretch stretch)
                          (baseline baseline)
                          (normal normal)))))
+
+(define shadows
+  (make-parameter (map (lambda (x)
+                         (css #:selector (string->symbol (format #f
+                                                                 "shadow-~a"
+                                                                 (car x)))
+                              #:declarations `((box-shadow ,(cadr x)))))
+                       '((2xs "0 1px rgb(0 0 0 / 0.05)")
+                         (xs "0 1px 2px 0 rgb(0 0 0 / 0.05)")
+                         (sm
+                          "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)")
+                         (md
+                          "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)")
+                         (lg
+                          "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)")
+                         (xl
+                          "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)")
+                         (2xl "0 25px 50px -12px rgb(0 0 0 / 0.25)")
+                         (none "0 0 #0000")))))
 
 (define scroll-snap-type
   (make-parameter "proximity"))
@@ -397,6 +420,7 @@
           (roundings)
           (paddings)
           (scroll-snap-types)
+          (shadows)
           (margins)
           (weights)
           (flex-utilities)

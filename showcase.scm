@@ -40,7 +40,7 @@
                 (button (@ (aria-label "Show code for example")
                            (class ,(mk-class '(font-light text-sm
                                                           text-stone-700
-                                                          dark:text-stone-200)))
+                                                          dark:text-stone-300)))
                            (onclick ,(format #f
                                       "document.getElementById('~a-example').classList.toggle('hidden')"
                                       uid)))
@@ -49,10 +49,10 @@
            (div (@ (id ,(format #f "~a-example" uid))
                    (class ,(mk-class '(hidden flex flex-col gap-2))))
                 (pre (@ (id ,(format #f "~a-pre" uid))
-                        (class ,(mk-class '(font-medium text-stone-800
-                                                        dark:text-stone-200
+                        (class ,(mk-class '(font-medium text-stone-900
+                                                        dark:text-stone-300
                                                         text-md
-                                                        bg-stone-200/70
+                                                        bg-stone-300/70
                                                         dark:bg-stone-700/70
                                                         rounded-lg
                                                         shadow-md
@@ -89,7 +89,7 @@
                   ,(as-example '(icon-button #:icon 'gear
                                              #:content "gear"
                                              #:background '(bg-teal-700)
-                                             #:color '(text-stone-200
+                                             #:color '(text-stone-300
                                                        dark:text-stone-100)
                                              #:size '(text-xs)
                                              #:icon-css '(text-stone-100
@@ -113,7 +113,7 @@
                                              #:content "airplane-tilt"
                                              #:background '(bg-chinarose)
                                              #:weight '(font-medium)
-                                             #:color '(text-stone-200
+                                             #:color '(text-stone-300
                                                        dark:text-stone-100)
                                              #:icon-css '(text-stone-100
                                                           dark:text-stone-100
@@ -293,13 +293,13 @@
                                                      '())
                                                     ((pair? l)
                                                      `(figcaption (@ (class ,(mk-class '
-                                                                              (text-stone-600
-                                                                               dark:text-stone-400
+                                                                              (text-stone-700
+                                                                               dark:text-stone-500
                                                                                text-lg
                                                                                font-light))))
                                                                   ,(car l))))))))
          (render-other-content (lambda (c)
-                                 `((div (@ (class ,(mk-class '(text-stone-600
+                                 `((div (@ (class ,(mk-class '(text-stone-700
                                                                dark:text-stone-300
                                                                text-2xl
                                                                font-light))))
@@ -483,7 +483,7 @@
                               (link (@ (rel stylesheet)
                                        (href "hss.css")))
                               (body (@ (class ,(mk-class '(bg-white
-                                                           dark:bg-stone-800))))
+                                                           dark:bg-stone-900))))
                                     ,notification-tray
                                     ,@body)))))
 

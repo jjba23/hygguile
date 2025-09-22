@@ -23,7 +23,7 @@
                                  default-alphas default-color-weights))
 
 (define default-tshirt-sizes
-  `(("xxs" 1)
+  `(("2xs" 1)
     ("xs" 2)
     ("sm" 3)
     ("md" 4)
@@ -56,26 +56,17 @@
         128))
 
 (define default-weights
-  '((100 100)
-    (thin 100)
-    (300 300)
+  '((thin 100)
     (light 300)
-    (500 500)
     (medium 500)
-    (700 700)
     (bold 700)
-    (900 900)
     (black 900)))
 
 (define default-color-weights
   '((100 100)
-    (200 200)
     (300 300)
-    (400 400)
     (500 500)
-    (600 600)
     (700 700)
-    (800 800)
     (900 900)))
 
 (define default-alphas
