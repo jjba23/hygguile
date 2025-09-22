@@ -20,7 +20,7 @@
   #:export (carousel))
 
 (define* (carousel #:key (id #f)
-                   (carousel-list-css '(flex gap-8
+                   (carousel-list-css '(flex gap-24
                                              p-12
                                              list-none
                                              overflow-x-scroll
@@ -39,19 +39,19 @@
                                                      font-sans
                                                      text-xl
                                                      font-bold))
-                   (carousel-list-wrapper-css '(relative ))
-                   (carousel-button-css '(absolute top-1/4
+                   (carousel-list-wrapper-css '(relative))
+                   (carousel-button-css '(absolute bottom-64
                                                    w-18
                                                    h-18
-                                                   bg-stone-500/20
-                                                   dark:bg-stone-900/20
+                                                   bg-stone-500/25
+                                                   dark:bg-stone-900/25
                                                    rounded-xl
                                                    text-stone-900
                                                    dark:text-stone-300
                                                    cursor-pointer
                                                    text-2xl))
-                   (carousel-left-button-css '(left-3))
-                   (carousel-right-button-css '(right-3))
+                   (carousel-left-button-css '(left-4))
+                   (carousel-right-button-css '(right-4))
                    (fragments '()))
   `((div (@ (class ,(mk-class carousel-list-wrapper-css)))
          (ul (@ (id ,(format #f "~a" id))

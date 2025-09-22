@@ -19,6 +19,78 @@ ol, ul {list-style:none;}
 .absolute {position:absolute;}
 .fixed {position:fixed;}
 .relative {position:relative;}
+.top-1 {top:1.00px;}
+.top-2 {top:2.00px;}
+.top-4 {top:4.00px;}
+.top-6 {top:6.00px;}
+.top-8 {top:8.00px;}
+.top-10 {top:10.00px;}
+.top-12 {top:12.00px;}
+.top-14 {top:14.00px;}
+.top-16 {top:16.00px;}
+.top-20 {top:20.00px;}
+.top-24 {top:24.00px;}
+.top-28 {top:28.00px;}
+.top-32 {top:32.00px;}
+.top-48 {top:48.00px;}
+.top-64 {top:64.00px;}
+.top-72 {top:72.00px;}
+.top-96 {top:96.00px;}
+.top-128 {top:128.00px;}
+.bottom-1 {bottom:1.00px;}
+.bottom-2 {bottom:2.00px;}
+.bottom-4 {bottom:4.00px;}
+.bottom-6 {bottom:6.00px;}
+.bottom-8 {bottom:8.00px;}
+.bottom-10 {bottom:10.00px;}
+.bottom-12 {bottom:12.00px;}
+.bottom-14 {bottom:14.00px;}
+.bottom-16 {bottom:16.00px;}
+.bottom-20 {bottom:20.00px;}
+.bottom-24 {bottom:24.00px;}
+.bottom-28 {bottom:28.00px;}
+.bottom-32 {bottom:32.00px;}
+.bottom-48 {bottom:48.00px;}
+.bottom-64 {bottom:64.00px;}
+.bottom-72 {bottom:72.00px;}
+.bottom-96 {bottom:96.00px;}
+.bottom-128 {bottom:128.00px;}
+.left-1 {left:1.00px;}
+.left-2 {left:2.00px;}
+.left-4 {left:4.00px;}
+.left-6 {left:6.00px;}
+.left-8 {left:8.00px;}
+.left-10 {left:10.00px;}
+.left-12 {left:12.00px;}
+.left-14 {left:14.00px;}
+.left-16 {left:16.00px;}
+.left-20 {left:20.00px;}
+.left-24 {left:24.00px;}
+.left-28 {left:28.00px;}
+.left-32 {left:32.00px;}
+.left-48 {left:48.00px;}
+.left-64 {left:64.00px;}
+.left-72 {left:72.00px;}
+.left-96 {left:96.00px;}
+.left-128 {left:128.00px;}
+.right-1 {right:1.00px;}
+.right-2 {right:2.00px;}
+.right-4 {right:4.00px;}
+.right-6 {right:6.00px;}
+.right-8 {right:8.00px;}
+.right-10 {right:10.00px;}
+.right-12 {right:12.00px;}
+.right-14 {right:14.00px;}
+.right-16 {right:16.00px;}
+.right-20 {right:20.00px;}
+.right-24 {right:24.00px;}
+.right-28 {right:28.00px;}
+.right-32 {right:32.00px;}
+.right-48 {right:48.00px;}
+.right-64 {right:64.00px;}
+.right-72 {right:72.00px;}
+.right-96 {right:96.00px;}
+.right-128 {right:128.00px;}
 .justify-start {justify-content:flex-start;}
 .justify-end {justify-content:flex-end;}
 .justify-end-safe {justify-content:safe flex-end;}
@@ -38,6 +110,14 @@ ol, ul {list-style:none;}
 .items-baseline {align-items:baseline;}
 .items-baseline-last {align-items:last baseline;}
 .items-stretch {align-items:stretch;}
+.snap-start {scroll-snap-align:start;}
+.snap-end {scroll-snap-align:end;}
+.snap-center {scroll-snap-align:center;}
+.snap-none {scroll-snap-align:none;}
+.snap-none {scroll-snap-type:none;}
+.snap-x {scroll-snap-type:x proximity;}
+.snap-y {scroll-snap-type:y proximity;}
+.snap-both {scroll-snap-type:both proximity;}
 .z-1 {z-index:1;}
 .z-2 {z-index:2;}
 .z-4 {z-index:4;}
@@ -192,10 +272,6 @@ ol, ul {list-style:none;}
 .pr-72 {padding-right:20.16rem;}
 .pr-96 {padding-right:26.88rem;}
 .pr-128 {padding-right:35.84rem;}
-.snap-none {scroll-snap-type:none;}
-.snap-x {scroll-snap-type:x proximity;}
-.snap-y {scroll-snap-type:y proximity;}
-.snap-both {scroll-snap-type:both proximity;}
 .#{shadow-#\x7b;2xs\x7d;#}# {box-shadow:0 1px rgb(0 0 0 / 0.05);}
 .shadow-xs {box-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);}
 .shadow-sm {box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);}
@@ -337,24 +413,24 @@ ol, ul {list-style:none;}
 .font-black {font-weight:900;}
 .italic {font-style:italic;}
 .text-center {text-align:center;}
-.gap-1 {gap:0.24rem;}
-.gap-2 {gap:0.48rem;}
-.gap-4 {gap:0.96rem;}
-.gap-6 {gap:1.44rem;}
-.gap-8 {gap:1.92rem;}
-.gap-10 {gap:2.40rem;}
-.gap-12 {gap:2.88rem;}
-.gap-14 {gap:3.36rem;}
-.gap-16 {gap:3.84rem;}
-.gap-20 {gap:4.80rem;}
-.gap-24 {gap:5.76rem;}
-.gap-28 {gap:6.72rem;}
-.gap-32 {gap:7.68rem;}
-.gap-48 {gap:11.52rem;}
-.gap-64 {gap:15.36rem;}
-.gap-72 {gap:17.28rem;}
-.gap-96 {gap:23.04rem;}
-.gap-128 {gap:30.72rem;}
+.gap-1 {gap:0.30rem;}
+.gap-2 {gap:0.60rem;}
+.gap-4 {gap:1.20rem;}
+.gap-6 {gap:1.80rem;}
+.gap-8 {gap:2.40rem;}
+.gap-10 {gap:3.00rem;}
+.gap-12 {gap:3.60rem;}
+.gap-14 {gap:4.20rem;}
+.gap-16 {gap:4.80rem;}
+.gap-20 {gap:6.00rem;}
+.gap-24 {gap:7.20rem;}
+.gap-28 {gap:8.40rem;}
+.gap-32 {gap:9.60rem;}
+.gap-48 {gap:14.40rem;}
+.gap-64 {gap:19.20rem;}
+.gap-72 {gap:21.60rem;}
+.gap-96 {gap:28.80rem;}
+.gap-128 {gap:38.40rem;}
 .flex {display:flex;}
 .flex-col {flex-direction:column;}
 .flex-row {flex-direction:row;}

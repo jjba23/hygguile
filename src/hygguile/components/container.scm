@@ -36,7 +36,7 @@
   `((hr (@ (class ,(mk-class (append color margin)))))))
 
 (define* (footer content
-                 #:key (background '(bg-stone-300 dark:bg-stone-900))
+                 #:key (background '(bg-stone-300 dark:bg-stone-700/75))
                  (shadow '(shadow-xl))
                  (footer-classes '(flex flex-col
                                         gap-4

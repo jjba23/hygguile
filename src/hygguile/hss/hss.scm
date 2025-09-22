@@ -42,7 +42,7 @@
 (define padding-multiplier
   (make-parameter 0.28))
 (define gap-multiplier
-  (make-parameter 0.24))
+  (make-parameter 0.3))
 (define rounded-multiplier
   (make-parameter 0.16))
 (define width-multiplier
@@ -170,6 +170,32 @@
                                 #:declarations '(max-width)
                                 #:multiplier (width-multiplier)))))
 
+(define absolute-positions
+  (make-parameter (append (css* #:selector 'top
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:declarations '(top)
+                                #:multiplier 1
+                                #:unit "px")
+                          (css* #:selector 'bottom
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:declarations '(bottom)
+                                #:multiplier 1
+                                #:unit "px")
+                          (css* #:selector 'left
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:declarations '(left)
+                                #:multiplier 1
+                                #:unit "px")
+                          (css* #:selector 'right
+                                #:sizes default-numeric-sizes
+                                #:direct-size? #t
+                                #:declarations '(right)
+                                #:multiplier 1
+                                #:unit "px"))))
+
 (define heights
   (make-parameter (append (list (css #:selector 'min-h-screen
                                      #:declarations '((min-height "1vh"))))
@@ -217,8 +243,7 @@
 
 (define flex-aligns
   (make-parameter (map (lambda (x)
-                         (css #:selector (string->symbol (format #f
-                                                                 "items-~a"
+                         (css #:selector (string->symbol (format #f "items-~a"
                                                                  (car x)))
                               #:declarations `((align-items ,(cadr x)))))
                        '((start flex-start)
@@ -264,6 +289,15 @@
                                      (scroll-snap-type)))
                          (both ,(format #f "both ~a"
                                         (scroll-snap-type)))))))
+
+(define scroll-snap-aligns
+  (make-parameter (map
+                   (lambda(x) (css #:selector (string->symbol (format #f "snap-~a" (car x)))
+                              #:declarations `((scroll-snap-align ,(cadr x)))))
+                   '((start start)
+                     (end end)
+                     (center center)
+                     (none none)))))
 
 (define flex-utilities
   (make-parameter (append (css* #:selector 'gap
@@ -400,9 +434,8 @@
 
 (define positions
   (make-parameter (map (lambda (x)
-                         (css #:selector (string->symbol (format #f
-                                                          "~a"
-                                                          (car x)))
+                         (css #:selector (string->symbol (format #f "~a"
+                                                                 (car x)))
                               #:declarations `((position ,(cadr x)))))
                        '((absolute absolute)
                          (fixed fixed)
@@ -426,6 +459,12 @@
   (make-parameter (list (css #:selector "active\\:scale-95"
                              #:declarations '(("&:active" ((scale "95% 95%"))))))))
 
+(define shrinks
+  (make-parameter (list (css #:selector 'shrink
+                             #:declarations '((flex-shrink 1)))
+                        (css #:selector 'shrink-0
+                             #:declarations '((flex-shrink 0))))))
+
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define* (hss)
@@ -435,12 +474,14 @@
                 #:declarations '(font-size)
                 #:multiplier (font-size-multiplier))
           (positions)
+          (absolute-positions)
           (flex-justifies)
           (flex-aligns)
+          (scroll-snap-aligns)
+          (scroll-snap-types)          
           (z-index)
           (roundings)
           (paddings)
-          (scroll-snap-types)
           (shadows)
           (margins)
           (weights)

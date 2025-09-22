@@ -275,7 +275,7 @@
                           "ACTA NON VERBA"
                           "DEUS EX MACHINA"))
          (render-img-with-figcaption (lambda (l)
-                                       `((figure (img (@ (class ,(mk-class '(max-w-32
+                                       `((figure (img (@ (class ,(mk-class '(max-w-64
                                                                              rounded-xl)))
                                                          (alt ,(cond
                                                                  ((pair? l)
@@ -302,6 +302,7 @@
                                  `((div (@ (class ,(mk-class '(text-stone-700
                                                                dark:text-stone-300
                                                                text-2xl
+                                                               min-w-48
                                                                font-light))))
                                         ,c))))
          (fragments (map render-img-with-figcaption imgs))
@@ -353,6 +354,7 @@
                                                                     color)))
                                       '(rounded-2xl shadow-md
                                                     p-4
+                                                    cursor-pointer
                                                     w-32
                                                     h-32
                                                     flex

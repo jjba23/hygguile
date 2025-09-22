@@ -61,9 +61,9 @@
                                                                                 animate-wiggle
                                                                                 sm:max-w-120
                                                                                 rounded-xl
-                                                                                bg-stone-300/90
+                                                                                bg-stone-300/75
                                                                                 border-stone-500
-                                                                                dark:bg-stone-900/90
+                                                                                dark:bg-stone-700/75
                                                                                 border-2
                                                                                 dark:border-stone-900
                                                                                 text-stone-700

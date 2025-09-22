@@ -184,7 +184,8 @@
                     (700 ,(darken floral-white-hue 22))
                     (900 ,(darken floral-white-hue 42)))))
 
-(define teal-hue '(2 128 144))
+(define teal-hue
+  '(2 128 144))
 
 (define teal
   (make-parameter `((100 ,(lighten teal-hue 42))
@@ -206,7 +207,8 @@
                               (china-rose))
                         (cons 'floralwhite
                               (floral-white))
-                        (cons 'teal (teal))
+                        (cons 'teal
+                              (teal))
                         (cons 'cornsilk
                               (cornsilk))
                         (cons 'papayawhip
@@ -215,7 +217,7 @@
                               (stone))
                         (cons 'purple
                               (purple))
-                          (cons 'blue
+                        (cons 'blue
                               (blue))
                         (cons 'green
                               (green))
