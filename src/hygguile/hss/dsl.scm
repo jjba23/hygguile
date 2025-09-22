@@ -17,7 +17,7 @@
 
 (define-module (hygguile hss dsl)
   #:use-module (srfi srfi-1)
-  #:use-module (srfi srfi-9)  
+  #:use-module (srfi srfi-9)
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:use-module (ice-9 format)
@@ -28,7 +28,16 @@
               list-combinations
               where-dark
               ;;
-              rule make-rule rule? rule-selector rule-declarations
+              rule
+              make-rule
+              rule?
+              rule-selector
+              rule-declarations
+              declaration
+              make-declaration
+              declaration?
+              declaration-property
+              declaration-value
               ;;
               ))
 
@@ -49,7 +58,6 @@
   (value declaration-value))
 
 ;; ========================================================================
-
 
 (define* (generate-sized-declarations #:key declarations calculated-value unit
                                       (rounded-to-integer? #f))

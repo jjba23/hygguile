@@ -256,8 +256,7 @@
                                 #:direct-size? #t
                                 #:declarations '(max-height)
                                 #:multiplier (height-multiplier)
-                                #:breakpoints (breakpoints)
-                                ))))
+                                #:breakpoints (breakpoints)))))
 
 (define font-families
   (make-parameter (list (css #:selector 'font-sans
@@ -478,7 +477,7 @@
                         #:other-declarations `((border-style ,(border-style)))
                         #:direct-size? #t
                         #:multiplier 1
-                                                             #:breakpoints (breakpoints)
+                        #:breakpoints (breakpoints)
                         #:unit "px")))
 
 (define positions
@@ -517,6 +516,8 @@
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define* (hss)
+  (write (make-rule ".text-sm"
+                    (list (make-declaration 'font-size "1rem"))))
   (append reset-css
           (css* #:selector 'text
                 #:sizes default-tshirt-sizes
