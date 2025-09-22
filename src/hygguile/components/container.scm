@@ -31,8 +31,8 @@
          ,main
          ,footer)))
 
-(define* (hr #:key (margin '(my-8))
-             (color '(text-stone-500 dark:text-stone-500)))
+(define* (hr #:key (margin '(my-8 mx-4))
+             (color '(border-stone-300/50 dark:border-stone-500/50)))
   `((hr (@ (class ,(mk-class (append color margin)))))))
 
 (define* (footer content
@@ -55,7 +55,7 @@
               (padding-y '(py-6))
               (padding-x '(px-4))
               (rounding '(rounded-lg))
-              (background '(bg-stone-300/70 dark:bg-stone-900))
+              (background '(bg-stone-300/75 dark:bg-stone-900))
               (items '(items-center))
               (row-classes '(flex flex-row)))
   `((div (@ (class ,(mk-class (append row-classes
@@ -76,7 +76,7 @@
               (padding-y '(py-6))
               (padding-x '(px-4))
               (rounding '(rounded-lg))
-              (background '(bg-stone-300/70 dark:bg-stone-900))
+              (background '(bg-stone-300/75 dark:bg-stone-900))
               (items '(items-center))
               (col-classes '(flex flex-col)))
   `((div (@ (class ,(mk-class (append col-classes

@@ -38,13 +38,13 @@
 (define font-size-multiplier
   (make-parameter 0.24))
 (define margin-multiplier
-  (make-parameter 0.24))
+  (make-parameter 0.28))
 (define padding-multiplier
-  (make-parameter 0.24))
+  (make-parameter 0.28))
 (define gap-multiplier
   (make-parameter 0.24))
 (define rounded-multiplier
-  (make-parameter 0.1))
+  (make-parameter 0.16))
 (define width-multiplier
   (make-parameter 0.24))
 (define height-multiplier
@@ -423,6 +423,7 @@
           (shadows)
           (margins)
           (weights)
+          (text-utilities)
           (flex-utilities)
           (borders)
           (widths)

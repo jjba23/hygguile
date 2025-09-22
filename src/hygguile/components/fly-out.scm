@@ -35,8 +35,8 @@
                                           dark:text-stone-300))
                           (ul-class '(flyout-submenu z-10
                                                      absolute
-                                                     bg-stone-100/70
-                                                     dark:bg-stone-900/70
+                                                     bg-stone-100/75
+                                                     dark:bg-stone-900/75
                                                      rounded-xl
                                                      shadow-md
                                                      my-2

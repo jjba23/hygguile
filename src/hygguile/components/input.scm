@@ -30,8 +30,8 @@
                                  border-stone-300
                                  dark:border-stone-700
                                  dark:text-stone-300
-                                 bg-stone-300/70
-                                 dark:bg-stone-700/70
+                                 bg-stone-300/75
+                                 dark:bg-stone-700/75
                                  border-2
                                  shadow-md))
                 (label-css '(text-sm font-bold text-stone-700
@@ -58,8 +58,8 @@
                                        border-stone-300
                                        dark:border-stone-700
                                        dark:text-stone-300
-                                       dark:bg-stone-700/70
-                                       bg-stone-300/70
+                                       dark:bg-stone-700/75
+                                       bg-stone-300/75
                                        border-2
                                        min-h-72
                                        min-w-90

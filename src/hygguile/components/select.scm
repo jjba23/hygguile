@@ -49,7 +49,7 @@
                  (select-classes '(p-4 border-2
                                        border-stone-300
                                        dark:border-stone-700
-                                       bg-stone-300/70
+                                       bg-stone-300/75
                                        dark:bg-stone-900
                                        text-stone-900
                                        dark:text-stone-300

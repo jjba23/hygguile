@@ -52,8 +52,8 @@
                         (class ,(mk-class '(font-medium text-stone-900
                                                         dark:text-stone-300
                                                         text-md
-                                                        bg-stone-300/70
-                                                        dark:bg-stone-700/70
+                                                        bg-stone-300/75
+                                                        dark:bg-stone-700/75
                                                         rounded-lg
                                                         shadow-md
                                                         text-wrap
@@ -106,7 +106,7 @@
                                              #:content "Book now"
                                              #:weight '(font-light)
                                              #:background '(bg-vinrouge-500)
-                                             #:color '(text-papayawhip)
+                                             #:color '(text-papayawhip-500)
                                              #:hover-background '(hover:bg-cafenoir)
                                              #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'airplane-tilt
@@ -412,13 +412,11 @@
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'cafenoir
                                                      #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'oldlace
+                                     ,(mk-color-show #:color 'floralwhite-500
                                                      #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'floralwhite
+                                     ,(mk-color-show #:color 'cornsilk-500
                                                      #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'cornsilk
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'papayawhip
+                                     ,(mk-color-show #:color 'papayawhip-500
                                                      #:text-class 'text-black)
                                      ,(mk-color-show #:color 'chinarose-500
                                                      #:text-class 'text-white)
@@ -430,7 +428,7 @@
                                                      #:text-class 'text-white))))))
 
 (define (showcase-body)
-  (with-footer #:main `((div (@ (class ,(mk-class '(py-10 px-2 container
+  (with-footer #:main `((div (@ (class ,(mk-class '(py-10 px-4 container
                                                           mx-auto))))
                              (div (@ (class ,(mk-class '(flex flex-col gap-4))))
                                   (a (@ (href "/"))

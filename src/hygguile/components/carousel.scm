@@ -25,8 +25,8 @@
                                              list-none
                                              overflow-x-scroll
                                              snap-x
-                                             bg-stone-300/70
-                                             dark:bg-stone-700/70
+                                             bg-stone-300/75
+                                             dark:bg-stone-700/75
                                              rounded-xl
                                              my-6))
                    (item-width '(w-64))

@@ -29,8 +29,8 @@
                              #:expect "")
                (assert-equal #:name
                 "mk-class list of symbols is converted to sorted space-separated string"
-                #:got (mk-class '(p-2 my-2 bg-stone-900/70 hover:bg-stone-900))
-                #:expect "bg-stone-900/70 hover:bg-stone-900 my-2 p-2")
+                #:got (mk-class '(p-2 my-2 bg-stone-900/75 hover:bg-stone-900))
+                #:expect "bg-stone-900/75 hover:bg-stone-900 my-2 p-2")
 
                (assert-equal #:name
                              "mk-class list of symbols removes duplication"

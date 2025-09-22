@@ -132,10 +132,6 @@
                         "--watch . --"
                         "maak test-build-and-serve")))
 
-(define (hr)
-  "Alias to hot-reloading."
-  (hot-reload))
-
 (define (dev)
   "Developer's setup."
   (hot-reload))

@@ -144,6 +144,36 @@
                     (700 ,(darken vin-rouge-hue 22))
                     (900 ,(darken vin-rouge-hue 42)))))
 
+(define papaya-whip-hue
+  '(255 241 214))
+
+(define papaya-whip
+  (make-parameter `((100 ,(lighten papaya-whip-hue 42))
+                    (300 ,(lighten papaya-whip-hue 22))
+                    (500 ,papaya-whip-hue)
+                    (700 ,(darken papaya-whip-hue 22))
+                    (900 ,(darken papaya-whip-hue 42)))))
+
+(define cornsilk-hue
+  '(251 243 218))
+
+(define cornsilk
+  (make-parameter `((100 ,(lighten cornsilk-hue 42))
+                    (300 ,(lighten cornsilk-hue 22))
+                    (500 ,cornsilk-hue)
+                    (700 ,(darken cornsilk-hue 22))
+                    (900 ,(darken cornsilk-hue 42)))))
+
+(define floral-white-hue
+  '(253 249 237))
+
+(define floral-white
+  (make-parameter `((100 ,(lighten floral-white-hue 42))
+                    (300 ,(lighten floral-white-hue 22))
+                    (500 ,floral-white-hue)
+                    (700 ,(darken floral-white-hue 22))
+                    (900 ,(darken floral-white-hue 42)))))
+
 (define default-palettes
   (make-parameter (list (cons 'orange
                               (orange))
@@ -155,6 +185,12 @@
                               (earth-yellow))
                         (cons 'chinarose
                               (china-rose))
+                        (cons 'floralwhite
+                              (floral-white))
+                        (cons 'cornsilk
+                              (cornsilk))
+                        (cons 'papayawhip
+                              (papaya-whip))
                         (cons 'stone
                               (stone))
                         (cons 'purple
