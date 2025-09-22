@@ -63,12 +63,15 @@
                     (700 ,(darken silver 64))
                     (900 ,(darken silver 104)))))
 
+(define plump
+  '(122 62 114))
+
 (define purple
-  (make-parameter '((100 (245 230 255))
-                    (300 (216 191 216))
-                    (500 (147 112 219))
-                    (700 (148 0 211))
-                    (900 (75 0 130)))))
+  (make-parameter `((100 ,(lighten plump 42))
+                    (300 ,(lighten plump 22))
+                    (500 ,plump)
+                    (700 ,(darken plump 22))
+                    (900 ,(darken plump 42)))))
 
 (define pink
   (make-parameter '((100 (255 228 240))
@@ -91,12 +94,15 @@
                     (700 (204 173 0))
                     (900 (102 76 0)))))
 
+(define asparagus
+  '(103 141 88))
+
 (define green
-  (make-parameter '((100 (240 255 240))
-                    (300 (144 238 144))
-                    (500 (0 255 127))
-                    (700 (0 128 0))
-                    (900 (0 64 0)))))
+  (make-parameter `((100 ,(lighten asparagus 42))
+                    (300 ,(lighten asparagus 22))
+                    (500 ,asparagus)
+                    (700 ,(darken asparagus 22))
+                    (900 ,(darken asparagus 42)))))
 
 (define spiced-terracotta-hue
   '(187 117 70))
@@ -108,7 +114,8 @@
                     (700 ,(darken spiced-terracotta-hue 22))
                     (900 ,(darken spiced-terracotta-hue 42)))))
 
-(define china-rose-hue '(148 76 99))
+(define china-rose-hue
+  '(148 76 99))
 
 (define china-rose
   (make-parameter `((100 ,(lighten china-rose-hue 42))
@@ -117,7 +124,8 @@
                     (700 ,(darken china-rose-hue 22))
                     (900 ,(darken china-rose-hue 42)))))
 
-(define earth-yellow-hue '(247 174 80))
+(define earth-yellow-hue
+  '(247 174 80))
 
 (define earth-yellow
   (make-parameter `((100 ,(lighten earth-yellow-hue 42))
@@ -126,7 +134,8 @@
                     (700 ,(darken earth-yellow-hue 22))
                     (900 ,(darken earth-yellow-hue 42)))))
 
-(define vin-rouge-hue '(141 47 26))
+(define vin-rouge-hue
+  '(141 47 26))
 
 (define vin-rouge
   (make-parameter `((100 ,(lighten vin-rouge-hue 42))
@@ -140,9 +149,12 @@
                               (orange))
                         (cons 'spicedterracotta
                               (spiced-terracotta))
-                        (cons 'vinrouge (vin-rouge))
-                        (cons 'earthyellow (earth-yellow))
-                        (cons 'chinarose (china-rose))
+                        (cons 'vinrouge
+                              (vin-rouge))
+                        (cons 'earthyellow
+                              (earth-yellow))
+                        (cons 'chinarose
+                              (china-rose))
                         (cons 'stone
                               (stone))
                         (cons 'purple

@@ -401,17 +401,7 @@
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'purple-500
                                                      #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'fuchsia-500
-                                                     #:text-class 'text-white)
                                      ,(mk-color-show #:color 'pink-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'rose-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'slate-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'gray-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'zinc-500
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'stone-500
                                                      #:text-class 'text-white))
