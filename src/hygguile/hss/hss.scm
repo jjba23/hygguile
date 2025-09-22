@@ -285,6 +285,12 @@
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
                                (default-palettes))
+                          (list (css #:class 'bg-white
+                                     #:properties '((background white)))
+                                (css #:class 'bg-transparent
+                                     #:properties '((background transparent)))
+                                (css #:class 'bg-black
+                                     #:properties '((background black))))
                           (map (lambda (p)
                                  (css-color* #:class 'text
                                              #:properties '(color)
@@ -293,6 +299,12 @@
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
                                (default-palettes))
+                          (list (css #:class 'text-white
+                                     #:properties '((color white)))
+                                (css #:class 'text-transparent
+                                     #:properties '((color transparent)))
+                                (css #:class 'text-black
+                                     #:properties '((color black))))
                           (map (lambda (p)
                                  (css-color* #:class 'border
                                              #:properties '(border-color)
@@ -300,7 +312,13 @@
                                              #:palette (cdr p)
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
-                               (default-palettes)))))
+                               (default-palettes))
+                          (list (css #:class 'border-white
+                                     #:properties '((border-color white)))
+                                (css #:class 'border-transparent
+                                     #:properties '((border-color transparent)))
+                                (css #:class 'border-black
+                                     #:properties '((border-color black)))))))
 
 (define text-utilities
   (make-parameter (list (css #:class 'italic

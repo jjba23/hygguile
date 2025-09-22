@@ -98,6 +98,7 @@
         (show-notifications-from-url-js)
         (carousel-button-js)
         (remember-dark-theme-js)
+        (color-show-js)
         (fly-out-js)))
 
 (define doctype-html

@@ -46,10 +46,10 @@
                  on-change
                  name
                  id
-                 (select-classes '(p-3 border-2
+                 (select-classes '(p-4 border-2
                                        border-stone-200
                                        dark:border-stone-700
-                                       bg-stone-300/75
+                                       bg-stone-300/70
                                        dark:bg-stone-900
                                        text-stone-800
                                        dark:text-stone-300

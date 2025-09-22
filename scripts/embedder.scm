@@ -64,7 +64,7 @@
 
 ;; files to embed
 (define js-files
-  '(carousel-button copy-pre-inner-text fly-out remember-dark-theme
+  '(carousel-button copy-pre-inner-text color-show fly-out remember-dark-theme
                     toggle-dark-theme))
 
 (define css-files

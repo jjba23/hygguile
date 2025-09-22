@@ -55,7 +55,7 @@
               (padding-y '(py-6))
               (padding-x '(px-4))
               (rounding '(rounded-lg))
-              (background '(bg-stone-200/75 dark:bg-stone-900))
+              (background '(bg-stone-200/70 dark:bg-stone-900))
               (items '(items-center))
               (row-classes '(flex flex-row)))
   `((div (@ (class ,(mk-class (append row-classes
@@ -76,7 +76,7 @@
               (padding-y '(py-6))
               (padding-x '(px-4))
               (rounding '(rounded-lg))
-              (background '(bg-stone-200/75 dark:bg-stone-900))
+              (background '(bg-stone-200/70 dark:bg-stone-900))
               (items '(items-center))
               (col-classes '(flex flex-col)))
   `((div (@ (class ,(mk-class (append col-classes

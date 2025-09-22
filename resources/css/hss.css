@@ -1512,6 +1512,9 @@ ol, ul {list-style:none;}
 .bg-red-700 { background: rgba(178, 34, 34,1) }
 .bg-red-800 { background: rgba(139, 0, 0,1) }
 .bg-red-900 { background: rgba(128, 0, 0,1) }
+.bg-white {background:white;}
+.bg-transparent {background:transparent;}
+.bg-black {background:black;}
 .text-orange-100\/0 { color: rgba(255, 218, 185,0.0) }
 .text-orange-200\/0 { color: rgba(255, 160, 122,0.0) }
 .text-orange-300\/0 { color: rgba(255, 127, 80,0.0) }
@@ -2520,6 +2523,9 @@ ol, ul {list-style:none;}
 .text-red-700 { color: rgba(178, 34, 34,1) }
 .text-red-800 { color: rgba(139, 0, 0,1) }
 .text-red-900 { color: rgba(128, 0, 0,1) }
+.text-white {color:white;}
+.text-transparent {color:transparent;}
+.text-black {color:black;}
 .border-orange-100\/0 { border-color: rgba(255, 218, 185,0.0) }
 .border-orange-200\/0 { border-color: rgba(255, 160, 122,0.0) }
 .border-orange-300\/0 { border-color: rgba(255, 127, 80,0.0) }
@@ -3528,3 +3534,6 @@ ol, ul {list-style:none;}
 .border-red-700 { border-color: rgba(178, 34, 34,1) }
 .border-red-800 { border-color: rgba(139, 0, 0,1) }
 .border-red-900 { border-color: rgba(128, 0, 0,1) }
+.border-white {border-color:white;}
+.border-transparent {border-color:transparent;}
+.border-black {border-color:black;}

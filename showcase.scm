@@ -347,7 +347,8 @@
         (fly-out #:items some-fly-out-items)))
 
 (define* (mk-color-show #:key color text-class)
-  `((div (@ (class ,(mk-class (append (list (string->symbol (format #f "bg-~a"
+  `((div (@ (onclick "cycleColorShow(this)")
+            (class ,(mk-class (append (list (string->symbol (format #f "bg-~a"
                                                                     color)))
                                       '(rounded-2xl shadow-md
                                                     p-4

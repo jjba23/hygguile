@@ -36,7 +36,7 @@
 ;;
 ;; Examples:
 ;; (mk-class '())                       ⇒ ""
-;; (mk-class '(p-2 bg-stone-900/75))    ⇒ "bg-stone-900/75 p-2 "
+;; (mk-class '(p-2 bg-stone-900/70))    ⇒ "bg-stone-900/70 p-2 "
 ;; (mk-class #f)                        ⇒ ""
 ;;
 (define* (mk-class xs)

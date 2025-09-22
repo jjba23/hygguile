@@ -1,4 +1,4 @@
-#+title: hygguile
+#+title: Hygguile HSS (Hyggue Style Sheets)
 #+author: Josep Bigorra
 #+email: jjbigorra@gmail.com
 #+language: en
@@ -9,11 +9,11 @@
 
 /Cozy and professional user-interfaces for everyone/
 
-Hygguile is an opinionated, batteries-included library written in Guile Scheme, that allows you to create cozy web user-interfaces, by defining an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and modern CSS.
+Hygguile and HSS are an opinionated, batteries-included UI framework written in Guile Scheme, that allows you to create cozy web user-interfaces, by defining an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and modern CSS.
 
 The project is made of two main parts:
 
-- ~hss~ is the base CSS library, generated with Scheme, inspired by Tailwind CSS and adopting some of its syntax, making it easy to learn for most developers, and leveraging powerful utility classes. See ~resources/css/hss.css~ .
+- ~hss~ is the base CSS library, generated with Scheme, inspired by Tailwind CSS and adopting a subset of its syntax, making it easy to learn for most developers, and leveraging powerful utility classes. See ~resources/css/hss.css~ . You can use this in any web project, Scheme or not, and it serves as a kind-of drop-in replacement for Tailwind.
 - ~hygguile~ is the component library, which aims to provide reusable, professional-looking and accessible web components, whose names resemble the HTML counterparts, thus easing the learning curve, and reducing the cognitive load.
 
 /hss = hyggue style sheets/
@@ -215,5 +215,3 @@ You can always choose to import hygguile using a prefix to avoid name clashes if
 --------
 
 ** TODO generate CSS documentation like tailwind does, but by analyzing hss.css directly and perform analysis
-
-** TODO make color blocks interactive buttons and let you browse the palette + - from 100 to 900
