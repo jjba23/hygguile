@@ -26,19 +26,19 @@
   (apply format
          (append '(#f) args)))
 
-(define* (generate-sized-declarations #:key properties calculated-value unit
+(define* (generate-sized-declarations #:key declarations calculated-value unit
                                       (rounded-to-integer? #f))
-  "Creates a list of CSS properties from a calculated value."
+  "Creates a list of CSS declarations from a calculated value."
   (map (lambda (p)
          ;; Formats a string like "width: 10.00px;"
          (format #f
                  (if rounded-to-integer? "~a:~d~a;" "~a:~,2f~a;") p
                  (if rounded-to-integer?
                      (round calculated-value) calculated-value) unit))
-       properties))
+       declarations))
 
-(define* (generate-static-declarations #:key properties)
-  "Creates a list of CSS properties from fixed key-value pairs."
+(define* (generate-static-declarations #:key declarations)
+  "Creates a list of CSS declarations from fixed key-value pairs."
   (map (lambda (op)
          ;; Formats a string like "display: block;"
          (format #f "~a:~a;"
@@ -46,58 +46,59 @@
                  (if (list? (cadr op))
                      (format #f "{~a}"
                              (string-join (generate-static-declarations
-                                                                        #:properties
+                                                                        #:declarations
                                                                         (cadr
                                                                          op))
                                           " "))
-                     (cadr op)))) properties))
+                     (cadr op)))) declarations))
 
-(define* (build-selector #:key selector class size direct-size?)
+(define* (build-selector #:key selector-type selector size direct-size?)
   "Constructs the CSS selector, adding a size suffix if needed."
   (if direct-size?
-      (~ "~a~a-~a" selector class size)
-      (~ "~a~a-~a" selector class
+      (~ "~a~a-~a" selector-type selector size)
+      (~ "~a~a-~a" selector-type selector
          (car size))))
 
 (define* (build-rule-for-size #:key size
+                              selector-type
                               selector
-                              class
-                              properties
+                              declarations
                               (rounded-to-integer? #f)
-                              (other-properties '())
+                              (other-declarations '())
                               multiplier
                               unit
                               (direct-size? #f))
   "Builds a complete CSS rule for a single size element."
-  (let* ((sel (build-selector #:selector selector
-                              #:class class
+  (let* ((sel (build-selector #:selector-type selector-type
+                              #:selector selector
                               #:size size
                               #:direct-size? direct-size?))
          (base-value (if direct-size? size
                          (cadr size)))
-         (sized-decs (generate-sized-declarations #:properties properties
+         (sized-decs (generate-sized-declarations #:declarations declarations
                                                   #:calculated-value (*
                                                                       multiplier
                                                                       base-value)
                                                   #:rounded-to-integer?
                                                   rounded-to-integer?
                                                   #:unit unit))
-         (static-decs (generate-static-declarations #:properties
-                                                    other-properties))
+         (static-decs (generate-static-declarations #:declarations
+                                                    other-declarations))
          (declarations-string (string-join (append sized-decs static-decs) " ")))
     
     ;; Format the final CSS rule, e.g., ".item-sm { width: 10.00px; }"
     (~ "~a {~a}" sel declarations-string)))
 
-(define* (css #:key class properties
-              (selector "."))
-  (~ "~a~a {~a}" selector class
-     (string-join (generate-static-declarations #:properties properties) " ")))
+(define* (css #:key selector declarations
+              (selector-type "."))
+  (~ "~a~a {~a}" selector-type selector
+     (string-join (generate-static-declarations #:declarations declarations)
+                  " ")))
 
-(define* (css* #:key (selector ".")
-               class
-               properties
-               (other-properties '())
+(define* (css* #:key (selector-type ".")
+               selector
+               declarations
+               (other-declarations '())
                (direct-size? #f)
                (rounded-to-integer? #f)
                multiplier
@@ -105,11 +106,11 @@
                sizes)
   (map (lambda (size)
          (build-rule-for-size #:size size
+                              #:selector-type selector-type
                               #:selector selector
-                              #:class class
-                              #:properties properties
+                              #:declarations declarations
                               #:rounded-to-integer? rounded-to-integer?
-                              #:other-properties other-properties
+                              #:other-declarations other-declarations
                               #:multiplier multiplier
                               #:unit unit
                               #:direct-size? direct-size?)) sizes))
@@ -123,9 +124,9 @@
 (define* (mk-color #:key alpha-weight
                    palette
                    namespace
-                   properties
+                   declarations
+                   selector-type
                    selector
-                   class
                    name)
   (let* ((weight-name (caadr alpha-weight))
          (alpha-name (if (equal? ""
@@ -144,18 +145,18 @@
                              (cadar alpha-weight)) ""))
          (props (string-join (map (lambda (p)
                                     (~ "~a: ~a(~a~a)" p namespace tri-channel
-                                       color-alpha)) properties) " ")))
+                                       color-alpha)) declarations) " ")))
     (~ "~a~a-~a-~a~a { ~a }"
+       selector-type
        selector
-       class
        name
        weight-name
        alpha-name
        props)))
 
-(define* (css-color* #:key (selector ".")
-                     class
-                     properties
+(define* (css-color* #:key (selector-type ".")
+                     selector
+                     declarations
                      name
                      palette
                      (alphas '())
@@ -169,9 +170,9 @@
            (mk-color #:alpha-weight alpha-weight
                      #:palette palette
                      #:namespace namespace
-                     #:properties properties
+                     #:declarations declarations
+                     #:selector-type selector-type
                      #:selector selector
-                     #:class class
                      #:name name)) alphas-and-weights)))
 
 (define* (display-css xs)

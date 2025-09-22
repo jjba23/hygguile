@@ -62,138 +62,139 @@
                                " ")))
 
 (define paddings
-  (make-parameter (append (css* #:class 'p
+  (make-parameter (append (css* #:selector 'p
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(padding)
+                                #:declarations '(padding)
                                 #:multiplier (padding-multiplier))
-                          (css* #:class 'px
+                          (css* #:selector 'px
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(padding-left padding-right)
+                                #:declarations '(padding-left padding-right)
                                 #:multiplier (padding-multiplier))
-                          (css* #:class 'py
+                          (css* #:selector 'py
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(padding-top padding-bottom)
+                                #:declarations '(padding-top padding-bottom)
                                 #:multiplier (padding-multiplier))
-                          (css* #:class 'pt
+                          (css* #:selector 'pt
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(padding-top)
+                                #:declarations '(padding-top)
                                 #:multiplier (padding-multiplier))
-                          (css* #:class 'pb
+                          (css* #:selector 'pb
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(padding-bottom)
+                                #:declarations '(padding-bottom)
                                 #:multiplier (padding-multiplier))
-                          (css* #:class 'pl
+                          (css* #:selector 'pl
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(padding-left)
+                                #:declarations '(padding-left)
                                 #:multiplier (padding-multiplier))
-                          (css* #:class 'pr
+                          (css* #:selector 'pr
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(padding-right)
+                                #:declarations '(padding-right)
                                 #:multiplier (padding-multiplier)))))
 
 (define margins
-  (make-parameter (append (css* #:class 'm
+  (make-parameter (append (css* #:selector 'm
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(margin)
+                                #:declarations '(margin)
                                 #:multiplier (margin-multiplier))
-                          (css* #:class 'mx
+                          (css* #:selector 'mx
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(margin-left margin-right)
+                                #:declarations '(margin-left margin-right)
                                 #:multiplier (margin-multiplier))
-                          (css* #:class 'ml
+                          (css* #:selector 'ml
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(margin-left)
+                                #:declarations '(margin-left)
                                 #:multiplier (margin-multiplier))
-                          (css* #:class 'mr
+                          (css* #:selector 'mr
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(margin-right)
+                                #:declarations '(margin-right)
                                 #:multiplier (margin-multiplier))
-                          (css* #:class 'my
+                          (css* #:selector 'my
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(margin-top margin-bottom)
+                                #:declarations '(margin-top margin-bottom)
                                 #:multiplier (margin-multiplier))
-                          (css* #:class 'mt
+                          (css* #:selector 'mt
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(margin-top)
+                                #:declarations '(margin-top)
                                 #:multiplier (margin-multiplier))
-                          (css* #:class 'mb
+                          (css* #:selector 'mb
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(margin-bottom)
+                                #:declarations '(margin-bottom)
                                 #:multiplier (margin-multiplier)))))
 
 (define weights
-  (make-parameter (append (css* #:class 'font
+  (make-parameter (append (css* #:selector 'font
                                 #:sizes default-weights
-                                #:properties '(font-weight)
+                                #:declarations '(font-weight)
                                 #:rounded-to-integer? #t
                                 #:multiplier (weight-multiplier)
                                 #:unit ""))))
 
 (define widths
-  (make-parameter (append (list (css #:class 'min-w-screen
-                                     #:properties '((min-width "1vw"))))
-                          (css* #:class 'w
+  (make-parameter (append (list (css #:selector 'min-w-screen
+                                     #:declarations '((min-width "1vw"))))
+                          (css* #:selector 'w
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(width)
+                                #:declarations '(width)
                                 #:multiplier (width-multiplier))
-                          (css* #:class 'min-w
+                          (css* #:selector 'min-w
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(min-width)
+                                #:declarations '(min-width)
                                 #:multiplier (width-multiplier))
-                          (css* #:class 'max-w
+                          (css* #:selector 'max-w
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(max-width)
+                                #:declarations '(max-width)
                                 #:multiplier (width-multiplier)))))
 
 (define heights
-  (make-parameter (append (list (css #:class 'min-h-screen
-                                     #:properties '((min-height "1vh"))))
-                          (css* #:class 'h
+  (make-parameter (append (list (css #:selector 'min-h-screen
+                                     #:declarations '((min-height "1vh"))))
+                          (css* #:selector 'h
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(height)
+                                #:declarations '(height)
                                 #:multiplier (height-multiplier))
-                          (css* #:class 'min-h
+                          (css* #:selector 'min-h
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(min-height)
+                                #:declarations '(min-height)
                                 #:multiplier (height-multiplier))
-                          (css* #:class 'max-h
+                          (css* #:selector 'max-h
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(max-height)
+                                #:declarations '(max-height)
                                 #:multiplier (height-multiplier)))))
 
 (define font-families
-  (make-parameter (list (css #:class 'font-sans
-                             #:properties `((font-family ,(sans-font-family))))
-                        (css #:class 'font-mono
-                             #:properties `((font-family ,(mono-font-family))))
-                        (css #:class 'font-serif
-                             #:properties `((font-family ,(serif-font-family)))))))
+  (make-parameter (list (css #:selector 'font-sans
+                             #:declarations `((font-family ,(sans-font-family))))
+                        (css #:selector 'font-mono
+                             #:declarations `((font-family ,(mono-font-family))))
+                        (css #:selector 'font-serif
+                             #:declarations `((font-family ,(serif-font-family)))))))
 
 (define flex-justifies
   (make-parameter (map (lambda (x)
-                         (css #:class (string->symbol (format #f "justify-~a"
-                                                              (car x)))
-                              #:properties `((justify-content ,(cadr x)))))
+                         (css #:selector (string->symbol (format #f
+                                                                 "justify-~a"
+                                                                 (car x)))
+                              #:declarations `((justify-content ,(cadr x)))))
                        '((start flex-start)
                          (end flex-end)
                          (end-safe "safe flex-end")
@@ -211,9 +212,9 @@
 
 (define scroll-snap-types
   (make-parameter (map (lambda (x)
-                         (css #:class (string->symbol (format #f "snap-~a"
-                                                              (car x)))
-                              #:properties `((scroll-snap-type ,(cadr x)))))
+                         (css #:selector (string->symbol (format #f "snap-~a"
+                                                                 (car x)))
+                              #:declarations `((scroll-snap-type ,(cadr x)))))
                        `((none none)
                          (x ,(format #f "x ~a"
                                      (scroll-snap-type)))
@@ -242,30 +243,30 @@
 ;; --tw-scroll-snap-strictness: proximity;
 
 (define flex-utilities
-  (make-parameter (append (css* #:class 'gap
+  (make-parameter (append (css* #:selector 'gap
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
-                                #:properties '(gap)
+                                #:declarations '(gap)
                                 #:multiplier (gap-multiplier))
-                          (list (css #:class 'flex
-                                     #:properties '((display flex)))
-                                (css #:class 'flex-col
-                                     #:properties '((flex-direction column)))
-                                (css #:class 'flex-row
-                                     #:properties '((flex-direction row)))
-                                (css #:class 'flex-wrap
-                                     #:properties '((flex-wrap wrap)))
-                                (css #:class 'flex-nowrap
-                                     #:properties '((flex-wrap nowrap)))
-                                (css #:class 'items-center
-                                     #:properties '((align-items center)))))))
+                          (list (css #:selector 'flex
+                                     #:declarations '((display flex)))
+                                (css #:selector 'flex-col
+                                     #:declarations '((flex-direction column)))
+                                (css #:selector 'flex-row
+                                     #:declarations '((flex-direction row)))
+                                (css #:selector 'flex-wrap
+                                     #:declarations '((flex-wrap wrap)))
+                                (css #:selector 'flex-nowrap
+                                     #:declarations '((flex-wrap nowrap)))
+                                (css #:selector 'items-center
+                                     #:declarations '((align-items center)))))))
 
 (define z-index
-  (make-parameter (css* #:class 'z
+  (make-parameter (css* #:selector 'z
                         #:sizes default-numeric-sizes
                         #:direct-size? #t
                         #:rounded-to-integer? #t
-                        #:properties '(z-index)
+                        #:declarations '(z-index)
                         #:multiplier 1
                         #:unit "")))
 
@@ -278,109 +279,111 @@
 
 (define colors
   (make-parameter (append (map (lambda (p)
-                                 (css-color* #:class 'bg
-                                             #:properties '(background)
+                                 (css-color* #:selector 'bg
+                                             #:declarations '(background)
                                              #:name (car p)
                                              #:palette (cdr p)
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
                                (default-palettes))
-                          (list (css #:class 'bg-white
-                                     #:properties '((background white)))
-                                (css #:class 'bg-transparent
-                                     #:properties '((background transparent)))
-                                (css #:class 'bg-black
-                                     #:properties '((background black))))
+                          (list (css #:selector 'bg-white
+                                     #:declarations '((background white)))
+                                (css #:selector 'bg-transparent
+                                     #:declarations '((background transparent)))
+                                (css #:selector 'bg-black
+                                     #:declarations '((background black))))
                           (map (lambda (p)
-                                 (css-color* #:class 'text
-                                             #:properties '(color)
+                                 (css-color* #:selector 'text
+                                             #:declarations '(color)
                                              #:name (car p)
                                              #:palette (cdr p)
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
                                (default-palettes))
-                          (list (css #:class 'text-white
-                                     #:properties '((color white)))
-                                (css #:class 'text-transparent
-                                     #:properties '((color transparent)))
-                                (css #:class 'text-black
-                                     #:properties '((color black))))
+                          (list (css #:selector 'text-white
+                                     #:declarations '((color white)))
+                                (css #:selector 'text-transparent
+                                     #:declarations '((color transparent)))
+                                (css #:selector 'text-black
+                                     #:declarations '((color black))))
                           (map (lambda (p)
-                                 (css-color* #:class 'border
-                                             #:properties '(border-color)
+                                 (css-color* #:selector 'border
+                                             #:declarations '(border-color)
                                              #:name (car p)
                                              #:palette (cdr p)
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
                                (default-palettes))
-                          (list (css #:class 'border-white
-                                     #:properties '((border-color white)))
-                                (css #:class 'border-transparent
-                                     #:properties '((border-color transparent)))
-                                (css #:class 'border-black
-                                     #:properties '((border-color black)))))))
+                          (list (css #:selector 'border-white
+                                     #:declarations '((border-color white)))
+                                (css #:selector 'border-transparent
+                                     #:declarations '((border-color
+                                                       transparent)))
+                                (css #:selector 'border-black
+                                     #:declarations '((border-color black)))))))
 
 (define text-utilities
-  (make-parameter (list (css #:class 'italic
-                             #:properties `((font-style italic)))
-                        (css #:class 'text-center
-                             #:properties '((text-align center))))))
+  (make-parameter (list (css #:selector 'italic
+                             #:declarations `((font-style italic)))
+                        (css #:selector 'text-center
+                             #:declarations '((text-align center))))))
 
 (define display-utilities
-  (make-parameter (list (css #:class 'hidden
-                             #:properties `((display none)))
-                        (css #:class 'overflow-x-scroll
-                             #:properties '((overflow-x scroll)))
-                        (css #:class 'cursor-pointer
-                             #:properties `((cursor pointer))))))
+  (make-parameter (list (css #:selector 'hidden
+                             #:declarations `((display none)))
+                        (css #:selector 'overflow-x-scroll
+                             #:declarations '((overflow-x scroll)))
+                        (css #:selector 'cursor-pointer
+                             #:declarations `((cursor pointer))))))
 
 (define roundings
-  (make-parameter (css* #:class 'rounded
+  (make-parameter (css* #:selector 'rounded
                         #:sizes default-tshirt-sizes
-                        #:properties '(border-radius)
+                        #:declarations '(border-radius)
                         #:multiplier (rounded-multiplier))))
 
 (define border-style
   (make-parameter 'solid))
 
 (define borders
-  (make-parameter (css* #:class 'border
+  (make-parameter (css* #:selector 'border
                         #:sizes default-numeric-sizes
-                        #:properties '(border-width)
-                        #:other-properties `((border-style ,(border-style)))
+                        #:declarations '(border-width)
+                        #:other-declarations `((border-style ,(border-style)))
                         #:direct-size? #t
                         #:multiplier 1
                         #:unit "px")))
 
 (define positions
   (make-parameter (map (lambda (x)
-                         (css #:class (string->symbol (format #f "position-~a"
-                                                              (car x)))
-                              #:properties `((position ,(cadr x)))))
+                         (css #:selector (string->symbol (format #f
+                                                          "position-~a"
+                                                          (car x)))
+                              #:declarations `((position ,(cadr x)))))
                        '((absolute absolute)
                          (relative relative)))))
 
 (define fade-in-page-transition
-  (make-parameter (list (css #:class "@view-transition"
-                             #:selector ""
-                             #:properties '((navigation auto)))
-                        (css #:class (string-join '("::view-transition-old(root)"
-                                                    "::view-transition-new(root)")
-                                                  ", ")
-                             #:selector ""
-                             #:properties '((animation "fade 0.1s ease both")))
-                        (css #:class "@keyframes fade"
-                             #:selector ""
-                             #:properties '((from ((opacity 0.2)))
-                                            (to ((opacity 1))))))))
+  (make-parameter (list (css #:selector "@view-transition"
+                             #:selector-type ""
+                             #:declarations '((navigation auto)))
+                        (css #:selector (string-join '("::view-transition-old(root)"
+                                                       "::view-transition-new(root)")
+                                                     ", ")
+                             #:selector-type ""
+                             #:declarations '((animation "fade 0.1s ease both")))
+                        (css #:selector "@keyframes fade"
+                             #:selector-type ""
+                             #:declarations '((from ((opacity 0.2)))
+                                              (to ((opacity 1))))))))
 
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define* (hss)
   (append reset-css
-          (css* #:class 'text
+          (css* #:selector 'text
                 #:sizes default-tshirt-sizes
-                #:properties '(font-size)
+                #:declarations '(font-size)
                 #:multiplier (font-size-multiplier))
           (positions)
           (flex-justifies)

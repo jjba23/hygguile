@@ -105,53 +105,52 @@
          video))
 
 (define reset-css
-  (list (css #:class (string-join (map symbol->string big-html-reset-list)
-                                  ", ")
-             #:properties '((margin 0)
-                            (padding 0)
-                            (border 0)
-                            (font-size "100%")
-                            (font inherit)
-                            (vertical-align baseline))
-             #:selector "")
-        (css #:class (string-join (map symbol->string
-                                       '(article aside
-                                                 details
-                                                 figcaption
-                                                 figure
-                                                 footer
-                                                 header
-                                                 hgroup
-                                                 menu
-                                                 nav
-                                                 section)) ", ")
-             #:properties '((display block))
-             #:selector "")
-        (css #:class 'button
-             #:properties '((background transparent)
-                            (border none))
-             #:selector "")
-        (css #:class 'body
-             #:properties '((line-height 1))
-             #:selector "")
-        (css #:class (string-join (map symbol->string
-                                       '(blockquote q)) ", ")
-             #:properties '((quotes none))
-             #:selector "")
-        (css #:class 'table
-             #:properties '((border-collapse collapse)
-                            (border-spacing 0))
-             #:selector "")
-        (css #:class (string-join (map symbol->string
-                                       '(blockquote:before blockquote:after
+  (list (css #:selector (string-join (map symbol->string big-html-reset-list)
+                                     ", ")
+             #:declarations '((margin 0)
+                              (padding 0)
+                              (border 0)
+                              (font-size "100%")
+                              (font inherit)
+                              (vertical-align baseline))
+             #:selector-type "")
+        (css #:selector (string-join (map symbol->string
+                                          '(article aside
+                                                    details
+                                                    figcaption
+                                                    figure
+                                                    footer
+                                                    header
+                                                    hgroup
+                                                    menu
+                                                    nav
+                                                    section)) ", ")
+             #:declarations '((display block))
+             #:selector-type "")
+        (css #:selector 'button
+             #:declarations '((background transparent)
+                              (border none))
+             #:selector-type "")
+        (css #:selector 'body
+             #:declarations '((line-height 1))
+             #:selector-type "")
+        (css #:selector (string-join (map symbol->string
+                                          '(blockquote q)) ", ")
+             #:declarations '((quotes none))
+             #:selector-type "")
+        (css #:selector 'table
+             #:declarations '((border-collapse collapse)
+                              (border-spacing 0))
+             #:selector-type "")
+        (css #:selector (string-join (map symbol->string
+                                          '(blockquote:before blockquote:after
 
-                                                           q:before q:after))
-                                  ", ")
-             #:properties '((content "''")
-                            (content none))
-             #:selector "")
-        (css #:class (string-join (map symbol->string
-                                       '(ol ul)) ", ")
-             #:properties '((list-style none))
-             #:selector "")))
+                                            q:before q:after)) ", ")
+             #:declarations '((content "''")
+                              (content none))
+             #:selector-type "")
+        (css #:selector (string-join (map symbol->string
+                                          '(ol ul)) ", ")
+             #:declarations '((list-style none))
+             #:selector-type "")))
 
