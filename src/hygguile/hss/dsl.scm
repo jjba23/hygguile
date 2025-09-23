@@ -138,7 +138,12 @@
               #:key (conversion identity)
               (multiplier 1))
   (list (car s)
-        (conversion (* (cadr s) multiplier))))
+        (conversion (cond
+                      ((number? (cadr s))
+                       (* (cadr s) multiplier))
+                      ((string? (cadr s))
+                       (cadr s))
+                      (else (cadr s))))))
 
 (define (to-rem x)
   (format #f "~,2frem" x))

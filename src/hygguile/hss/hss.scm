@@ -36,7 +36,7 @@
                                  hss))
 
 (define font-size-multiplier
-  (make-parameter 0.24))
+  (make-parameter 0.25))
 (define margin-multiplier
   (make-parameter 0.28))
 (define padding-multiplier
@@ -168,11 +168,13 @@
                          (rulv (string-append "."
                                               (format #f "~a" d) "-" "~a")
                                #:property d
-                               #:variants (map (lambda (s)
-                                                 (siz s
-                                                      #:conversion to-rem
-                                                      #:multiplier (absolute-positions-multiplier)))
-                                               default-numeric-sizes)))
+                               #:variants (append (map (lambda (s)
+                                                         (siz s
+                                                              #:conversion
+                                                              to-rem
+                                                              #:multiplier (absolute-positions-multiplier)))
+                                                       default-numeric-sizes)
+                                                  (map siz default-fractions))))
                        '(top bottom left right)))
 
   )
@@ -342,33 +344,17 @@
                                   #:variants (list-combinations default-alphas
                                               default-color-weights)
                                   #:palettes (default-palettes))
+                          (rulcol ".text-~a-~a~a"
+                                  #:property 'color
+                                  #:variants (list-combinations default-alphas
+                                              default-color-weights)
+                                  #:palettes (default-palettes))
+                          (rulcol ".border-~a-~a~a"
+                                  #:property 'border-color
+                                  #:variants (list-combinations default-alphas
+                                              default-color-weights)
+                                  #:palettes (default-palettes))
 
-                          ;; (map (lambda (p)
-                          ;; (css-color* #:selector 'bg
-                          ;; #:declarations '(background)
-                          ;; #:name (car p)
-                          ;; #:palette (cdr p)
-                          ;; #:alphas default-alphas
-                          ;; #:weights default-color-weights))
-                          ;; (default-palettes))
-                          
-                          ;; (map (lambda (p)
-                          ;; (css-color* #:selector 'text
-                          ;; #:declarations '(color)
-                          ;; #:name (car p)
-                          ;; #:palette (cdr p)
-                          ;; #:alphas default-alphas
-                          ;; #:weights default-color-weights))
-                          ;; (default-palettes))
-                          
-                          ;; (map (lambda (p)
-                          ;; (css-color* #:selector 'border
-                          ;; #:declarations '(border-color)
-                          ;; #:name (car p)
-                          ;; #:palette (cdr p)
-                          ;; #:alphas default-alphas
-                          ;; #:weights default-color-weights))
-                          ;; (default-palettes))
                           )))
 
 (define text-utilities
@@ -389,7 +375,7 @@
 (define display-utilities
   (make-parameter (list (rul ".hidden"
                              (dec 'display
-                                  'none))
+                                  "none !important"))
                         (rul ".overflow-x-scroll"
                              (dec 'overflow-x
                                   'scroll))

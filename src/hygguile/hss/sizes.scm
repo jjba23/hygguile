@@ -20,7 +20,8 @@
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:export (default-tshirt-sizes default-numeric-sizes default-weights
-                                 default-alphas default-color-weights))
+                                 default-alphas default-color-weights
+                                 default-fractions))
 
 (define default-tshirt-sizes
   `(("2xs" 1)
@@ -63,6 +64,18 @@
     (medium 500)
     (bold 700)
     (black 900)))
+
+(define default-fractions
+  '(("2\\/3" "66.6%")
+    ("1\\/2" "50%")
+    ("1\\/3" "33.3%")
+    ("1\\/4" "25%")
+    ("1\\/5" "20%")
+    ("1\\/6" "16.6%")
+    ("1\\/8" "12.5%")
+    ))
+
+
 
 (define default-color-weights
   '((100 100)

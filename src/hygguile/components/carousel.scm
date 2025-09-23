@@ -40,7 +40,7 @@
                                                      text-xl
                                                      font-bold))
                    (carousel-list-wrapper-css '(relative))
-                   (carousel-button-css '(absolute bottom-64
+                   (carousel-button-css '(absolute bottom-1/2
                                                    w-18
                                                    h-18
                                                    bg-stone-500/25
