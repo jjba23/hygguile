@@ -490,18 +490,17 @@
                          (relative relative)))))
 
 (define fade-in-page-transition
-  (make-parameter (list (css #:selector "@view-transition"
-                             #:selector-type ""
-                             #:declarations '((navigation auto)))
-                        (css #:selector (string-join '("::view-transition-old(root)"
-                                                       "::view-transition-new(root)")
-                                                     ", ")
-                             #:selector-type ""
-                             #:declarations '((animation "fade 0.1s ease both")))
-                        (css #:selector "@keyframes fade"
-                             #:selector-type ""
-                             #:declarations '((from ((opacity 0.2)))
-                                              (to ((opacity 1))))))))
+  (make-parameter (list (r= "@view-transition"
+                            (d= 'navigation
+                                'auto))
+                        (r= (string-join '("::view-transition-old(root)"
+                                           "::view-transition-new(root)") ", ")
+                            (d= 'animation "fade 0.1s ease both"))
+                        (r= "@keyframes fade"
+                            (list (r= 'from
+                                      (d= 'opacity 0.2))
+                                  (r= 'to
+                                      (d= 'opacity 1)))))))
 
 (define active-scale
   (make-parameter (list (r= "active\\:scale-95"
@@ -520,6 +519,7 @@
   (append (reset-css)
           (shrinks)
           (active-scale)
+          (fade-in-page-transition)
           (list (r= ".flex"
                     (list (d= 'display
                               'flex)))))

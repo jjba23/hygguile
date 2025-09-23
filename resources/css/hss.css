@@ -9,4 +9,12 @@ ol, ul {list-style:none;}
 shrink {flex-shrink:1;}
 shrink-0 {flex-shrink:0;}
 active\:scale-95 {&:active {scale:95% 95%;}}
+@view-transition {navigation:auto;}
+::view-transition-old(root), ::view-transition-new(root) {animation:fade 0.1s ease both;}
+@keyframes fade {
+    from {
+        opacity:0.2;
+    }
+    to {opacity:1;}
+}
 .flex {display:flex;}
