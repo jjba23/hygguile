@@ -85,186 +85,173 @@
 
 ;; ========================================================================
 
-(define paddings
-  (make-parameter (append (css* #:selector 'p
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(padding)
-                                #:multiplier (padding-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'px
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(padding-left padding-right)
-                                #:multiplier (padding-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'py
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(padding-top padding-bottom)
-                                #:multiplier (padding-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'pt
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(padding-top)
-                                #:multiplier (padding-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'pb
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(padding-bottom)
-                                #:multiplier (padding-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'pl
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(padding-left)
-                                #:multiplier (padding-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'pr
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(padding-right)
-                                #:multiplier (padding-multiplier)
-                                #:breakpoints (breakpoints)))))
+;; (define paddings
+;;   (make-parameter (append (css* #:selector 'p
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(padding)
+;;                                 #:multiplier (padding-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'px
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(padding-left padding-right)
+;;                                 #:multiplier (padding-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'py
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(padding-top padding-bottom)
+;;                                 #:multiplier (padding-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'pt
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(padding-top)
+;;                                 #:multiplier (padding-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'pb
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(padding-bottom)
+;;                                 #:multiplier (padding-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'pl
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(padding-left)
+;;                                 #:multiplier (padding-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'pr
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(padding-right)
+;;                                 #:multiplier (padding-multiplier)
+;;                                 #:breakpoints (breakpoints)))))
 
-(define margins
-  (make-parameter (append (css* #:selector 'm
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(margin)
-                                #:multiplier (margin-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'mx
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(margin-left margin-right)
-                                #:multiplier (margin-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'ml
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(margin-left)
-                                #:multiplier (margin-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'mr
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(margin-right)
-                                #:multiplier (margin-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'my
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(margin-top margin-bottom)
-                                #:multiplier (margin-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'mt
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(margin-top)
-                                #:multiplier (margin-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'mb
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(margin-bottom)
-                                #:multiplier (margin-multiplier)
-                                #:breakpoints (breakpoints)))))
+;; (define margins
+;;   (make-parameter (append (css* #:selector 'm
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(margin)
+;;                                 #:multiplier (margin-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'mx
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(margin-left margin-right)
+;;                                 #:multiplier (margin-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'ml
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(margin-left)
+;;                                 #:multiplier (margin-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'mr
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(margin-right)
+;;                                 #:multiplier (margin-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'my
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(margin-top margin-bottom)
+;;                                 #:multiplier (margin-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'mt
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(margin-top)
+;;                                 #:multiplier (margin-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'mb
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(margin-bottom)
+;;                                 #:multiplier (margin-multiplier)
+;;                                 #:breakpoints (breakpoints)))))
 
 (define weights
-  (make-parameter (append (css* #:selector 'font
-                                #:sizes default-weights
-                                #:declarations '(font-weight)
-                                #:rounded-to-integer? #t
-                                #:multiplier (weight-multiplier)
-                                #:unit ""
-                                #:breakpoints (breakpoints)))))
+  (make-parameter (rule-variants #:selector ".font-~a"
+                                 #:property 'font-weight
+                                 #:variants default-weights)))
 
-(define widths
-  (make-parameter (append (list (rul ".min-w-screen"
-                                     (dec 'min-width "1vw"))
-                                (rul ".max-w-screen"
-                                     (dec 'max-width "1vw"))
-                                (rul ".min-w-prose"
-                                     (dec 'min-width
-                                          (prose-size)))
-                                (rul ".max-w-prose"
-                                     (dec 'max-width
-                                          (prose-size))))
-                          (css* #:selector 'w
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(width)
-                                #:multiplier (width-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'min-w
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(min-width)
-                                #:multiplier (width-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'max-w
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(max-width)
-                                #:multiplier (width-multiplier)
-                                #:breakpoints (breakpoints)))))
+;; (define widths
+;;   (make-parameter (append (list (rul ".min-w-screen"
+;;                                      (dec 'min-width "1vw"))
+;;                                 (rul ".max-w-screen"
+;;                                      (dec 'max-width "1vw"))
+;;                                 (rul ".min-w-prose"
+;;                                      (dec 'min-width
+;;                                           (prose-size)))
+;;                                 (rul ".max-w-prose"
+;;                                      (dec 'max-width
+;;                                           (prose-size))))
+;;                           (css* #:selector 'w
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(width)
+;;                                 #:multiplier (width-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'min-w
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(min-width)
+;;                                 #:multiplier (width-multiplier)
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'max-w
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(max-width)
+;;                                 #:multiplier (width-multiplier)
+;;                                 #:breakpoints (breakpoints)))))
 
-(define absolute-positions
-  (make-parameter (append (css* #:selector 'top
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(top)
-                                #:multiplier 1
-                                #:unit "px"
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'bottom
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(bottom)
-                                #:multiplier 1
-                                #:unit "px"
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'left
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(left)
-                                #:multiplier 1
-                                #:unit "px"
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'right
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(right)
-                                #:multiplier 1
-                                #:unit "px"
-                                #:breakpoints (breakpoints)))))
+;; (define absolute-positions
+;;   (make-parameter (append (css* #:selector 'top
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(top)
+;;                                 #:multiplier 1
+;;                                 #:unit "px"
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'bottom
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(bottom)
+;;                                 #:multiplier 1
+;;                                 #:unit "px"
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'left
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(left)
+;;                                 #:multiplier 1
+;;                                 #:unit "px"
+;;                                 #:breakpoints (breakpoints))
+;;                           (css* #:selector 'right
+;;                                 #:sizes default-numeric-sizes
+;;                                 #:direct-size? #t
+;;                                 #:declarations '(right)
+;;                                 #:multiplier 1
+;;                                 #:unit "px"
+;;                                 #:breakpoints (breakpoints)))))
 
 (define heights
   (make-parameter (append (list (rul ".min-h-screen"
                                      (dec 'min-height "1vh"))
                                 (rul ".max-h-screen"
                                      (dec 'max-height "1vh")))
-                          (css* #:selector 'h
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(height)
-                                #:multiplier (height-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'min-h
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(min-height)
-                                #:multiplier (height-multiplier)
-                                #:breakpoints (breakpoints))
-                          (css* #:selector 'max-h
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(max-height)
-                                #:multiplier (height-multiplier)
-                                #:breakpoints (breakpoints)))))
+                          (rule-variants #:selector ".h-~a"
+                                         #:property 'height
+                                         #:variants default-rem-sizes)
+                          (rule-variants #:selector ".min-h-~a"
+                                         #:property 'min-height
+                                         #:variants default-rem-sizes)
+                          (rule-variants #:selector ".max-h-~a"
+                                         #:property 'max-height
+                                         #:variants default-rem-sizes))))
 
 (define font-families
   (make-parameter (list (rul ".font-sans"
@@ -279,105 +266,106 @@
 
 (define flex-justifies
   (make-parameter (rule-variants #:selector ".justify-~a"
-                                #:property 'justify-content
-                                #:variants '((start flex-start)
-                                             (end flex-end)
-                                             (end-safe "safe flex-end")
-                                             (center center)
-                                             (center-safe "safe center")
-                                             (between space-between)
-                                             (around space-around)
-                                             (evenly space-evenly)
-                                             (stretch stretch)
-                                             (baseline baseline)
-                                             (normal normal)))))
+                                 #:property 'justify-content
+                                 #:variants '((start flex-start)
+                                              (end flex-end)
+                                              (end-safe "safe flex-end")
+                                              (center center)
+                                              (center-safe "safe center")
+                                              (between space-between)
+                                              (around space-around)
+                                              (evenly space-evenly)
+                                              (stretch stretch)
+                                              (baseline baseline)
+                                              (normal normal)))))
 
 (define flex-aligns
   (make-parameter (rule-variants #:selector ".items-~a"
-                                #:property 'align-items
-                                #:variants '((start flex-start)
-                                             (end flex-end)
-                                             (end-safe "safe flex-end")
-                                             (center center)
-                                             (center-safe "safe center")
-                                             (baseline baseline)
-                                             (baseline-last "last baseline")
-                                             (stretch stretch)))))
+                                 #:property 'align-items
+                                 #:variants '((start flex-start)
+                                              (end flex-end)
+                                              (end-safe "safe flex-end")
+                                              (center center)
+                                              (center-safe "safe center")
+                                              (baseline baseline)
+                                              (baseline-last "last baseline")
+                                              (stretch stretch)))))
 
 (define shadows
   (make-parameter (rule-variants #:selector ".shadow-~a"
-                                #:property 'box-shadow
-                                #:variants '((2xs "0 1px rgb(0 0 0 / 0.05)")
-                                             (xs
-                                              "0 1px 2px 0 rgb(0 0 0 / 0.05)")
-                                             (sm
-                                              "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)")
-                                             (md
-                                              "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)")
-                                             (lg
-                                              "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)")
-                                             (xl
-                                              "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)")
-                                             (2xl
-                                              "0 25px 50px -12px rgb(0 0 0 / 0.25)")
-                                             (none "0 0 #0000")))))
+                                 #:property 'box-shadow
+                                 #:variants '((2xs "0 1px rgb(0 0 0 / 0.05)")
+                                              (xs
+                                               "0 1px 2px 0 rgb(0 0 0 / 0.05)")
+                                              (sm
+                                               "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)")
+                                              (md
+                                               "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)")
+                                              (lg
+                                               "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)")
+                                              (xl
+                                               "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)")
+                                              (2xl
+                                               "0 25px 50px -12px rgb(0 0 0 / 0.25)")
+                                              (none "0 0 #0000")))))
 
 (define scroll-snap-type
   (make-parameter "proximity"))
 
 (define scroll-snap-types
   (make-parameter (rule-variants #:selector ".snap-~a"
-                                #:property 'scroll-snap-type
-                                #:variants `((none none)
-                                             (x ,(format #f "x ~a"
-                                                         (scroll-snap-type)))
-                                             (y ,(format #f "y ~a"
-                                                         (scroll-snap-type)))
-                                             (both ,(format #f "both ~a"
-                                                            (scroll-snap-type)))))))
+                                 #:property 'scroll-snap-type
+                                 #:variants `((none none)
+                                              (x ,(format #f "x ~a"
+                                                          (scroll-snap-type)))
+                                              (y ,(format #f "y ~a"
+                                                          (scroll-snap-type)))
+                                              (both ,(format #f "both ~a"
+                                                             (scroll-snap-type)))))))
 
 (define scroll-snap-aligns
   (make-parameter (rule-variants #:selector ".snap-~a"
-                                #:property 'scroll-snap-align
-                                #:variants '((start start)
-                                             (end end)
-                                             (center center)
-                                             (none none)))))
+                                 #:property 'scroll-snap-align
+                                 #:variants '((start start)
+                                              (end end)
+                                              (center center)
+                                              (none none)))))
 
 (define flex-directions
   (make-parameter (rule-variants #:selector ".flex-~a"
-                                #:property 'flex-direction
-                                #:variants '((row row)
-                                             (col column)
-                                             (row-reverse row-reverse)
-                                             (col-reverse column-reverse)))))
+                                 #:property 'flex-direction
+                                 #:variants '((row row)
+                                              (col column)
+                                              (row-reverse row-reverse)
+                                              (col-reverse column-reverse)))))
 
 (define flex-utilities
-  (make-parameter (append (css* #:selector 'gap
-                                #:sizes default-numeric-sizes
-                                #:direct-size? #t
-                                #:declarations '(gap)
-                                #:multiplier (gap-multiplier)
-                                #:breakpoints (breakpoints))
-                          (list (rul ".flex"
-                                     (dec 'display
-                                          'flex))
-                                (rul ".flex-wrap"
-                                     (dec 'flex-wrap
-                                          'wrap))
-                                (rul ".flex-nowrap"
-                                     (dec 'flex-wrap
-                                          'nowrap))))))
+  (make-parameter (append
+                   ;; (css* #:selector 'gap
+                   ;; #:sizes default-numeric-sizes
+                   ;; #:direct-size? #t
+                   ;; #:declarations '(gap)
+                   ;; #:multiplier (gap-multiplier)
+                   ;; #:breakpoints (breakpoints))
+                   (list (rul ".flex"
+                              (dec 'display
+                                   'flex))
+                         (rul ".flex-wrap"
+                              (dec 'flex-wrap
+                                   'wrap))
+                         (rul ".flex-nowrap"
+                              (dec 'flex-wrap
+                                   'nowrap))))))
 
-(define z-index
-  (make-parameter (css* #:selector 'z
-                        #:sizes default-numeric-sizes
-                        #:direct-size? #t
-                        #:rounded-to-integer? #t
-                        #:declarations '(z-index)
-                        #:multiplier 1
-                        #:breakpoints (breakpoints)
-                        #:unit "")))
+;; (define z-index
+;;   (make-parameter (css* #:selector 'z
+;;                         #:sizes default-numeric-sizes
+;;                         #:direct-size? #t
+;;                         #:rounded-to-integer? #t
+;;                         #:declarations '(z-index)
+;;                         #:multiplier 1
+;;                         #:breakpoints (breakpoints)
+;;                         #:unit "")))
 
 (define colors
   (make-parameter (append (map (lambda (p)
@@ -389,20 +377,20 @@
                                              #:weights default-color-weights))
                                (default-palettes))
                           (rule-variants #:selector ".bg-~a"
-                                        #:property 'background
-                                        #:variants '((white white)
-                                                     (black black)
-                                                     (transparent transparent)))
+                                         #:property 'background
+                                         #:variants '((white white)
+                                                      (black black)
+                                                      (transparent transparent)))
                           (rule-variants #:selector ".text-~a"
-                                        #:property 'color
-                                        #:variants '((white white)
-                                                     (black black)
-                                                     (transparent transparent)))
+                                         #:property 'color
+                                         #:variants '((white white)
+                                                      (black black)
+                                                      (transparent transparent)))
                           (rule-variants #:selector ".border-~a"
-                                        #:property 'border-color
-                                        #:variants '((white white)
-                                                     (black black)
-                                                     (transparent transparent)))
+                                         #:property 'border-color
+                                         #:variants '((white white)
+                                                      (black black)
+                                                      (transparent transparent)))
 
                           ;; (list (css #:selector "dark\\:bg-white"
                           ;; #:declarations `((,where-dark ((background
@@ -491,22 +479,22 @@
 (define border-style
   (make-parameter 'solid))
 
-(define borders
-  (make-parameter (css* #:selector 'border
-                        #:sizes default-numeric-sizes
-                        #:declarations '(border-width)
-                        #:other-declarations `((border-style ,(border-style)))
-                        #:direct-size? #t
-                        #:multiplier 1
-                        #:breakpoints (breakpoints)
-                        #:unit "px")))
+;; (define borders
+;;   (make-parameter (css* #:selector 'border
+;;                         #:sizes default-numeric-sizes
+;;                         #:declarations '(border-width)
+;;                         #:other-declarations `((border-style ,(border-style)))
+;;                         #:direct-size? #t
+;;                         #:multiplier 1
+;;                         #:breakpoints (breakpoints)
+;;                         #:unit "px")))
 
 (define positions
   (make-parameter (rule-variants #:selector "~a"
-                                #:property 'position
-                                #:variants '((absolute absolute)
-                                             (fixed fixed)
-                                             (relative relative)))))
+                                 #:property 'position
+                                 #:variants '((absolute absolute)
+                                              (fixed fixed)
+                                              (relative relative)))))
 
 (define fade-in-page-transition
   (make-parameter (list (rul "@view-transition"
@@ -547,6 +535,8 @@
           (positions)
           (flex-directions)
           (fade-in-page-transition)
+          (weights)
+          (heights)
           (list (rul ".flex"
                      (dec 'display
                           'flex))))
