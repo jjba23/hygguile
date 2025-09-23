@@ -21,8 +21,7 @@
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:use-module (ice-9 format)
-  #:export (~ css-color*
-              format-css
+  #:export (~ format-css
               list-combinations
               where-dark
               ;;
@@ -38,7 +37,7 @@
               declaration-property
               declaration-value
               rul
-
+              rulcol
               dec
               flatten-list
               rulv
@@ -103,6 +102,38 @@
 (define* (rulc msg)
   (list (format #f "/*\n  ~a\n*/" msg)))
 
+(define* (rulcol selector
+                 #:key property
+                 variants
+                 (other-properties '())
+                 (palettes '()))
+  (map (lambda (palette)
+         (map (lambda (alpha-weight)
+                (rul (format #f selector
+                             (car palette)
+                             (caadr alpha-weight)
+                             (if (and (not (equal? ""
+                                                   (caar alpha-weight)))
+                                      (not (equal? #f
+                                                   (caar alpha-weight))))
+                                 (format #f "\\/~a"
+                                         (caar alpha-weight)) ""))
+
+                     (append (map (lambda (p)
+                                    (dec (car p)
+                                         (cadr p))) other-properties)
+                             (list (dec property
+                                        (apply format
+                                               (append (list #f
+                                                        "rgba(~d, ~d, ~d, ~a)")
+                                                       (car (assoc-ref palette
+                                                             (caadr
+                                                              alpha-weight)))
+                                                       (list (cadar
+                                                              alpha-weight)))))))
+
+                     )) variants)) palettes))
+
 (define* (siz s
               #:key (conversion identity)
               (multiplier 1))
@@ -115,75 +146,11 @@
 (define (to-px x)
   (format #f "~,2fpx" x))
 
-;; ========================================================================
-
 (define (list-combinations list1 list2)
   "Computes all combinations (Cartesian product) of elements from two lists."
   (append-map (lambda (x)
                 (map (lambda (y)
                        (list x y)) list2)) list1))
-
-(define* (mk-color #:key alpha-weight
-                   palette
-                   namespace
-                   declarations
-                   selector-type
-                   selector
-                   name)
-  (let* ((weight-name (caadr alpha-weight))
-         (alpha-name (if (equal? ""
-                                 (caar alpha-weight)) ""
-                         (~ "\\/~a"
-                            (caar alpha-weight))))
-         (tri-channel (string-join (map (lambda (x)
-                                          (~ "~a" x))
-                                        (car (assoc-ref palette
-
-                                                        (caadr alpha-weight))))
-                                   ","))
-         (color-alpha (if (equal? namespace
-                                  'rgba)
-                          (~ ",~a"
-                             (cadar alpha-weight)) ""))
-         (prop (string-join (map (lambda (p)
-                                   (~ "~a:~a(~a~a)" p namespace tri-channel
-                                      color-alpha)) declarations) " ")))
-    (list (~ "~a~a-~a-~a~a{~a}"
-             selector-type
-             selector
-             name
-             weight-name
-             alpha-name
-             prop)
-          (~ "~adark\\:~a-~a-~a~a{~a{~a}}"
-             selector-type
-             selector
-             name
-             weight-name
-             alpha-name
-             where-dark
-             (~ "~a !important" prop)))))
-
-(define* (css-color* #:key (selector-type ".")
-                     selector
-                     declarations
-                     name
-                     palette
-                     (alphas '())
-                     weights
-                     (namespace 'rgba))
-  (let* ((alphas-and-weights (if (nil? alphas)
-                                 (list-combinations '((("" 1))) weights)
-                                 (list-combinations alphas weights))))
-    
-    (append-map (lambda (alpha-weight)
-                  (mk-color #:alpha-weight alpha-weight
-                            #:palette palette
-                            #:namespace namespace
-                            #:declarations declarations
-                            #:selector-type selector-type
-                            #:selector selector
-                            #:name name)) alphas-and-weights)))
 
 (define* (format-css xs)
   (cond

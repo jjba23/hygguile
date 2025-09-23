@@ -321,15 +321,7 @@
                         #:variants default-numeric-sizes)))
 
 (define colors
-  (make-parameter (append (map (lambda (p)
-                                 (css-color* #:selector 'bg
-                                             #:declarations '(background)
-                                             #:name (car p)
-                                             #:palette (cdr p)
-                                             #:alphas default-alphas
-                                             #:weights default-color-weights))
-                               (default-palettes))
-                          (rulv ".bg-~a"
+  (make-parameter (append (rulv ".bg-~a"
                                 #:property 'background
                                 #:variants '((white white)
                                              (black black)
@@ -345,23 +337,39 @@
                                              (black black)
                                              (transparent transparent)))
 
-                          (map (lambda (p)
-                                 (css-color* #:selector 'text
-                                             #:declarations '(color)
-                                             #:name (car p)
-                                             #:palette (cdr p)
-                                             #:alphas default-alphas
-                                             #:weights default-color-weights))
-                               (default-palettes))
+                          (rulcol ".bg-~a-~a~a"
+                                  #:property 'background
+                                  #:variants (list-combinations default-alphas
+                                              default-color-weights)
+                                  #:palettes (default-palettes))
 
-                          (map (lambda (p)
-                                 (css-color* #:selector 'border
-                                             #:declarations '(border-color)
-                                             #:name (car p)
-                                             #:palette (cdr p)
-                                             #:alphas default-alphas
-                                             #:weights default-color-weights))
-                               (default-palettes)))))
+                          ;; (map (lambda (p)
+                          ;; (css-color* #:selector 'bg
+                          ;; #:declarations '(background)
+                          ;; #:name (car p)
+                          ;; #:palette (cdr p)
+                          ;; #:alphas default-alphas
+                          ;; #:weights default-color-weights))
+                          ;; (default-palettes))
+                          
+                          ;; (map (lambda (p)
+                          ;; (css-color* #:selector 'text
+                          ;; #:declarations '(color)
+                          ;; #:name (car p)
+                          ;; #:palette (cdr p)
+                          ;; #:alphas default-alphas
+                          ;; #:weights default-color-weights))
+                          ;; (default-palettes))
+                          
+                          ;; (map (lambda (p)
+                          ;; (css-color* #:selector 'border
+                          ;; #:declarations '(border-color)
+                          ;; #:name (car p)
+                          ;; #:palette (cdr p)
+                          ;; #:alphas default-alphas
+                          ;; #:weights default-color-weights))
+                          ;; (default-palettes))
+                          )))
 
 (define text-utilities
   (make-parameter (list (rul ".italic"
@@ -499,8 +507,8 @@
           (text-utilities)
           (weights)
           (widths)
-          (z-index))
-
-  ;; (colors))
-  )
+          (z-index)
+          (list "")
+          (rulc "Load HSS colors")
+          (colors)))
 

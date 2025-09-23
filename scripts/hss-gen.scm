@@ -19,4 +19,3 @@
     (lambda ()
       (display (string-join (flatten-list (map format-css styles)) "\n")))))
 
-
