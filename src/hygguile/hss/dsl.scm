@@ -40,12 +40,23 @@
               declaration-value
               r=
               d=
+              flatten-list
               ;;
               ))
 
 (define* (~ #:rest args)
   (apply format
          (append '(#f) args)))
+
+(define (flatten-list xs)
+  (cond
+    ((null? xs)
+     '())
+    ((pair? xs)
+     (append (flatten-list (car xs))
+             (flatten-list (cdr xs))))
+    (else (list xs))))
+
 
 ;; ========================================================================
 
@@ -238,7 +249,7 @@
     ((list? xs)
      (map format-css xs))
     ((rule? xs)
-     (format #f "~a {~a}\n"
+     (format #f "~a {~a}"
              (rule-selector xs)
              (cond
                ((rule? (rule-declarations xs))
@@ -254,7 +265,7 @@
 
                                     )
                                   (rule-declarations xs)) " "))
-               (else (begin                       
+               (else (begin
                        (format-declaration (rule-declarations xs)))))))
     ((declaration? xs)
      (format-declaration xs))

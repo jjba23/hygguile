@@ -17,6 +17,5 @@
            (display "")))
   (with-output-to-file hss-dest-file
     (lambda ()
-      (display (string-join (map format-css styles)
-                            "\n")))))
+      (display (string-join (flatten-list (map format-css styles)) "\n")))))
 
