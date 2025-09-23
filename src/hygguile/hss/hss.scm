@@ -52,7 +52,7 @@
 (define weight-multiplier
   (make-parameter 1))
 (define prose-size
-  (make-parameter "82ch"))
+  (make-parameter "76ch"))
 (define shadow-multiplier
   (make-parameter 0.3))
 (define absolute-positions-multiplier
@@ -144,7 +144,13 @@
   (make-parameter (append (list (rul ".min-w-screen"
                                      (dec 'min-width "1vh"))
                                 (rul ".max-w-screen"
-                                     (dec 'max-width "1vh")))
+                                     (dec 'max-width "1vh"))
+                                (rul ".min-w-prose"
+                                     (dec 'min-width
+                                          (prose-size)))
+                                (rul ".max-w-prose"
+                                     (dec 'max-width
+                                          (prose-size))))
                           (map (lambda (d)
                                  (rulv (string-append "."
                                                       (format #f "~a"
@@ -359,37 +365,8 @@
 
 (define dark-mode-colors
   (make-parameter (list '("&:where([data-theme=dark], [data-theme=dark] *) {")
-                        (rulv ".dark\\:bg-~a"
-                              #:property 'background
-                              #:variants '((white white)
-                                           (black black)
-                                           (transparent transparent)))
-                        (rulv ".dark\\:text-~a"
-                              #:property 'color
-                              #:variants '((white white)
-                                           (black black)
-                                           (transparent transparent)))
-                        (rulv ".dark\\:border-~a"
-                              #:property 'border-color
-                              #:variants '((white white)
-                                           (black black)
-                                           (transparent transparent)))
-
-                        (rulcol ".dark\\:bg-~a-~a~a"
-                                #:property 'background
-                                #:variants (list-combinations default-alphas
-                                            default-color-weights)
-                                #:palettes (default-palettes))
-                        (rulcol ".dark\\:text-~a-~a~a"
-                                #:property 'color
-                                #:variants (list-combinations default-alphas
-                                            default-color-weights)
-                                #:palettes (default-palettes))
-                        (rulcol ".dark:\\border-~a-~a~a"
-                                #:property 'border-color
-                                #:variants (list-combinations default-alphas
-                                            default-color-weights)
-                                #:palettes (default-palettes))
+                        (addmq 'dark
+                               (colors))
                         '("}"))))
 
 (define text-utilities
@@ -495,12 +472,69 @@
 
 ;; ============ Stylesheet Generation Entry-point =========================
 
+(define sm-responsive
+  (make-parameter (list (addmq 'sm
+                               (z-index))
+                        (addmq 'sm
+                               (heights))
+                        (addmq 'sm
+                               (widths)))))
+
+(define md-responsive
+  (make-parameter (list (addmq 'md
+                               (z-index))
+                        (addmq 'md
+                               (heights))
+                        (addmq 'md
+                               (widths)))))
+
+(define lg-responsive
+  (make-parameter (list (addmq 'lg
+                               (z-index))
+                        (addmq 'lg
+                               (heights))
+                        (addmq 'lg
+                               (widths)))))
+
+(define xl-responsive
+  (make-parameter (list (addmq 'xl
+                               (z-index))
+                        (addmq 'xl
+                               (heights))
+                        (addmq 'xl
+                               (widths)))))
+
+(define 2xl-responsive
+  (make-parameter (list (addmq "2xl"
+                               (z-index))
+                        (addmq "2xl"
+                               (heights))
+                        (addmq "2xl"
+                               (widths)))))
+
+(define responsive
+  (make-parameter (append '("@media (width >= 40rem){")
+                          (sm-responsive)
+                          '("}" "")
+                          '("@media (width >= 48rem){")
+                          (md-responsive)
+                          '("}" "")
+                          '("@media (width >= 64rem){")
+                          (lg-responsive)
+                          '("}" "")
+                          '("@media (width >= 80rem){")
+                          (xl-responsive)
+                          '("}" "")
+                          '("@media (width >= 96rem){")
+                          (2xl-responsive)
+                          '("}" ""))))
+
 (define* (hss)
   (append (rulc (license-header))
-          (list "")
+          '("")
           (rulc "Load CSS browser reset - should be first")
           (reset-css)
-          (list "")
+          '("")
           (rulc "Load HSS Hygge Style Sheets")
           (absolute-positions)
           (active-scale)
@@ -528,10 +562,13 @@
           (weights)
           (widths)
           (z-index)
-          (list "")
+          '("")
           (rulc "Load HSS colors")
           (colors)
-          (list "")
+          '("")
           (rulc "Load HSS Dark mode colors")
-          (dark-mode-colors)))
+          (dark-mode-colors)
+          '("")
+          (rulc "Load responsive classes")
+          (responsive)))
 

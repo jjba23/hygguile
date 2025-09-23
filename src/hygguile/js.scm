@@ -59,9 +59,9 @@
                                          (notification-tray-container-classes (mk-class '
                                                                                (max-w-full
                                                                                 animate-wiggle
-                                                                                sm:max-w-120
+                                                                                max-w-prose
                                                                                 rounded-xl
-                                                                                bg-stone-300/75
+                                                                                bg-stone-300/90
                                                                                 border-stone-500
                                                                                 dark:bg-stone-700/75
                                                                                 border-2

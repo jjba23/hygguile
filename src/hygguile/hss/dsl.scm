@@ -27,8 +27,10 @@
               ;;
               rulc
               rule
+              addmq
               make-rule
               rule?
+              set-rule-selector!
               rule-selector
               rule-declarations
               declaration
@@ -62,7 +64,7 @@
 
 (define-record-type rule
   (make-rule selector declarations) rule?
-  (selector rule-selector)
+  (selector rule-selector set-rule-selector!)
   (declarations rule-declarations))
 
 (define* (rul selector . args)
@@ -94,6 +96,23 @@
 
 (define* (rulc msg)
   (list (format #f "/*\n  ~a\n*/" msg)))
+
+(define (addmq sel args)
+  
+  (cond
+    ((rule? args)
+     (let* ((a args)
+            (selector (rule-selector a))
+            (str (if (equal? "."
+                             (string-take selector 1))
+                     (format #f ".~a\\:~a" sel
+                             (string-drop selector 1)) selector)))
+       (rul str
+            (rule-declarations a))))
+    ((list? args)
+     (map (lambda (a)
+            (addmq sel a)) args))
+    (else args)))
 
 (define* (rulcol selector
                  #:key property
