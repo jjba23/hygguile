@@ -38,8 +38,8 @@
               declaration?
               declaration-property
               declaration-value
-              r=
-              d=
+              rul
+              dec
               flatten-list
               ;;
               ))
@@ -57,7 +57,6 @@
              (flatten-list (cdr xs))))
     (else (list xs))))
 
-
 ;; ========================================================================
 
 (define-record-type rule
@@ -65,15 +64,16 @@
   (selector rule-selector)
   (declarations rule-declarations))
 
-(define r=
-  make-rule)
+(define* (rul selector . args)
+  (make-rule selector
+             (flatten-list args)))
 
 (define-record-type declaration
   (make-declaration property value) declaration?
   (property declaration-property)
   (value declaration-value))
 
-(define d=
+(define dec
   make-declaration)
 
 ;; ========================================================================

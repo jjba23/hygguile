@@ -490,28 +490,29 @@
                          (relative relative)))))
 
 (define fade-in-page-transition
-  (make-parameter (list (r= "@view-transition"
-                            (d= 'navigation
-                                'auto))
-                        (r= (string-join '("::view-transition-old(root)"
-                                           "::view-transition-new(root)") ", ")
-                            (d= 'animation "fade 0.1s ease both"))
-                        (r= "@keyframes fade"
-                            (list (r= 'from
-                                      (d= 'opacity 0.2))
-                                  (r= 'to
-                                      (d= 'opacity 1)))))))
+  (make-parameter (list (rul "@view-transition"
+                              (dec 'navigation
+                                    'auto))
+                        (rul (string-join '("::view-transition-old(root)"
+                                             "::view-transition-new(root)")
+                                           ", ")
+                              (dec 'animation "fade 0.1s ease both"))
+                        (rul "@keyframes fade"
+                              (rul 'from
+                                    (dec 'opacity 0.2))
+                              (rul 'to
+                                    (dec 'opacity 1))))))
 
 (define active-scale
-  (make-parameter (list (r= "active\\:scale-95"
-                            (list (r= "&:active"
-                                      (list (d= 'scale "95% 95%"))))))))
+  (make-parameter (list (rul "active\\:scale-95"
+                              (rul "&:active"
+                                    (dec 'scale "95% 95%"))))))
 
 (define shrinks
-  (make-parameter (list (r= 'shrink
-                            (list (d= 'flex-shrink 1)))
-                        (r= 'shrink-0
-                            (list (d= 'flex-shrink 0))))))
+  (make-parameter (list (rul 'shrink
+                              (dec 'flex-shrink 1))
+                        (rul 'shrink-0
+                              (dec 'flex-shrink 0)))))
 
 ;; ============ Stylesheet Generation Entry-point =========================
 
@@ -520,9 +521,9 @@
           (shrinks)
           (active-scale)
           (fade-in-page-transition)
-          (list (r= ".flex"
-                    (list (d= 'display
-                              'flex)))))
+          (list (rul ".flex"
+                      (dec 'display
+                            'flex))))
 
   ;; (css* #:selector 'text
   ;; #:sizes default-tshirt-sizes

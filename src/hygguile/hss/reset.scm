@@ -105,59 +105,59 @@
          video))
 
 (define reset-css
-  (make-parameter (list (r= (string-join (map symbol->string
-                                              big-html-reset-list) ", ")
-                            (list (d= 'margin 0)
-                                  (d= 'padding 0)
-                                  (d= 'border 0)
-                                  (d= 'font-size "100%")
-                                  (d= 'font
-                                      'inherit)
-                                  (d= 'vertical-align
-                                      'baseline)))
-                        (r= (string-join (map symbol->string
-                                              '(article aside
-                                                        details
-                                                        figcaption
-                                                        figure
-                                                        footer
-                                                        header
-                                                        hgroup
-                                                        menu
-                                                        nav
-                                                        section)) ", ")
-                            (list (d= 'display
-                                      'block)))
-                        (r= 'button
-                            (list (d= 'background
-                                      'transparent)
-                                  (d= 'border
-                                      'none)))
-                        (r= 'body
-                            (list (d= 'line-height 1)))
+  (make-parameter (list (rul (string-join (map symbol->string
+                                               big-html-reset-list) ", ")
+                             (dec 'margin 0)
+                             (dec 'padding 0)
+                             (dec 'border 0)
+                             (dec 'font-size "100%")
+                             (dec 'font
+                                  'inherit)
+                             (dec 'vertical-align
+                                  'baseline))
+                        (rul (string-join (map symbol->string
+                                               '(article aside
+                                                         details
+                                                         figcaption
+                                                         figure
+                                                         footer
+                                                         header
+                                                         hgroup
+                                                         menu
+                                                         nav
+                                                         section)) ", ")
+                             (dec 'display
+                                  'block))
+                        (rul 'button
+                             (dec 'background
+                                  'transparent)
+                             (dec 'border
+                                  'none))
+                        (rul 'body
+                             (dec 'line-height 1))
 
-                        (r= (string-join (map symbol->string
-                                              '(blockquote q)) ", ")
-                            (list (d= 'quotes
-                                      'none)))
+                        (rul (string-join (map symbol->string
+                                               '(blockquote q)) ", ")
+                             (dec 'quotes
+                                  'none))
 
-                        (r= 'table
-                            (list (d= 'borser-collpase
-                                      'collapse)
-                                  (d= 'border-spacing 0)))
+                        (rul 'table
+                             (dec 'borser-collpase
+                                  'collapse)
+                             (dec 'border-spacing 0))
 
-                        (r= (string-join (map symbol->string
-                                              '(blockquote:before
-                                                blockquote:after
+                        (rul (string-join (map symbol->string
+                                               '(blockquote:before
+                                                 blockquote:after
 
-                                                q:before q:after)) ", ")
-                            (list (d= 'content "''")
-                                  (d= 'content
-                                      'none)))
-                        (r= (string-join (map symbol->string
-                                              '(ol ul)) ", ")
-                            (d= 'list-style
-                                'none))
+                                                 q:before q:after)) ", ")
+                             (dec 'content "''")
+                             (dec 'content
+                                  'none))
+                        (rul (string-join (map symbol->string
+                                               '(ol ul)) ", ")
+                             (dec 'list-style
+                                  'none))
 
                         )))
 
