@@ -21,7 +21,7 @@
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:use-module (ice-9 format)
-  #:export (~ css
+  #:export (~ 
               css*
               css-color*
               format-css
@@ -41,6 +41,7 @@
               rul
               dec
               flatten-list
+              rule-variants
               ;;
               ))
 
@@ -75,6 +76,13 @@
 
 (define dec
   make-declaration)
+
+(define* (rule-variants #:key selector property variants)
+  (map (lambda (v)
+         (rul (format #f selector
+                      (car v))
+              (dec property
+                   (cadr v)))) variants))
 
 ;; ========================================================================
 
@@ -148,11 +156,7 @@
                       size
                       declarations-string)) breakpoints))))
 
-(define* (css #:key selector declarations
-              (selector-type "."))
-  (~ "~a~a {~a}" selector-type selector
-     (string-join (generate-static-declarations #:declarations declarations)
-                  " ")))
+
 
 (define* (css* #:key (selector-type ".")
                selector

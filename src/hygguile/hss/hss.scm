@@ -183,10 +183,16 @@
                                 #:breakpoints (breakpoints)))))
 
 (define widths
-  (make-parameter (append (list (css #:selector 'min-w-screen
-                                     #:declarations '((min-width "1vw")))
-                                (css #:selector 'max-w-prose
-                                     #:declarations `((max-width ,(prose-size)))))
+  (make-parameter (append (list (rul ".min-w-screen"
+                                     (dec 'min-width "1vw"))
+                                (rul ".max-w-screen"
+                                     (dec 'max-width "1vw"))
+                                (rul ".min-w-prose"
+                                     (dec 'min-width
+                                          (prose-size)))
+                                (rul ".max-w-prose"
+                                     (dec 'max-width
+                                          (prose-size))))
                           (css* #:selector 'w
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
@@ -237,8 +243,10 @@
                                 #:breakpoints (breakpoints)))))
 
 (define heights
-  (make-parameter (append (list (css #:selector 'min-h-screen
-                                     #:declarations '((min-height "1vh"))))
+  (make-parameter (append (list (rul ".min-h-screen"
+                                     (dec 'min-height "1vh"))
+                                (rul ".max-h-screen"
+                                     (dec 'max-height "1vh")))
                           (css* #:selector 'h
                                 #:sizes default-numeric-sizes
                                 #:direct-size? #t
@@ -259,89 +267,90 @@
                                 #:breakpoints (breakpoints)))))
 
 (define font-families
-  (make-parameter (list (css #:selector 'font-sans
-                             #:declarations `((font-family ,(sans-font-family))))
-                        (css #:selector 'font-mono
-                             #:declarations `((font-family ,(mono-font-family))))
-                        (css #:selector 'font-serif
-                             #:declarations `((font-family ,(serif-font-family)))))))
+  (make-parameter (list (rul ".font-sans"
+                             (dec 'font-family
+                                  (sans-font-family)))
+                        (rul ".font-mono"
+                             (dec 'font-family
+                                  (mono-font-family)))
+                        (rul ".font-serif"
+                             (dec 'font-family
+                                  (serif-font-family))))))
 
 (define flex-justifies
-  (make-parameter (map (lambda (x)
-                         (css #:selector (string->symbol (format #f
-                                                                 "justify-~a"
-                                                                 (car x)))
-                              #:declarations `((justify-content ,(cadr x)))))
-                       '((start flex-start)
-                         (end flex-end)
-                         (end-safe "safe flex-end")
-                         (center center)
-                         (center-safe "safe center")
-                         (between space-between)
-                         (around space-around)
-                         (evenly space-evenly)
-                         (stretch stretch)
-                         (baseline baseline)
-                         (normal normal)))))
+  (make-parameter (rule-variants #:selector ".justify-~a"
+                                #:property 'justify-content
+                                #:variants '((start flex-start)
+                                             (end flex-end)
+                                             (end-safe "safe flex-end")
+                                             (center center)
+                                             (center-safe "safe center")
+                                             (between space-between)
+                                             (around space-around)
+                                             (evenly space-evenly)
+                                             (stretch stretch)
+                                             (baseline baseline)
+                                             (normal normal)))))
 
 (define flex-aligns
-  (make-parameter (map (lambda (x)
-                         (css #:selector (string->symbol (format #f "items-~a"
-                                                                 (car x)))
-                              #:declarations `((align-items ,(cadr x)))))
-                       '((start flex-start)
-                         (end flex-end)
-                         (end-safe "safe flex-end")
-                         (center center)
-                         (center-safe "safe center")
-                         (baseline baseline)
-                         (baseline-last "last baseline")
-                         (stretch stretch)))))
+  (make-parameter (rule-variants #:selector ".items-~a"
+                                #:property 'align-items
+                                #:variants '((start flex-start)
+                                             (end flex-end)
+                                             (end-safe "safe flex-end")
+                                             (center center)
+                                             (center-safe "safe center")
+                                             (baseline baseline)
+                                             (baseline-last "last baseline")
+                                             (stretch stretch)))))
 
 (define shadows
-  (make-parameter (map (lambda (x)
-                         (css #:selector (string->symbol (format #f
-                                                                 "shadow-~a"
-                                                                 (car x)))
-                              #:declarations `((box-shadow ,(cadr x)))))
-                       '((2xs "0 1px rgb(0 0 0 / 0.05)")
-                         (xs "0 1px 2px 0 rgb(0 0 0 / 0.05)")
-                         (sm
-                          "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)")
-                         (md
-                          "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)")
-                         (lg
-                          "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)")
-                         (xl
-                          "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)")
-                         (2xl "0 25px 50px -12px rgb(0 0 0 / 0.25)")
-                         (none "0 0 #0000")))))
+  (make-parameter (rule-variants #:selector ".shadow-~a"
+                                #:property 'box-shadow
+                                #:variants '((2xs "0 1px rgb(0 0 0 / 0.05)")
+                                             (xs
+                                              "0 1px 2px 0 rgb(0 0 0 / 0.05)")
+                                             (sm
+                                              "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)")
+                                             (md
+                                              "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)")
+                                             (lg
+                                              "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)")
+                                             (xl
+                                              "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)")
+                                             (2xl
+                                              "0 25px 50px -12px rgb(0 0 0 / 0.25)")
+                                             (none "0 0 #0000")))))
 
 (define scroll-snap-type
   (make-parameter "proximity"))
 
 (define scroll-snap-types
-  (make-parameter (map (lambda (x)
-                         (css #:selector (string->symbol (format #f "snap-~a"
-                                                                 (car x)))
-                              #:declarations `((scroll-snap-type ,(cadr x)))))
-                       `((none none)
-                         (x ,(format #f "x ~a"
-                                     (scroll-snap-type)))
-                         (y ,(format #f "y ~a"
-                                     (scroll-snap-type)))
-                         (both ,(format #f "both ~a"
-                                        (scroll-snap-type)))))))
+  (make-parameter (rule-variants #:selector ".snap-~a"
+                                #:property 'scroll-snap-type
+                                #:variants `((none none)
+                                             (x ,(format #f "x ~a"
+                                                         (scroll-snap-type)))
+                                             (y ,(format #f "y ~a"
+                                                         (scroll-snap-type)))
+                                             (both ,(format #f "both ~a"
+                                                            (scroll-snap-type)))))))
 
 (define scroll-snap-aligns
-  (make-parameter (map (lambda (x)
-                         (css #:selector (string->symbol (format #f "snap-~a"
-                                                                 (car x)))
-                              #:declarations `((scroll-snap-align ,(cadr x)))))
-                       '((start start)
-                         (end end)
-                         (center center)
-                         (none none)))))
+  (make-parameter (rule-variants #:selector ".snap-~a"
+                                #:property 'scroll-snap-align
+                                #:variants '((start start)
+                                             (end end)
+                                             (center center)
+                                             (none none)))))
+
+(define flex-directions
+  (make-parameter (rule-variants #:selector ".flex-~a"
+                                #:property 'flex-direction
+                                #:variants '((row row)
+                                             (col column)
+                                             (row-reverse row-reverse)
+                                             (col-reverse column-reverse)))))
 
 (define flex-utilities
   (make-parameter (append (css* #:selector 'gap
@@ -350,18 +359,15 @@
                                 #:declarations '(gap)
                                 #:multiplier (gap-multiplier)
                                 #:breakpoints (breakpoints))
-                          (list (css #:selector 'flex
-                                     #:declarations '((display flex)))
-                                (css #:selector 'flex-col
-                                     #:declarations '((flex-direction column)))
-                                (css #:selector 'flex-row
-                                     #:declarations '((flex-direction row)))
-                                (css #:selector 'flex-wrap
-                                     #:declarations '((flex-wrap wrap)))
-                                (css #:selector 'flex-nowrap
-                                     #:declarations '((flex-wrap nowrap)))
-                                (css #:selector 'items-center
-                                     #:declarations '((align-items center)))))))
+                          (list (rul ".flex"
+                                     (dec 'display
+                                          'flex))
+                                (rul ".flex-wrap"
+                                     (dec 'flex-wrap
+                                          'wrap))
+                                (rul ".flex-nowrap"
+                                     (dec 'flex-wrap
+                                          'nowrap))))))
 
 (define z-index
   (make-parameter (css* #:selector 'z
@@ -382,22 +388,31 @@
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
                                (default-palettes))
-                          (list (css #:selector 'bg-white
-                                     #:declarations '((background white)))
-                                (css #:selector 'bg-transparent
-                                     #:declarations '((background transparent)))
-                                (css #:selector 'bg-black
-                                     #:declarations '((background black))))
+                          (rule-variants #:selector ".bg-~a"
+                                        #:property 'background
+                                        #:variants '((white white)
+                                                     (black black)
+                                                     (transparent transparent)))
+                          (rule-variants #:selector ".text-~a"
+                                        #:property 'color
+                                        #:variants '((white white)
+                                                     (black black)
+                                                     (transparent transparent)))
+                          (rule-variants #:selector ".border-~a"
+                                        #:property 'border-color
+                                        #:variants '((white white)
+                                                     (black black)
+                                                     (transparent transparent)))
 
-                          (list (css #:selector "dark\\:bg-white"
-                                     #:declarations `((,where-dark ((background
-                                                                     white)))))
-                                (css #:selector "dark\\:bg-transparent"
-                                     #:declarations `((,where-dark ((background
-                                                                     transparent)))))
-                                (css #:selector "dark\\:bg-black"
-                                     #:declarations `((,where-dark ((background
-                                                                     black))))))
+                          ;; (list (css #:selector "dark\\:bg-white"
+                          ;; #:declarations `((,where-dark ((background
+                          ;; white)))))
+                          ;; (css #:selector "dark\\:bg-transparent"
+                          ;; #:declarations `((,where-dark ((background
+                          ;; transparent)))))
+                          ;; (css #:selector "dark\\:bg-black"
+                          ;; #:declarations `((,where-dark ((background
+                          ;; black))))))
                           (map (lambda (p)
                                  (css-color* #:selector 'text
                                              #:declarations '(color)
@@ -406,21 +421,17 @@
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
                                (default-palettes))
-                          (list (css #:selector 'text-white
-                                     #:declarations '((color white)))
-                                (css #:selector 'text-transparent
-                                     #:declarations '((color transparent)))
-                                (css #:selector 'text-black
-                                     #:declarations '((color black))))
-                          (list (css #:selector "dark\\:text-white"
-                                     #:declarations `((,where-dark ((color
-                                                                     white)))))
-                                (css #:selector "dark\\:text-transparent"
-                                     #:declarations `((,where-dark ((color
-                                                                     transparent)))))
-                                (css #:selector "dark\\:text-black"
-                                     #:declarations `((,where-dark ((color
-                                                                     black))))))
+
+                          ;; (list (css #:selector "dark\\:text-white"
+                          ;; #:declarations `((,where-dark ((color
+                          ;; white)))))
+                          ;; (css #:selector "dark\\:text-transparent"
+                          ;; #:declarations `((,where-dark ((color
+                          ;; transparent)))))
+                          ;; (css #:selector "dark\\:text-black"
+                          ;; #:declarations `((,where-dark ((color
+                          ;; black))))))
+                          
                           (map (lambda (p)
                                  (css-color* #:selector 'border
                                              #:declarations '(border-color)
@@ -429,36 +440,46 @@
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
                                (default-palettes))
-                          (list (css #:selector 'border-white
-                                     #:declarations '((border-color white)))
-                                (css #:selector 'border-transparent
-                                     #:declarations '((border-color
-                                                       transparent)))
-                                (css #:selector 'border-black
-                                     #:declarations '((border-color black))))
-                          (list (css #:selector "dark\\:border-white"
-                                     #:declarations `((,where-dark ((border-color
-                                                                     white)))))
-                                (css #:selector "dark\\:border-transparent"
-                                     #:declarations `((,where-dark ((border-color
-                                                                     transparent)))))
-                                (css #:selector "dark\\:border-black"
-                                     #:declarations `((,where-dark ((border-color
-                                                                     black)))))))))
+
+                          ;; (list (css #:selector "dark\\:border-white"
+                          ;; #:declarations `((,where-dark ((border-color
+                          ;; white)))))
+                          ;; (css #:selector "dark\\:border-transparent"
+                          ;; #:declarations `((,where-dark ((border-color
+                          ;; transparent)))))
+                          ;; (css #:selector "dark\\:border-black"
+                          ;; #:declarations `((,where-dark ((border-color
+                          ;; black))))))
+                          )))
 
 (define text-utilities
-  (make-parameter (list (css #:selector 'italic
-                             #:declarations `((font-style italic)))
-                        (css #:selector 'text-center
-                             #:declarations '((text-align center))))))
+  (make-parameter (list (rul ".italic"
+                             (dec 'font-style
+                                  'italic)))))
+
+(define text-aligns
+  (make-parameter (rule-variants #:selector ".text-~a"
+                                 #:property 'text-align
+                                 #:variants '((center center)
+                                              (left left)
+                                              (right right)
+                                              (justify justify)
+                                              (start start)
+                                              (end end)))))
 
 (define display-utilities
-  (make-parameter (list (css #:selector 'hidden
-                             #:declarations `((display none)))
-                        (css #:selector 'overflow-x-scroll
-                             #:declarations '((overflow-x scroll)))
-                        (css #:selector 'cursor-pointer
-                             #:declarations `((cursor pointer))))))
+  (make-parameter (list (rul ".hidden"
+                             (dec 'display
+                                  'none))
+                        (rul ".overflow-x-scroll"
+                             (dec 'overflow-x
+                                  'scroll))
+                        (rul ".overflow-y-scroll"
+                             (dec 'overflow-y
+                                  'scroll))
+                        (rul ".cursor-pointer"
+                             (dec 'cursor
+                                  'pointer)))))
 
 (define roundings
   (make-parameter (css* #:selector 'rounded
@@ -481,49 +502,54 @@
                         #:unit "px")))
 
 (define positions
-  (make-parameter (map (lambda (x)
-                         (css #:selector (string->symbol (format #f "~a"
-                                                                 (car x)))
-                              #:declarations `((position ,(cadr x)))))
-                       '((absolute absolute)
-                         (fixed fixed)
-                         (relative relative)))))
+  (make-parameter (rule-variants #:selector "~a"
+                                #:property 'position
+                                #:variants '((absolute absolute)
+                                             (fixed fixed)
+                                             (relative relative)))))
 
 (define fade-in-page-transition
   (make-parameter (list (rul "@view-transition"
-                              (dec 'navigation
-                                    'auto))
+                             (dec 'navigation
+                                  'auto))
                         (rul (string-join '("::view-transition-old(root)"
-                                             "::view-transition-new(root)")
-                                           ", ")
-                              (dec 'animation "fade 0.1s ease both"))
+                                            "::view-transition-new(root)")
+                                          ", ")
+                             (dec 'animation "fade 0.1s ease both"))
                         (rul "@keyframes fade"
-                              (rul 'from
-                                    (dec 'opacity 0.2))
-                              (rul 'to
-                                    (dec 'opacity 1))))))
+                             (rul 'from
+                                  (dec 'opacity 0.2))
+                             (rul 'to
+                                  (dec 'opacity 1))))))
 
 (define active-scale
-  (make-parameter (list (rul "active\\:scale-95"
-                              (rul "&:active"
-                                    (dec 'scale "95% 95%"))))))
+  (make-parameter (list (rul ".active\\:scale-95"
+                             (rul "&:active"
+                                  (dec 'scale "95% 95%"))))))
 
 (define shrinks
-  (make-parameter (list (rul 'shrink
-                              (dec 'flex-shrink 1))
-                        (rul 'shrink-0
-                              (dec 'flex-shrink 0)))))
+  (make-parameter (list (rul ".shrink"
+                             (dec 'flex-shrink 1))
+                        (rul ".shrink-0"
+                             (dec 'flex-shrink 0)))))
 
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define* (hss)
   (append (reset-css)
+          (font-families)
+          (text-aligns)
+          (text-utilities)
+          (flex-justifies)
+          (flex-aligns)
           (shrinks)
           (active-scale)
+          (positions)
+          (flex-directions)
           (fade-in-page-transition)
           (list (rul ".flex"
-                      (dec 'display
-                            'flex))))
+                     (dec 'display
+                          'flex))))
 
   ;; (css* #:selector 'text
   ;; #:sizes default-tshirt-sizes
@@ -532,8 +558,6 @@
   ;; #:multiplier (font-size-multiplier))
   ;; (positions)
   ;; (absolute-positions)
-  ;; (flex-justifies)
-  ;; (flex-aligns)
   ;; (scroll-snap-aligns)
   ;; (scroll-snap-types)
   ;; (z-index)

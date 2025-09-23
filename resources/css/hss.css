@@ -6,9 +6,45 @@ blockquote, q {quotes:none;}
 table {borser-collpase:collapse; border-spacing:0;}
 blockquote:before, blockquote:after, q:before, q:after {content:''; content:none;}
 ol, ul {list-style:none;}
-shrink {flex-shrink:1;}
-shrink-0 {flex-shrink:0;}
-active\:scale-95 {&:active {scale:95% 95%;}}
+.font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
+.font-mono {font-family:'IBM Plex Mono', monospace;}
+.font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
+.text-center {text-align:center;}
+.text-left {text-align:left;}
+.text-right {text-align:right;}
+.text-justify {text-align:justify;}
+.text-start {text-align:start;}
+.text-end {text-align:end;}
+.italic {font-style:italic;}
+.justify-start {justify-content:flex-start;}
+.justify-end {justify-content:flex-end;}
+.justify-end-safe {justify-content:safe flex-end;}
+.justify-center {justify-content:center;}
+.justify-center-safe {justify-content:safe center;}
+.justify-between {justify-content:space-between;}
+.justify-around {justify-content:space-around;}
+.justify-evenly {justify-content:space-evenly;}
+.justify-stretch {justify-content:stretch;}
+.justify-baseline {justify-content:baseline;}
+.justify-normal {justify-content:normal;}
+.items-start {align-items:flex-start;}
+.items-end {align-items:flex-end;}
+.items-end-safe {align-items:safe flex-end;}
+.items-center {align-items:center;}
+.items-center-safe {align-items:safe center;}
+.items-baseline {align-items:baseline;}
+.items-baseline-last {align-items:last baseline;}
+.items-stretch {align-items:stretch;}
+.shrink {flex-shrink:1;}
+.shrink-0 {flex-shrink:0;}
+.active\:scale-95 {&:active {scale:95% 95%;}}
+absolute {position:absolute;}
+fixed {position:fixed;}
+relative {position:relative;}
+.flex-row {flex-direction:row;}
+.flex-col {flex-direction:column;}
+.flex-row-reverse {flex-direction:row-reverse;}
+.flex-col-reverse {flex-direction:column-reverse;}
 @view-transition {navigation:auto;}
 ::view-transition-old(root), ::view-transition-new(root) {animation:fade 0.1s ease both;}
 @keyframes fade {from {opacity:0.2;} to {opacity:1;}}
