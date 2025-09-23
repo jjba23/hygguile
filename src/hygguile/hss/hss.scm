@@ -55,7 +55,8 @@
   (make-parameter "82ch"))
 (define shadow-multiplier
   (make-parameter 0.3))
-
+(define absolute-positions-multiplier
+  (make-parameter 0.4))
 (define sm-breakpoint
   (make-parameter "640px"))
 
@@ -85,173 +86,129 @@
 
 ;; ========================================================================
 
-;; (define paddings
-;;   (make-parameter (append (css* #:selector 'p
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(padding)
-;;                                 #:multiplier (padding-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'px
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(padding-left padding-right)
-;;                                 #:multiplier (padding-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'py
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(padding-top padding-bottom)
-;;                                 #:multiplier (padding-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'pt
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(padding-top)
-;;                                 #:multiplier (padding-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'pb
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(padding-bottom)
-;;                                 #:multiplier (padding-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'pl
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(padding-left)
-;;                                 #:multiplier (padding-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'pr
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(padding-right)
-;;                                 #:multiplier (padding-multiplier)
-;;                                 #:breakpoints (breakpoints)))))
+(define paddings
+  (make-parameter (map (lambda (d)
+                         (map (lambda (p)
+                                (rulv (string-append "."
+                                                     (format #f "~a"
+                                                             (car d)) "-" "~a")
+                                      #:property p
+                                      #:variants (map (lambda (s)
+                                                        (siz s
+                                                             #:conversion
+                                                             to-rem
+                                                             #:multiplier (padding-multiplier)))
+                                                      (append
+                                                       default-numeric-sizes
+                                                       default-tshirt-sizes))))
+                              (cdr d)))
+                       '((p padding-top padding-bottom padding-left
+                            padding-right)
+                         (px padding-left padding-right)
+                         (py padding-top padding-bottom)
+                         (pt padding-top)
+                         (pb padding-bottom)
+                         (pl padding-left)
+                         (pr padding-right)))))
 
-;; (define margins
-;;   (make-parameter (append (css* #:selector 'm
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(margin)
-;;                                 #:multiplier (margin-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'mx
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(margin-left margin-right)
-;;                                 #:multiplier (margin-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'ml
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(margin-left)
-;;                                 #:multiplier (margin-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'mr
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(margin-right)
-;;                                 #:multiplier (margin-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'my
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(margin-top margin-bottom)
-;;                                 #:multiplier (margin-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'mt
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(margin-top)
-;;                                 #:multiplier (margin-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'mb
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(margin-bottom)
-;;                                 #:multiplier (margin-multiplier)
-;;                                 #:breakpoints (breakpoints)))))
+(define margins
+  (make-parameter (map (lambda (d)
+                         (map (lambda (p)
+                                (rulv (string-append "."
+                                                     (format #f "~a"
+                                                             (car d)) "-" "~a")
+                                      #:property p
+                                      #:variants (map (lambda (s)
+                                                        (siz s
+                                                             #:conversion
+                                                             to-rem
+                                                             #:multiplier (margin-multiplier)))
+                                                      (append
+                                                       default-numeric-sizes
+                                                       default-tshirt-sizes))))
+                              (cdr d)))
+                       '((m margin-top margin-bottom margin-left margin-right)
+                         (mx margin-left margin-right)
+                         (my margin-top margin-bottom)
+                         (mt margin-top)
+                         (mb margin-bottom)
+                         (ml margin-left)
+                         (mr margin-right)))))
 
 (define weights
-  (make-parameter (rule-variants #:selector ".font-~a"
-                                 #:property 'font-weight
-                                 #:variants default-weights)))
+  (make-parameter (rulv ".font-~a"
+                        #:property 'font-weight
+                        #:variants default-weights)))
 
-;; (define widths
-;;   (make-parameter (append (list (rul ".min-w-screen"
-;;                                      (dec 'min-width "1vw"))
-;;                                 (rul ".max-w-screen"
-;;                                      (dec 'max-width "1vw"))
-;;                                 (rul ".min-w-prose"
-;;                                      (dec 'min-width
-;;                                           (prose-size)))
-;;                                 (rul ".max-w-prose"
-;;                                      (dec 'max-width
-;;                                           (prose-size))))
-;;                           (css* #:selector 'w
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(width)
-;;                                 #:multiplier (width-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'min-w
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(min-width)
-;;                                 #:multiplier (width-multiplier)
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'max-w
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(max-width)
-;;                                 #:multiplier (width-multiplier)
-;;                                 #:breakpoints (breakpoints)))))
+(define widths
+  (make-parameter (append (list (rul ".min-w-screen"
+                                     (dec 'min-width "1vh"))
+                                (rul ".max-w-screen"
+                                     (dec 'max-width "1vh")))
+                          (map (lambda (d)
+                                 (rulv (string-append "."
+                                                      (format #f "~a"
+                                                              (car d)) "-"
+                                                      "~a")
+                                       #:property (cadr d)
+                                       #:variants (map (lambda (s)
+                                                         (siz s
+                                                              #:conversion
+                                                              to-rem
+                                                              #:multiplier (width-multiplier)))
+                                                       (append
+                                                        default-numeric-sizes
+                                                        default-tshirt-sizes))))
+                               '((w width)
+                                 (min-w min-width)
+                                 (max-w max-width))))))
 
-;; (define absolute-positions
-;;   (make-parameter (append (css* #:selector 'top
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(top)
-;;                                 #:multiplier 1
-;;                                 #:unit "px"
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'bottom
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(bottom)
-;;                                 #:multiplier 1
-;;                                 #:unit "px"
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'left
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(left)
-;;                                 #:multiplier 1
-;;                                 #:unit "px"
-;;                                 #:breakpoints (breakpoints))
-;;                           (css* #:selector 'right
-;;                                 #:sizes default-numeric-sizes
-;;                                 #:direct-size? #t
-;;                                 #:declarations '(right)
-;;                                 #:multiplier 1
-;;                                 #:unit "px"
-;;                                 #:breakpoints (breakpoints)))))
+(define absolute-positions
+  (make-parameter (map (lambda (d)
+                         (rulv (string-append "."
+                                              (format #f "~a" d) "-" "~a")
+                               #:property d
+                               #:variants (map (lambda (s)
+                                                 (siz s
+                                                      #:conversion to-rem
+                                                      #:multiplier (absolute-positions-multiplier)))
+                                               default-numeric-sizes)))
+                       '(top bottom left right)))
+
+  )
 
 (define heights
   (make-parameter (append (list (rul ".min-h-screen"
                                      (dec 'min-height "1vh"))
                                 (rul ".max-h-screen"
                                      (dec 'max-height "1vh")))
-                          (rule-variants #:selector ".h-~a"
-                                         #:property 'height
-                                         #:variants default-rem-sizes)
-                          (rule-variants #:selector ".min-h-~a"
-                                         #:property 'min-height
-                                         #:variants default-rem-sizes)
-                          (rule-variants #:selector ".max-h-~a"
-                                         #:property 'max-height
-                                         #:variants default-rem-sizes))))
+                          (map (lambda (d)
+                                 (rulv (string-append "."
+                                                      (format #f "~a"
+                                                              (car d)) "-"
+                                                      "~a")
+                                       #:property (cadr d)
+                                       #:variants (map (lambda (s)
+                                                         (siz s
+                                                              #:conversion
+                                                              to-rem
+                                                              #:multiplier (height-multiplier)))
+                                                       (append
+                                                        default-numeric-sizes
+                                                        default-tshirt-sizes))))
+                               '((h height)
+                                 (min-h min-height)
+                                 (max-h max-height))))))
+
+(define text-sizes
+  (make-parameter (rulv ".text-~a"
+                        #:property 'font-size
+                        #:variants (map (lambda (s)
+                                          (siz s
+                                               #:conversion to-rem
+                                               #:multiplier (font-size-multiplier)))
+                                        (append default-tshirt-sizes
+                                                default-numeric-sizes)))))
 
 (define font-families
   (make-parameter (list (rul ".font-sans"
@@ -265,89 +222,89 @@
                                   (serif-font-family))))))
 
 (define flex-justifies
-  (make-parameter (rule-variants #:selector ".justify-~a"
-                                 #:property 'justify-content
-                                 #:variants '((start flex-start)
-                                              (end flex-end)
-                                              (end-safe "safe flex-end")
-                                              (center center)
-                                              (center-safe "safe center")
-                                              (between space-between)
-                                              (around space-around)
-                                              (evenly space-evenly)
-                                              (stretch stretch)
-                                              (baseline baseline)
-                                              (normal normal)))))
+  (make-parameter (rulv ".justify-~a"
+                        #:property 'justify-content
+                        #:variants '((start flex-start)
+                                     (end flex-end)
+                                     (end-safe "safe flex-end")
+                                     (center center)
+                                     (center-safe "safe center")
+                                     (between space-between)
+                                     (around space-around)
+                                     (evenly space-evenly)
+                                     (stretch stretch)
+                                     (baseline baseline)
+                                     (normal normal)))))
 
 (define flex-aligns
-  (make-parameter (rule-variants #:selector ".items-~a"
-                                 #:property 'align-items
-                                 #:variants '((start flex-start)
-                                              (end flex-end)
-                                              (end-safe "safe flex-end")
-                                              (center center)
-                                              (center-safe "safe center")
-                                              (baseline baseline)
-                                              (baseline-last "last baseline")
-                                              (stretch stretch)))))
+  (make-parameter (rulv ".items-~a"
+                        #:property 'align-items
+                        #:variants '((start flex-start)
+                                     (end flex-end)
+                                     (end-safe "safe flex-end")
+                                     (center center)
+                                     (center-safe "safe center")
+                                     (baseline baseline)
+                                     (baseline-last "last baseline")
+                                     (stretch stretch)))))
 
 (define shadows
-  (make-parameter (rule-variants #:selector ".shadow-~a"
-                                 #:property 'box-shadow
-                                 #:variants '((2xs "0 1px rgb(0 0 0 / 0.05)")
-                                              (xs
-                                               "0 1px 2px 0 rgb(0 0 0 / 0.05)")
-                                              (sm
-                                               "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)")
-                                              (md
-                                               "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)")
-                                              (lg
-                                               "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)")
-                                              (xl
-                                               "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)")
-                                              (2xl
-                                               "0 25px 50px -12px rgb(0 0 0 / 0.25)")
-                                              (none "0 0 #0000")))))
+  (make-parameter (rulv ".shadow-~a"
+                        #:property 'box-shadow
+                        #:variants '((2xs "0 1px rgb(0 0 0 / 0.05)")
+                                     (xs "0 1px 2px 0 rgb(0 0 0 / 0.05)")
+                                     (sm
+                                      "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)")
+                                     (md
+                                      "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)")
+                                     (lg
+                                      "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)")
+                                     (xl
+                                      "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)")
+                                     (2xl
+                                      "0 25px 50px -12px rgb(0 0 0 / 0.25)")
+                                     (none "0 0 #0000")))))
 
 (define scroll-snap-type
   (make-parameter "proximity"))
 
 (define scroll-snap-types
-  (make-parameter (rule-variants #:selector ".snap-~a"
-                                 #:property 'scroll-snap-type
-                                 #:variants `((none none)
-                                              (x ,(format #f "x ~a"
-                                                          (scroll-snap-type)))
-                                              (y ,(format #f "y ~a"
-                                                          (scroll-snap-type)))
-                                              (both ,(format #f "both ~a"
-                                                             (scroll-snap-type)))))))
+  (make-parameter (rulv ".snap-~a"
+                        #:property 'scroll-snap-type
+                        #:variants `((none none)
+                                     (x ,(format #f "x ~a"
+                                                 (scroll-snap-type)))
+                                     (y ,(format #f "y ~a"
+                                                 (scroll-snap-type)))
+                                     (both ,(format #f "both ~a"
+                                                    (scroll-snap-type)))))))
 
 (define scroll-snap-aligns
-  (make-parameter (rule-variants #:selector ".snap-~a"
-                                 #:property 'scroll-snap-align
-                                 #:variants '((start start)
-                                              (end end)
-                                              (center center)
-                                              (none none)))))
+  (make-parameter (rulv ".snap-~a"
+                        #:property 'scroll-snap-align
+                        #:variants '((start start)
+                                     (end end)
+                                     (center center)
+                                     (none none)))))
 
 (define flex-directions
-  (make-parameter (rule-variants #:selector ".flex-~a"
-                                 #:property 'flex-direction
-                                 #:variants '((row row)
-                                              (col column)
-                                              (row-reverse row-reverse)
-                                              (col-reverse column-reverse)))))
+  (make-parameter (rulv ".flex-~a"
+                        #:property 'flex-direction
+                        #:variants '((row row)
+                                     (col column)
+                                     (row-reverse row-reverse)
+                                     (col-reverse column-reverse)))))
 
 (define flex-utilities
-  (make-parameter (append (rule-variants #:selector ".gap-~a"
-                                         #:property 'gap
-                                         #:variants (map (lambda (x)
-                                                           (list (car x)
-                                                                 (to-rem (* (cadr
-                                                                             x)
-                                                                            (gap-multiplier)))))
-                                                         default-rem-sizes))
+  (make-parameter (append (rulv ".gap-~a"
+                                #:property 'gap
+                                #:variants (map (lambda (s)
+                                                  (siz s
+                                                       #:conversion to-rem
+                                                       #:multiplier (gap-multiplier)))
+                                                (append default-numeric-sizes
+                                                        default-tshirt-sizes)))
+
                           (list (rul ".flex"
                                      (dec 'display
                                           'flex))
@@ -358,15 +315,10 @@
                                      (dec 'flex-wrap
                                           'nowrap))))))
 
-;; (define z-index
-;;   (make-parameter (css* #:selector 'z
-;;                         #:sizes default-numeric-sizes
-;;                         #:direct-size? #t
-;;                         #:rounded-to-integer? #t
-;;                         #:declarations '(z-index)
-;;                         #:multiplier 1
-;;                         #:breakpoints (breakpoints)
-;;                         #:unit "")))
+(define z-index
+  (make-parameter (rulv ".z-~a"
+                        #:property 'z-index
+                        #:variants default-numeric-sizes)))
 
 (define colors
   (make-parameter (append (map (lambda (p)
@@ -377,21 +329,21 @@
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
                                (default-palettes))
-                          (rule-variants #:selector ".bg-~a"
-                                         #:property 'background
-                                         #:variants '((white white)
-                                                      (black black)
-                                                      (transparent transparent)))
-                          (rule-variants #:selector ".text-~a"
-                                         #:property 'color
-                                         #:variants '((white white)
-                                                      (black black)
-                                                      (transparent transparent)))
-                          (rule-variants #:selector ".border-~a"
-                                         #:property 'border-color
-                                         #:variants '((white white)
-                                                      (black black)
-                                                      (transparent transparent)))
+                          (rulv ".bg-~a"
+                                #:property 'background
+                                #:variants '((white white)
+                                             (black black)
+                                             (transparent transparent)))
+                          (rulv ".text-~a"
+                                #:property 'color
+                                #:variants '((white white)
+                                             (black black)
+                                             (transparent transparent)))
+                          (rulv ".border-~a"
+                                #:property 'border-color
+                                #:variants '((white white)
+                                             (black black)
+                                             (transparent transparent)))
 
                           (map (lambda (p)
                                  (css-color* #:selector 'text
@@ -417,14 +369,14 @@
                                   'italic)))))
 
 (define text-aligns
-  (make-parameter (rule-variants #:selector ".text-~a"
-                                 #:property 'text-align
-                                 #:variants '((center center)
-                                              (left left)
-                                              (right right)
-                                              (justify justify)
-                                              (start start)
-                                              (end end)))))
+  (make-parameter (rulv ".text-~a"
+                        #:property 'text-align
+                        #:variants '((center center)
+                                     (left left)
+                                     (right right)
+                                     (justify justify)
+                                     (start start)
+                                     (end end)))))
 
 (define display-utilities
   (make-parameter (list (rul ".hidden"
@@ -441,31 +393,33 @@
                                   'pointer)))))
 
 (define roundings
-  (make-parameter (css* #:selector 'rounded
-                        #:sizes default-tshirt-sizes
-                        #:declarations '(border-radius)
-                        #:multiplier (rounded-multiplier)
-                        #:breakpoints (breakpoints))))
+  (make-parameter (list (rulv ".rounded-~a"
+                              #:property 'border-radius
+                              #:variants (map (lambda (s)
+                                                (siz s
+                                                     #:conversion to-rem
+                                                     #:multiplier (rounded-multiplier)))
+                                              (append default-numeric-sizes
+                                                      default-tshirt-sizes))))))
 
 (define border-style
   (make-parameter 'solid))
 
-;; (define borders
-;;   (make-parameter (css* #:selector 'border
-;;                         #:sizes default-numeric-sizes
-;;                         #:declarations '(border-width)
-;;                         #:other-declarations `((border-style ,(border-style)))
-;;                         #:direct-size? #t
-;;                         #:multiplier 1
-;;                         #:breakpoints (breakpoints)
-;;                         #:unit "px")))
+(define borders
+  (make-parameter (rulv ".border-~a"
+                        #:property 'border-width
+                        #:other-properties `((border-style ,(border-style)))
+                        #:variants (map (lambda (s)
+                                          (siz s
+                                               #:conversion to-px))
+                                        default-numeric-sizes))))
 
 (define positions
-  (make-parameter (rule-variants #:selector "~a"
-                                 #:property 'position
-                                 #:variants '((absolute absolute)
-                                              (fixed fixed)
-                                              (relative relative)))))
+  (make-parameter (rulv ".~a"
+                        #:property 'position
+                        #:variants '((absolute absolute)
+                                     (fixed fixed)
+                                     (relative relative)))))
 
 (define fade-in-page-transition
   (make-parameter (list (rul "@view-transition"
@@ -495,48 +449,36 @@
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define* (hss)
-  (append (reset-css)
-          (font-families)
-          (text-aligns)
-          (text-utilities)
-          (flex-directions)
-          (flex-utilities)
-          (flex-justifies)
-          (flex-aligns)
-          (shrinks)
+  (append '("/* ====== Load CSS browser reset - should be first ======= */")
+          (reset-css)
+          '("/* ====== Load HSS Hygge Style Sheets ======= */")
+          (absolute-positions)
           (active-scale)
-          (positions)
+          (borders)
+          (display-utilities)
+          (display-utilities)
           (fade-in-page-transition)
-          (weights)
+          (flex-aligns)
+          (flex-directions)
+          (flex-justifies)
+          (flex-utilities)
+          (font-families)
           (heights)
-          (list (rul ".flex"
-                     (dec 'display
-                          'flex))))
+          (margins)
+          (paddings)
+          (positions)
+          (roundings)
+          (scroll-snap-aligns)
+          (scroll-snap-types)
+          (shadows)
+          (shrinks)
+          (text-aligns)
+          (text-sizes)
+          (text-utilities)
+          (weights)
+          (widths)
+          (z-index))
 
-  ;; (css* #:selector 'text
-  ;; #:sizes default-tshirt-sizes
-  ;; #:declarations '(font-size)
-  ;; #:breakpoints (breakpoints)
-  ;; #:multiplier (font-size-multiplier))
-  ;; (positions)
-  ;; (absolute-positions)
-  ;; (scroll-snap-aligns)
-  ;; (scroll-snap-types)
-  ;; (z-index)
-  ;; (roundings)
-  ;; (paddings)
-  ;; (shadows)
-  ;; (margins)
-  ;; (weights)
-  ;; (text-utilities)
-  ;; (flex-utilities)
-  ;; (borders)
-  ;; (widths)
-  ;; (heights)
-  ;; (font-families)
-  ;; (display-utilities)
-  ;; (fade-in-page-transition)
-  ;; (active-scale)
   ;; (colors))
   )
 

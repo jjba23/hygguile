@@ -20,8 +20,7 @@
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:export (default-tshirt-sizes default-numeric-sizes default-weights
-                                 default-alphas default-color-weights
-                                 default-rem-sizes))
+                                 default-alphas default-color-weights))
 
 (define default-tshirt-sizes
   `(("2xs" 1)
@@ -34,29 +33,6 @@
     ("3xl" 8)
     ("4xl" 9)
     ("5xl" 10)))
-
-(define default-rem-sizes
-  '((1 1)
-    (2 2)
-    (4 4)
-    (6 6)
-    (8 8)
-    (10 10)
-    (12 12)
-    (14 14)
-    (16 16)
-    (20 20)
-    (24 24)
-    (28 28)
-    (32 32)
-    (48 48)
-    (64 64)
-    (72 72)
-    (96 96)
-    (128 128)
-    (196 196)
-    (256 256)
-    (512 512)))
 
 (define default-numeric-sizes
   '((1 1)

@@ -38,10 +38,13 @@
               declaration-property
               declaration-value
               rul
+
               dec
               flatten-list
-              rule-variants
+              rulv
+              siz
               to-rem
+              to-px
               compose
               ;;
               ))
@@ -82,16 +85,32 @@
 (define dec
   make-declaration)
 
-(define* (rule-variants #:key selector property variants)
+(define* (rulv selector
+               #:key property variants
+               (other-properties '()))
   (map (lambda (v)
          (rul (format #f selector
                       (car v))
-              (dec property
-                   (cadr v)))) variants))
+
+              (append (map (lambda (p)
+                             (dec (car p)
+                                  (cadr p))) other-properties)
+                      (list (dec property
+                                 (cadr v))))
+
+              )) variants))
+
+(define* (siz s
+              #:key (conversion identity)
+              (multiplier 1))
+  (list (car s)
+        (conversion (* (cadr s) multiplier))))
 
 (define (to-rem x)
-  (format #f "~,2frem"
-                x))
+  (format #f "~,2frem" x))
+
+(define (to-px x)
+  (format #f "~,2fpx" x))
 
 ;; ========================================================================
 
@@ -280,7 +299,7 @@
                        (format-declaration (rule-declarations xs)))))))
     ((declaration? xs)
      (format-declaration xs))
-    (else (format #f "~a\n" xs))))
+    (else (format #f "~a" xs))))
 
 (define (format-declaration xs)
   (format #f "~a:~a;"
