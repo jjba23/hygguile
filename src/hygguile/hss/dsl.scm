@@ -17,19 +17,66 @@
 
 (define-module (hygguile hss dsl)
   #:use-module (srfi srfi-1)
+  #:use-module (srfi srfi-9)
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:use-module (ice-9 format)
   #:export (~ css
               css*
               css-color*
-              display-css
+              format-css
               list-combinations
-              where-dark))
+              where-dark
+              ;;
+              rule
+              make-rule
+              rule?
+              rule-selector
+              rule-declarations
+              declaration
+              make-declaration
+              declaration?
+              declaration-property
+              declaration-value
+              rul
+              dec
+              flatten-list
+              ;;
+              ))
 
 (define* (~ #:rest args)
   (apply format
          (append '(#f) args)))
+
+(define (flatten-list xs)
+  (cond
+    ((null? xs)
+     '())
+    ((pair? xs)
+     (append (flatten-list (car xs))
+             (flatten-list (cdr xs))))
+    (else (list xs))))
+
+;; ========================================================================
+
+(define-record-type rule
+  (make-rule selector declarations) rule?
+  (selector rule-selector)
+  (declarations rule-declarations))
+
+(define* (rul selector . args)
+  (make-rule selector
+             (flatten-list args)))
+
+(define-record-type declaration
+  (make-declaration property value) declaration?
+  (property declaration-property)
+  (value declaration-value))
+
+(define dec
+  make-declaration)
+
+;; ========================================================================
 
 (define* (generate-sized-declarations #:key declarations calculated-value unit
                                       (rounded-to-integer? #f))
@@ -197,13 +244,37 @@
                             #:selector selector
                             #:name name)) alphas-and-weights)))
 
-(define* (display-css xs)
+(define* (format-css xs)
   (cond
     ((list? xs)
-     (for-each display-css xs))
-    (else (begin
-            (display xs)
-            (display "\n")))))
+     (map format-css xs))
+    ((rule? xs)
+     (format #f "~a {~a}"
+             (rule-selector xs)
+             (cond
+               ((rule? (rule-declarations xs))
+                (format-css (rule-declarations xs)))
+               ((list? (rule-declarations xs))
+                (string-join (map (lambda (xx)
+                                    (cond
+                                      ((rule? xx)
+                                       (format-css xx))
+                                      ((declaration? xx)
+                                       (format-declaration xx))
+                                      (else (format #f "~a" xx)))
+
+                                    )
+                                  (rule-declarations xs)) " "))
+               (else (begin
+                       (format-declaration (rule-declarations xs)))))))
+    ((declaration? xs)
+     (format-declaration xs))
+    (else (format #f "~a\n" xs))))
+
+(define (format-declaration xs)
+  (format #f "~a:~a;"
+          (declaration-property xs)
+          (declaration-value xs)))
 
 (define where-dark
   "&:where([data-theme=dark], [data-theme=dark] *)")

@@ -256,8 +256,7 @@
                                 #:direct-size? #t
                                 #:declarations '(max-height)
                                 #:multiplier (height-multiplier)
-                                #:breakpoints (breakpoints)
-                                ))))
+                                #:breakpoints (breakpoints)))))
 
 (define font-families
   (make-parameter (list (css #:selector 'font-sans
@@ -478,7 +477,7 @@
                         #:other-declarations `((border-style ,(border-style)))
                         #:direct-size? #t
                         #:multiplier 1
-                                                             #:breakpoints (breakpoints)
+                        #:breakpoints (breakpoints)
                         #:unit "px")))
 
 (define positions
@@ -491,58 +490,67 @@
                          (relative relative)))))
 
 (define fade-in-page-transition
-  (make-parameter (list (css #:selector "@view-transition"
-                             #:selector-type ""
-                             #:declarations '((navigation auto)))
-                        (css #:selector (string-join '("::view-transition-old(root)"
-                                                       "::view-transition-new(root)")
-                                                     ", ")
-                             #:selector-type ""
-                             #:declarations '((animation "fade 0.1s ease both")))
-                        (css #:selector "@keyframes fade"
-                             #:selector-type ""
-                             #:declarations '((from ((opacity 0.2)))
-                                              (to ((opacity 1))))))))
+  (make-parameter (list (rul "@view-transition"
+                              (dec 'navigation
+                                    'auto))
+                        (rul (string-join '("::view-transition-old(root)"
+                                             "::view-transition-new(root)")
+                                           ", ")
+                              (dec 'animation "fade 0.1s ease both"))
+                        (rul "@keyframes fade"
+                              (rul 'from
+                                    (dec 'opacity 0.2))
+                              (rul 'to
+                                    (dec 'opacity 1))))))
 
 (define active-scale
-  (make-parameter (list (css #:selector "active\\:scale-95"
-                             #:declarations '(("&:active" ((scale "95% 95%"))))))))
+  (make-parameter (list (rul "active\\:scale-95"
+                              (rul "&:active"
+                                    (dec 'scale "95% 95%"))))))
 
 (define shrinks
-  (make-parameter (list (css #:selector 'shrink
-                             #:declarations '((flex-shrink 1)))
-                        (css #:selector 'shrink-0
-                             #:declarations '((flex-shrink 0))))))
+  (make-parameter (list (rul 'shrink
+                              (dec 'flex-shrink 1))
+                        (rul 'shrink-0
+                              (dec 'flex-shrink 0)))))
 
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define* (hss)
-  (append reset-css
-          (css* #:selector 'text
-                #:sizes default-tshirt-sizes
-                #:declarations '(font-size)
-                #:breakpoints (breakpoints)
-                #:multiplier (font-size-multiplier))
-          (positions)
-          (absolute-positions)
-          (flex-justifies)
-          (flex-aligns)
-          (scroll-snap-aligns)
-          (scroll-snap-types)
-          (z-index)
-          (roundings)
-          (paddings)
-          (shadows)
-          (margins)
-          (weights)
-          (text-utilities)
-          (flex-utilities)
-          (borders)
-          (widths)
-          (heights)
-          (font-families)
-          (display-utilities)
-          (fade-in-page-transition)
+  (append (reset-css)
+          (shrinks)
           (active-scale)
-          (colors)))
+          (fade-in-page-transition)
+          (list (rul ".flex"
+                      (dec 'display
+                            'flex))))
+
+  ;; (css* #:selector 'text
+  ;; #:sizes default-tshirt-sizes
+  ;; #:declarations '(font-size)
+  ;; #:breakpoints (breakpoints)
+  ;; #:multiplier (font-size-multiplier))
+  ;; (positions)
+  ;; (absolute-positions)
+  ;; (flex-justifies)
+  ;; (flex-aligns)
+  ;; (scroll-snap-aligns)
+  ;; (scroll-snap-types)
+  ;; (z-index)
+  ;; (roundings)
+  ;; (paddings)
+  ;; (shadows)
+  ;; (margins)
+  ;; (weights)
+  ;; (text-utilities)
+  ;; (flex-utilities)
+  ;; (borders)
+  ;; (widths)
+  ;; (heights)
+  ;; (font-families)
+  ;; (display-utilities)
+  ;; (fade-in-page-transition)
+  ;; (active-scale)
+  ;; (colors))
+  )
 

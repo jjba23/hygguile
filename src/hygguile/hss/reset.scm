@@ -105,52 +105,59 @@
          video))
 
 (define reset-css
-  (list (css #:selector (string-join (map symbol->string big-html-reset-list)
-                                     ", ")
-             #:declarations '((margin 0)
-                              (padding 0)
-                              (border 0)
-                              (font-size "100%")
-                              (font inherit)
-                              (vertical-align baseline))
-             #:selector-type "")
-        (css #:selector (string-join (map symbol->string
-                                          '(article aside
-                                                    details
-                                                    figcaption
-                                                    figure
-                                                    footer
-                                                    header
-                                                    hgroup
-                                                    menu
-                                                    nav
-                                                    section)) ", ")
-             #:declarations '((display block))
-             #:selector-type "")
-        (css #:selector 'button
-             #:declarations '((background transparent)
-                              (border none))
-             #:selector-type "")
-        (css #:selector 'body
-             #:declarations '((line-height 1))
-             #:selector-type "")
-        (css #:selector (string-join (map symbol->string
-                                          '(blockquote q)) ", ")
-             #:declarations '((quotes none))
-             #:selector-type "")
-        (css #:selector 'table
-             #:declarations '((border-collapse collapse)
-                              (border-spacing 0))
-             #:selector-type "")
-        (css #:selector (string-join (map symbol->string
-                                          '(blockquote:before blockquote:after
+  (make-parameter (list (rul (string-join (map symbol->string
+                                               big-html-reset-list) ", ")
+                             (dec 'margin 0)
+                             (dec 'padding 0)
+                             (dec 'border 0)
+                             (dec 'font-size "100%")
+                             (dec 'font
+                                  'inherit)
+                             (dec 'vertical-align
+                                  'baseline))
+                        (rul (string-join (map symbol->string
+                                               '(article aside
+                                                         details
+                                                         figcaption
+                                                         figure
+                                                         footer
+                                                         header
+                                                         hgroup
+                                                         menu
+                                                         nav
+                                                         section)) ", ")
+                             (dec 'display
+                                  'block))
+                        (rul 'button
+                             (dec 'background
+                                  'transparent)
+                             (dec 'border
+                                  'none))
+                        (rul 'body
+                             (dec 'line-height 1))
 
-                                            q:before q:after)) ", ")
-             #:declarations '((content "''")
-                              (content none))
-             #:selector-type "")
-        (css #:selector (string-join (map symbol->string
-                                          '(ol ul)) ", ")
-             #:declarations '((list-style none))
-             #:selector-type "")))
+                        (rul (string-join (map symbol->string
+                                               '(blockquote q)) ", ")
+                             (dec 'quotes
+                                  'none))
+
+                        (rul 'table
+                             (dec 'borser-collpase
+                                  'collapse)
+                             (dec 'border-spacing 0))
+
+                        (rul (string-join (map symbol->string
+                                               '(blockquote:before
+                                                 blockquote:after
+
+                                                 q:before q:after)) ", ")
+                             (dec 'content "''")
+                             (dec 'content
+                                  'none))
+                        (rul (string-join (map symbol->string
+                                               '(ol ul)) ", ")
+                             (dec 'list-style
+                                  'none))
+
+                        )))
 
