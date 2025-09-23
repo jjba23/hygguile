@@ -21,12 +21,12 @@
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:use-module (ice-9 format)
-  #:export (~ css*
-              css-color*
+  #:export (~ css-color*
               format-css
               list-combinations
               where-dark
               ;;
+              rulc
               rule
               make-rule
               rule?
@@ -100,6 +100,9 @@
 
               )) variants))
 
+(define* (rulc msg)
+  (list (format #f "/*\n  ~a\n*/" msg)))
+
 (define* (siz s
               #:key (conversion identity)
               (multiplier 1))
@@ -113,98 +116,6 @@
   (format #f "~,2fpx" x))
 
 ;; ========================================================================
-
-(define* (generate-sized-declarations #:key declarations calculated-value unit
-                                      (rounded-to-integer? #f))
-  "Creates a list of CSS declarations from a calculated value."
-  (map (lambda (p)
-         (format #f
-                 (if rounded-to-integer? "~a:~d~a;" "~a:~,2f~a;") p
-                 (if rounded-to-integer?
-                     (round calculated-value) calculated-value) unit))
-       declarations))
-
-(define* (generate-static-declarations #:key declarations)
-  "Creates a list of CSS declarations from fixed key-value pairs."
-  (map (lambda (op)
-         (format #f
-                 (if (list? (cadr op)) "~a ~a" "~a:~a;")
-                 (car op)
-                 (if (list? (cadr op))
-                     (format #f "{~a}"
-                             (string-join (generate-static-declarations
-                                                                        #:declarations
-                                                                        (cadr
-                                                                         op))
-                                          " "))
-                     (cadr op)))) declarations))
-
-(define* (build-selector #:key selector-type selector size direct-size?)
-  "Constructs the CSS selector, adding a size suffix if needed."
-  (if direct-size?
-      (~ "~a~a-~a" selector-type selector size)
-      (~ "~a~a-~a" selector-type selector
-         (car size))))
-
-(define* (build-rule-for-size #:key size
-                              selector-type
-                              selector
-                              declarations
-                              (rounded-to-integer? #f)
-                              (other-declarations '())
-                              multiplier
-                              unit
-                              (breakpoints '())
-                              (direct-size? #f))
-  "Builds a complete CSS rule for a single size element."
-  (let* ((sel (build-selector #:selector-type selector-type
-                              #:selector selector
-                              #:size size
-                              #:direct-size? direct-size?))
-         (base-value (if direct-size? size
-                         (cadr size)))
-         (sized-decs (generate-sized-declarations #:declarations declarations
-                                                  #:calculated-value (*
-                                                                      multiplier
-                                                                      base-value)
-                                                  #:rounded-to-integer?
-                                                  rounded-to-integer?
-                                                  #:unit unit))
-         (static-decs (generate-static-declarations #:declarations
-                                                    other-declarations))
-         (declarations-string (string-join (append sized-decs static-decs) " ")))
-    
-    (append (list (~ "~a {~a}" sel declarations-string))
-            (map (lambda (mq)
-                   (~ "@media (min-width: ~a) {~a~a\\:~a-~a {~a}}"
-                      (cadr mq)
-                      selector-type
-                      (car mq)
-                      selector
-                      size
-                      declarations-string)) breakpoints))))
-
-(define* (css* #:key (selector-type ".")
-               selector
-               declarations
-               (other-declarations '())
-               (direct-size? #f)
-               (rounded-to-integer? #f)
-               multiplier
-               (unit "rem")
-               (breakpoints '())
-               sizes)
-  (append-map (lambda (size)
-                (build-rule-for-size #:size size
-                                     #:selector-type selector-type
-                                     #:selector selector
-                                     #:declarations declarations
-                                     #:rounded-to-integer? rounded-to-integer?
-                                     #:other-declarations other-declarations
-                                     #:multiplier multiplier
-                                     #:unit unit
-                                     #:breakpoints breakpoints
-                                     #:direct-size? direct-size?)) sizes))
 
 (define (list-combinations list1 list2)
   "Computes all combinations (Cartesian product) of elements from two lists."

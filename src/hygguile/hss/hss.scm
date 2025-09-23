@@ -251,7 +251,7 @@
 (define shadows
   (make-parameter (rulv ".shadow-~a"
                         #:property 'box-shadow
-                        #:variants '((2xs "0 1px rgb(0 0 0 / 0.05)")
+                        #:variants '(("2xs" "0 1px rgb(0 0 0 / 0.05)")
                                      (xs "0 1px 2px 0 rgb(0 0 0 / 0.05)")
                                      (sm
                                       "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)")
@@ -261,7 +261,7 @@
                                       "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)")
                                      (xl
                                       "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)")
-                                     (2xl
+                                     ("2xl"
                                       "0 25px 50px -12px rgb(0 0 0 / 0.25)")
                                      (none "0 0 #0000")))))
 
@@ -446,12 +446,34 @@
                         (rul ".shrink-0"
                              (dec 'flex-shrink 0)))))
 
+(define license-header
+  (make-parameter
+   "hygguile - cozy and professional user-interfaces for everyone
+
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>."))
+
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define* (hss)
-  (append '("/* ====== Load CSS browser reset - should be first ======= */")
+  (append (rulc (license-header))
+          (list "")
+          (rulc "Load CSS browser reset - should be first")
           (reset-css)
-          '("/* ====== Load HSS Hygge Style Sheets ======= */")
+          (list "")
+          (rulc "Load HSS Hygge Style Sheets")
           (absolute-positions)
           (active-scale)
           (borders)

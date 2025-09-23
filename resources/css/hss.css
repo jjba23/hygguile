@@ -1,4 +1,25 @@
-/* ====== Load CSS browser reset - should be first ======= */
+/*
+  hygguile - cozy and professional user-interfaces for everyone
+
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*
+  Load CSS browser reset - should be first
+*/
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {margin:0; padding:0; border:0; font-size:100%; font:inherit; vertical-align:baseline;}
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block;}
 button {background:transparent; border:none;}
@@ -7,7 +28,10 @@ blockquote, q {quotes:none;}
 table {borser-collpase:collapse; border-spacing:0;}
 blockquote:before, blockquote:after, q:before, q:after {content:''; content:none;}
 ol, ul {list-style:none;}
-/* ====== Load HSS Hygge Style Sheets ======= */
+
+/*
+  Load HSS Hygge Style Sheets
+*/
 .top-1 {top:0.40rem;}
 .top-2 {top:0.80rem;}
 .top-4 {top:1.60rem;}
@@ -1066,13 +1090,13 @@ ol, ul {list-style:none;}
 .snap-x {scroll-snap-type:x proximity;}
 .snap-y {scroll-snap-type:y proximity;}
 .snap-both {scroll-snap-type:both proximity;}
-.shadow-#{2xs}# {box-shadow:0 1px rgb(0 0 0 / 0.05);}
+.shadow-2xs {box-shadow:0 1px rgb(0 0 0 / 0.05);}
 .shadow-xs {box-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);}
 .shadow-sm {box-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);}
 .shadow-md {box-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);}
 .shadow-lg {box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);}
 .shadow-xl {box-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);}
-.shadow-#{2xl}# {box-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);}
+.shadow-2xl {box-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);}
 .shadow-none {box-shadow:0 0 #0000;}
 .shrink {flex-shrink:1;}
 .shrink-0 {flex-shrink:0;}
