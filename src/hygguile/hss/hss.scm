@@ -340,22 +340,23 @@
                                               (col-reverse column-reverse)))))
 
 (define flex-utilities
-  (make-parameter (append
-                   ;; (css* #:selector 'gap
-                   ;; #:sizes default-numeric-sizes
-                   ;; #:direct-size? #t
-                   ;; #:declarations '(gap)
-                   ;; #:multiplier (gap-multiplier)
-                   ;; #:breakpoints (breakpoints))
-                   (list (rul ".flex"
-                              (dec 'display
-                                   'flex))
-                         (rul ".flex-wrap"
-                              (dec 'flex-wrap
-                                   'wrap))
-                         (rul ".flex-nowrap"
-                              (dec 'flex-wrap
-                                   'nowrap))))))
+  (make-parameter (append (rule-variants #:selector ".gap-~a"
+                                         #:property 'gap
+                                         #:variants (map (lambda (x)
+                                                           (list (car x)
+                                                                 (to-rem (* (cadr
+                                                                             x)
+                                                                            (gap-multiplier)))))
+                                                         default-rem-sizes))
+                          (list (rul ".flex"
+                                     (dec 'display
+                                          'flex))
+                                (rul ".flex-wrap"
+                                     (dec 'flex-wrap
+                                          'wrap))
+                                (rul ".flex-nowrap"
+                                     (dec 'flex-wrap
+                                          'nowrap))))))
 
 ;; (define z-index
 ;;   (make-parameter (css* #:selector 'z
@@ -392,15 +393,6 @@
                                                       (black black)
                                                       (transparent transparent)))
 
-                          ;; (list (css #:selector "dark\\:bg-white"
-                          ;; #:declarations `((,where-dark ((background
-                          ;; white)))))
-                          ;; (css #:selector "dark\\:bg-transparent"
-                          ;; #:declarations `((,where-dark ((background
-                          ;; transparent)))))
-                          ;; (css #:selector "dark\\:bg-black"
-                          ;; #:declarations `((,where-dark ((background
-                          ;; black))))))
                           (map (lambda (p)
                                  (css-color* #:selector 'text
                                              #:declarations '(color)
@@ -410,16 +402,6 @@
                                              #:weights default-color-weights))
                                (default-palettes))
 
-                          ;; (list (css #:selector "dark\\:text-white"
-                          ;; #:declarations `((,where-dark ((color
-                          ;; white)))))
-                          ;; (css #:selector "dark\\:text-transparent"
-                          ;; #:declarations `((,where-dark ((color
-                          ;; transparent)))))
-                          ;; (css #:selector "dark\\:text-black"
-                          ;; #:declarations `((,where-dark ((color
-                          ;; black))))))
-                          
                           (map (lambda (p)
                                  (css-color* #:selector 'border
                                              #:declarations '(border-color)
@@ -427,18 +409,7 @@
                                              #:palette (cdr p)
                                              #:alphas default-alphas
                                              #:weights default-color-weights))
-                               (default-palettes))
-
-                          ;; (list (css #:selector "dark\\:border-white"
-                          ;; #:declarations `((,where-dark ((border-color
-                          ;; white)))))
-                          ;; (css #:selector "dark\\:border-transparent"
-                          ;; #:declarations `((,where-dark ((border-color
-                          ;; transparent)))))
-                          ;; (css #:selector "dark\\:border-black"
-                          ;; #:declarations `((,where-dark ((border-color
-                          ;; black))))))
-                          )))
+                               (default-palettes)))))
 
 (define text-utilities
   (make-parameter (list (rul ".italic"
@@ -528,12 +499,13 @@
           (font-families)
           (text-aligns)
           (text-utilities)
+          (flex-directions)
+          (flex-utilities)
           (flex-justifies)
           (flex-aligns)
           (shrinks)
           (active-scale)
           (positions)
-          (flex-directions)
           (fade-in-page-transition)
           (weights)
           (heights)

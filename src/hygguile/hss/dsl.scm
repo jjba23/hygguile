@@ -41,6 +41,8 @@
               dec
               flatten-list
               rule-variants
+              to-rem
+              compose
               ;;
               ))
 
@@ -56,6 +58,10 @@
      (append (flatten-list (car xs))
              (flatten-list (cdr xs))))
     (else (list xs))))
+
+(define (compose f g)
+  (lambda (x)
+    (f (g x))))
 
 ;; ========================================================================
 
@@ -76,16 +82,16 @@
 (define dec
   make-declaration)
 
-(define* (rule-variants #:key selector property variants
-                        (multiplier #f))
+(define* (rule-variants #:key selector property variants)
   (map (lambda (v)
          (rul (format #f selector
                       (car v))
               (dec property
-                   (if (not multiplier)
-                       (cadr v)
-                       (* multiplier
-                          (cadr v)))))) variants))
+                   (cadr v)))) variants))
+
+(define (to-rem x)
+  (format #f "~,2frem"
+                x))
 
 ;; ========================================================================
 
