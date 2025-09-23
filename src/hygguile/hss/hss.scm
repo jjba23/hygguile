@@ -357,6 +357,41 @@
 
                           )))
 
+(define dark-mode-colors
+  (make-parameter (list '("&:where([data-theme=dark], [data-theme=dark] *) {")
+                        (rulv ".dark\\:bg-~a"
+                              #:property 'background
+                              #:variants '((white white)
+                                           (black black)
+                                           (transparent transparent)))
+                        (rulv ".dark\\:text-~a"
+                              #:property 'color
+                              #:variants '((white white)
+                                           (black black)
+                                           (transparent transparent)))
+                        (rulv ".dark\\:border-~a"
+                              #:property 'border-color
+                              #:variants '((white white)
+                                           (black black)
+                                           (transparent transparent)))
+
+                        (rulcol ".dark\\:bg-~a-~a~a"
+                                #:property 'background
+                                #:variants (list-combinations default-alphas
+                                            default-color-weights)
+                                #:palettes (default-palettes))
+                        (rulcol ".dark\\:text-~a-~a~a"
+                                #:property 'color
+                                #:variants (list-combinations default-alphas
+                                            default-color-weights)
+                                #:palettes (default-palettes))
+                        (rulcol ".dark:\\border-~a-~a~a"
+                                #:property 'border-color
+                                #:variants (list-combinations default-alphas
+                                            default-color-weights)
+                                #:palettes (default-palettes))
+                        '("}"))))
+
 (define text-utilities
   (make-parameter (list (rul ".italic"
                              (dec 'font-style
@@ -374,8 +409,7 @@
 
 (define display-utilities
   (make-parameter (list (rul ".hidden"
-                             (dec 'display
-                                  "none !important"))
+                             (dec 'display "none !important"))
                         (rul ".overflow-x-scroll"
                              (dec 'overflow-x
                                   'scroll))
@@ -496,5 +530,8 @@
           (z-index)
           (list "")
           (rulc "Load HSS colors")
-          (colors)))
+          (colors)
+          (list "")
+          (rulc "Load HSS Dark mode colors")
+          (dark-mode-colors)))
 

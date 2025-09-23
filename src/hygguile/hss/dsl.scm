@@ -44,7 +44,6 @@
               siz
               to-rem
               to-px
-              compose
               ;;
               ))
 
@@ -60,12 +59,6 @@
      (append (flatten-list (car xs))
              (flatten-list (cdr xs))))
     (else (list xs))))
-
-(define (compose f g)
-  (lambda (x)
-    (f (g x))))
-
-;; ========================================================================
 
 (define-record-type rule
   (make-rule selector declarations) rule?
