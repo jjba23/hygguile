@@ -390,10 +390,18 @@
                           )))
 
 (define dark-mode-colors
-  (make-parameter (list '("&:where([data-theme=dark], [data-theme=dark] *) {")
+  (make-parameter (list (list where-dark " {")
                         (addmq 'dark
                                (colors))
                         '("}"))))
+
+(define hover-colors
+  (make-parameter (addhover 'hover
+                            (colors))))
+
+(define dark-mode-hover-colors
+  (make-parameter (addhover "hover\\:dark"
+                            (colors))))
 
 (define text-utilities
   (make-parameter (list (rul ".italic"
@@ -592,8 +600,14 @@
           (rulc "Load HSS colors")
           (colors)
           '("")
+          (rulc "Load HSS hover colors")
+          (hover-colors)
+          '("")
           (rulc "Load HSS Dark mode colors")
           (dark-mode-colors)
+          '("")
+          (rulc "Load HSS Dark mode hover colors")
+          (dark-mode-hover-colors)
           '("")
           (rulc "Load responsive classes")
           (responsive)))

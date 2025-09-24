@@ -31,6 +31,7 @@
               rule
               mq
               addmq
+              addhover
               make-rule
               rule?
               set-rule-selector!
@@ -126,6 +127,23 @@
     ((list? args)
      (map (lambda (a)
             (addmq sel a)) args))
+    (else args)))
+
+(define (addhover sel args)
+  (cond
+    ((rule? args)
+     (let* ((a args)
+            (selector (rule-selector a))
+            (str (if (equal? "."
+                             (string-take selector 1))
+                     (format #f ".~a\\:~a" sel
+                             (string-drop selector 1)) selector))
+            (rd (rul "&:hover"
+                     (rule-declarations a))))
+       (rul str rd)))
+    ((list? args)
+     (map (lambda (a)
+            (addhover sel a)) args))
     (else args)))
 
 (define* (rulcol selector
