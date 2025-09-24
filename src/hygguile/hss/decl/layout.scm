@@ -21,7 +21,12 @@
   #:use-module (ice-9 string-fun)
   #:use-module (hygguile hss dsl)
   #:use-module (hygguile hss sizes)
-  #:export (aspect-ratio columns z-index absolute-positions displays visibility))
+  #:export (aspect-ratio columns
+                         z-index
+                         absolute-positions
+                         displays
+                         visibility
+                         layout-classes))
 
 (define absolute-positions-multiplier
   (make-parameter 0.4))
@@ -86,10 +91,36 @@
                                      (list-item list-item)
                                      (hidden "none !important")))))
 
-
 (define visibility
   (make-parameter (rulv ".~a"
                         #:property 'visibility
                         #:variants '((visible visible)
                                      (invisible invisible)
                                      (collapse collapse)))))
+
+(define overflow-x
+  (make-parameter (rulv ".overflow-x-~a"
+                        #:property 'overflow-x
+                        #:variants '((auto auto)
+                                     (hidden hidden)
+                                     (clip clip)
+                                     (visible visible)
+                                     (scroll scroll)))))
+
+(define overflow-y
+  (make-parameter (rulv ".overflow-y-~a"
+                        #:property 'overflow-y
+                        #:variants '((auto auto)
+                                     (hidden hidden)
+                                     (clip clip)
+                                     (visible visible)
+                                     (scroll scroll)))))
+
+(define layout-classes
+  (make-parameter (list (aspect-ratio)
+                        (columns)
+                        (absolute-positions)
+                        (displays)
+                        (overflow-x)
+                        (overflow-y)
+                        (z-index))))

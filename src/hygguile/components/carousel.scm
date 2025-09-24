@@ -43,13 +43,14 @@
                    (carousel-button-css '(absolute bottom-1/2
                                                    w-18
                                                    h-18
-                                                   bg-stone-500/25
-                                                   dark:bg-onyx-700/25
-                                                   rounded-xl
+                                                   bg-stone-500/75
+                                                   dark:bg-onyx-700/75
+                                                   p-2
+                                                   rounded-4xl
                                                    text-onyx-500
                                                    dark:text-stone-300
                                                    cursor-pointer
-                                                   text-2xl))
+                                                   text-3xl))
                    (carousel-left-button-css '(left-4))
                    (carousel-right-button-css '(right-4))
                    (fragments '()))

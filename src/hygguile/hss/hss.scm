@@ -166,8 +166,6 @@
                                  (min-w min-width)
                                  (max-w max-width))))))
 
-
-
 (define heights
   (make-parameter (append (list (rul ".min-h-screen"
                                      (dec 'min-height "1vh"))
@@ -320,15 +318,12 @@
                                                 (append numeric-sizes
                                                         tshirt-sizes)))
 
-                          (list 
-                                (rul ".flex-wrap"
+                          (list (rul ".flex-wrap"
                                      (dec 'flex-wrap
                                           'wrap))
                                 (rul ".flex-nowrap"
                                      (dec 'flex-wrap
                                           'nowrap))))))
-
-
 
 (define colors
   (make-parameter (append (rulv ".bg-~a"
@@ -397,8 +392,7 @@
                                      (end end)))))
 
 (define display-utilities
-  (make-parameter (list 
-                        (rul ".overflow-x-scroll"
+  (make-parameter (list (rul ".overflow-x-scroll"
                              (dec 'overflow-x
                                   'scroll))
                         (rul ".overflow-y-scroll"
@@ -499,7 +493,8 @@
                           (positions)
                           (roundings)
                           (scroll-snap-aligns)
-                          (scroll-snap-types))))
+                          (scroll-snap-types)
+                          (layout-classes))))
 
 (define sm-responsive
   (make-parameter (map (lambda (r)
@@ -546,16 +541,12 @@
           '("")
           (rulc "Load HSS Hygge Style Sheets")
 
-          ;;
-          
-          (aspect-ratio)
-          (columns)
+          (layout-classes)
 
           ;;
-          (absolute-positions)
+          
           (active-scale)
           (borders)
-          (display-utilities)
           (display-utilities)
           (fade-in-page-transition)
           (flex-align-self)
@@ -566,7 +557,7 @@
           (flex-utilities)
           (font-families)
           (font-weights)
-          (displays)
+
           (visibility)
           (heights)
           (margins)
@@ -582,7 +573,7 @@
           (text-utilities)
 
           (widths)
-          (z-index)
+
           '("")
           (rulc "Load HSS colors")
           (colors)
