@@ -386,7 +386,9 @@
                                              (prussian-blue-500 text-white)
                                              (raisin-black-500 text-white)
                                              (stone-500 text-black)
-                                             (onyx-500 text-white))))))))
+                                             (onyx-500 text-white)
+                                             (papaya-whip-500 text-black)
+                                             (floral-white-500 text-black))))))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-10 px-4 container

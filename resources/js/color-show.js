@@ -31,7 +31,5 @@ function cycleColorShow(el) {
   const newClass = cycleBgClass(currentClass)
   el.classList.toggle(currentClass)
   el.classList.toggle(newClass)
-  el.innerHTML = `<span class="text-sm text-white">
-    ${newClass.replace("bg-", "")}
-  </span>`
+  el.children[0].innerText = newClass.replace("bg-", "")
 }

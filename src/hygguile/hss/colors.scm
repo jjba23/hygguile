@@ -242,6 +242,26 @@
                     (700 ,(darken onyx-oklch 0.05))
                     (900 ,(darken onyx-oklch 0.1)))))
 
+(define papaya-whip-oklch
+  '(0.9622 0.0384 83.83))
+
+(define papaya-whip
+  (make-parameter `((100 ,(lighten papaya-whip-oklch 0.1))
+                    (300 ,(lighten papaya-whip-oklch 0.05))
+                    (500 ,papaya-whip-oklch)
+                    (700 ,(darken papaya-whip-oklch 0.05))
+                    (900 ,(darken papaya-whip-oklch 0.1)))))
+
+(define floral-white-oklch
+  '(0.9819 0.0164 91.55))
+
+(define floral-white
+  (make-parameter `((100 ,(lighten floral-white-oklch 0.1))
+                    (300 ,(lighten floral-white-oklch 0.05))
+                    (500 ,floral-white-oklch)
+                    (700 ,(darken floral-white-oklch 0.05))
+                    (900 ,(darken floral-white-oklch 0.1)))))
+
 (define default-palettes
   (make-parameter (list (cons 'orange
                               (orange))
@@ -257,6 +277,10 @@
                               (onyx))
                         (cons 'midnight-green
                               (midnight-green))
+                        (cons 'papaya-whip
+                              (papaya-whip))
+                        (cons 'floral-white
+                              (floral-white))
                         (cons 'raisin-black
                               (raisin-black)))))
 

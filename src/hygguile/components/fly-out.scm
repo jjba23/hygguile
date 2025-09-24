@@ -35,14 +35,14 @@
                                           flex text-onyx-300
                                           dark:text-stone-300))
                           (ul-class '(flyout-submenu z-10
-                                      absolute
-                                      bg-stone-100/75
-                                      dark:bg-onyx-700/75
-                                      rounded-xl
-                                      shadow-md
-                                      my-2
-                                      px-4
-                                      py-1))
+                                                     absolute
+                                                     bg-stone-100/75
+                                                     dark:bg-onyx-700/75
+                                                     rounded-xl
+                                                     shadow-md
+                                                     my-2
+                                                     px-4
+                                                     py-1))
                           (button-content `((h4 "Menu")))
                           (items '()))
   `((li (@ (class ,(mk-class li-class)))
