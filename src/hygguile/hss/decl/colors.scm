@@ -325,7 +325,7 @@
 (define ferrari-red
   (make-parameter (make-palette ferrari-red-oklch)))
 
-(define-public default-palettes
+(define-public palettes
   (make-parameter (list (cons 'apple-green
                               (apple-green))
                         (cons 'ash-gray

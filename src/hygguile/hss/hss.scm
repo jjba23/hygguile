@@ -22,6 +22,7 @@
   #:use-module (hygguile hss dsl)
   #:use-module (hygguile hss sizes)
   #:use-module (hygguile hss decl colors)
+  #:use-module (hygguile hss decl layout)
   #:use-module (hygguile hss decl reset)
   #:export (font-size-multiplier margin-multiplier
                                  padding-multiplier
@@ -55,8 +56,7 @@
   (make-parameter "84ch"))
 (define shadow-multiplier
   (make-parameter 0.3))
-(define absolute-positions-multiplier
-  (make-parameter 0.4))
+
 (define sm-breakpoint
   (make-parameter "640px"))
 
@@ -98,9 +98,8 @@
                                                              #:conversion
                                                              to-rem
                                                              #:multiplier (padding-multiplier)))
-                                                      (append
-                                                       default-numeric-sizes
-                                                       default-tshirt-sizes))))
+                                                      (append numeric-sizes
+                                                              tshirt-sizes))))
                               (cdr d)))
                        '((p padding-top padding-bottom padding-left
                             padding-right)
@@ -123,9 +122,8 @@
                                                              #:conversion
                                                              to-rem
                                                              #:multiplier (margin-multiplier)))
-                                                      (append
-                                                       default-numeric-sizes
-                                                       default-tshirt-sizes))))
+                                                      (append numeric-sizes
+                                                              tshirt-sizes))))
                               (cdr d)))
                        '((m margin-top margin-bottom margin-left margin-right)
                          (mx margin-left margin-right)
@@ -135,10 +133,10 @@
                          (ml margin-left)
                          (mr margin-right)))))
 
-(define weights
+(define font-weights
   (make-parameter (rulv ".font-~a"
                         #:property 'font-weight
-                        #:variants default-weights)))
+                        #:variants weights)))
 
 (define widths
   (make-parameter (append (list (rul ".min-w-screen"
@@ -162,28 +160,13 @@
                                                               #:conversion
                                                               to-rem
                                                               #:multiplier (width-multiplier)))
-                                                       (append
-                                                        default-numeric-sizes
-                                                        default-tshirt-sizes))))
+                                                       (append numeric-sizes
+                                                               tshirt-sizes))))
                                '((w width)
                                  (min-w min-width)
                                  (max-w max-width))))))
 
-(define absolute-positions
-  (make-parameter (map (lambda (d)
-                         (rulv (string-append "."
-                                              (format #f "~a" d) "-" "~a")
-                               #:property d
-                               #:variants (append (map (lambda (s)
-                                                         (siz s
-                                                              #:conversion
-                                                              to-rem
-                                                              #:multiplier (absolute-positions-multiplier)))
-                                                       default-numeric-sizes)
-                                                  (map siz default-fractions))))
-                       '(top bottom left right)))
 
-  )
 
 (define heights
   (make-parameter (append (list (rul ".min-h-screen"
@@ -201,9 +184,8 @@
                                                               #:conversion
                                                               to-rem
                                                               #:multiplier (height-multiplier)))
-                                                       (append
-                                                        default-numeric-sizes
-                                                        default-tshirt-sizes))))
+                                                       (append numeric-sizes
+                                                               tshirt-sizes))))
                                '((h height)
                                  (min-h min-height)
                                  (max-h max-height))))))
@@ -215,8 +197,7 @@
                                           (siz s
                                                #:conversion to-rem
                                                #:multiplier (font-size-multiplier)))
-                                        (append default-tshirt-sizes
-                                                default-numeric-sizes)))))
+                                        (append tshirt-sizes numeric-sizes)))))
 
 (define font-families
   (make-parameter (list (rul ".font-sans"
@@ -336,12 +317,10 @@
                                                   (siz s
                                                        #:conversion to-rem
                                                        #:multiplier (gap-multiplier)))
-                                                (append default-numeric-sizes
-                                                        default-tshirt-sizes)))
+                                                (append numeric-sizes
+                                                        tshirt-sizes)))
 
-                          (list (rul ".flex"
-                                     (dec 'display
-                                          'flex))
+                          (list 
                                 (rul ".flex-wrap"
                                      (dec 'flex-wrap
                                           'wrap))
@@ -349,10 +328,7 @@
                                      (dec 'flex-wrap
                                           'nowrap))))))
 
-(define z-index
-  (make-parameter (rulv ".z-~a"
-                        #:property 'z-index
-                        #:variants default-numeric-sizes)))
+
 
 (define colors
   (make-parameter (append (rulv ".bg-~a"
@@ -373,19 +349,19 @@
 
                           (rulcol ".bg-~a-~a~a"
                                   #:property 'background
-                                  #:variants (list-combinations default-alphas
-                                              default-color-weights)
-                                  #:palettes (default-palettes))
+                                  #:variants (list-combinations alphas
+                                                                color-weights)
+                                  #:palettes (palettes))
                           (rulcol ".text-~a-~a~a"
                                   #:property 'color
-                                  #:variants (list-combinations default-alphas
-                                              default-color-weights)
-                                  #:palettes (default-palettes))
+                                  #:variants (list-combinations alphas
+                                                                color-weights)
+                                  #:palettes (palettes))
                           (rulcol ".border-~a-~a~a"
                                   #:property 'border-color
-                                  #:variants (list-combinations default-alphas
-                                              default-color-weights)
-                                  #:palettes (default-palettes))
+                                  #:variants (list-combinations alphas
+                                                                color-weights)
+                                  #:palettes (palettes))
 
                           )))
 
@@ -421,8 +397,7 @@
                                      (end end)))))
 
 (define display-utilities
-  (make-parameter (list (rul ".hidden"
-                             (dec 'display "none !important"))
+  (make-parameter (list 
                         (rul ".overflow-x-scroll"
                              (dec 'overflow-x
                                   'scroll))
@@ -440,8 +415,8 @@
                                                 (siz s
                                                      #:conversion to-rem
                                                      #:multiplier (rounded-multiplier)))
-                                              (append default-numeric-sizes
-                                                      default-tshirt-sizes))))))
+                                              (append numeric-sizes
+                                                      tshirt-sizes))))))
 
 (define border-style
   (make-parameter 'solid))
@@ -453,7 +428,7 @@
                         #:variants (map (lambda (s)
                                           (siz s
                                                #:conversion to-px))
-                                        default-numeric-sizes))))
+                                        numeric-sizes))))
 
 (define positions
   (make-parameter (rulv ".~a"
@@ -512,7 +487,7 @@
   (make-parameter (append (z-index)
                           (heights)
                           (widths)
-                          (weights)
+                          (font-weights)
                           (flex-align-self)
                           (flex-align-items)
                           (flex-align-content)
@@ -570,6 +545,13 @@
           (reset-css)
           '("")
           (rulc "Load HSS Hygge Style Sheets")
+
+          ;;
+          
+          (aspect-ratio)
+          (columns)
+
+          ;;
           (absolute-positions)
           (active-scale)
           (borders)
@@ -583,6 +565,9 @@
           (flex-justifies)
           (flex-utilities)
           (font-families)
+          (font-weights)
+          (displays)
+          (visibility)
           (heights)
           (margins)
           (paddings)
@@ -595,7 +580,7 @@
           (text-aligns)
           (text-sizes)
           (text-utilities)
-          (weights)
+
           (widths)
           (z-index)
           '("")

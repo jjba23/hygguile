@@ -33,6 +33,42 @@ ol, ul {list-style:none;}
 /*
   Load HSS Hygge Style Sheets
 */
+.aspect-square {aspect-ratio:1 / 1;}
+.aspect-auto {aspect-ratio:auto;}
+.aspect-16\/9 {aspect-ratio:16 / 9;}
+.aspect-16\/10 {aspect-ratio:16 / 10;}
+.aspect-4\/3 {aspect-ratio:4 / 3;}
+.columns-2xs {columns:1;}
+.columns-xs {columns:2;}
+.columns-sm {columns:3;}
+.columns-md {columns:4;}
+.columns-lg {columns:5;}
+.columns-xl {columns:6;}
+.columns-2xl {columns:7;}
+.columns-3xl {columns:8;}
+.columns-4xl {columns:9;}
+.columns-5xl {columns:10;}
+.columns-1 {columns:1;}
+.columns-2 {columns:2;}
+.columns-4 {columns:4;}
+.columns-6 {columns:6;}
+.columns-8 {columns:8;}
+.columns-10 {columns:10;}
+.columns-12 {columns:12;}
+.columns-14 {columns:14;}
+.columns-16 {columns:16;}
+.columns-20 {columns:20;}
+.columns-24 {columns:24;}
+.columns-28 {columns:28;}
+.columns-32 {columns:32;}
+.columns-48 {columns:48;}
+.columns-64 {columns:64;}
+.columns-72 {columns:72;}
+.columns-96 {columns:96;}
+.columns-128 {columns:128;}
+.columns-196 {columns:196;}
+.columns-256 {columns:256;}
+.columns-512 {columns:512;}
 .top-1 {top:0.40rem;}
 .top-2 {top:0.80rem;}
 .top-4 {top:1.60rem;}
@@ -167,11 +203,9 @@ ol, ul {list-style:none;}
 .border-196 {border-style:solid; border-width:196.00px;}
 .border-256 {border-style:solid; border-width:256.00px;}
 .border-512 {border-style:solid; border-width:512.00px;}
-.hidden {display:none !important;}
 .overflow-x-scroll {overflow-x:scroll;}
 .overflow-y-scroll {overflow-y:scroll;}
 .cursor-pointer {cursor:pointer;}
-.hidden {display:none !important;}
 .overflow-x-scroll {overflow-x:scroll;}
 .overflow-y-scroll {overflow-y:scroll;}
 .cursor-pointer {cursor:pointer;}
@@ -250,12 +284,40 @@ ol, ul {list-style:none;}
 .gap-3xl {gap:2.40rem;}
 .gap-4xl {gap:2.70rem;}
 .gap-5xl {gap:3.00rem;}
-.flex {display:flex;}
 .flex-wrap {flex-wrap:wrap;}
 .flex-nowrap {flex-wrap:nowrap;}
 .font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
 .font-mono {font-family:'IBM Plex Mono', monospace;}
 .font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
+.font-thin {font-weight:100;}
+.font-light {font-weight:300;}
+.font-medium {font-weight:500;}
+.font-bold {font-weight:700;}
+.font-black {font-weight:900;}
+.inline {display:inline;}
+.block {display:block;}
+.inline-block {display:inline-block;}
+.flow-root {display:flow-root;}
+.flex {display:flex;}
+.inline-flex {display:inline-flex;}
+.grid {display:grid;}
+.inline-grid {display:inline-grid;}
+.contents {display:contents;}
+.table {display:table;}
+.inline-table {display:inline-table;}
+.table-caption {display:table-caption;}
+.table-cell {display:table-cell;}
+.table-column {display:table-column;}
+.table-column-group {display:table-column-group;}
+.table-footer-group {display:table-footer-group;}
+.table-header-group {display:table-header-group;}
+.table-row-group {display:table-row-group;}
+.table-row {display:table-row;}
+.list-item {display:list-item;}
+.hidden {display:none !important;}
+.visible {visibility:visible;}
+.invisible {visibility:invisible;}
+.collapse {visibility:collapse;}
 .min-h-screen {min-height:1vh;}
 .max-h-screen {max-height:1vh;}
 .h-1 {height:0.24rem;}
@@ -1185,11 +1247,6 @@ ol, ul {list-style:none;}
 .text-256 {font-size:64.00rem;}
 .text-512 {font-size:128.00rem;}
 .italic {font-style:italic;}
-.font-thin {font-weight:100;}
-.font-light {font-weight:300;}
-.font-medium {font-weight:500;}
-.font-bold {font-weight:700;}
-.font-black {font-weight:900;}
 .min-w-screen {min-width:1vh;}
 .max-w-screen {max-width:1vh;}
 .min-w-prose {min-width:84ch;}
@@ -28118,7 +28175,6 @@ ol, ul {list-style:none;}
 .sm\:gap-3xl {gap:2.40rem;}
 .sm\:gap-4xl {gap:2.70rem;}
 .sm\:gap-5xl {gap:3.00rem;}
-.sm\:flex {display:flex;}
 .sm\:flex-wrap {flex-wrap:wrap;}
 .sm\:flex-nowrap {flex-wrap:nowrap;}
 .sm\:m-1 {margin-top:0.28rem;}
@@ -29199,7 +29255,6 @@ ol, ul {list-style:none;}
 .md\:gap-3xl {gap:2.40rem;}
 .md\:gap-4xl {gap:2.70rem;}
 .md\:gap-5xl {gap:3.00rem;}
-.md\:flex {display:flex;}
 .md\:flex-wrap {flex-wrap:wrap;}
 .md\:flex-nowrap {flex-wrap:nowrap;}
 .md\:m-1 {margin-top:0.28rem;}
@@ -30280,7 +30335,6 @@ ol, ul {list-style:none;}
 .lg\:gap-3xl {gap:2.40rem;}
 .lg\:gap-4xl {gap:2.70rem;}
 .lg\:gap-5xl {gap:3.00rem;}
-.lg\:flex {display:flex;}
 .lg\:flex-wrap {flex-wrap:wrap;}
 .lg\:flex-nowrap {flex-wrap:nowrap;}
 .lg\:m-1 {margin-top:0.28rem;}
@@ -31361,7 +31415,6 @@ ol, ul {list-style:none;}
 .xl\:gap-3xl {gap:2.40rem;}
 .xl\:gap-4xl {gap:2.70rem;}
 .xl\:gap-5xl {gap:3.00rem;}
-.xl\:flex {display:flex;}
 .xl\:flex-wrap {flex-wrap:wrap;}
 .xl\:flex-nowrap {flex-wrap:nowrap;}
 .xl\:m-1 {margin-top:0.28rem;}
@@ -32442,7 +32495,6 @@ ol, ul {list-style:none;}
 .2xl\:gap-3xl {gap:2.40rem;}
 .2xl\:gap-4xl {gap:2.70rem;}
 .2xl\:gap-5xl {gap:3.00rem;}
-.2xl\:flex {display:flex;}
 .2xl\:flex-wrap {flex-wrap:wrap;}
 .2xl\:flex-nowrap {flex-wrap:nowrap;}
 .2xl\:m-1 {margin-top:0.28rem;}

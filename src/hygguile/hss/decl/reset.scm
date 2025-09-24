@@ -30,14 +30,18 @@
                              (dec 'margin 0)
                              (dec 'padding 0)
                              (dec 'border "0 solid")
-                             (dec 'box-sizing 'border-box)
+                             (dec 'box-sizing
+                                  'border-box)
                              (dec 'font
                                   'inherit)
                              (dec 'vertical-align
                                   'baseline))
-                        (rul (string-join (map symbol->string '(h1 h2 h3 h4 h5 h6)) ",")
-                             (dec 'font-size 'inherit)
-                             (dec 'font-weight 'inherit))
+                        (rul (string-join (map symbol->string
+                                               '(h1 h2 h3 h4 h5 h6)) ",")
+                             (dec 'font-size
+                                  'inherit)
+                             (dec 'font-weight
+                                  'inherit))
                         (rul (string-join (map symbol->string
                                                '(article aside
                                                          details

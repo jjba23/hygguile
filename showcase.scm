@@ -76,7 +76,11 @@
                                                 #:body-font-family "font-mono")))))))))
 
 (define trigger-notifications-section
-  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 justify-center align-center
+  `((div (@ (class ,(mk-class '(flex flex-row
+                                     flex-wrap
+                                     gap-2
+                                     justify-center
+                                     align-center
                                      max-w-96))))
          ,(button "trigger simple notification"
                   #:on-click (trigger-notification-function-js #:title
