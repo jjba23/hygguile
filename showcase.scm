@@ -372,9 +372,14 @@
                                             align-center
                                             py-4))))
     `(,(sub-h2 "🎨 Colors") (div (@ (class ,(mk-class '(py-4))))
-                                (div (@ (class ,(mk-class '(max-w-prose))))
+                                (div (@ (class ,(mk-class '(max-w-prose flex
+                                                            flex-col gap-2))))
                                      ,(p
-                                       "Hygguile offers colors in the 100, 300, 500, 700 and 900 variants. It is recommended to tweak the HSS build so as to only include colors that you will actually use in your project. This will save lots of KBs from the build and speed up page load times."))
+                                       "Hygguile offers colors in the 100, 300, 500, 700 and 900 variants. Some of these colors are essential for the hygguile components, however not all of them are."
+                                       #:weight '(font-light))
+                                     ,(p
+                                       "It is recommended to tweak the HSS build so as to only include colors that you will actually use in your project. This will save lots of KBs from the build and speed up page load times."
+                                       #:weight '(font-light)))
                                 (div (@ (class ,color-grid-class))
                                      ,(map (lambda (x)
                                              (mk-color-show #:color (car x)
