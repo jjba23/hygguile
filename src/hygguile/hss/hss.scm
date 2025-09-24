@@ -52,7 +52,7 @@
 (define weight-multiplier
   (make-parameter 1))
 (define prose-size
-  (make-parameter "76ch"))
+  (make-parameter "84ch"))
 (define shadow-multiplier
   (make-parameter 0.3))
 (define absolute-positions-multiplier

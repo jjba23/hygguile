@@ -254,11 +254,17 @@
   '(0.907 0.0013 286.37))
 
 (define stone
-  (make-parameter `((100 ,(lighten stone-oklch 0.08))
-                    (300 ,(lighten stone-oklch 0.04))
-                    (500 ,stone-oklch)
-                    (700 ,(darken stone-oklch 0.05))
-                    (900 ,(darken stone-oklch 0.1)))))
+  (make-parameter (make-palette stone-oklch
+                                #:transformers (list (list 100 lighten-oklch
+                                                           0.08)
+                                                     (list 300 lighten-oklch
+                                                           0.04)
+                                                     (list 500 identity-oklch
+                                                           0)
+                                                     (list 700 darken-oklch
+                                                           0.05)
+                                                     (list 900 darken-oklch
+                                                           0.1)))))
 
 (define raisin-black-oklch
   '(0.2711 0.011 285.64))
@@ -314,27 +320,109 @@
 (define floral-white
   (make-parameter (make-palette floral-white-oklch)))
 
+(define ferrari-red-oklch
+  '(0.6399 0.2466 31.39))
+
+(define ferrari-red
+  (make-parameter (make-palette ferrari-red-oklch)))
+
 (define default-palettes
-  (make-parameter (list (cons 'orange
-                              (orange))
-                        (cons 'wine
-                              (wine))
-                        (cons 'van-dyke
-                              (van-dyke))
-                        (cons 'stone
-                              (stone))
-                        (cons 'prussian-blue
-                              (prussian-blue))
-                        (cons 'onyx
-                              (onyx))
-                        (cons 'midnight-green
-                              (midnight-green))
-                        (cons 'papaya-whip
-                              (papaya-whip))
-                        (cons 'floral-white
-                              (floral-white))
+  (make-parameter (list (cons 'apple-green
+                              (apple-green))
+                        (cons 'ash-gray
+                              (ash-gray))
                         (cons 'asparagus
                               (asparagus))
+                        (cons 'beaver
+                              (beaver))
+                        (cons 'bistre
+                              (bistre))
+                        (cons 'black-bean
+                              (black-bean))
+                        (cons 'black-olive
+                              (black-olive))
+                        (cons 'buff
+                              (buff))
+                        (cons 'cadet-gray
+                              (cadet-gray))
+                        (cons 'cambridge-green
+                              (cambridge-green))
+                        (cons 'castleton-green
+                              (castleton-green))
+                        (cons 'charcoal
+                              (charcoal))
+                        (cons 'china-rose
+                              (china-rose))
+                        (cons 'china-violet
+                              (china-violet))
+                        (cons 'claret
+                              (claret))
+                        (cons 'coffee
+                              (coffee))
+                        (cons 'dark-purple
+                              (dark-purple))
+                        (cons 'ferrari-red
+                              (ferrari-red))
+                        (cons 'floral-white
+                              (floral-white))
+                        (cons 'glaucous
+                              (glaucous))
+                        (cons 'iris
+                              (iris))
+                        (cons 'jeans-blue
+                              (jeans-blue))
+                        (cons 'lapis-lazuli
+                              (lapis-lazuli))
+                        (cons 'light-coral
+                              (light-coral))
+                        (cons 'mantis
+                              (mantis))
+                        (cons 'melon
+                              (melon))
+                        (cons 'midnight-green
+                              (midnight-green))
+                        (cons 'mikado-yellow
+                              (mikado-yellow))
+                        (cons 'moonstone
+                              (moonstone))
+                        (cons 'naples-yellow
+                              (naples-yellow))
+                        (cons 'onyx
+                              (onyx))
+                        (cons 'orange
+                              (orange))
+                        (cons 'pale-dogwood
+                              (pale-dogwood))
+                        (cons 'papaya-whip
+                              (papaya-whip))
+                        (cons 'persia-pink
+                              (persia-pink))
+                        (cons 'pomp-and-power
+                              (pomp-and-power))
+                        (cons 'prussian-blue
+                              (prussian-blue))
                         (cons 'raisin-black
-                              (raisin-black)))))
+                              (raisin-black))
+                        (cons 'redwood
+                              (redwood))
+                        (cons 'russia-violet
+                              (russia-violet))
+                        (cons 'sienna
+                              (sienna))
+                        (cons 'spiced-terracotta
+                              (spiced-terracotta))
+                        (cons 'stone
+                              (stone))
+                        (cons 'tawny
+                              (tawny))
+                        (cons 'tyrian
+                              (tyrian))
+                        (cons 'umber
+                              (umber))
+                        (cons 'van-dyke
+                              (van-dyke))
+                        (cons 'white-smoke
+                              (white-smoke))
+                        (cons 'wine
+                              (wine)))))
 
