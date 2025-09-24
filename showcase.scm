@@ -75,6 +75,18 @@
                                                 #:body t
                                                 #:body-font-family "font-mono")))))))))
 
+(define trigger-notifications-section
+  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 justify-center align-center
+                                     max-w-96))))
+         ,(button "trigger simple notification"
+                  #:on-click (trigger-notification-function-js #:title
+                              "You are notified!"))
+         ,(button "trigger full notification"
+                  #:on-click (trigger-notification-function-js #:title
+                              "Notified succesfully!"
+                              #:body
+                              "The reason we notified you like this is to showcase the possibilities that hygguile offers for easy and convenient, good-looking notifications.")))))
+
 (define button-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
@@ -222,8 +234,10 @@
          (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
                                           align-center items-center))))
               (span "⚙️")
-              ,(sub-h2 "Settings"))
-         (div ,(ui-mode-button)))))
+              ,(sub-h2 "Utilities"))
+         (div (@ (class ,(mk-class '(flex flex-wrap gap-2 flex-row))))
+              (div ,(ui-mode-button))
+              (div ,trigger-notifications-section)))))
 
 (define containers-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6 align-center))))
@@ -250,17 +264,6 @@
                     (dd "1234567890")
                     (dt "some key:")
                     (dd "some value"))))))
-
-(define trigger-notifications-section
-  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
-         ,(button "trigger simple notification"
-                  #:on-click (trigger-notification-function-js #:title
-                              "You are notified!"))
-         ,(button "trigger full notification"
-                  #:on-click (trigger-notification-function-js #:title
-                              "Notified succesfully!"
-                              #:body
-                              "The reason we notified you like this is to showcase the possibilities that hygguile offers for easy and convenient, good-looking notifications.")))))
 
 (define carousel-section
   (let* ((imgs '(("Hygguile Logo" . "https://jointhefreeworld.org/static-assets/hygguile/hygguile-2-small.png")
@@ -444,7 +447,18 @@
                                      ,(h1 "Hygguile + HSS"))
                                   ,(sub-h4 "Hygge Style Sheets")
                                   ,(sub-h3
-                                    "cozy and professional user-interfaces for everyone"))
+                                    "cozy and professional user-interfaces for everyone")
+                                  (div (@ (class ,(mk-class '(max-w-prose flex
+                                                              flex-col gap-2))))
+                                       ,(p
+                                         "Hygguile and HSS are an opinionated, batteries-included UI framework written in a dialect of the Lisp programming language, Guile Scheme."
+                                         #:weight '(font-light))
+                                       ,(p
+                                         "Its syntax is much inspired on plain vanilla HTML, utility-class, Tailwind CSS"
+                                         #:weight '(font-light))
+                                       ,(p
+                                         "It defines an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and modern CSS."
+                                         #:weight '(font-light))))
                              ,(hr)
                              ,settings-section
                              ,(hr)
@@ -462,9 +476,7 @@
                              ,(hr)
                              ,containers-section
                              ,(hr)
-                             ,forms-section
-                             ,(hr)
-                             ,trigger-notifications-section))
+                             ,forms-section))
                #:footer footer))
 
 (define* (html-template #:key title body)

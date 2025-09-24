@@ -2,7 +2,6 @@
              (ice-9 ports)
              (ice-9 textual-ports)
              (ice-9 popen)
-             (hygguile hss reset)
              (hygguile hss hss)
              (hygguile hss dsl))
 

@@ -20,9 +20,9 @@
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:use-module (hygguile hss dsl)
-  #:use-module (hygguile hss colors)
   #:use-module (hygguile hss sizes)
-  #:use-module (hygguile hss reset)
+  #:use-module (hygguile hss decl colors)
+  #:use-module (hygguile hss decl reset)
   #:export (font-size-multiplier margin-multiplier
                                  padding-multiplier
                                  gap-multiplier

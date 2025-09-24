@@ -15,106 +15,29 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
-(define-module (hygguile hss reset)
+(define-module (hygguile hss decl reset)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
   #:use-module (hygguile hss dsl)
   #:export (reset-css))
 
-(define big-html-reset-list
-  '(html body
-         div
-         span
-         applet
-         object
-         iframe
-         h1
-         h2
-         h3
-         h4
-         h5
-         h6
-         p
-         blockquote
-         pre
-         a
-         abbr
-         acronym
-         address
-         big
-         cite
-         code
-         del
-         dfn
-         em
-         img
-         ins
-         kbd
-         q
-         s
-         samp
-         small
-         strike
-         strong
-         sub
-         sup
-         tt
-         var
-         b
-         u
-         i
-         center
-         dl
-         dt
-         dd
-         ol
-         ul
-         li
-         fieldset
-         form
-         label
-         legend
-         table
-         caption
-         tbody
-         tfoot
-         thead
-         tr
-         th
-         td
-         article
-         aside
-         canvas
-         details
-         embed
-         figure
-         figcaption
-         footer
-         header
-         hgroup
-         menu
-         nav
-         output
-         ruby
-         section
-         summary
-         time
-         mark
-         audio
-         video))
+(define all-html-elements
+  '("*" "::after" "::before" "::backdrop" "::file-selector-button"))
 
 (define reset-css
-  (make-parameter (list (rul (string-join (map symbol->string
-                                               big-html-reset-list) ", ")
+  (make-parameter (list (rul (string-join all-html-elements ", ")
                              (dec 'margin 0)
                              (dec 'padding 0)
-                             (dec 'border 0)
-                             (dec 'font-size "100%")
+                             (dec 'border "0 solid")
+                             (dec 'box-sizing 'border-box)
                              (dec 'font
                                   'inherit)
                              (dec 'vertical-align
                                   'baseline))
+                        (rul (string-join (map symbol->string '(h1 h2 h3 h4 h5 h6)) ",")
+                             (dec 'font-size 'inherit)
+                             (dec 'font-weight 'inherit))
                         (rul (string-join (map symbol->string
                                                '(article aside
                                                          details
