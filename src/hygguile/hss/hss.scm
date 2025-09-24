@@ -244,7 +244,7 @@
                                      (baseline baseline)
                                      (normal normal)))))
 
-(define flex-aligns
+(define flex-align-items
   (make-parameter (rulv ".items-~a"
                         #:property 'align-items
                         #:variants '((start flex-start)
@@ -254,6 +254,32 @@
                                      (center-safe "safe center")
                                      (baseline baseline)
                                      (baseline-last "last baseline")
+                                     (stretch stretch)))))
+
+(define flex-align-self
+  (make-parameter (rulv ".self-~a"
+                        #:property 'align-self
+                        #:variants '((auto auto)
+                                     (start flex-start)
+                                     (end flex-end)
+                                     (end-safe "safe flex-end")
+                                     (center center)
+                                     (center-safe "safe center")
+                                     (baseline baseline)
+                                     (baseline-last "last baseline")
+                                     (stretch stretch)))))
+
+(define flex-align-content
+  (make-parameter (rulv ".content-~a"
+                        #:property 'align-content
+                        #:variants '((start flex-start)
+                                     (end flex-end)
+                                     (center center)
+                                     (normal normal)
+                                     (between space-between)
+                                     (around space-around)
+                                     (evenly space-evenly)
+                                     (baseline baseline)
                                      (stretch stretch)))))
 
 (define shadows
@@ -475,7 +501,20 @@
 (define responsive-classes
   (make-parameter (append (z-index)
                           (heights)
-                          (widths))))
+                          (widths)
+                          (weights)
+                          (flex-align-self)
+                          (flex-align-items)
+                          (flex-align-content)
+                          (flex-directions)
+                          (flex-justifies)
+                          (flex-utilities)
+                          (margins)
+                          (paddings)
+                          (positions)
+                          (roundings)
+                          (scroll-snap-aligns)
+                          (scroll-snap-types))))
 
 (define sm-responsive
   (make-parameter (map (lambda (r)
@@ -512,8 +551,7 @@
                           (mq "width >= 80rem"
                               (xl-responsive))
                           (mq "width >= 96rem"
-                              (2xl-responsive))
-                          )))
+                              (2xl-responsive)))))
 
 (define* (hss)
   (append (rulc (license-header))
@@ -528,7 +566,9 @@
           (display-utilities)
           (display-utilities)
           (fade-in-page-transition)
-          (flex-aligns)
+          (flex-align-self)
+          (flex-align-items)
+          (flex-align-content)
           (flex-directions)
           (flex-justifies)
           (flex-utilities)
