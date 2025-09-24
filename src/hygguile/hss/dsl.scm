@@ -74,7 +74,7 @@
 (define (lighten xs n)
   (append (list (let* ((comp (+ n
                                 (car xs))))
-                  (if (>= comp 100) 100 comp)))
+                  (if (>= comp 1) 1 comp)))
           (cdr xs)))
 
 (define-record-type rule

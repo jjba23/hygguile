@@ -45,8 +45,8 @@
   '(0.907 0.0013 286.37))
 
 (define stone
-  (make-parameter `((100 ,(lighten stone-oklch 0.1))
-                    (300 ,(lighten stone-oklch 0.05))
+  (make-parameter `((100 ,(lighten stone-oklch 0.08))
+                    (300 ,(lighten stone-oklch 0.04))
                     (500 ,stone-oklch)
                     (700 ,(darken stone-oklch 0.05))
                     (900 ,(darken stone-oklch 0.1)))))
