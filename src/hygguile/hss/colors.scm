@@ -61,6 +61,16 @@
                     (700 ,(darken raisin-black-oklch 0.05))
                     (900 ,(darken raisin-black-oklch 0.1)))))
 
+(define asparagus-oklch
+  '(0.6012 0.0882 137.17))
+
+(define asparagus
+  (make-parameter `((100 ,(lighten asparagus-oklch 0.1))
+                    (300 ,(lighten asparagus-oklch 0.05))
+                    (500 ,asparagus-oklch)
+                    (700 ,(darken asparagus-oklch 0.05))
+                    (900 ,(darken asparagus-oklch 0.1)))))
+
 ;; (define plump
 ;;   '(122 62 114))
 
@@ -281,6 +291,8 @@
                               (papaya-whip))
                         (cons 'floral-white
                               (floral-white))
+                        (cons 'asparagus
+                              (asparagus))
                         (cons 'raisin-black
                               (raisin-black)))))
 

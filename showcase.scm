@@ -384,6 +384,7 @@
                                              (midnight-green-500 text-white)
                                              (orange-500 text-white)
                                              (prussian-blue-500 text-white)
+                                             (asparagus-500 text-white)
                                              (raisin-black-500 text-white)
                                              (stone-500 text-black)
                                              (onyx-500 text-white)
