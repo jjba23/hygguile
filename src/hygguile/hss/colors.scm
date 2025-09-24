@@ -22,24 +22,233 @@
   #:use-module (hygguile hss dsl)
   #:export (default-palettes))
 
+(define redwood-oklch
+  '(0.5591 0.1288 31.7))
+
+(define redwood
+  (make-parameter (make-palette redwood-oklch)))
+
+(define melon-oklch
+  '(0.7664 0.0661 30.56))
+
+(define melon
+  (make-parameter (make-palette melon-oklch)))
+
+(define charcoal-oklch
+  '(0.3798 0.0343 266.95))
+
+(define charcoal
+  (make-parameter (make-palette charcoal-oklch)))
+
+(define glaucous-oklch
+  '(0.5653 0.0696 251.18))
+
+(define glaucous
+  (make-parameter (make-palette glaucous-oklch)))
+
+(define cambridge-green-oklch
+  '(0.6443 0.0467 168.05))
+
+(define cambridge-green
+  (make-parameter (make-palette cambridge-green-oklch)))
+
+(define iris-oklch
+  '(0.4929 0.161 279.98))
+
+(define iris
+  (make-parameter (make-palette iris-oklch)))
+
+(define mantis-oklch
+  '(0.7048 0.1321 144.02))
+
+(define mantis
+  (make-parameter (make-palette mantis-oklch)))
+
+(define china-rose-oklch
+  '(0.6023 0.1041 7.06))
+
+(define china-rose
+  (make-parameter (make-palette china-rose-oklch)))
+
+(define china-violet-oklch
+  '(0.5161 0.0609 310.77))
+
+(define china-violet
+  (make-parameter (make-palette china-violet-oklch)))
+
+(define light-coral-oklch
+  '(0.6751 0.152 20.02))
+
+(define light-coral
+  (make-parameter (make-palette light-coral-oklch)))
+
+(define jeans-blue-oklch
+  '(0.452 0.0712 256.28))
+
+(define jeans-blue
+  (make-parameter (make-palette jeans-blue-oklch)))
+
+(define buff-oklch
+  '(0.7871 0.0895 49.68))
+
+(define buff
+  (make-parameter (make-palette buff-oklch)))
+
+(define tawny-oklch
+  '(0.6183 0.1557 45.26))
+
+(define tawny
+  (make-parameter (make-palette tawny-oklch)))
+
+(define moonstone-oklch
+  '(0.6609 0.0708 213.97))
+
+(define moonstone
+  (make-parameter (make-palette moonstone-oklch)))
+
+(define claret-oklch
+  '(0.4111 0.1625 5.42))
+
+(define claret
+  (make-parameter (make-palette claret-oklch)))
+
+(define castleton-green-oklch
+  '(0.3771 0.0754 167.02))
+
+(define castleton-green
+  (make-parameter (make-palette castleton-green-oklch)))
+
+(define lapis-lazuli-oklch
+  '(0.4595 0.0968 251.94))
+
+(define lapis-lazuli
+  (make-parameter (make-palette lapis-lazuli-oklch)))
+
+(define cadet-gray-oklch
+  '(0.654 0.0185 225.33))
+
+(define cadet-gray
+  (make-parameter (make-palette cadet-gray-oklch)))
+
+(define ash-gray-oklch
+  '(0.8342 0.0248 196.69))
+
+(define ash-gray
+  (make-parameter (make-palette ash-gray-oklch)))
+
+(define dark-purple-oklch
+  '(0.3022 0.0506 0.51))
+
+(define dark-purple
+  (make-parameter (make-palette dark-purple-oklch)))
+
+(define pomp-and-power-oklch
+  '(0.5818 0.0719 310.07))
+
+(define pomp-and-power
+  (make-parameter (make-palette pomp-and-power-oklch)))
+
+(define black-olive-oklch
+  '(0.4087 0.0176 128.95))
+
+(define black-olive
+  (make-parameter (make-palette black-olive-oklch)))
+
+(define white-smoke-oklch
+  '(0.9702 0 0))
+
+(define white-smoke
+  (make-parameter (make-palette white-smoke-oklch)))
+
+(define russia-violet-oklch
+  '(0.3016 0.1166 317.88))
+
+(define russia-violet
+  (make-parameter (make-palette russia-violet-oklch)))
+
+(define tyrian-oklch
+  '(0.3409 0.1048 358.88))
+
+(define tyrian
+  (make-parameter (make-palette tyrian-oklch)))
+
+(define persia-pink-oklch
+  '(0.7404 0.1399 348.9))
+
+(define persia-pink
+  (make-parameter (make-palette persia-pink-oklch)))
+
+(define naples-yellow-oklch
+  '(0.9011 0.1449 97.97))
+
+(define naples-yellow
+  (make-parameter (make-palette naples-yellow-oklch)))
+
+(define apple-green-oklch
+  '(0.7214 0.1697 119.64))
+
+(define apple-green
+  (make-parameter (make-palette apple-green-oklch)))
+
+(define mikado-yellow-oklch
+  '(0.8538 0.1734 87.35))
+
+(define mikado-yellow
+  (make-parameter (make-palette mikado-yellow-oklch)))
+
+(define bistre-oklch
+  '(0.2732 0.0607 61.09))
+
+(define bistre
+  (make-parameter (make-palette bistre-oklch)))
+
+(define black-bean-oklch
+  '(0.2453 0.0769 40.07))
+
+(define black-bean
+  (make-parameter (make-palette black-bean-oklch)))
+
+(define sienna-oklch
+  '(0.4307 0.1478 35.91))
+
+(define sienna
+  (make-parameter (make-palette sienna-oklch)))
+
+(define umber-oklch
+  '(0.4106 0.0384 61.8))
+
+(define umber
+  (make-parameter (make-palette umber-oklch)))
+
+(define beaver-oklch
+  '(0.6651 0.0536 62.76))
+
+(define beaver
+  (make-parameter (make-palette beaver-oklch)))
+
+(define coffee-oklch
+  '(0.462 0.0615 63.5))
+
+(define coffee
+  (make-parameter (make-palette coffee-oklch)))
+
+(define pale-dogwood-oklch
+  '(0.8322 0.0512 42.95))
+
+(define pale-dogwood
+  (make-parameter (make-palette pale-dogwood-oklch)))
+
+(define spiced-terracotta-oklch
+  '(0.6277 0.1081 53.34))
+
+(define spiced-terracotta
+  (make-parameter (make-palette spiced-terracotta-oklch)))
+
 (define orange-crayola-oklch
   '(0.7404 0.1444 57.26))
 
 (define orange
-  (make-parameter `((100 ,(lighten orange-crayola-oklch 0.1))
-                    (300 ,(lighten orange-crayola-oklch 0.05))
-                    (500 ,orange-crayola-oklch)
-                    (700 ,(darken orange-crayola-oklch 0.05))
-                    (900 ,(darken orange-crayola-oklch 0.1)))))
-;; (define rojo
-;;   '(222 23 43))
-
-;; (define red
-;;   (make-parameter `((100 ,(lighten rojo 42))
-;;                     (300 ,(lighten rojo 22))
-;;                     (500 ,rojo)
-;;                     (700 ,(darken rojo 22))
-;;                     (900 ,(darken rojo 42)))))
+  (make-parameter (make-palette orange-crayola-oklch)))
 
 (define stone-oklch
   '(0.907 0.0013 286.37))
@@ -55,222 +264,55 @@
   '(0.2711 0.011 285.64))
 
 (define raisin-black
-  (make-parameter `((100 ,(lighten raisin-black-oklch 0.1))
-                    (300 ,(lighten raisin-black-oklch 0.05))
-                    (500 ,raisin-black-oklch)
-                    (700 ,(darken raisin-black-oklch 0.05))
-                    (900 ,(darken raisin-black-oklch 0.1)))))
+  (make-parameter (make-palette raisin-black-oklch)))
 
 (define asparagus-oklch
   '(0.6012 0.0882 137.17))
 
 (define asparagus
-  (make-parameter `((100 ,(lighten asparagus-oklch 0.1))
-                    (300 ,(lighten asparagus-oklch 0.05))
-                    (500 ,asparagus-oklch)
-                    (700 ,(darken asparagus-oklch 0.05))
-                    (900 ,(darken asparagus-oklch 0.1)))))
-
-;; (define plump
-;;   '(122 62 114))
-
-;; (define purple
-;;   (make-parameter `((100 ,(lighten plump 42))
-;;                     (300 ,(lighten plump 22))
-;;                     (500 ,plump)
-;;                     (700 ,(darken plump 22))
-;;                     (900 ,(darken plump 42)))))
-
-;; (define pink
-;;   (make-parameter '((100 (255 228 240))
-;;                     (300 (255 192 203))
-;;                     (500 (255 20 147))
-;;                     (700 (199 21 133))
-;;                     (900 (128 0 64)))))
-
-;; (define amber
-;;   (make-parameter '((100 (255 248 220))
-;;                     (300 (255 223 128))
-;;                     (500 (255 165 0))
-;;                     (700 (204 119 0))
-;;                     (900 (102 51 0)))))
-
-;; (define yellow
-;;   (make-parameter '((100 (255 255 224))
-;;                     (300 (255 255 102))
-;;                     (500 (255 215 0))
-;;                     (700 (204 173 0))
-;;                     (900 (102 76 0)))))
-
-;; (define blue-hue
-;;   '(40 147 204))
-
-;; (define blue
-;;   (make-parameter `((100 ,(lighten blue-hue 42))
-;;                     (300 ,(lighten blue-hue 22))
-;;                     (500 ,blue-hue)
-;;                     (700 ,(darken blue-hue 22))
-;;                     (900 ,(darken blue-hue 42)))))
-
-;; (define asparagus
-;;   '(103 141 88))
-
-;; (define green
-;;   (make-parameter `((100 ,(lighten asparagus 42))
-;;                     (300 ,(lighten asparagus 22))
-;;                     (500 ,asparagus)
-;;                     (700 ,(darken asparagus 22))
-;;                     (900 ,(darken asparagus 42)))))
-
-;; (define spiced-terracotta-hue
-;;   '(187 117 70))
-
-;; (define spiced-terracotta
-;;   (make-parameter `((100 ,(lighten spiced-terracotta-hue 42))
-;;                     (300 ,(lighten spiced-terracotta-hue 22))
-;;                     (500 ,spiced-terracotta-hue)
-;;                     (700 ,(darken spiced-terracotta-hue 22))
-;;                     (900 ,(darken spiced-terracotta-hue 42)))))
-
-;; (define china-rose-hue
-;;   '(148 76 99))
-
-;; (define china-rose
-;;   (make-parameter `((100 ,(lighten china-rose-hue 42))
-;;                     (300 ,(lighten china-rose-hue 22))
-;;                     (500 ,china-rose-hue)
-;;                     (700 ,(darken china-rose-hue 22))
-;;                     (900 ,(darken china-rose-hue 42)))))
-
-;; (define earth-yellow-hue
-;;   '(247 174 80))
-
-;; (define earth-yellow
-;;   (make-parameter `((100 ,(lighten earth-yellow-hue 42))
-;;                     (300 ,(lighten earth-yellow-hue 22))
-;;                     (500 ,earth-yellow-hue)
-;;                     (700 ,(darken earth-yellow-hue 22))
-;;                     (900 ,(darken earth-yellow-hue 42)))))
-
-;; (define vin-rouge-hue
-;;   '(141 47 26))
-
-;; (define vin-rouge
-;;   (make-parameter `((100 ,(lighten vin-rouge-hue 42))
-;;                     (300 ,(lighten vin-rouge-hue 22))
-;;                     (500 ,vin-rouge-hue)
-;;                     (700 ,(darken vin-rouge-hue 22))
-;;                     (900 ,(darken vin-rouge-hue 42)))))
-
-;; (define papaya-whip-hue
-;;   '(255 241 214))
-
-;; (define papaya-whip
-;;   (make-parameter `((100 ,(lighten papaya-whip-hue 22))
-;;                     (300 ,(lighten papaya-whip-hue 12))
-;;                     (500 ,papaya-whip-hue)
-;;                     (700 ,(darken papaya-whip-hue 12))
-;;                     (900 ,(darken papaya-whip-hue 22)))))
-
-;; (define cornsilk-hue
-;;   '(251 243 218))
-
-;; (define cornsilk
-;;   (make-parameter `((100 ,(lighten cornsilk-hue 42))
-;;                     (300 ,(lighten cornsilk-hue 22))
-;;                     (500 ,cornsilk-hue)
-;;                     (700 ,(darken cornsilk-hue 22))
-;;                     (900 ,(darken cornsilk-hue 42)))))
-
-;; (define floral-white-hue
-;;   '(253 249 237))
-
-;; (define floral-white
-;;   (make-parameter `((100 ,(lighten floral-white-hue 42))
-;;                     (300 ,(lighten floral-white-hue 22))
-;;                     (500 ,floral-white-hue)
-;;                     (700 ,(darken floral-white-hue 22))
-;;                     (900 ,(darken floral-white-hue 42)))))
-
-;; (define teal-hue
-;;   '(2 128 144))
-
-;; (define teal
-;;   (make-parameter `((100 ,(lighten teal-hue 42))
-;;                     (300 ,(lighten teal-hue 22))
-;;                     (500 ,teal-hue)
-;;                     (700 ,(darken teal-hue 22))
-;;                     (900 ,(darken teal-hue 42)))))
+  (make-parameter (make-palette asparagus-oklch)))
 
 (define midnight-green-oklch
   '(0.4108 0.0614 214.25))
 
 (define midnight-green
-  (make-parameter `((100 ,(lighten midnight-green-oklch 0.1))
-                    (300 ,(lighten midnight-green-oklch 0.05))
-                    (500 ,midnight-green-oklch)
-                    (700 ,(darken midnight-green-oklch 0.05))
-                    (900 ,(darken midnight-green-oklch 0.1)))))
+  (make-parameter (make-palette midnight-green-oklch)))
 
 (define wine-oklch
   '(0.4284 0.0747 9.86))
 
 (define wine
-  (make-parameter `((100 ,(lighten wine-oklch 0.1))
-                    (300 ,(lighten wine-oklch 0.05))
-                    (500 ,wine-oklch)
-                    (700 ,(darken wine-oklch 0.05))
-                    (900 ,(darken wine-oklch 0.1)))))
+  (make-parameter (make-palette wine-oklch)))
 
 (define van-dyke-oklch
   '(0.3297 0.0387 11.82))
 
 (define van-dyke
-  (make-parameter `((100 ,(lighten van-dyke-oklch 0.1))
-                    (300 ,(lighten van-dyke-oklch 0.05))
-                    (500 ,van-dyke-oklch)
-                    (700 ,(darken van-dyke-oklch 0.05))
-                    (900 ,(darken van-dyke-oklch 0.1)))))
+  (make-parameter (make-palette van-dyke-oklch)))
 
 (define prussian-blue-oklch
   '(0.3093 0.0627 254.14))
 
 (define prussian-blue
-  (make-parameter `((100 ,(lighten prussian-blue-oklch 0.1))
-                    (300 ,(lighten prussian-blue-oklch 0.05))
-                    (500 ,prussian-blue-oklch)
-                    (700 ,(darken prussian-blue-oklch 0.05))
-                    (900 ,(darken prussian-blue-oklch 0.1)))))
+  (make-parameter (make-palette prussian-blue-oklch)))
 
 (define onyx-oklch
   '(0.3588 0.0044 247.95))
 
 (define onyx
-  (make-parameter `((100 ,(lighten onyx-oklch 0.1))
-                    (300 ,(lighten onyx-oklch 0.05))
-                    (500 ,onyx-oklch)
-                    (700 ,(darken onyx-oklch 0.05))
-                    (900 ,(darken onyx-oklch 0.1)))))
+  (make-parameter (make-palette onyx-oklch)))
 
 (define papaya-whip-oklch
   '(0.9622 0.0384 83.83))
 
 (define papaya-whip
-  (make-parameter `((100 ,(lighten papaya-whip-oklch 0.1))
-                    (300 ,(lighten papaya-whip-oklch 0.05))
-                    (500 ,papaya-whip-oklch)
-                    (700 ,(darken papaya-whip-oklch 0.05))
-                    (900 ,(darken papaya-whip-oklch 0.1)))))
+  (make-parameter (make-palette papaya-whip-oklch)))
 
 (define floral-white-oklch
   '(0.9819 0.0164 91.55))
 
 (define floral-white
-  (make-parameter `((100 ,(lighten floral-white-oklch 0.1))
-                    (300 ,(lighten floral-white-oklch 0.05))
-                    (500 ,floral-white-oklch)
-                    (700 ,(darken floral-white-oklch 0.05))
-                    (900 ,(darken floral-white-oklch 0.1)))))
+  (make-parameter (make-palette floral-white-oklch)))
 
 (define default-palettes
   (make-parameter (list (cons 'orange
@@ -296,35 +338,3 @@
                         (cons 'raisin-black
                               (raisin-black)))))
 
-;; (cons 'spicedterracotta
-;;       (spiced-terracotta))
-;; (cons 'vinrouge
-;;       (vin-rouge))
-;; (cons 'earthyellow
-;;       (earth-yellow))
-;; (cons 'chinarose
-;;       (china-rose))
-;; (cons 'floralwhite
-;;       (floral-white))
-;; (cons 'teal
-;;       (teal))
-;; (cons 'cornsilk
-;;       (cornsilk))
-;; (cons 'papayawhip
-;;       (papaya-whip))
-;; (cons 'stone
-;;       (stone))
-;; (cons 'purple
-;;       (purple))
-;; (cons 'blue
-;;       (blue))
-;; (cons 'green
-;;       (green))
-;; (cons 'yellow
-;;       (yellow))
-;; (cons 'amber
-;;       (amber))
-;; (cons 'pink
-;;       (pink))
-;; (cons 'red
-;;       (red)))))

@@ -24,8 +24,10 @@
   #:export (~ format-css
               list-combinations
               where-dark
-              lighten
-              darken
+              lighten-oklch
+              identity-oklch
+              darken-oklch
+              make-palette
               ;;
               rulc
               rule
@@ -66,18 +68,34 @@
              (flatten-list (cdr xs))))
     (else (list xs))))
 
-(define (darken xs n)
+(define (darken-oklch xs n)
   (append (list (let* ((comp (- (car xs) n)))
                   (if (< comp 0) 0
                       (string->number (format #f "~,5f" comp)))))
           (cdr xs)))
 
-(define (lighten xs n)
+(define (lighten-oklch xs n)
   (append (list (let* ((comp (+ n
                                 (car xs))))
                   (if (>= comp 1) 1
                       (string->number (format #f "~,5f" comp)))))
           (cdr xs)))
+
+(define (identity-oklch oklch some)
+  oklch)
+
+(define* (make-palette oklch
+                     #:key (transformers (list (list 100 lighten-oklch 0.1)
+                                               (list 300 lighten-oklch 0.05)
+                                               (list 500 identity-oklch 0)
+                                               (list 700 darken-oklch 0.05)
+                                               (list 900 darken-oklch 0.1))))
+  (map (lambda (t)
+         (list (car t)
+               (apply (cadr t)
+                      (list oklch (caddr t))))) transformers))
+
+
 
 (define-record-type rule
   (make-rule selector declarations) rule?
