@@ -375,11 +375,15 @@
                                 ,(p
                                   "Hygguile offers colors in the 100, 300, 500, 700 and 900 variants.")
                                 (div (@ (class ,color-grid-class))
-                                     ,(mk-color-show #:color 'red-500
+                                     ,(mk-color-show #:color 'wine-500
+                                                     #:text-class 'text-white)
+                                     ,(mk-color-show #:color 'van-dyke-500
+                                                     #:text-class 'text-white)
+                                     ,(mk-color-show #:color 'midnight-green-500
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'orange-500
                                                      #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'midnight-green-500
+                                     ,(mk-color-show #:color 'red-500
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'amber-500
                                                      #:text-class 'text-black)

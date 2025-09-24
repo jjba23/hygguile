@@ -205,9 +205,33 @@
                     (700 ,(darken midnight-green-oklch 0.05))
                     (900 ,(darken midnight-green-oklch 0.1)))))
 
+(define wine-oklch
+  '(0.4284 0.0747 9.86))
+
+(define wine
+  (make-parameter `((100 ,(lighten wine-oklch 0.1))
+                    (300 ,(lighten wine-oklch 0.05))
+                    (500 ,wine-oklch)
+                    (700 ,(darken wine-oklch 0.05))
+                    (900 ,(darken wine-oklch 0.1)))))
+
+(define van-dyke-oklch
+  '(0.3297 0.0387 11.82))
+
+(define van-dyke
+  (make-parameter `((100 ,(lighten van-dyke-oklch 0.1))
+                    (300 ,(lighten van-dyke-oklch 0.05))
+                    (500 ,van-dyke-oklch)
+                    (700 ,(darken van-dyke-oklch 0.05))
+                    (900 ,(darken van-dyke-oklch 0.1)))))
+
 (define default-palettes
   (make-parameter (list (cons 'orange
                               (orange))
+                        (cons 'wine
+                              (wine))
+                        (cons 'van-dyke
+                              (van-dyke))
                         (cons 'midnight-green
                               (midnight-green)))))
 
