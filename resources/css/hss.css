@@ -2671,7 +2671,7 @@ ol, ul {list-style:none;}
 /*
   Load responsive classes
 */
-@media (width >= 40rem){
+@media (width >= 40rem) {
 .sm\:z-1 {z-index:1;}
 .sm\:z-2 {z-index:2;}
 .sm\:z-4 {z-index:4;}
@@ -2886,8 +2886,7 @@ ol, ul {list-style:none;}
 .sm\:max-w-4xl {max-width:2.16rem;}
 .sm\:max-w-5xl {max-width:2.40rem;}
 }
-
-@media (width >= 48rem){
+@media (width >= 48rem) {
 .md\:z-1 {z-index:1;}
 .md\:z-2 {z-index:2;}
 .md\:z-4 {z-index:4;}
@@ -3102,8 +3101,7 @@ ol, ul {list-style:none;}
 .md\:max-w-4xl {max-width:2.16rem;}
 .md\:max-w-5xl {max-width:2.40rem;}
 }
-
-@media (width >= 64rem){
+@media (width >= 64rem) {
 .lg\:z-1 {z-index:1;}
 .lg\:z-2 {z-index:2;}
 .lg\:z-4 {z-index:4;}
@@ -3318,8 +3316,7 @@ ol, ul {list-style:none;}
 .lg\:max-w-4xl {max-width:2.16rem;}
 .lg\:max-w-5xl {max-width:2.40rem;}
 }
-
-@media (width >= 80rem){
+@media (width >= 80rem) {
 .xl\:z-1 {z-index:1;}
 .xl\:z-2 {z-index:2;}
 .xl\:z-4 {z-index:4;}
@@ -3534,8 +3531,7 @@ ol, ul {list-style:none;}
 .xl\:max-w-4xl {max-width:2.16rem;}
 .xl\:max-w-5xl {max-width:2.40rem;}
 }
-
-@media (width >= 96rem){
+@media (width >= 96rem) {
 .2xl\:z-1 {z-index:1;}
 .2xl\:z-2 {z-index:2;}
 .2xl\:z-4 {z-index:4;}

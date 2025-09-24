@@ -27,6 +27,7 @@
               ;;
               rulc
               rule
+              mq
               addmq
               make-rule
               rule?
@@ -203,3 +204,7 @@
 
 (define where-dark
   "&:where([data-theme=dark], [data-theme=dark] *)")
+
+(define* (mq query . args)
+  (append (list (format #f "@media (~a) {" query)) args
+          '("}")))

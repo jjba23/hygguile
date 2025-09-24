@@ -472,62 +472,48 @@
 
 ;; ============ Stylesheet Generation Entry-point =========================
 
+(define responsive-classes
+  (make-parameter (append (z-index)
+                          (heights)
+                          (widths))))
+
 (define sm-responsive
-  (make-parameter (list (addmq 'sm
-                               (z-index))
-                        (addmq 'sm
-                               (heights))
-                        (addmq 'sm
-                               (widths)))))
+  (make-parameter (map (lambda (r)
+                         (addmq 'sm r))
+                       (responsive-classes))))
 
 (define md-responsive
-  (make-parameter (list (addmq 'md
-                               (z-index))
-                        (addmq 'md
-                               (heights))
-                        (addmq 'md
-                               (widths)))))
+  (make-parameter (map (lambda (r)
+                         (addmq 'md r))
+                       (responsive-classes))))
 
 (define lg-responsive
-  (make-parameter (list (addmq 'lg
-                               (z-index))
-                        (addmq 'lg
-                               (heights))
-                        (addmq 'lg
-                               (widths)))))
+  (make-parameter (map (lambda (r)
+                         (addmq 'lg r))
+                       (responsive-classes))))
 
 (define xl-responsive
-  (make-parameter (list (addmq 'xl
-                               (z-index))
-                        (addmq 'xl
-                               (heights))
-                        (addmq 'xl
-                               (widths)))))
+  (make-parameter (map (lambda (r)
+                         (addmq 'xl r))
+                       (responsive-classes))))
 
 (define 2xl-responsive
-  (make-parameter (list (addmq "2xl"
-                               (z-index))
-                        (addmq "2xl"
-                               (heights))
-                        (addmq "2xl"
-                               (widths)))))
+  (make-parameter (map (lambda (r)
+                         (addmq "2xl" r))
+                       (responsive-classes))))
 
 (define responsive
-  (make-parameter (append '("@media (width >= 40rem){")
-                          (sm-responsive)
-                          '("}" "")
-                          '("@media (width >= 48rem){")
-                          (md-responsive)
-                          '("}" "")
-                          '("@media (width >= 64rem){")
-                          (lg-responsive)
-                          '("}" "")
-                          '("@media (width >= 80rem){")
-                          (xl-responsive)
-                          '("}" "")
-                          '("@media (width >= 96rem){")
-                          (2xl-responsive)
-                          '("}" ""))))
+  (make-parameter (append (mq "width >= 40rem"
+                              (sm-responsive))
+                          (mq "width >= 48rem"
+                              (md-responsive))
+                          (mq "width >= 64rem"
+                              (lg-responsive))
+                          (mq "width >= 80rem"
+                              (xl-responsive))
+                          (mq "width >= 96rem"
+                              (2xl-responsive))
+                          )))
 
 (define* (hss)
   (append (rulc (license-header))
