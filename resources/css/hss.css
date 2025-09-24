@@ -21193,7 +21193,6 @@ ol, ul {list-style:none;}
 .dark\:border-wine-500 {border-color:oklch(0.4284 0.0747 9.86 / 1);}
 .dark\:border-wine-700 {border-color:oklch(0.3784 0.0747 9.86 / 1);}
 .dark\:border-wine-900 {border-color:oklch(0.3284 0.0747 9.86 / 1);}
-}
 
 /*
   Load HSS Dark mode hover colors
@@ -27822,6 +27821,7 @@ ol, ul {list-style:none;}
 .hover\:dark\:border-wine-500 {&:hover {border-color:oklch(0.4284 0.0747 9.86 / 1);}}
 .hover\:dark\:border-wine-700 {&:hover {border-color:oklch(0.3784 0.0747 9.86 / 1);}}
 .hover\:dark\:border-wine-900 {&:hover {border-color:oklch(0.3284 0.0747 9.86 / 1);}}
+}
 
 /*
   Load responsive classes

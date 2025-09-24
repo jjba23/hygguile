@@ -33,9 +33,9 @@
                  (on-click "")
                  (background '(bg-stone-500/90 dark:bg-onyx-500/90))
                  (hover-background '(hover:bg-stone-900/90
-                                     dark:hover:bg-stone-700))
+                                     hover:dark:bg-onyx-900))
                  (border-size '(border-2))
-                 (border-color '(border-stone-700))
+                 (border-color '(border-stone-700 dark:border-stone-900))
                  (shadow '(shadow-md))
                  (color '(text-onyx-300 dark:text-stone-300))
                  (size '(text-sm))
@@ -73,9 +73,9 @@
                       (type 'button)
                       (background '(bg-stone-500/90 dark:bg-onyx-500/90))
                       (hover-background '(hover:bg-stone-900/90
-                                          dark:hover:bg-stone-700))
+                                          hover:dark:bg-onyx-900))
                       (border-size '(border-2))
-                      (border-color '(border-stone-700))
+                      (border-color '(border-stone-700 dark:border-stone-900))
                       (shadow '(shadow-md))
                       (size '(text-sm))
                       (family '(font-sans))
@@ -114,16 +114,16 @@
 (define* (submit-button content)
   (button content
           #:type 'submit
-          #:background '(bg-green-700)
+          #:background '(bg-asparagus-300)
           #:color '(text-stone-300)
-          #:hover-background '(hover:bg-green-900)))
+          #:hover-background '(hover:bg-asparagus-700)))
 
 (define* (danger-submit-button content)
   (button content
           #:type 'submit
-          #:background '(bg-red-700)
+          #:background '(bg-redwood-700)
           #:color '(text-stone-300)
-          #:hover-background '(hover:bg-red-900)))
+          #:hover-background '(hover:bg-redwood-900)))
 
 (define* (mono-button content)
   (button content
@@ -138,9 +138,9 @@
                          (type 'button)
                          (background '(bg-stone-500/90 dark:bg-onyx-500/90))
                          (hover-background '(hover:bg-stone-900/90
-                                             dark:hover:bg-stone-700))
+                                             hover:dark:bg-onyx-900))
                          (border-size '(border-2))
-                         (border-color '(border-stone-700))
+                         (border-color '(border-stone-700 dark:border-stone-900))
                          (shadow '(shadow-md))
                          (size '(text-sm))
                          (active '(active:scale-95))

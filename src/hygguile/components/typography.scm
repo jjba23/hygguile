@@ -130,7 +130,7 @@
             (size '(text-md))
             (color '(text-blue-500 dark:text-blue-500))
             (family '(font-sans))
-            (hover '(hover:text-blue-700 dark:hover:text-blue-700))
+            (hover '(hover:text-blue-700 hover:dark:text-jeans-blue-500))
             (href #f))
   `((a (@ (href ,(if (not href) content href))
           (class ,(mk-class (append color hover size weight family))))

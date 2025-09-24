@@ -54,7 +54,7 @@ I'd encourage navigating to the ~src/hygguile~ directory and studying the code t
 (button "click here"
             #:type 'submit
             #:background '(bg-green-700 dark:bg-green-500)
-            #:hover-background '(hover:bg-green-900 dark:hover:bg-green-700)
+            #:hover-background '(hover:bg-green-900 hover:dark:bg-green-700)
             #:border-color '(border-stone-300))
 
 #+end_src
