@@ -71,8 +71,7 @@
                       (hidden #f)
                       (on-click "")
                       (type 'button)
-                      (background '(bg-stone-500/90
-                                    dark:bg-onyx-500/90))
+                      (background '(bg-stone-500/90 dark:bg-onyx-500/90))
                       (hover-background '(hover:bg-stone-900/90
                                           dark:hover:bg-stone-700))
                       (border-size '(border-2))
@@ -137,8 +136,7 @@
 (define* (ui-mode-button #:key (icon 'faders)
                          (content "ui mode")
                          (type 'button)
-                         (background '(bg-stone-500/90
-                                       dark:bg-onyx-500/90))
+                         (background '(bg-stone-500/90 dark:bg-onyx-500/90))
                          (hover-background '(hover:bg-stone-900/90
                                              dark:hover:bg-stone-700))
                          (border-size '(border-2))

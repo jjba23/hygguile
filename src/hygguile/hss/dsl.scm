@@ -68,13 +68,15 @@
 
 (define (darken xs n)
   (append (list (let* ((comp (- (car xs) n)))
-                  (if (< comp 0) 0 comp)))
+                  (if (< comp 0) 0
+                      (string->number (format #f "~,5f" comp)))))
           (cdr xs)))
 
 (define (lighten xs n)
   (append (list (let* ((comp (+ n
                                 (car xs))))
-                  (if (>= comp 1) 1 comp)))
+                  (if (>= comp 1) 1
+                      (string->number (format #f "~,5f" comp)))))
           (cdr xs)))
 
 (define-record-type rule
