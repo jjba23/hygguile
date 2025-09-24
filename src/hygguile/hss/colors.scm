@@ -25,24 +25,25 @@
   (make-parameter '(orange red)))
 
 (define (darken xs n)
-  (map (lambda (x)
-         (let* ((comp (- x n)))
-           (if (< comp 0) 0 comp))) xs))
+  (append (list (let* ((comp (- (car xs) n)))
+                  (if (< comp 0) 0 comp)))
+          (cdr xs)))
 
 (define (lighten xs n)
-  (map (lambda (x)
-         (let* ((comp (+ n x)))
-           (if (> comp 255) 255 comp))) xs))
+  (append (list (let* ((comp (+ n
+                                (car xs))))
+                  (if (>= comp 100) 100 comp)))
+          (cdr xs)))
 
-(define orange-crayola
-  '(243 113 43))
+(define orange-crayola-oklch
+  '(0.7404 0.1444 57.26))
 
 (define orange
-  (make-parameter `((100 ,(lighten orange-crayola 42))
-                    (300 ,(lighten orange-crayola 22))
-                    (500 ,orange-crayola)
-                    (700 ,(darken orange-crayola 22))
-                    (900 ,(darken orange-crayola 42)))))
+  (make-parameter `((100 ,(lighten orange-crayola-oklch 0.1))
+                    (300 ,(lighten orange-crayola-oklch 0.05))
+                    (500 ,orange-crayola-oklch)
+                    (700 ,(darken orange-crayola-oklch 0.05))
+                    (900 ,(darken orange-crayola-oklch 0.1)))))
 (define rojo
   '(222 23 43))
 
@@ -194,38 +195,51 @@
                     (700 ,(darken teal-hue 22))
                     (900 ,(darken teal-hue 42)))))
 
+(define midnight-green-oklch
+  '(0.4108 0.0614 214.25))
+
+(define midnight-green
+  (make-parameter `((100 ,(lighten midnight-green-oklch 0.1))
+                    (300 ,(lighten midnight-green-oklch 0.05))
+                    (500 ,midnight-green-oklch)
+                    (700 ,(darken midnight-green-oklch 0.05))
+                    (900 ,(darken midnight-green-oklch 0.1)))))
+
 (define default-palettes
   (make-parameter (list (cons 'orange
                               (orange))
-                        (cons 'spicedterracotta
-                              (spiced-terracotta))
-                        (cons 'vinrouge
-                              (vin-rouge))
-                        (cons 'earthyellow
-                              (earth-yellow))
-                        (cons 'chinarose
-                              (china-rose))
-                        (cons 'floralwhite
-                              (floral-white))
-                        (cons 'teal
-                              (teal))
-                        (cons 'cornsilk
-                              (cornsilk))
-                        (cons 'papayawhip
-                              (papaya-whip))
-                        (cons 'stone
-                              (stone))
-                        (cons 'purple
-                              (purple))
-                        (cons 'blue
-                              (blue))
-                        (cons 'green
-                              (green))
-                        (cons 'yellow
-                              (yellow))
-                        (cons 'amber
-                              (amber))
-                        (cons 'pink
-                              (pink))
-                        (cons 'red
-                              (red)))))
+                        (cons 'midnight-green
+                              (midnight-green)))))
+
+;; (cons 'spicedterracotta
+;;       (spiced-terracotta))
+;; (cons 'vinrouge
+;;       (vin-rouge))
+;; (cons 'earthyellow
+;;       (earth-yellow))
+;; (cons 'chinarose
+;;       (china-rose))
+;; (cons 'floralwhite
+;;       (floral-white))
+;; (cons 'teal
+;;       (teal))
+;; (cons 'cornsilk
+;;       (cornsilk))
+;; (cons 'papayawhip
+;;       (papaya-whip))
+;; (cons 'stone
+;;       (stone))
+;; (cons 'purple
+;;       (purple))
+;; (cons 'blue
+;;       (blue))
+;; (cons 'green
+;;       (green))
+;; (cons 'yellow
+;;       (yellow))
+;; (cons 'amber
+;;       (amber))
+;; (cons 'pink
+;;       (pink))
+;; (cons 'red
+;;       (red)))))

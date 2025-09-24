@@ -19,9 +19,11 @@
 
 function cycleBgClass(currentClass) {
   const parts = currentClass.split('-')
-  const currentNumber = parseInt(parts[2], 10)
+  const currentNumber = parseInt(parts.toReversed()[0], 10)
   const nextNumber = currentNumber >= 900 ? 100 : currentNumber + 200
-  return `${parts[0]}-${parts[1]}-${nextNumber}`
+  const startParts = parts.slice(0, parts.length - 1).join("-")
+
+  return `${startParts}-${nextNumber}`
 }
 
 function cycleColorShow(el) {

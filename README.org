@@ -215,3 +215,5 @@ You can always choose to import hygguile using a prefix to avoid name clashes if
 --------
 
 ** TODO generate CSS documentation like tailwind does, but by analyzing hss.css directly and perform analysis
+
+** TODO color blocks should show a scrollable color list

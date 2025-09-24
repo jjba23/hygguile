@@ -137,7 +137,7 @@
                              (list (dec property
                                         (apply format
                                                (append (list #f
-                                                        "rgba(~d, ~d, ~d, ~a)")
+                                                        "oklch(~a ~a ~a / ~a)")
                                                        (car (assoc-ref palette
                                                              (caadr
                                                               alpha-weight)))

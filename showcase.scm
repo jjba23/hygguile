@@ -379,8 +379,11 @@
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'orange-500
                                                      #:text-class 'text-white)
+                                     ,(mk-color-show #:color 'midnight-green-500
+                                                     #:text-class 'text-white)
                                      ,(mk-color-show #:color 'amber-500
                                                      #:text-class 'text-black)
+
                                      ,(mk-color-show #:color 'yellow-500
                                                      #:text-class 'text-black)
                                      ,(mk-color-show #:color 'lime-500
