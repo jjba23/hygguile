@@ -88,30 +88,31 @@
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(icon-button #:icon 'gear
                                              #:content "gear"
-                                             #:background '(bg-teal-700)
+                                             #:background '(bg-jeans-blue-500)
+                                             #:hover-background '(hover:bg-jeans-blue-900)
                                              #:color '(text-stone-300
                                                        dark:text-stone-100)
-                                             #:size '(text-xs)
+                                             #:size '(text-md)
                                              #:icon-css '(text-stone-100
                                                           dark:text-stone-100
-                                                          text-md)
-                                             #:hover-background '(hover:bg-teal-900)))
+                                                          text-md)))
                   ,(as-example '(icon-button #:icon 'user
                                              #:content "user"
-                                             #:background '(bg-earthyellow-500)
+                                             #:background '(bg-naples-yellow-500)
                                              #:color '(text-onyx-500)
-                                             #:hover-background '(hover:bg-amber-500)
+                                             #:hover-background '(hover:bg-naples-yellow-700)
                                              #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'calendar
                                              #:content "Book now"
                                              #:weight '(font-light)
-                                             #:background '(bg-vinrouge-500)
-                                             #:color '(text-papayawhip-500)
-                                             #:hover-background '(hover:bg-cafenoir)
+                                             #:size '(text-md)
+                                             #:background '(bg-wine-500)
+                                             #:color '(text-papaya-whip-500)
+                                             #:hover-background '(hover:bg-wine-700)
                                              #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'airplane-tilt
                                              #:content "airplane-tilt"
-                                             #:background '(bg-chinarose-500)
+                                             #:background '(bg-china-rose-500)
                                              #:weight '(font-medium)
                                              #:color '(text-stone-300
                                                        dark:text-stone-100)

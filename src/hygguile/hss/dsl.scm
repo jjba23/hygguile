@@ -85,17 +85,16 @@
   oklch)
 
 (define* (make-palette oklch
-                     #:key (transformers (list (list 100 lighten-oklch 0.1)
-                                               (list 300 lighten-oklch 0.05)
-                                               (list 500 identity-oklch 0)
-                                               (list 700 darken-oklch 0.05)
-                                               (list 900 darken-oklch 0.1))))
+                       #:key (transformers (list (list 100 lighten-oklch 0.1)
+                                                 (list 300 lighten-oklch 0.05)
+                                                 (list 500 identity-oklch 0)
+                                                 (list 700 darken-oklch 0.05)
+                                                 (list 900 darken-oklch 0.1))))
   (map (lambda (t)
          (list (car t)
                (apply (cadr t)
-                      (list oklch (caddr t))))) transformers))
-
-
+                      (list oklch
+                            (caddr t))))) transformers))
 
 (define-record-type rule
   (make-rule selector declarations) rule?
