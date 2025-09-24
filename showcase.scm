@@ -387,6 +387,8 @@
                                                      #:text-class 'text-white)
                                      ,(mk-color-show #:color 'amber-500
                                                      #:text-class 'text-black)
+                                     ,(mk-color-show #:color 'prussian-blue-500
+                                                     #:text-class 'text-white)
 
                                      ,(mk-color-show #:color 'yellow-500
                                                      #:text-class 'text-black)

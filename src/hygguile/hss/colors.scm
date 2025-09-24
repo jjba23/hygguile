@@ -225,6 +225,16 @@
                     (700 ,(darken van-dyke-oklch 0.05))
                     (900 ,(darken van-dyke-oklch 0.1)))))
 
+(define prussian-blue-oklch
+  '(0.3093 0.0627 254.14))
+
+(define prussian-blue
+  (make-parameter `((100 ,(lighten prussian-blue-oklch 0.1))
+                    (300 ,(lighten prussian-blue-oklch 0.05))
+                    (500 ,prussian-blue-oklch)
+                    (700 ,(darken prussian-blue-oklch 0.05))
+                    (900 ,(darken prussian-blue-oklch 0.1)))))
+
 (define default-palettes
   (make-parameter (list (cons 'orange
                               (orange))
@@ -232,6 +242,8 @@
                               (wine))
                         (cons 'van-dyke
                               (van-dyke))
+                        (cons 'prussian-blue
+                              (prussian-blue))
                         (cons 'midnight-green
                               (midnight-green)))))
 
