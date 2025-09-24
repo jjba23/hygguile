@@ -40,13 +40,13 @@
           body-font-family))
 
 (define* (show-notifications-from-url-js #:key (header-classes (mk-class '(text-xl
-                                                                           text-stone-900
+                                                                           text-onyx-500
                                                                            dark:text-stone-300)))
                                          (close-icon-on-click
                                           "document.getElementById('notification-tray').innerHTML = ''")
                                          (close-icon-classes (mk-class '(ph
                                                                          ph-x
-                                                                         text-stone-900
+                                                                         text-onyx-500
                                                                          cursor-pointer
                                                                          dark:text-stone-300
                                                                          text-xl)))
@@ -63,10 +63,10 @@
                                                                                 rounded-xl
                                                                                 bg-stone-300/90
                                                                                 border-stone-500
-                                                                                dark:bg-stone-700/75
+                                                                                dark:bg-raisin-black-700/75
                                                                                 border-2
                                                                                 dark:border-stone-900
-                                                                                text-stone-700
+                                                                                text-onyx-300
                                                                                 dark:text-stone-300
                                                                                 font-sans
                                                                                 py-6

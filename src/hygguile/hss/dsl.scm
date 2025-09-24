@@ -24,6 +24,8 @@
   #:export (~ format-css
               list-combinations
               where-dark
+              lighten
+              darken
               ;;
               rulc
               rule
@@ -62,6 +64,17 @@
      (append (flatten-list (car xs))
              (flatten-list (cdr xs))))
     (else (list xs))))
+
+(define (darken xs n)
+  (append (list (let* ((comp (- (car xs) n)))
+                  (if (< comp 0) 0 comp)))
+          (cdr xs)))
+
+(define (lighten xs n)
+  (append (list (let* ((comp (+ n
+                                (car xs))))
+                  (if (>= comp 100) 100 comp)))
+          (cdr xs)))
 
 (define-record-type rule
   (make-rule selector declarations) rule?

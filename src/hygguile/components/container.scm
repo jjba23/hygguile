@@ -36,7 +36,7 @@
   `((hr (@ (class ,(mk-class (append color margin)))))))
 
 (define* (footer content
-                 #:key (background '(bg-stone-300 dark:bg-stone-700/75))
+                 #:key (background '(bg-stone-300 dark:bg-onyx-700/75))
                  (shadow '(shadow-xl))
                  (footer-classes '(flex flex-col
                                         gap-4
@@ -55,7 +55,7 @@
               (padding-y '(py-6))
               (padding-x '(px-4))
               (rounding '(rounded-lg))
-              (background '(bg-stone-300/75 dark:bg-stone-900))
+              (background '(bg-stone-300/75 dark:bg-onyx-700))
               (items '(items-center))
               (row-classes '(flex flex-row)))
   `((div (@ (class ,(mk-class (append row-classes
@@ -76,7 +76,7 @@
               (padding-y '(py-6))
               (padding-x '(px-4))
               (rounding '(rounded-lg))
-              (background '(bg-stone-300/75 dark:bg-stone-900))
+              (background '(bg-stone-300/75 dark:bg-onyx-700))
               (items '(items-center))
               (col-classes '(flex flex-col)))
   `((div (@ (class ,(mk-class (append col-classes
@@ -99,15 +99,15 @@
              #:key (dt-classes '(py-2 pb-1))
              (weight '(font-light))
              (style '(italic))
-             (color '(text-stone-700 dark:text-stone-500))
+             (color '(text-onyx-300 dark:text-stone-500))
              (size '(text-lg)))
   `((dt (@ (class ,(mk-class (append dt-classes weight style color size))))
         ,content)))
 
 (define* (dd content
-             #:key (dd-classes '(px-2 text-stone-700 dark:text-stone-300))
+             #:key (dd-classes '(px-2 text-onyx-300 dark:text-stone-300))
              (weight '(font-medium))
-             (color '(text-stone-700 dark:text-stone-500))
+             (color '(text-onyx-300 dark:text-stone-500))
              (size '(text-lg)))
   `((dd (@ (class ,(mk-class (append dd-classes weight color size))))
         ,content)))

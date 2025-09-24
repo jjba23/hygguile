@@ -39,7 +39,7 @@
                 (div ,(eval-string tt))
                 (button (@ (aria-label "Show code for example")
                            (class ,(mk-class '(font-light text-sm
-                                                          text-stone-700
+                                                          text-onyx-300
                                                           dark:text-stone-300)))
                            (onclick ,(format #f
                                       "document.getElementById('~a-example').classList.toggle('hidden')"
@@ -49,19 +49,19 @@
            (div (@ (id ,(format #f "~a-example" uid))
                    (class ,(mk-class '(hidden flex flex-col gap-2))))
                 (pre (@ (id ,(format #f "~a-pre" uid))
-                        (class ,(mk-class '(font-medium text-stone-900
-                                                        dark:text-stone-300
-                                                        text-md
-                                                        bg-stone-300/75
-                                                        dark:bg-stone-700/75
-                                                        rounded-lg
-                                                        shadow-md
-                                                        text-wrap
-                                                        py-4
-                                                        px-4
-                                                        font-mono
-                                                        overflow-x-scroll
-                                                        whitespace-pre-wrap))))
+                        (class ,(mk-class '(font-medium text-onyx-500
+                                            dark:text-stone-300
+                                            text-md
+                                            bg-stone-300/75
+                                            dark:bg-raisin-black-700/75
+                                            rounded-lg
+                                            shadow-md
+                                            text-wrap
+                                            py-4
+                                            px-4
+                                            font-mono
+                                            overflow-x-scroll
+                                            whitespace-pre-wrap))))
                      ,t)
                 (div (@ (class ,(mk-class '(w-min))))
                      ,(icon-button #:icon 'copy
@@ -99,7 +99,7 @@
                   ,(as-example '(icon-button #:icon 'user
                                              #:content "user"
                                              #:background '(bg-earthyellow-500)
-                                             #:color '(text-stone-900)
+                                             #:color '(text-onyx-500)
                                              #:hover-background '(hover:bg-amber-500)
                                              #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'calendar
@@ -293,13 +293,13 @@
                                                      '())
                                                     ((pair? l)
                                                      `(figcaption (@ (class ,(mk-class '
-                                                                              (text-stone-700
+                                                                              (text-onyx-300
                                                                                dark:text-stone-500
                                                                                text-lg
                                                                                font-light))))
                                                                   ,(car l))))))))
          (render-other-content (lambda (c)
-                                 `((div (@ (class ,(mk-class '(text-stone-700
+                                 `((div (@ (class ,(mk-class '(text-onyx-300
                                                                dark:text-stone-300
                                                                text-2xl
                                                                min-w-48
@@ -375,68 +375,18 @@
                                 ,(p
                                   "Hygguile offers colors in the 100, 300, 500, 700 and 900 variants.")
                                 (div (@ (class ,color-grid-class))
-                                     ,(mk-color-show #:color 'wine-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'van-dyke-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'midnight-green-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'orange-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'red-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'amber-500
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'prussian-blue-500
-                                                     #:text-class 'text-white)
-
-                                     ,(mk-color-show #:color 'yellow-500
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'lime-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'green-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'emerald-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'teal-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'cyan-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'sky-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'blue-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'indigo-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'violet-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'purple-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'pink-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'stone-500
-                                                     #:text-class 'text-white))
-                                (div (@ (class ,color-grid-class))
-                                     ,(mk-color-show #:color 'spicedterracotta-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'bistre
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'cafenoir
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'floralwhite-500
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'cornsilk-500
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'papayawhip-500
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'chinarose-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'earthyellow-500
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'burgundy
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'vinrouge-500
-                                                     #:text-class 'text-white))))))
+                                     ,(map (lambda (x)
+                                             (mk-color-show #:color (car x)
+                                                            #:text-class (cadr
+                                                                          x)))
+                                           '((wine-500 text-white)
+                                             (van-dyke-500 text-white)
+                                             (midnight-green-500 text-white)
+                                             (orange-500 text-white)
+                                             (prussian-blue-500 text-white)
+                                             (raisin-black-500 text-white)
+                                             (stone-500 text-black)
+                                             (onyx-500 text-white))))))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-10 px-4 container
@@ -476,8 +426,8 @@
                               ,hygguile-recommended-resources
                               (link (@ (rel stylesheet)
                                        (href "hss.css")))
-                              (body (@ (class ,(mk-class '(bg-white
-                                                           dark:bg-stone-900))))
+                              (body (@ (class ,(mk-class '(bg-stone-100
+                                                           dark:bg-raisin-black-700))))
                                     ,notification-tray
                                     ,@body)))))
 

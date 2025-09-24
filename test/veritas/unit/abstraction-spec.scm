@@ -108,9 +108,9 @@
 
                (assert-equal #:name "Real-world like string"
                 #:got (pretty-quote
-                       "(quote user) #:content \"user\" #:background (quote bg-amber-500) #:hover-background (quote hover:bg-amber-700) #:color (quote text-stone-900) #:icon-css (quote (text-stone-900 text-xl))")
+                       "(quote user) #:content \"user\" #:background (quote bg-amber-500) #:hover-background (quote hover:bg-amber-700) #:color (quote text-onyx-500) #:icon-css (quote (text-onyx-500 text-xl))")
                 #:expect
-                "'user #:content \"user\" #:background 'bg-amber-500 #:hover-background 'hover:bg-amber-700 #:color 'text-stone-900 #:icon-css '(text-stone-900 text-xl)")
+                "'user #:content \"user\" #:background 'bg-amber-500 #:hover-background 'hover:bg-amber-700 #:color 'text-onyx-500 #:icon-css '(text-onyx-500 text-xl)")
 
                (assert-equal #:name
                 "Multiple occurrences of the same quoted expression"

@@ -26,7 +26,7 @@
                                              overflow-x-scroll
                                              snap-x
                                              bg-stone-300/75
-                                             dark:bg-stone-700/75
+                                             dark:bg-onyx-700/75
                                              rounded-xl
                                              shadow-md
                                              my-6))
@@ -41,15 +41,15 @@
                                                      font-bold))
                    (carousel-list-wrapper-css '(relative))
                    (carousel-button-css '(absolute bottom-1/2
-                                                   w-18
-                                                   h-18
-                                                   bg-stone-500/25
-                                                   dark:bg-stone-900/25
-                                                   rounded-xl
-                                                   text-stone-900
-                                                   dark:text-stone-300
-                                                   cursor-pointer
-                                                   text-2xl))
+                                          w-18
+                                          h-18
+                                          bg-stone-500/25
+                                          dark:bg-onyx-700/25
+                                          rounded-xl
+                                          text-onyx-500
+                                          dark:text-stone-300
+                                          cursor-pointer
+                                          text-2xl))
                    (carousel-left-button-css '(left-4))
                    (carousel-right-button-css '(right-4))
                    (fragments '()))

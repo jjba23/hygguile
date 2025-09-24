@@ -31,10 +31,10 @@
                                  dark:border-stone-700
                                  dark:text-stone-300
                                  bg-stone-300/75
-                                 dark:bg-stone-700/75
+                                 dark:bg-raisin-black-700/75
                                  border-2
                                  shadow-md))
-                (label-css '(text-sm font-bold text-stone-700
+                (label-css '(text-sm font-bold text-onyx-300
                                      dark:text-stone-300))
                 (input-flex-css '(my-2 flex flex-col gap-1)))
   `((div (@ (class ,(mk-class input-flex-css)))
@@ -58,14 +58,14 @@
                                        border-stone-300
                                        dark:border-stone-700
                                        dark:text-stone-300
-                                       dark:bg-stone-700/75
+                                       dark:bg-raisin-black-700/75
                                        bg-stone-300/75
                                        border-2
                                        min-h-72
                                        min-w-90
                                        shadow-md
                                        min-w-prose))
-                   (label-css '(text-sm font-bold text-stone-700
+                   (label-css '(text-sm font-bold text-onyx-300
                                         dark:text-stone-300))
                    (textarea-flex-css '(my-2 flex flex-col gap-1 w-full)))
   `((div (@ (class ,(mk-class textarea-flex-css)))

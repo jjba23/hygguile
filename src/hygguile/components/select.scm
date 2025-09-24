@@ -50,8 +50,8 @@
                                        border-stone-300
                                        dark:border-stone-700
                                        bg-stone-300/75
-                                       dark:bg-stone-900
-                                       text-stone-900
+                                       dark:bg-raisin-black-900
+                                       text-onyx-500
                                        dark:text-stone-300
                                        text-md
                                        rounded-xl
