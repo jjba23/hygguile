@@ -29,13 +29,11 @@
   #:use-module (hygguile hss decl filters)
   #:use-module (hygguile hss decl typography)
   #:use-module (hygguile hss decl reset)
-  #:export (rounded-multiplier  hss))
-
-
+  #:export (rounded-multiplier hss all-responsive reduced-responsive
+                               responsive))
 
 (define rounded-multiplier
   (param 0.16))
-
 
 (define shadow-multiplier
   (param 0.3))
@@ -59,8 +57,6 @@
            (xl ,(xl-breakpoint)))))
 
 ;; ========================================================================
-
-
 
 (define shadows
   (param (rulv ".shadow-~a"
@@ -100,70 +96,66 @@
                             (center center)
                             (none none)))))
 
-(define colors
-  (param (append (rulv ".bg-~a"
-                       #:property 'background
-                       #:variants '((inherit inherit)
-                                    (white white)
-                                    (black black)
-                                    (transparent transparent)))
-                 (rulv ".text-~a"
-                       #:property 'color
-                       #:variants '((inherit inherit)
-                                    (white white)
-                                    (black black)
-                                    (transparent transparent)))
-                 (rulv ".border-~a"
-                       #:property 'border-color
-                       #:variants '((inherit inherit)
-                                    (white white)
-                                    (black black)
-                                    (transparent transparent)))
-                 (rulv ".decoration-~a"
-                       #:property 'text-decoration-color
-                       #:variants '((inherit inherit)
-                                    (white white)
-                                    (black black)
-                                    (transparent transparent)))
+(define (colors palettes)
+  (append (rulv ".bg-~a"
+                #:property 'background
+                #:variants '((inherit inherit)
+                             (white white)
+                             (black black)
+                             (transparent transparent)))
+          (rulv ".text-~a"
+                #:property 'color
+                #:variants '((inherit inherit)
+                             (white white)
+                             (black black)
+                             (transparent transparent)))
+          (rulv ".border-~a"
+                #:property 'border-color
+                #:variants '((inherit inherit)
+                             (white white)
+                             (black black)
+                             (transparent transparent)))
+          (rulv ".decoration-~a"
+                #:property 'text-decoration-color
+                #:variants '((inherit inherit)
+                             (white white)
+                             (black black)
+                             (transparent transparent)))
 
-                 (rulcol ".bg-~a-~a~a"
-                         #:property 'background
-                         #:variants (list-combinations alphas color-weights)
-                         #:palettes (palettes))
-                 (rulcol ".text-~a-~a~a"
-                         #:property 'color
-                         #:variants (list-combinations alphas color-weights)
-                         #:palettes (palettes))
-                 (rulcol ".border-~a-~a~a"
-                         #:property 'border-color
-                         #:variants (list-combinations alphas color-weights)
-                         #:palettes (palettes))
-                 (rulcol ".decoration-~a-~a~a"
-                         #:property 'text-decoration-color
-                         #:variants (list-combinations alphas color-weights)
-                         #:palettes (palettes))
-                 )))
+          (rulcol ".bg-~a-~a~a"
+                  #:property 'background
+                  #:variants (list-combinations alphas color-weights)
+                  #:palettes palettes)
+          (rulcol ".text-~a-~a~a"
+                  #:property 'color
+                  #:variants (list-combinations alphas color-weights)
+                  #:palettes palettes)
+          (rulcol ".border-~a-~a~a"
+                  #:property 'border-color
+                  #:variants (list-combinations alphas color-weights)
+                  #:palettes palettes)
+          (rulcol ".decoration-~a-~a~a"
+                  #:property 'text-decoration-color
+                  #:variants (list-combinations alphas color-weights)
+                  #:palettes palettes)))
 
 (define dark-mode
   (param (list '("")
                (rulc "Load HSS Dark mode colors")
                (list where-dark " {")
                (addmq 'dark
-                      (colors))
+                      (colors (palettes)))
                (addmq 'dark
                       (filter-classes))
                '("")
                (rulc "Load HSS Dark mode hover colors")
                (addhover "hover\\:dark"
-                         (colors))
+                         (colors (palettes)))
                '("}"))))
 
 (define hover-colors
   (param (addhover 'hover
-                   (colors))))
-
-
-
+                   (colors (palettes)))))
 
 (define display-utilities
   (param (list (rul ".overflow-x-scroll"
@@ -271,17 +263,30 @@
                 (addmq "2xl" r))
               (responsive-classes))))
 
+(define all-responsive
+  (append (mq "width >= 40rem"
+              (sm-responsive))
+          (mq "width >= 48rem"
+              (md-responsive))
+          (mq "width >= 64rem"
+              (lg-responsive))
+          (mq "width >= 80rem"
+              (xl-responsive))
+          (mq "width >= 96rem"
+              (2xl-responsive))))
+
+(define reduced-responsive
+  (append (mq "width >= 40rem"
+              (sm-responsive))
+          (mq "width >= 48rem"
+              (md-responsive))
+          (mq "width >= 64rem"
+              (lg-responsive))
+          (mq "width >= 80rem"
+              (xl-responsive))))
+
 (define responsive
-  (param (append (mq "width >= 40rem"
-                     (sm-responsive))
-                 (mq "width >= 48rem"
-                     (md-responsive))
-                 (mq "width >= 64rem"
-                     (lg-responsive))
-                 (mq "width >= 80rem"
-                     (xl-responsive))
-                 (mq "width >= 96rem"
-                     (2xl-responsive)))))
+  (param all-responsive))
 
 (define* (hss)
   (append (rulc (license-header))
@@ -308,7 +313,7 @@
           (shadows)
           '("")
           (rulc "Load HSS colors")
-          (colors)
+          (colors (palettes))
           '("")
           (rulc "Load HSS hover colors")
           (hover-colors)
