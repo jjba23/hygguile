@@ -35,6 +35,8 @@
                                font-style
                                font-weight
                                font-size
+                               leading
+                               line-height-multiplier
                                text-align))
 
 (define mono-font-family
@@ -47,6 +49,9 @@
                       " ")))
 
 (define font-size-multiplier
+  (param 0.25))
+
+(define line-height-multiplier
   (param 0.25))
 
 (define weight-multiplier
@@ -126,6 +131,16 @@
                                     ("-webkit-box-orient" vertical))
                #:variants numeric-sizes)))
 
+(define leading
+  (param (list (rul ".leading-none" (dec 'line-height 1))
+               (rulv ".leading-~a"
+                     #:property 'line-height
+                     #:variants (map (lambda (s)
+                                 (siz s
+                                      #:conversion to-rem
+                                      #:multiplier (line-height-multiplier)))
+                               (append tshirt-sizes numeric-sizes))))))
+
 (define typography-classes
   (param (list (font-family)
                (font-weight)
@@ -135,5 +150,6 @@
                (font-stretch)
                (font-smoothing)
                (line-clamp)
+               (leading)
                (font-variant-numeric)
                (letter-spacing))))
