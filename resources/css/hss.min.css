@@ -2253,6 +2253,235 @@ ol, ul {list-style:none;}
 .tracking-wide {letter-spacing:0.025em;}
 .tracking-wider {letter-spacing:0.05em;}
 .tracking-widest {letter-spacing:0.1em;}
+.hover\:font-sans {&:hover {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}}
+.hover\:font-mono {&:hover {font-family:'IBM Plex Mono', monospace;}}
+.hover\:font-serif {&:hover {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}}
+.hover\:font-thin {&:hover {font-weight:100;}}
+.hover\:font-extralight {&:hover {font-weight:200;}}
+.hover\:font-light {&:hover {font-weight:300;}}
+.hover\:font-normal {&:hover {font-weight:400;}}
+.hover\:font-medium {&:hover {font-weight:500;}}
+.hover\:font-semibold {&:hover {font-weight:600;}}
+.hover\:font-bold {&:hover {font-weight:700;}}
+.hover\:font-extrabold {&:hover {font-weight:800;}}
+.hover\:font-black {&:hover {font-weight:900;}}
+.hover\:text-2xs {&:hover {font-size:0.25rem;}}
+.hover\:text-xs {&:hover {font-size:0.50rem;}}
+.hover\:text-sm {&:hover {font-size:0.75rem;}}
+.hover\:text-md {&:hover {font-size:1.00rem;}}
+.hover\:text-lg {&:hover {font-size:1.25rem;}}
+.hover\:text-xl {&:hover {font-size:1.50rem;}}
+.hover\:text-2xl {&:hover {font-size:1.75rem;}}
+.hover\:text-3xl {&:hover {font-size:2.00rem;}}
+.hover\:text-4xl {&:hover {font-size:2.25rem;}}
+.hover\:text-5xl {&:hover {font-size:2.50rem;}}
+.hover\:text-1 {&:hover {font-size:0.25rem;}}
+.hover\:text-2 {&:hover {font-size:0.50rem;}}
+.hover\:text-3 {&:hover {font-size:0.75rem;}}
+.hover\:text-4 {&:hover {font-size:1.00rem;}}
+.hover\:text-5 {&:hover {font-size:1.25rem;}}
+.hover\:text-6 {&:hover {font-size:1.50rem;}}
+.hover\:text-7 {&:hover {font-size:1.75rem;}}
+.hover\:text-8 {&:hover {font-size:2.00rem;}}
+.hover\:text-9 {&:hover {font-size:2.25rem;}}
+.hover\:text-10 {&:hover {font-size:2.50rem;}}
+.hover\:text-12 {&:hover {font-size:3.00rem;}}
+.hover\:text-14 {&:hover {font-size:3.50rem;}}
+.hover\:text-16 {&:hover {font-size:4.00rem;}}
+.hover\:text-20 {&:hover {font-size:5.00rem;}}
+.hover\:text-24 {&:hover {font-size:6.00rem;}}
+.hover\:text-28 {&:hover {font-size:7.00rem;}}
+.hover\:text-32 {&:hover {font-size:8.00rem;}}
+.hover\:text-48 {&:hover {font-size:12.00rem;}}
+.hover\:text-64 {&:hover {font-size:16.00rem;}}
+.hover\:text-72 {&:hover {font-size:18.00rem;}}
+.hover\:text-90 {&:hover {font-size:22.50rem;}}
+.hover\:text-96 {&:hover {font-size:24.00rem;}}
+.hover\:text-100 {&:hover {font-size:25.00rem;}}
+.hover\:text-128 {&:hover {font-size:32.00rem;}}
+.hover\:text-196 {&:hover {font-size:49.00rem;}}
+.hover\:text-256 {&:hover {font-size:64.00rem;}}
+.hover\:text-512 {&:hover {font-size:128.00rem;}}
+.hover\:italic {&:hover {font-style:italic;}}
+.hover\:not-italic {&:hover {font-style:normal;}}
+.hover\:text-center {&:hover {text-align:center;}}
+.hover\:text-left {&:hover {text-align:left;}}
+.hover\:text-right {&:hover {text-align:right;}}
+.hover\:text-justify {&:hover {text-align:justify;}}
+.hover\:text-start {&:hover {text-align:start;}}
+.hover\:text-end {&:hover {text-align:end;}}
+.hover\:font-stretch-ultra-condensed {&:hover {font-stretch:ultra-condensed;}}
+.hover\:font-stretch-extra-condensed {&:hover {font-stretch:extra-condensed;}}
+.hover\:font-stretch-condensed {&:hover {font-stretch:condensed;}}
+.hover\:font-stretch-semi-condensed {&:hover {font-stretch:semi-condensed;}}
+.hover\:font-stretch-normal {&:hover {font-stretch:normal;}}
+.hover\:font-stretch-semi-expanded {&:hover {font-stretch:semi-expanded;}}
+.hover\:font-stretch-expanded {&:hover {font-stretch:expanded;}}
+.hover\:font-stretch-extra-expanded {&:hover {font-stretch:extra-expanded;}}
+.hover\:font-stretch-ultra-expanded {&:hover {font-stretch:ultra-expanded;}}
+.hover\:antialiased {&:hover {-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}}
+.hover\:subpixel-antialiased {&:hover {-webkit-font-smoothing:auto; -moz-osx-font-smoothing:auto;}}
+.hover\:line-clamp-1 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:1;}}
+.hover\:line-clamp-2 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;}}
+.hover\:line-clamp-3 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3;}}
+.hover\:line-clamp-4 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4;}}
+.hover\:line-clamp-5 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:5;}}
+.hover\:line-clamp-6 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:6;}}
+.hover\:line-clamp-7 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:7;}}
+.hover\:line-clamp-8 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:8;}}
+.hover\:line-clamp-9 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:9;}}
+.hover\:line-clamp-10 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:10;}}
+.hover\:line-clamp-12 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:12;}}
+.hover\:line-clamp-14 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:14;}}
+.hover\:line-clamp-16 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:16;}}
+.hover\:line-clamp-20 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:20;}}
+.hover\:line-clamp-24 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:24;}}
+.hover\:line-clamp-28 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:28;}}
+.hover\:line-clamp-32 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:32;}}
+.hover\:line-clamp-48 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:48;}}
+.hover\:line-clamp-64 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:64;}}
+.hover\:line-clamp-72 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:72;}}
+.hover\:line-clamp-90 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:90;}}
+.hover\:line-clamp-96 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:96;}}
+.hover\:line-clamp-100 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:100;}}
+.hover\:line-clamp-128 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:128;}}
+.hover\:line-clamp-196 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:196;}}
+.hover\:line-clamp-256 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:256;}}
+.hover\:line-clamp-512 {&:hover {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:512;}}
+.hover\:leading-none {&:hover {line-height:1;}}
+.hover\:leading-2xs {&:hover {line-height:0.25rem;}}
+.hover\:leading-xs {&:hover {line-height:0.50rem;}}
+.hover\:leading-sm {&:hover {line-height:0.75rem;}}
+.hover\:leading-md {&:hover {line-height:1.00rem;}}
+.hover\:leading-lg {&:hover {line-height:1.25rem;}}
+.hover\:leading-xl {&:hover {line-height:1.50rem;}}
+.hover\:leading-2xl {&:hover {line-height:1.75rem;}}
+.hover\:leading-3xl {&:hover {line-height:2.00rem;}}
+.hover\:leading-4xl {&:hover {line-height:2.25rem;}}
+.hover\:leading-5xl {&:hover {line-height:2.50rem;}}
+.hover\:leading-1 {&:hover {line-height:0.25rem;}}
+.hover\:leading-2 {&:hover {line-height:0.50rem;}}
+.hover\:leading-3 {&:hover {line-height:0.75rem;}}
+.hover\:leading-4 {&:hover {line-height:1.00rem;}}
+.hover\:leading-5 {&:hover {line-height:1.25rem;}}
+.hover\:leading-6 {&:hover {line-height:1.50rem;}}
+.hover\:leading-7 {&:hover {line-height:1.75rem;}}
+.hover\:leading-8 {&:hover {line-height:2.00rem;}}
+.hover\:leading-9 {&:hover {line-height:2.25rem;}}
+.hover\:leading-10 {&:hover {line-height:2.50rem;}}
+.hover\:leading-12 {&:hover {line-height:3.00rem;}}
+.hover\:leading-14 {&:hover {line-height:3.50rem;}}
+.hover\:leading-16 {&:hover {line-height:4.00rem;}}
+.hover\:leading-20 {&:hover {line-height:5.00rem;}}
+.hover\:leading-24 {&:hover {line-height:6.00rem;}}
+.hover\:leading-28 {&:hover {line-height:7.00rem;}}
+.hover\:leading-32 {&:hover {line-height:8.00rem;}}
+.hover\:leading-48 {&:hover {line-height:12.00rem;}}
+.hover\:leading-64 {&:hover {line-height:16.00rem;}}
+.hover\:leading-72 {&:hover {line-height:18.00rem;}}
+.hover\:leading-90 {&:hover {line-height:22.50rem;}}
+.hover\:leading-96 {&:hover {line-height:24.00rem;}}
+.hover\:leading-100 {&:hover {line-height:25.00rem;}}
+.hover\:leading-128 {&:hover {line-height:32.00rem;}}
+.hover\:leading-196 {&:hover {line-height:49.00rem;}}
+.hover\:leading-256 {&:hover {line-height:64.00rem;}}
+.hover\:leading-512 {&:hover {line-height:128.00rem;}}
+.hover\:list-disc {&:hover {list-style-type:disc;}}
+.hover\:list-decimal {&:hover {list-style-type:decimal;}}
+.hover\:list-none {&:hover {list-style-type:none;}}
+.hover\:list-inside {&:hover {list-style-position:inside;}}
+.hover\:list-outside {&:hover {list-style-position:outside;}}
+.hover\:normal-nums {&:hover {font-variant-numeric:normal;}}
+.hover\:ordinal {&:hover {font-variant-numeric:ordinal;}}
+.hover\:slashed-zero {&:hover {font-variant-numeric:slashed-zero;}}
+.hover\:lining-nums {&:hover {font-variant-numeric:lining-nums;}}
+.hover\:oldstyle-nums {&:hover {font-variant-numeric:oldstyle-nums;}}
+.hover\:proportional-nums {&:hover {font-variant-numeric:proportional-nums;}}
+.hover\:tabular-nums {&:hover {font-variant-numeric:tabular-nums;}}
+.hover\:diagonal-fractions {&:hover {font-variant-numeric:diagonal-fractions;}}
+.hover\:stacked-fractions {&:hover {font-variant-numeric:stacked-fractions;}}
+.hover\:list-disc {&:hover {list-style-type:disc;}}
+.hover\:list-decimal {&:hover {list-style-type:decimal;}}
+.hover\:list-none {&:hover {list-style-type:none;}}
+.hover\:underline {&:hover {text-decoration-line:underline;}}
+.hover\:overline {&:hover {text-decoration-line:overline;}}
+.hover\:line-through {&:hover {text-decoration-line:line-through;}}
+.hover\:no-underline {&:hover {text-decoration-line:none;}}
+.hover\:decoration-solid {&:hover {text-decoration-style:solid;}}
+.hover\:decoration-double {&:hover {text-decoration-style:double;}}
+.hover\:decoration-dotted {&:hover {text-decoration-style:dotted;}}
+.hover\:decoration-dashed {&:hover {text-decoration-style:dashed;}}
+.hover\:decoration-wavy {&:hover {text-decoration-style:wavy;}}
+.hover\:underline-offset-auto {&:hover {text-underline-offset:auto;}}
+.hover\:underline-offset-2xs {&:hover {text-underline-offset:0.25rem;}}
+.hover\:underline-offset-xs {&:hover {text-underline-offset:0.50rem;}}
+.hover\:underline-offset-sm {&:hover {text-underline-offset:0.75rem;}}
+.hover\:underline-offset-md {&:hover {text-underline-offset:1.00rem;}}
+.hover\:underline-offset-lg {&:hover {text-underline-offset:1.25rem;}}
+.hover\:underline-offset-xl {&:hover {text-underline-offset:1.50rem;}}
+.hover\:underline-offset-2xl {&:hover {text-underline-offset:1.75rem;}}
+.hover\:underline-offset-3xl {&:hover {text-underline-offset:2.00rem;}}
+.hover\:underline-offset-4xl {&:hover {text-underline-offset:2.25rem;}}
+.hover\:underline-offset-5xl {&:hover {text-underline-offset:2.50rem;}}
+.hover\:underline-offset-1 {&:hover {text-underline-offset:0.25rem;}}
+.hover\:underline-offset-2 {&:hover {text-underline-offset:0.50rem;}}
+.hover\:underline-offset-3 {&:hover {text-underline-offset:0.75rem;}}
+.hover\:underline-offset-4 {&:hover {text-underline-offset:1.00rem;}}
+.hover\:underline-offset-5 {&:hover {text-underline-offset:1.25rem;}}
+.hover\:underline-offset-6 {&:hover {text-underline-offset:1.50rem;}}
+.hover\:underline-offset-7 {&:hover {text-underline-offset:1.75rem;}}
+.hover\:underline-offset-8 {&:hover {text-underline-offset:2.00rem;}}
+.hover\:underline-offset-9 {&:hover {text-underline-offset:2.25rem;}}
+.hover\:underline-offset-10 {&:hover {text-underline-offset:2.50rem;}}
+.hover\:underline-offset-12 {&:hover {text-underline-offset:3.00rem;}}
+.hover\:underline-offset-14 {&:hover {text-underline-offset:3.50rem;}}
+.hover\:underline-offset-16 {&:hover {text-underline-offset:4.00rem;}}
+.hover\:underline-offset-20 {&:hover {text-underline-offset:5.00rem;}}
+.hover\:underline-offset-24 {&:hover {text-underline-offset:6.00rem;}}
+.hover\:underline-offset-28 {&:hover {text-underline-offset:7.00rem;}}
+.hover\:underline-offset-32 {&:hover {text-underline-offset:8.00rem;}}
+.hover\:underline-offset-48 {&:hover {text-underline-offset:12.00rem;}}
+.hover\:underline-offset-64 {&:hover {text-underline-offset:16.00rem;}}
+.hover\:underline-offset-72 {&:hover {text-underline-offset:18.00rem;}}
+.hover\:underline-offset-90 {&:hover {text-underline-offset:22.50rem;}}
+.hover\:underline-offset-96 {&:hover {text-underline-offset:24.00rem;}}
+.hover\:underline-offset-100 {&:hover {text-underline-offset:25.00rem;}}
+.hover\:underline-offset-128 {&:hover {text-underline-offset:32.00rem;}}
+.hover\:underline-offset-196 {&:hover {text-underline-offset:49.00rem;}}
+.hover\:underline-offset-256 {&:hover {text-underline-offset:64.00rem;}}
+.hover\:underline-offset-512 {&:hover {text-underline-offset:128.00rem;}}
+.hover\:uppercase {&:hover {text-transform:uppercase;}}
+.hover\:lowercase {&:hover {text-transform:lowercase;}}
+.hover\:capitalize {&:hover {text-transform:capitalize;}}
+.hover\:normal-case {&:hover {text-transform:none;}}
+.hover\:truncate {&:hover {overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}}
+.hover\:text-ellipsis {&:hover {text-overflow:ellipsis;}}
+.hover\:text-clip {&:hover {text-overflow:clip;}}
+.hover\:text-wrap {&:hover {text-wrap:wrap;}}
+.hover\:text-nowrap {&:hover {text-wrap:nowrap;}}
+.hover\:text-balance {&:hover {text-wrap:balance;}}
+.hover\:text-pretty {&:hover {text-wrap:pretty;}}
+.hover\:whitespace-normal {&:hover {white-space:normal;}}
+.hover\:whitespace-nowrap {&:hover {white-space:nowrap;}}
+.hover\:whitespace-pre {&:hover {white-space:pre;}}
+.hover\:whitespace-pre-line {&:hover {white-space:pre-line;}}
+.hover\:whitespace-pre-wrap {&:hover {white-space:pre-wrap;}}
+.hover\:whitespace-break-spaces {&:hover {white-space:break-spaces;}}
+.hover\:break-normal {&:hover {word-break:normal;}}
+.hover\:break-all {&:hover {word-break:break-all;}}
+.hover\:break-keep {&:hover {word-break:keep-all;}}
+.hover\:wrap-break-word {&:hover {overflow-wrap:break-word;}}
+.hover\:wrap-anywhere {&:hover {overflow-wrap:anywhere;}}
+.hover\:wrap-normal {&:hover {overflow-wrap:normal;}}
+.hover\:hyphens-none {&:hover {hyphens:none;}}
+.hover\:hyphens-manual {&:hover {hyphens:manual;}}
+.hover\:hyphens-auto {&:hover {hyphens:auto;}}
+.hover\:tracking-tighter {&:hover {letter-spacing:-0.05em;}}
+.hover\:tracking-tight {&:hover {letter-spacing:-0.025em;}}
+.hover\:tracking-normal {&:hover {letter-spacing:0em;}}
+.hover\:tracking-wide {&:hover {letter-spacing:0.025em;}}
+.hover\:tracking-wider {&:hover {letter-spacing:0.05em;}}
+.hover\:tracking-widest {&:hover {letter-spacing:0.1em;}}
 .active\:scale-95 {&:active {scale:95% 95%;}}
 .border-1 {border-style:solid; border-width:1.00px;}
 .border-2 {border-style:solid; border-width:2.00px;}

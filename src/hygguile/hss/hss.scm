@@ -30,7 +30,7 @@
   #:use-module (hygguile hss decl typography)
   #:use-module (hygguile hss decl reset)
   #:export (rounded-multiplier hss all-responsive reduced-responsive
-                               responsive))
+                               responsive with-dark-mode?))
 
 (define rounded-multiplier
   (param 0.16))
@@ -156,7 +156,6 @@
                (cons 'wine
                      (wine)))))
 
-
 (define shadows
   (param (rulv ".shadow-~a"
                #:property 'box-shadow
@@ -254,7 +253,7 @@
 
 (define (hover-colors palettes)
   (addhover 'hover
-                   (colors palettes)))
+            (colors palettes)))
 
 (define display-utilities
   (param (list (rul ".overflow-x-scroll"
@@ -387,6 +386,9 @@
 (define responsive
   (param all-responsive))
 
+(define with-dark-mode?
+  (param #t))
+
 (define* (hss)
   (append (rulc (license-header))
           '("")
@@ -400,6 +402,8 @@
           (spacing-classes)
           (sizing-classes)
           (typography-classes)
+          (addhover 'hover
+                    (typography-classes))
           ;;
           (active-scale)
           (borders)
@@ -416,7 +420,9 @@
           '("")
           (rulc "Load HSS hover colors")
           (hover-colors (palettes))
-          (dark-mode)
+          (if (with-dark-mode?)
+              (dark-mode)
+              '())
           '("")
           (rulc "Load responsive classes")
           (responsive)))

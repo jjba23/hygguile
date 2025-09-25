@@ -25,14 +25,19 @@
 
 ;; generate RC Huidkliniek HSS
 (let* ((all-hss (parameterize ((responsive reduced-responsive)
+                               (with-dark-mode? #f)
                                (palettes (list (cons 'floral-white
                                                      (floral-white))
                                                (cons 'china-rose
                                                      (china-rose))
+                                               (cons 'wine
+                                                     (wine))
                                                (cons 'spiced-terracotta
                                                      (spiced-terracotta))
                                                (cons 'onyx
                                                      (onyx))
+                                               (cons 'stone
+                                                     (stone))
                                                (cons 'jeans-blue
                                                      (jeans-blue))
                                                (cons 'asparagus
