@@ -23,15 +23,20 @@
   #:use-module (hygguile hss sizes)
   #:export (typography-classes font-family
                                mono-font-family
+                               text-wrap
                                text-underline-offset
                                text-transform
                                font-smoothing
+                               white-space
                                sans-font-family
                                serif-font-family
                                font-variant-numeric
+                               word-break
                                text-decoration-style
                                list-style-type
                                text-overflow
+                               overflow-wrap
+                               hyphens
                                font-stretch
                                weight-multiplier
                                text-decoration-line
@@ -214,6 +219,45 @@
                     (dec 'text-overflow
                          'clip)))))
 
+(define text-wrap
+  (param (rulv ".text-~a"
+               #:property 'text-wrap
+               #:variants '((wrap wrap)
+                            (nowrap nowrap)
+                            (balance balance)
+                            (pretty pretty)))))
+
+(define white-space
+  (param (rulv ".whitespace-~a"
+               #:property 'white-space
+               #:variants '((normal normal)
+                            (nowrap nowrap)
+                            (pre pre)
+                            (pre-line pre-line)
+                            (pre-wrap pre-wrap)
+                            (break-spaces break-spaces)))))
+
+(define word-break
+  (param (rulv ".break-~a"
+               #:property 'word-break
+               #:variants '((normal normal)
+                            (all break-all)
+                            (keep keep-all)))))
+
+(define overflow-wrap
+  (param (rulv ".wrap-~a"
+               #:property 'overflow-wrap
+               #:variants '((break-word break-word)
+                            (anywhere anywhere)
+                            (normal normal)))))
+
+(define hyphens
+  (param (rulv ".hyphens-~a"
+               #:property 'hyphens
+               #:variants '((none none)
+                            (manual manual)
+                            (auto auto)))))
+
 (define typography-classes
   (param (list (font-family)
                (font-weight)
@@ -233,4 +277,9 @@
                (text-underline-offset)
                (text-transform)
                (text-overflow)
+               (text-wrap)
+               (white-space)
+               (word-break)
+               (overflow-wrap)
+               (hyphens)
                (letter-spacing))))
