@@ -1803,6 +1803,8 @@ ol, ul {list-style:none;}
 .min-w-screen {min-width:1vh;}
 .max-w-screen {max-width:1vh;}
 .min-w-prose {min-width:84ch;}
+.min-w-full {min-width:100%;}
+.max-w-full {max-width:100%;}
 .max-w-prose {max-width:84ch;}
 .w-1 {width:0.24rem;}
 .w-2 {width:0.48rem;}
@@ -1917,6 +1919,8 @@ ol, ul {list-style:none;}
 .max-w-5xl {max-width:2.40rem;}
 .min-h-screen {min-height:1vh;}
 .max-h-screen {max-height:1vh;}
+.min-h-full {min-height:100%;}
+.max-h-full {max-height:100%;}
 .h-1 {height:0.24rem;}
 .h-2 {height:0.48rem;}
 .h-3 {height:0.72rem;}
@@ -8351,6 +8355,8 @@ ol, ul {list-style:none;}
 .sm\:min-w-screen {min-width:1vh;}
 .sm\:max-w-screen {max-width:1vh;}
 .sm\:min-w-prose {min-width:84ch;}
+.sm\:min-w-full {min-width:100%;}
+.sm\:max-w-full {max-width:100%;}
 .sm\:max-w-prose {max-width:84ch;}
 .sm\:w-1 {width:0.24rem;}
 .sm\:w-2 {width:0.48rem;}
@@ -8465,6 +8471,8 @@ ol, ul {list-style:none;}
 .sm\:max-w-5xl {max-width:2.40rem;}
 .sm\:min-h-screen {min-height:1vh;}
 .sm\:max-h-screen {max-height:1vh;}
+.sm\:min-h-full {min-height:100%;}
+.sm\:max-h-full {max-height:100%;}
 .sm\:h-1 {height:0.24rem;}
 .sm\:h-2 {height:0.48rem;}
 .sm\:h-3 {height:0.72rem;}
@@ -10622,6 +10630,8 @@ ol, ul {list-style:none;}
 .md\:min-w-screen {min-width:1vh;}
 .md\:max-w-screen {max-width:1vh;}
 .md\:min-w-prose {min-width:84ch;}
+.md\:min-w-full {min-width:100%;}
+.md\:max-w-full {max-width:100%;}
 .md\:max-w-prose {max-width:84ch;}
 .md\:w-1 {width:0.24rem;}
 .md\:w-2 {width:0.48rem;}
@@ -10736,6 +10746,8 @@ ol, ul {list-style:none;}
 .md\:max-w-5xl {max-width:2.40rem;}
 .md\:min-h-screen {min-height:1vh;}
 .md\:max-h-screen {max-height:1vh;}
+.md\:min-h-full {min-height:100%;}
+.md\:max-h-full {max-height:100%;}
 .md\:h-1 {height:0.24rem;}
 .md\:h-2 {height:0.48rem;}
 .md\:h-3 {height:0.72rem;}
@@ -12893,6 +12905,8 @@ ol, ul {list-style:none;}
 .lg\:min-w-screen {min-width:1vh;}
 .lg\:max-w-screen {max-width:1vh;}
 .lg\:min-w-prose {min-width:84ch;}
+.lg\:min-w-full {min-width:100%;}
+.lg\:max-w-full {max-width:100%;}
 .lg\:max-w-prose {max-width:84ch;}
 .lg\:w-1 {width:0.24rem;}
 .lg\:w-2 {width:0.48rem;}
@@ -13007,6 +13021,8 @@ ol, ul {list-style:none;}
 .lg\:max-w-5xl {max-width:2.40rem;}
 .lg\:min-h-screen {min-height:1vh;}
 .lg\:max-h-screen {max-height:1vh;}
+.lg\:min-h-full {min-height:100%;}
+.lg\:max-h-full {max-height:100%;}
 .lg\:h-1 {height:0.24rem;}
 .lg\:h-2 {height:0.48rem;}
 .lg\:h-3 {height:0.72rem;}
@@ -15164,6 +15180,8 @@ ol, ul {list-style:none;}
 .xl\:min-w-screen {min-width:1vh;}
 .xl\:max-w-screen {max-width:1vh;}
 .xl\:min-w-prose {min-width:84ch;}
+.xl\:min-w-full {min-width:100%;}
+.xl\:max-w-full {max-width:100%;}
 .xl\:max-w-prose {max-width:84ch;}
 .xl\:w-1 {width:0.24rem;}
 .xl\:w-2 {width:0.48rem;}
@@ -15278,6 +15296,8 @@ ol, ul {list-style:none;}
 .xl\:max-w-5xl {max-width:2.40rem;}
 .xl\:min-h-screen {min-height:1vh;}
 .xl\:max-h-screen {max-height:1vh;}
+.xl\:min-h-full {min-height:100%;}
+.xl\:max-h-full {max-height:100%;}
 .xl\:h-1 {height:0.24rem;}
 .xl\:h-2 {height:0.48rem;}
 .xl\:h-3 {height:0.72rem;}

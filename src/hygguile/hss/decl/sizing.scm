@@ -41,6 +41,10 @@
                        (rul ".min-w-prose"
                             (dec 'min-width
                                  (prose-size)))
+                       (rul ".min-w-full"
+                            (dec 'min-width "100%"))
+                       (rul ".max-w-full"
+                            (dec 'max-width "100%"))
                        (rul ".max-w-prose"
                             (dec 'max-width
                                  (prose-size))))
@@ -63,7 +67,11 @@
   (param (append (list (rul ".min-h-screen"
                             (dec 'min-height "1vh"))
                        (rul ".max-h-screen"
-                            (dec 'max-height "1vh")))
+                            (dec 'max-height "1vh"))
+                       (rul ".min-h-full"
+                            (dec 'min-height "100%"))
+                       (rul ".max-h-full"
+                            (dec 'max-height "100%")))
                  (map (lambda (d)
                         (rulv (string-append "."
                                              (format #f "~a"
