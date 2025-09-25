@@ -27,240 +27,183 @@
   #:use-module (hygguile hss decl spacing)
   #:use-module (hygguile hss decl sizing)
   #:use-module (hygguile hss decl filters)
+  #:use-module (hygguile hss decl typography)
   #:use-module (hygguile hss decl reset)
-  #:export (font-size-multiplier rounded-multiplier
-                                 weight-multiplier
-                                 mono-font-family
-                                 sans-font-family
-                                 serif-font-family
-                                 hss))
+  #:export (rounded-multiplier  hss))
 
-(define font-size-multiplier
-  (make-parameter 0.25))
+
 
 (define rounded-multiplier
-  (make-parameter 0.16))
+  (param 0.16))
 
-(define weight-multiplier
-  (make-parameter 1))
 
 (define shadow-multiplier
-  (make-parameter 0.3))
+  (param 0.3))
 
 (define sm-breakpoint
-  (make-parameter "640px"))
+  (param "640px"))
 
 (define md-breakpoint
-  (make-parameter "768px"))
+  (param "768px"))
 
 (define lg-breakpoint
-  (make-parameter "1024px"))
+  (param "1024px"))
 
 (define xl-breakpoint
-  (make-parameter "1280px"))
+  (param "1280px"))
 
 (define breakpoints
-  (make-parameter `((sm ,(sm-breakpoint))
-                    (md ,(md-breakpoint))
-                    (lg ,(lg-breakpoint))
-                    (xl ,(xl-breakpoint)))))
-
-(define mono-font-family
-  (make-parameter "'IBM Plex Mono', monospace"))
-(define serif-font-family
-  (make-parameter "'IBM Plex Serif', ui-serif, serif, 'Times New Roman'"))
-(define sans-font-family
-  (make-parameter (string-join '("'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif,"
-                                 "'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'")
-                               " ")))
+  (param `((sm ,(sm-breakpoint))
+           (md ,(md-breakpoint))
+           (lg ,(lg-breakpoint))
+           (xl ,(xl-breakpoint)))))
 
 ;; ========================================================================
 
-(define font-weights
-  (make-parameter (rulv ".font-~a"
-                        #:property 'font-weight
-                        #:variants weights)))
 
-(define text-sizes
-  (make-parameter (rulv ".text-~a"
-                        #:property 'font-size
-                        #:variants (map (lambda (s)
-                                          (siz s
-                                               #:conversion to-rem
-                                               #:multiplier (font-size-multiplier)))
-                                        (append tshirt-sizes numeric-sizes)))))
-
-(define font-families
-  (make-parameter (list (rul ".font-sans"
-                             (dec 'font-family
-                                  (sans-font-family)))
-                        (rul ".font-mono"
-                             (dec 'font-family
-                                  (mono-font-family)))
-                        (rul ".font-serif"
-                             (dec 'font-family
-                                  (serif-font-family))))))
 
 (define shadows
-  (make-parameter (rulv ".shadow-~a"
-                        #:property 'box-shadow
-                        #:variants '(("2xs" "0 1px rgb(0 0 0 / 0.05)")
-                                     (xs "0 1px 2px 0 rgb(0 0 0 / 0.05)")
-                                     (sm
-                                      "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)")
-                                     (md
-                                      "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)")
-                                     (lg
-                                      "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)")
-                                     (xl
-                                      "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)")
-                                     ("2xl"
-                                      "0 25px 50px -12px rgb(0 0 0 / 0.25)")
-                                     (none "0 0 #0000")))))
+  (param (rulv ".shadow-~a"
+               #:property 'box-shadow
+               #:variants '(("2xs" "0 1px rgb(0 0 0 / 0.05)")
+                            (xs "0 1px 2px 0 rgb(0 0 0 / 0.05)")
+                            (sm
+                             "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)")
+                            (md
+                             "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)")
+                            (lg
+                             "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)")
+                            (xl
+                             "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)")
+                            ("2xl" "0 25px 50px -12px rgb(0 0 0 / 0.25)")
+                            (none "0 0 #0000")))))
 
 (define scroll-snap-type
-  (make-parameter "proximity"))
+  (param "proximity"))
 
 (define scroll-snap-types
-  (make-parameter (rulv ".snap-~a"
-                        #:property 'scroll-snap-type
-                        #:variants `((none none)
-                                     (x ,(format #f "x ~a"
-                                                 (scroll-snap-type)))
-                                     (y ,(format #f "y ~a"
-                                                 (scroll-snap-type)))
-                                     (both ,(format #f "both ~a"
-                                                    (scroll-snap-type)))))))
+  (param (rulv ".snap-~a"
+               #:property 'scroll-snap-type
+               #:variants `((none none)
+                            (x ,(format #f "x ~a"
+                                        (scroll-snap-type)))
+                            (y ,(format #f "y ~a"
+                                        (scroll-snap-type)))
+                            (both ,(format #f "both ~a"
+                                           (scroll-snap-type)))))))
 
 (define scroll-snap-aligns
-  (make-parameter (rulv ".snap-~a"
-                        #:property 'scroll-snap-align
-                        #:variants '((start start)
-                                     (end end)
-                                     (center center)
-                                     (none none)))))
+  (param (rulv ".snap-~a"
+               #:property 'scroll-snap-align
+               #:variants '((start start)
+                            (end end)
+                            (center center)
+                            (none none)))))
 
 (define colors
-  (make-parameter (append (rulv ".bg-~a"
-                                #:property 'background
-                                #:variants '((white white)
-                                             (black black)
-                                             (transparent transparent)))
-                          (rulv ".text-~a"
-                                #:property 'color
-                                #:variants '((white white)
-                                             (black black)
-                                             (transparent transparent)))
-                          (rulv ".border-~a"
-                                #:property 'border-color
-                                #:variants '((white white)
-                                             (black black)
-                                             (transparent transparent)))
+  (param (append (rulv ".bg-~a"
+                       #:property 'background
+                       #:variants '((white white)
+                                    (black black)
+                                    (transparent transparent)))
+                 (rulv ".text-~a"
+                       #:property 'color
+                       #:variants '((white white)
+                                    (black black)
+                                    (transparent transparent)))
+                 (rulv ".border-~a"
+                       #:property 'border-color
+                       #:variants '((white white)
+                                    (black black)
+                                    (transparent transparent)))
 
-                          (rulcol ".bg-~a-~a~a"
-                                  #:property 'background
-                                  #:variants (list-combinations alphas
-                                                                color-weights)
-                                  #:palettes (palettes))
-                          (rulcol ".text-~a-~a~a"
-                                  #:property 'color
-                                  #:variants (list-combinations alphas
-                                                                color-weights)
-                                  #:palettes (palettes))
-                          (rulcol ".border-~a-~a~a"
-                                  #:property 'border-color
-                                  #:variants (list-combinations alphas
-                                                                color-weights)
-                                  #:palettes (palettes))
+                 (rulcol ".bg-~a-~a~a"
+                         #:property 'background
+                         #:variants (list-combinations alphas color-weights)
+                         #:palettes (palettes))
+                 (rulcol ".text-~a-~a~a"
+                         #:property 'color
+                         #:variants (list-combinations alphas color-weights)
+                         #:palettes (palettes))
+                 (rulcol ".border-~a-~a~a"
+                         #:property 'border-color
+                         #:variants (list-combinations alphas color-weights)
+                         #:palettes (palettes))
 
-                          )))
+                 )))
 
 (define dark-mode
-  (make-parameter (list '("")
-                        (rulc "Load HSS Dark mode colors")
-                        (list where-dark " {")
-                        (addmq 'dark
-                               (colors))
-                        (addmq 'dark (filter-classes))
-                        '("")
-                        (rulc "Load HSS Dark mode hover colors")
-                        (addhover "hover\\:dark"
-                                  (colors))
-                        '("}"))))
+  (param (list '("")
+               (rulc "Load HSS Dark mode colors")
+               (list where-dark " {")
+               (addmq 'dark
+                      (colors))
+               (addmq 'dark
+                      (filter-classes))
+               '("")
+               (rulc "Load HSS Dark mode hover colors")
+               (addhover "hover\\:dark"
+                         (colors))
+               '("}"))))
 
 (define hover-colors
-  (make-parameter (addhover 'hover
-                            (colors))))
+  (param (addhover 'hover
+                   (colors))))
 
-(define text-utilities
-  (make-parameter (list (rul ".italic"
-                             (dec 'font-style
-                                  'italic)))))
 
-(define text-aligns
-  (make-parameter (rulv ".text-~a"
-                        #:property 'text-align
-                        #:variants '((center center)
-                                     (left left)
-                                     (right right)
-                                     (justify justify)
-                                     (start start)
-                                     (end end)))))
+
 
 (define display-utilities
-  (make-parameter (list (rul ".overflow-x-scroll"
-                             (dec 'overflow-x
-                                  'scroll))
-                        (rul ".overflow-y-scroll"
-                             (dec 'overflow-y
-                                  'scroll))
-                        (rul ".cursor-pointer"
-                             (dec 'cursor
-                                  'pointer)))))
+  (param (list (rul ".overflow-x-scroll"
+                    (dec 'overflow-x
+                         'scroll))
+               (rul ".overflow-y-scroll"
+                    (dec 'overflow-y
+                         'scroll))
+               (rul ".cursor-pointer"
+                    (dec 'cursor
+                         'pointer)))))
 
 (define roundings
-  (make-parameter (list (rulv ".rounded-~a"
-                              #:property 'border-radius
-                              #:variants (map (lambda (s)
-                                                (siz s
-                                                     #:conversion to-rem
-                                                     #:multiplier (rounded-multiplier)))
-                                              (append numeric-sizes
-                                                      tshirt-sizes))))))
+  (param (list (rulv ".rounded-~a"
+                     #:property 'border-radius
+                     #:variants (map (lambda (s)
+                                       (siz s
+                                            #:conversion to-rem
+                                            #:multiplier (rounded-multiplier)))
+                                     (append numeric-sizes tshirt-sizes))))))
 
 (define border-style
-  (make-parameter 'solid))
+  (param 'solid))
 
 (define borders
-  (make-parameter (rulv ".border-~a"
-                        #:property 'border-width
-                        #:other-properties `((border-style ,(border-style)))
-                        #:variants (map (lambda (s)
-                                          (siz s
-                                               #:conversion to-px))
-                                        numeric-sizes))))
+  (param (rulv ".border-~a"
+               #:property 'border-width
+               #:other-properties `((border-style ,(border-style)))
+               #:variants (map (lambda (s)
+                                 (siz s
+                                      #:conversion to-px)) numeric-sizes))))
 
 (define fade-in-page-transition
-  (make-parameter (list (rul "@view-transition"
-                             (dec 'navigation
-                                  'auto))
-                        (rul (string-join '("::view-transition-old(root)"
-                                            "::view-transition-new(root)")
-                                          ", ")
-                             (dec 'animation "fade 0.1s ease both"))
-                        (rul "@keyframes fade"
-                             (rul 'from
-                                  (dec 'opacity 0.2))
-                             (rul 'to
-                                  (dec 'opacity 1))))))
+  (param (list (rul "@view-transition"
+                    (dec 'navigation
+                         'auto))
+               (rul (string-join '("::view-transition-old(root)"
+                                   "::view-transition-new(root)") ", ")
+                    (dec 'animation "fade 0.1s ease both"))
+               (rul "@keyframes fade"
+                    (rul 'from
+                         (dec 'opacity 0.2))
+                    (rul 'to
+                         (dec 'opacity 1))))))
 
 (define active-scale
-  (make-parameter (list (rul ".active\\:scale-95"
-                             (rul "&:active"
-                                  (dec 'scale "95% 95%"))))))
+  (param (list (rul ".active\\:scale-95"
+                    (rul "&:active"
+                         (dec 'scale "95% 95%"))))))
 
 (define license-header
-  (make-parameter
+  (param
    "hygguile - cozy and professional user-interfaces for everyone
 
   Copyright © Josep Bigorra <jjbigorra@gmail.com>
@@ -281,52 +224,52 @@
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define responsive-classes
-  (make-parameter (append (layout-classes)
-                          (filter-classes)
-                          (flexbox-classes)
-                          (spacing-classes)
-                          (sizing-classes)
-                          (font-weights)
-                          (roundings)
-                          (scroll-snap-aligns)
-                          (scroll-snap-types))))
+  (param (append (layout-classes)
+                 (filter-classes)
+                 (flexbox-classes)
+                 (spacing-classes)
+                 (sizing-classes)
+                 (typography-classes)
+                 (roundings)
+                 (scroll-snap-aligns)
+                 (scroll-snap-types))))
 
 (define sm-responsive
-  (make-parameter (map (lambda (r)
-                         (addmq 'sm r))
-                       (responsive-classes))))
+  (param (map (lambda (r)
+                (addmq 'sm r))
+              (responsive-classes))))
 
 (define md-responsive
-  (make-parameter (map (lambda (r)
-                         (addmq 'md r))
-                       (responsive-classes))))
+  (param (map (lambda (r)
+                (addmq 'md r))
+              (responsive-classes))))
 
 (define lg-responsive
-  (make-parameter (map (lambda (r)
-                         (addmq 'lg r))
-                       (responsive-classes))))
+  (param (map (lambda (r)
+                (addmq 'lg r))
+              (responsive-classes))))
 
 (define xl-responsive
-  (make-parameter (map (lambda (r)
-                         (addmq 'xl r))
-                       (responsive-classes))))
+  (param (map (lambda (r)
+                (addmq 'xl r))
+              (responsive-classes))))
 
 (define 2xl-responsive
-  (make-parameter (map (lambda (r)
-                         (addmq "2xl" r))
-                       (responsive-classes))))
+  (param (map (lambda (r)
+                (addmq "2xl" r))
+              (responsive-classes))))
 
 (define responsive
-  (make-parameter (append (mq "width >= 40rem"
-                              (sm-responsive))
-                          (mq "width >= 48rem"
-                              (md-responsive))
-                          (mq "width >= 64rem"
-                              (lg-responsive))
-                          (mq "width >= 80rem"
-                              (xl-responsive))
-                          (mq "width >= 96rem"
-                              (2xl-responsive)))))
+  (param (append (mq "width >= 40rem"
+                     (sm-responsive))
+                 (mq "width >= 48rem"
+                     (md-responsive))
+                 (mq "width >= 64rem"
+                     (lg-responsive))
+                 (mq "width >= 80rem"
+                     (xl-responsive))
+                 (mq "width >= 96rem"
+                     (2xl-responsive)))))
 
 (define* (hss)
   (append (rulc (license-header))
@@ -340,23 +283,17 @@
           (flexbox-classes)
           (spacing-classes)
           (sizing-classes)
+          (typography-classes)
           ;;
-          
           (active-scale)
           (borders)
           (display-utilities)
           (fade-in-page-transition)
-          (font-families)
-          (font-weights)
           (visibility)
           (roundings)
           (scroll-snap-aligns)
           (scroll-snap-types)
           (shadows)
-          (text-aligns)
-          (text-sizes)
-          (text-utilities)
-
           '("")
           (rulc "Load HSS colors")
           (colors)

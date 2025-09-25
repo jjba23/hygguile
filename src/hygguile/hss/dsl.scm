@@ -54,7 +54,7 @@
               to-px
               to-rem-blur
               to-percent
-              to-percent-f              
+              to-percent-f
               param
               ;;
               ))
@@ -228,7 +228,7 @@
   (format #f "blur(~,2frem)" x))
 
 (define (to-percent-f f)
-  (lambda(x)
+  (lambda (x)
     (format #f "~a(~,2f%)" f x)))
 
 (define (list-combinations list1 list2)
