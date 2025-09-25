@@ -108,7 +108,11 @@ It's needed to load ~hss.min.css~ in your preferred manner, in SXML it can look 
 
 This is preferable to embedding it directly in a ~<style>~ block due to its size, and because we can then efficiently cache this file on the server side. It will also speed up the load times.
 
-⚠️ Keep in mind that the default ~hss.min.css~ is pretty large, since it contains all classes and variants and media queries of classes. It is recommended before going to production, to create your own custom optimized build of HSS, by disabling certain features. Big factors that can drastically affect the size are the amount of colors you enable and amount of media queries/breakpoints. A rule of thumb is to disable ~2xl~ queries, and only choose 1 or 2 handful of colors. This is made easy thanks to Guile Scheme's powerful ~parameter~ syntax and helpers, allowing you to override pretty much anything.
+⚠️ About bundle size:
+
+Keep in mind that the default ~hss.min.css~ is pretty large, since it contains all classes and variants and media queries of classes. It is recommended before going to production, to create your own custom optimized build of HSS, by disabling certain features. Big factors that can drastically affect the size are the amount of colors you enable and amount of media queries/breakpoints.
+
+A rule of thumb is to disable ~2xl~ queries if you won't use them, and only choose some colors. This is made easy thanks to Guile Scheme's powerful ~parameterize~ syntax and helpers, allowing you to override pretty much anything. It can also be useful to disable dark mode since that will save a lot of complexity. See ~scripts/hss-gen.scm~ for more.
 
 The recommended snippet in your SXML ~head~
 #+begin_src scheme
