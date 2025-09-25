@@ -252,9 +252,9 @@
                          (colors (palettes)))
                '("}"))))
 
-(define hover-colors
-  (param (addhover 'hover
-                   (colors (palettes)))))
+(define (hover-colors palettes)
+  (addhover 'hover
+                   (colors palettes)))
 
 (define display-utilities
   (param (list (rul ".overflow-x-scroll"
@@ -415,7 +415,7 @@
           (colors (palettes))
           '("")
           (rulc "Load HSS hover colors")
-          (hover-colors)
+          (hover-colors (palettes))
           (dark-mode)
           '("")
           (rulc "Load responsive classes")
