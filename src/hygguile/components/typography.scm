@@ -142,7 +142,12 @@
             (extra-classes '(no-underline hover:underline))
             (href #f))
   `((a (@ (href ,(if (not href) content href))
-          (class ,(mk-class (append color hover size weight family extra-classes))))
+          (class ,(mk-class (append color
+                                    hover
+                                    size
+                                    weight
+                                    family
+                                    extra-classes))))
        ,content)))
 
 (define* (mono content
