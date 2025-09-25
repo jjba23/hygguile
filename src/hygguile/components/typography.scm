@@ -139,9 +139,10 @@
             (color '(text-jeans-blue-500 dark:text-jeans-blue-500))
             (family '(font-sans))
             (hover '(hover:text-jeans-blue-900 hover:dark:text-jeans-blue-100))
+            (extra-classes '(no-underline hover:underline))
             (href #f))
   `((a (@ (href ,(if (not href) content href))
-          (class ,(mk-class (append color hover size weight family))))
+          (class ,(mk-class (append color hover size weight family extra-classes))))
        ,content)))
 
 (define* (mono content
