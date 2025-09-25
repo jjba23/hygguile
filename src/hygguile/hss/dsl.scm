@@ -54,7 +54,7 @@
               to-px
               to-rem-blur
               to-percent
-              to-percent-brightness
+              to-percent-f              
               param
               ;;
               ))
@@ -227,8 +227,9 @@
 (define (to-rem-blur x)
   (format #f "blur(~,2frem)" x))
 
-(define (to-percent-brightness x)
-  (format #f "brightness(~,2f%)" x))
+(define (to-percent-f f)
+  (lambda(x)
+    (format #f "~a(~,2f%)" f x)))
 
 (define (list-combinations list1 list2)
   "Computes all combinations (Cartesian product) of elements from two lists."
