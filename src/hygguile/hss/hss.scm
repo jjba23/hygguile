@@ -103,17 +103,26 @@
 (define colors
   (param (append (rulv ".bg-~a"
                        #:property 'background
-                       #:variants '((white white)
+                       #:variants '((inherit inherit)
+                                    (white white)
                                     (black black)
                                     (transparent transparent)))
                  (rulv ".text-~a"
                        #:property 'color
-                       #:variants '((white white)
+                       #:variants '((inherit inherit)
+                                    (white white)
                                     (black black)
                                     (transparent transparent)))
                  (rulv ".border-~a"
                        #:property 'border-color
-                       #:variants '((white white)
+                       #:variants '((inherit inherit)
+                                    (white white)
+                                    (black black)
+                                    (transparent transparent)))
+                 (rulv ".decoration-~a"
+                       #:property 'text-decoration-color
+                       #:variants '((inherit inherit)
+                                    (white white)
                                     (black black)
                                     (transparent transparent)))
 
@@ -129,7 +138,10 @@
                          #:property 'border-color
                          #:variants (list-combinations alphas color-weights)
                          #:palettes (palettes))
-
+                 (rulcol ".decoration-~a-~a~a"
+                         #:property 'text-decoration-color
+                         #:variants (list-combinations alphas color-weights)
+                         #:palettes (palettes))
                  )))
 
 (define dark-mode

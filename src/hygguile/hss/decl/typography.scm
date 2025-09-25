@@ -30,6 +30,7 @@
                                list-style-type
                                font-stretch
                                weight-multiplier
+                               text-decoration-line
                                letter-spacing
                                line-clamp
                                font-size-multiplier
@@ -157,6 +158,13 @@
                      #:variants '((inside inside)
                                   (outside outside))))))
 
+(define text-decoration-line
+  (param (rulv ".~a" #:property 'text-decoration-line
+               #:variants '((underline underline)
+                            (overline overline)
+                            (line-through line-through)
+                            (no-underline none)))))
+
 (define typography-classes
   (param (list (font-family)
                (font-weight)
@@ -171,4 +179,5 @@
                (list-style-position)
                (font-variant-numeric)
                (list-style-type)
+               (text-decoration-line)
                (letter-spacing))))

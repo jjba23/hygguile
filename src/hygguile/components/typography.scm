@@ -104,25 +104,33 @@
             #:key (weight '(font-medium))
             (color '(text-onyx-500 dark:text-stone-300))
             (family '(font-sans))
+            (leading '(leading-6))
             (size '(text-lg)))
-  `((p (@ (class ,(mk-class (append color size weight family))))
+  `((p (@ (class ,(mk-class (append color size weight family leading))))
        ,content)))
 
 (define* (em content
              #:key (weight '(font-light))
              (color '(text-onyx-300 dark:text-stone-500))
              (family '(font-sans))
+             (leading '(leading-6))
              (style '(italic))
              (size '(text-md)))
-  `((em (@ (class ,(mk-class (append color size weight style family))))
+  `((em (@ (class ,(mk-class (append color
+                                     size
+                                     weight
+                                     style
+                                     family
+                                     leading))))
         ,content)))
 
 (define* (strong content
                  #:key (weight '(font-bold))
                  (color '(text-onyx-500 dark:text-stone-300))
                  (family '(font-sans))
+                 (leading '(leading-6))
                  (size '(text-lg)))
-  `((strong (@ (class ,(mk-class (append color size weight family))))
+  `((strong (@ (class ,(mk-class (append color size weight family leading))))
             ,content)))
 
 (define* (a content
@@ -173,11 +181,13 @@
               (rounding '(rounded-lg))
               (shadow '(shadow-md))
               (width '(w-full))
+              (leading '(leading-6))
               (text-wrap '(text-nowrap))
               (padding-y '(py-6))
               (padding-x '(px-8))
               (pre-classes '(font-mono overflow-auto whitespace-pre)))
   `((pre (@ (class ,(mk-class (append color
+                                      leading
                                       background
                                       pre-classes
                                       shadow
