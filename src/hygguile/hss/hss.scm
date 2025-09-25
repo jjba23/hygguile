@@ -56,7 +56,106 @@
            (lg ,(lg-breakpoint))
            (xl ,(xl-breakpoint)))))
 
-;; ========================================================================
+(define-public palettes
+  (param (list (cons 'apple-green
+                     (apple-green))
+               (cons 'ash-gray
+                     (ash-gray))
+               (cons 'asparagus
+                     (asparagus))
+               (cons 'beaver
+                     (beaver))
+               (cons 'bistre
+                     (bistre))
+               (cons 'black-bean
+                     (black-bean))
+               (cons 'black-olive
+                     (black-olive))
+               (cons 'buff
+                     (buff))
+               (cons 'cadet-gray
+                     (cadet-gray))
+               (cons 'cambridge-green
+                     (cambridge-green))
+               (cons 'castleton-green
+                     (castleton-green))
+               (cons 'charcoal
+                     (charcoal))
+               (cons 'china-rose
+                     (china-rose))
+               (cons 'china-violet
+                     (china-violet))
+               (cons 'claret
+                     (claret))
+               (cons 'coffee
+                     (coffee))
+               (cons 'dark-purple
+                     (dark-purple))
+               (cons 'ferrari-red
+                     (ferrari-red))
+               (cons 'floral-white
+                     (floral-white))
+               (cons 'glaucous
+                     (glaucous))
+               (cons 'iris
+                     (iris))
+               (cons 'jeans-blue
+                     (jeans-blue))
+               (cons 'lapis-lazuli
+                     (lapis-lazuli))
+               (cons 'light-coral
+                     (light-coral))
+               (cons 'mantis
+                     (mantis))
+               (cons 'melon
+                     (melon))
+               (cons 'midnight-green
+                     (midnight-green))
+               (cons 'mikado-yellow
+                     (mikado-yellow))
+               (cons 'moonstone
+                     (moonstone))
+               (cons 'naples-yellow
+                     (naples-yellow))
+               (cons 'onyx
+                     (onyx))
+               (cons 'orange
+                     (orange))
+               (cons 'pale-dogwood
+                     (pale-dogwood))
+               (cons 'papaya-whip
+                     (papaya-whip))
+               (cons 'persia-pink
+                     (persia-pink))
+               (cons 'pomp-and-power
+                     (pomp-and-power))
+               (cons 'prussian-blue
+                     (prussian-blue))
+               (cons 'raisin-black
+                     (raisin-black))
+               (cons 'redwood
+                     (redwood))
+               (cons 'russia-violet
+                     (russia-violet))
+               (cons 'sienna
+                     (sienna))
+               (cons 'spiced-terracotta
+                     (spiced-terracotta))
+               (cons 'stone
+                     (stone))
+               (cons 'tawny
+                     (tawny))
+               (cons 'tyrian
+                     (tyrian))
+               (cons 'umber
+                     (umber))
+               (cons 'van-dyke
+                     (van-dyke))
+               (cons 'white-smoke
+                     (white-smoke))
+               (cons 'wine
+                     (wine)))))
+
 
 (define shadows
   (param (rulv ".shadow-~a"
