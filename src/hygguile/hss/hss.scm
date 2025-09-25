@@ -424,13 +424,6 @@
                                                #:conversion to-px))
                                         numeric-sizes))))
 
-(define positions
-  (make-parameter (rulv ".~a"
-                        #:property 'position
-                        #:variants '((absolute absolute)
-                                     (fixed fixed)
-                                     (relative relative)))))
-
 (define fade-in-page-transition
   (make-parameter (list (rul "@view-transition"
                              (dec 'navigation
@@ -490,7 +483,6 @@
                           (flex-utilities)
                           (margins)
                           (paddings)
-                          (positions)
                           (roundings)
                           (scroll-snap-aligns)
                           (scroll-snap-types)
@@ -562,7 +554,6 @@
           (heights)
           (margins)
           (paddings)
-          (positions)
           (roundings)
           (scroll-snap-aligns)
           (scroll-snap-types)

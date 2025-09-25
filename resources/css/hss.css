@@ -69,6 +69,20 @@ ol, ul {list-style:none;}
 .columns-196 {columns:196;}
 .columns-256 {columns:256;}
 .columns-512 {columns:512;}
+.object-contain {object-fit:contain;}
+.object-cover {object-fit:cover;}
+.object-fill {object-fit:fill;}
+.object-none {object-fit:none;}
+.object-scale-down {object-fit:scale-down;}
+.object-top-left {object-position:top left;}
+.object-top {object-position:top;}
+.object-top-right {object-position:top right;}
+.object-left {object-position:left;}
+.object-center {object-position:center;}
+.object-right {object-position:right;}
+.object-bottom-left {object-position:bottom left;}
+.object-bottom {object-position:bottom;}
+.object-bottom-right {object-position:bottom right;}
 .top-1 {top:0.40rem;}
 .top-2 {top:0.80rem;}
 .top-4 {top:1.60rem;}
@@ -202,6 +216,22 @@ ol, ul {list-style:none;}
 .table-row {display:table-row;}
 .list-item {display:list-item;}
 .hidden {display:none !important;}
+.float-right {float:right;}
+.float-left {float:left;}
+.float-start {float:inline-start;}
+.float-end {float:inline-end;}
+.float-none {float:none;}
+.clear-left {clear:left;}
+.clear-right {clear:right;}
+.clear-both {clear:both;}
+.clear-start {clear:inline-start;}
+.clear-end {clear:inline-end;}
+.clear-none {clear:none;}
+.overflow-auto {overflow:auto;}
+.overflow-hidden {overflow:hidden;}
+.overflow-clip {overflow:clip;}
+.overflow-visible {overflow:visible;}
+.overflow-scroll {overflow:scroll;}
 .overflow-x-auto {overflow-x:auto;}
 .overflow-x-hidden {overflow-x:hidden;}
 .overflow-x-clip {overflow-x:clip;}
@@ -212,6 +242,26 @@ ol, ul {list-style:none;}
 .overflow-y-clip {overflow-y:clip;}
 .overflow-y-visible {overflow-y:visible;}
 .overflow-y-scroll {overflow-y:scroll;}
+.overscroll-auto {overscroll-behavior:auto;}
+.overscroll-contain {overscroll-behavior:contain;}
+.overscroll-none {overscroll-behavior:none;}
+.overscroll-x-auto {overscroll-behavior-x:auto;}
+.overscroll-x-contain {overscroll-behavior-x:contain;}
+.overscroll-x-none {overscroll-behavior-x:none;}
+.overscroll-y-auto {overscroll-behavior-y:auto;}
+.overscroll-y-contain {overscroll-behavior-y:contain;}
+.overscroll-y-none {overscroll-behavior-y:none;}
+.box-decoration-clone {box-decoration-break:clone;}
+.box-decoration-slice {box-decoration-break:slice;}
+.box-border {box-sizing:border-box;}
+.box-content {box-sizing:content-box;}
+.isolate {isolation:isolate;}
+.isolation-auto {isolation:auto;}
+.absolute {position:absolute;}
+.fixed {position:fixed;}
+.relative {position:relative;}
+.sticky {position:sticky;}
+.static {position:static;}
 .z-1 {z-index:1;}
 .z-2 {z-index:2;}
 .z-4 {z-index:4;}
@@ -1185,9 +1235,6 @@ ol, ul {list-style:none;}
 .pr-3xl {padding-right:2.24rem;}
 .pr-4xl {padding-right:2.52rem;}
 .pr-5xl {padding-right:2.80rem;}
-.absolute {position:absolute;}
-.fixed {position:fixed;}
-.relative {position:relative;}
 .rounded-1 {border-radius:0.16rem;}
 .rounded-2 {border-radius:0.32rem;}
 .rounded-4 {border-radius:0.64rem;}
@@ -28928,9 +28975,6 @@ ol, ul {list-style:none;}
 .sm\:pr-3xl {padding-right:2.24rem;}
 .sm\:pr-4xl {padding-right:2.52rem;}
 .sm\:pr-5xl {padding-right:2.80rem;}
-.sm\:absolute {position:absolute;}
-.sm\:fixed {position:fixed;}
-.sm\:relative {position:relative;}
 .sm\:rounded-1 {border-radius:0.16rem;}
 .sm\:rounded-2 {border-radius:0.32rem;}
 .sm\:rounded-4 {border-radius:0.64rem;}
@@ -29006,6 +29050,20 @@ ol, ul {list-style:none;}
 .sm\:columns-196 {columns:196;}
 .sm\:columns-256 {columns:256;}
 .sm\:columns-512 {columns:512;}
+.sm\:object-contain {object-fit:contain;}
+.sm\:object-cover {object-fit:cover;}
+.sm\:object-fill {object-fit:fill;}
+.sm\:object-none {object-fit:none;}
+.sm\:object-scale-down {object-fit:scale-down;}
+.sm\:object-top-left {object-position:top left;}
+.sm\:object-top {object-position:top;}
+.sm\:object-top-right {object-position:top right;}
+.sm\:object-left {object-position:left;}
+.sm\:object-center {object-position:center;}
+.sm\:object-right {object-position:right;}
+.sm\:object-bottom-left {object-position:bottom left;}
+.sm\:object-bottom {object-position:bottom;}
+.sm\:object-bottom-right {object-position:bottom right;}
 .sm\:top-1 {top:0.40rem;}
 .sm\:top-2 {top:0.80rem;}
 .sm\:top-4 {top:1.60rem;}
@@ -29139,6 +29197,22 @@ ol, ul {list-style:none;}
 .sm\:table-row {display:table-row;}
 .sm\:list-item {display:list-item;}
 .sm\:hidden {display:none !important;}
+.sm\:float-right {float:right;}
+.sm\:float-left {float:left;}
+.sm\:float-start {float:inline-start;}
+.sm\:float-end {float:inline-end;}
+.sm\:float-none {float:none;}
+.sm\:clear-left {clear:left;}
+.sm\:clear-right {clear:right;}
+.sm\:clear-both {clear:both;}
+.sm\:clear-start {clear:inline-start;}
+.sm\:clear-end {clear:inline-end;}
+.sm\:clear-none {clear:none;}
+.sm\:overflow-auto {overflow:auto;}
+.sm\:overflow-hidden {overflow:hidden;}
+.sm\:overflow-clip {overflow:clip;}
+.sm\:overflow-visible {overflow:visible;}
+.sm\:overflow-scroll {overflow:scroll;}
 .sm\:overflow-x-auto {overflow-x:auto;}
 .sm\:overflow-x-hidden {overflow-x:hidden;}
 .sm\:overflow-x-clip {overflow-x:clip;}
@@ -29149,6 +29223,26 @@ ol, ul {list-style:none;}
 .sm\:overflow-y-clip {overflow-y:clip;}
 .sm\:overflow-y-visible {overflow-y:visible;}
 .sm\:overflow-y-scroll {overflow-y:scroll;}
+.sm\:overscroll-auto {overscroll-behavior:auto;}
+.sm\:overscroll-contain {overscroll-behavior:contain;}
+.sm\:overscroll-none {overscroll-behavior:none;}
+.sm\:overscroll-x-auto {overscroll-behavior-x:auto;}
+.sm\:overscroll-x-contain {overscroll-behavior-x:contain;}
+.sm\:overscroll-x-none {overscroll-behavior-x:none;}
+.sm\:overscroll-y-auto {overscroll-behavior-y:auto;}
+.sm\:overscroll-y-contain {overscroll-behavior-y:contain;}
+.sm\:overscroll-y-none {overscroll-behavior-y:none;}
+.sm\:box-decoration-clone {box-decoration-break:clone;}
+.sm\:box-decoration-slice {box-decoration-break:slice;}
+.sm\:box-border {box-sizing:border-box;}
+.sm\:box-content {box-sizing:content-box;}
+.sm\:isolate {isolation:isolate;}
+.sm\:isolation-auto {isolation:auto;}
+.sm\:absolute {position:absolute;}
+.sm\:fixed {position:fixed;}
+.sm\:relative {position:relative;}
+.sm\:sticky {position:sticky;}
+.sm\:static {position:static;}
 .sm\:z-1 {z-index:1;}
 .sm\:z-2 {z-index:2;}
 .sm\:z-4 {z-index:4;}
@@ -30208,9 +30302,6 @@ ol, ul {list-style:none;}
 .md\:pr-3xl {padding-right:2.24rem;}
 .md\:pr-4xl {padding-right:2.52rem;}
 .md\:pr-5xl {padding-right:2.80rem;}
-.md\:absolute {position:absolute;}
-.md\:fixed {position:fixed;}
-.md\:relative {position:relative;}
 .md\:rounded-1 {border-radius:0.16rem;}
 .md\:rounded-2 {border-radius:0.32rem;}
 .md\:rounded-4 {border-radius:0.64rem;}
@@ -30286,6 +30377,20 @@ ol, ul {list-style:none;}
 .md\:columns-196 {columns:196;}
 .md\:columns-256 {columns:256;}
 .md\:columns-512 {columns:512;}
+.md\:object-contain {object-fit:contain;}
+.md\:object-cover {object-fit:cover;}
+.md\:object-fill {object-fit:fill;}
+.md\:object-none {object-fit:none;}
+.md\:object-scale-down {object-fit:scale-down;}
+.md\:object-top-left {object-position:top left;}
+.md\:object-top {object-position:top;}
+.md\:object-top-right {object-position:top right;}
+.md\:object-left {object-position:left;}
+.md\:object-center {object-position:center;}
+.md\:object-right {object-position:right;}
+.md\:object-bottom-left {object-position:bottom left;}
+.md\:object-bottom {object-position:bottom;}
+.md\:object-bottom-right {object-position:bottom right;}
 .md\:top-1 {top:0.40rem;}
 .md\:top-2 {top:0.80rem;}
 .md\:top-4 {top:1.60rem;}
@@ -30419,6 +30524,22 @@ ol, ul {list-style:none;}
 .md\:table-row {display:table-row;}
 .md\:list-item {display:list-item;}
 .md\:hidden {display:none !important;}
+.md\:float-right {float:right;}
+.md\:float-left {float:left;}
+.md\:float-start {float:inline-start;}
+.md\:float-end {float:inline-end;}
+.md\:float-none {float:none;}
+.md\:clear-left {clear:left;}
+.md\:clear-right {clear:right;}
+.md\:clear-both {clear:both;}
+.md\:clear-start {clear:inline-start;}
+.md\:clear-end {clear:inline-end;}
+.md\:clear-none {clear:none;}
+.md\:overflow-auto {overflow:auto;}
+.md\:overflow-hidden {overflow:hidden;}
+.md\:overflow-clip {overflow:clip;}
+.md\:overflow-visible {overflow:visible;}
+.md\:overflow-scroll {overflow:scroll;}
 .md\:overflow-x-auto {overflow-x:auto;}
 .md\:overflow-x-hidden {overflow-x:hidden;}
 .md\:overflow-x-clip {overflow-x:clip;}
@@ -30429,6 +30550,26 @@ ol, ul {list-style:none;}
 .md\:overflow-y-clip {overflow-y:clip;}
 .md\:overflow-y-visible {overflow-y:visible;}
 .md\:overflow-y-scroll {overflow-y:scroll;}
+.md\:overscroll-auto {overscroll-behavior:auto;}
+.md\:overscroll-contain {overscroll-behavior:contain;}
+.md\:overscroll-none {overscroll-behavior:none;}
+.md\:overscroll-x-auto {overscroll-behavior-x:auto;}
+.md\:overscroll-x-contain {overscroll-behavior-x:contain;}
+.md\:overscroll-x-none {overscroll-behavior-x:none;}
+.md\:overscroll-y-auto {overscroll-behavior-y:auto;}
+.md\:overscroll-y-contain {overscroll-behavior-y:contain;}
+.md\:overscroll-y-none {overscroll-behavior-y:none;}
+.md\:box-decoration-clone {box-decoration-break:clone;}
+.md\:box-decoration-slice {box-decoration-break:slice;}
+.md\:box-border {box-sizing:border-box;}
+.md\:box-content {box-sizing:content-box;}
+.md\:isolate {isolation:isolate;}
+.md\:isolation-auto {isolation:auto;}
+.md\:absolute {position:absolute;}
+.md\:fixed {position:fixed;}
+.md\:relative {position:relative;}
+.md\:sticky {position:sticky;}
+.md\:static {position:static;}
 .md\:z-1 {z-index:1;}
 .md\:z-2 {z-index:2;}
 .md\:z-4 {z-index:4;}
@@ -31488,9 +31629,6 @@ ol, ul {list-style:none;}
 .lg\:pr-3xl {padding-right:2.24rem;}
 .lg\:pr-4xl {padding-right:2.52rem;}
 .lg\:pr-5xl {padding-right:2.80rem;}
-.lg\:absolute {position:absolute;}
-.lg\:fixed {position:fixed;}
-.lg\:relative {position:relative;}
 .lg\:rounded-1 {border-radius:0.16rem;}
 .lg\:rounded-2 {border-radius:0.32rem;}
 .lg\:rounded-4 {border-radius:0.64rem;}
@@ -31566,6 +31704,20 @@ ol, ul {list-style:none;}
 .lg\:columns-196 {columns:196;}
 .lg\:columns-256 {columns:256;}
 .lg\:columns-512 {columns:512;}
+.lg\:object-contain {object-fit:contain;}
+.lg\:object-cover {object-fit:cover;}
+.lg\:object-fill {object-fit:fill;}
+.lg\:object-none {object-fit:none;}
+.lg\:object-scale-down {object-fit:scale-down;}
+.lg\:object-top-left {object-position:top left;}
+.lg\:object-top {object-position:top;}
+.lg\:object-top-right {object-position:top right;}
+.lg\:object-left {object-position:left;}
+.lg\:object-center {object-position:center;}
+.lg\:object-right {object-position:right;}
+.lg\:object-bottom-left {object-position:bottom left;}
+.lg\:object-bottom {object-position:bottom;}
+.lg\:object-bottom-right {object-position:bottom right;}
 .lg\:top-1 {top:0.40rem;}
 .lg\:top-2 {top:0.80rem;}
 .lg\:top-4 {top:1.60rem;}
@@ -31699,6 +31851,22 @@ ol, ul {list-style:none;}
 .lg\:table-row {display:table-row;}
 .lg\:list-item {display:list-item;}
 .lg\:hidden {display:none !important;}
+.lg\:float-right {float:right;}
+.lg\:float-left {float:left;}
+.lg\:float-start {float:inline-start;}
+.lg\:float-end {float:inline-end;}
+.lg\:float-none {float:none;}
+.lg\:clear-left {clear:left;}
+.lg\:clear-right {clear:right;}
+.lg\:clear-both {clear:both;}
+.lg\:clear-start {clear:inline-start;}
+.lg\:clear-end {clear:inline-end;}
+.lg\:clear-none {clear:none;}
+.lg\:overflow-auto {overflow:auto;}
+.lg\:overflow-hidden {overflow:hidden;}
+.lg\:overflow-clip {overflow:clip;}
+.lg\:overflow-visible {overflow:visible;}
+.lg\:overflow-scroll {overflow:scroll;}
 .lg\:overflow-x-auto {overflow-x:auto;}
 .lg\:overflow-x-hidden {overflow-x:hidden;}
 .lg\:overflow-x-clip {overflow-x:clip;}
@@ -31709,6 +31877,26 @@ ol, ul {list-style:none;}
 .lg\:overflow-y-clip {overflow-y:clip;}
 .lg\:overflow-y-visible {overflow-y:visible;}
 .lg\:overflow-y-scroll {overflow-y:scroll;}
+.lg\:overscroll-auto {overscroll-behavior:auto;}
+.lg\:overscroll-contain {overscroll-behavior:contain;}
+.lg\:overscroll-none {overscroll-behavior:none;}
+.lg\:overscroll-x-auto {overscroll-behavior-x:auto;}
+.lg\:overscroll-x-contain {overscroll-behavior-x:contain;}
+.lg\:overscroll-x-none {overscroll-behavior-x:none;}
+.lg\:overscroll-y-auto {overscroll-behavior-y:auto;}
+.lg\:overscroll-y-contain {overscroll-behavior-y:contain;}
+.lg\:overscroll-y-none {overscroll-behavior-y:none;}
+.lg\:box-decoration-clone {box-decoration-break:clone;}
+.lg\:box-decoration-slice {box-decoration-break:slice;}
+.lg\:box-border {box-sizing:border-box;}
+.lg\:box-content {box-sizing:content-box;}
+.lg\:isolate {isolation:isolate;}
+.lg\:isolation-auto {isolation:auto;}
+.lg\:absolute {position:absolute;}
+.lg\:fixed {position:fixed;}
+.lg\:relative {position:relative;}
+.lg\:sticky {position:sticky;}
+.lg\:static {position:static;}
 .lg\:z-1 {z-index:1;}
 .lg\:z-2 {z-index:2;}
 .lg\:z-4 {z-index:4;}
@@ -32768,9 +32956,6 @@ ol, ul {list-style:none;}
 .xl\:pr-3xl {padding-right:2.24rem;}
 .xl\:pr-4xl {padding-right:2.52rem;}
 .xl\:pr-5xl {padding-right:2.80rem;}
-.xl\:absolute {position:absolute;}
-.xl\:fixed {position:fixed;}
-.xl\:relative {position:relative;}
 .xl\:rounded-1 {border-radius:0.16rem;}
 .xl\:rounded-2 {border-radius:0.32rem;}
 .xl\:rounded-4 {border-radius:0.64rem;}
@@ -32846,6 +33031,20 @@ ol, ul {list-style:none;}
 .xl\:columns-196 {columns:196;}
 .xl\:columns-256 {columns:256;}
 .xl\:columns-512 {columns:512;}
+.xl\:object-contain {object-fit:contain;}
+.xl\:object-cover {object-fit:cover;}
+.xl\:object-fill {object-fit:fill;}
+.xl\:object-none {object-fit:none;}
+.xl\:object-scale-down {object-fit:scale-down;}
+.xl\:object-top-left {object-position:top left;}
+.xl\:object-top {object-position:top;}
+.xl\:object-top-right {object-position:top right;}
+.xl\:object-left {object-position:left;}
+.xl\:object-center {object-position:center;}
+.xl\:object-right {object-position:right;}
+.xl\:object-bottom-left {object-position:bottom left;}
+.xl\:object-bottom {object-position:bottom;}
+.xl\:object-bottom-right {object-position:bottom right;}
 .xl\:top-1 {top:0.40rem;}
 .xl\:top-2 {top:0.80rem;}
 .xl\:top-4 {top:1.60rem;}
@@ -32979,6 +33178,22 @@ ol, ul {list-style:none;}
 .xl\:table-row {display:table-row;}
 .xl\:list-item {display:list-item;}
 .xl\:hidden {display:none !important;}
+.xl\:float-right {float:right;}
+.xl\:float-left {float:left;}
+.xl\:float-start {float:inline-start;}
+.xl\:float-end {float:inline-end;}
+.xl\:float-none {float:none;}
+.xl\:clear-left {clear:left;}
+.xl\:clear-right {clear:right;}
+.xl\:clear-both {clear:both;}
+.xl\:clear-start {clear:inline-start;}
+.xl\:clear-end {clear:inline-end;}
+.xl\:clear-none {clear:none;}
+.xl\:overflow-auto {overflow:auto;}
+.xl\:overflow-hidden {overflow:hidden;}
+.xl\:overflow-clip {overflow:clip;}
+.xl\:overflow-visible {overflow:visible;}
+.xl\:overflow-scroll {overflow:scroll;}
 .xl\:overflow-x-auto {overflow-x:auto;}
 .xl\:overflow-x-hidden {overflow-x:hidden;}
 .xl\:overflow-x-clip {overflow-x:clip;}
@@ -32989,6 +33204,26 @@ ol, ul {list-style:none;}
 .xl\:overflow-y-clip {overflow-y:clip;}
 .xl\:overflow-y-visible {overflow-y:visible;}
 .xl\:overflow-y-scroll {overflow-y:scroll;}
+.xl\:overscroll-auto {overscroll-behavior:auto;}
+.xl\:overscroll-contain {overscroll-behavior:contain;}
+.xl\:overscroll-none {overscroll-behavior:none;}
+.xl\:overscroll-x-auto {overscroll-behavior-x:auto;}
+.xl\:overscroll-x-contain {overscroll-behavior-x:contain;}
+.xl\:overscroll-x-none {overscroll-behavior-x:none;}
+.xl\:overscroll-y-auto {overscroll-behavior-y:auto;}
+.xl\:overscroll-y-contain {overscroll-behavior-y:contain;}
+.xl\:overscroll-y-none {overscroll-behavior-y:none;}
+.xl\:box-decoration-clone {box-decoration-break:clone;}
+.xl\:box-decoration-slice {box-decoration-break:slice;}
+.xl\:box-border {box-sizing:border-box;}
+.xl\:box-content {box-sizing:content-box;}
+.xl\:isolate {isolation:isolate;}
+.xl\:isolation-auto {isolation:auto;}
+.xl\:absolute {position:absolute;}
+.xl\:fixed {position:fixed;}
+.xl\:relative {position:relative;}
+.xl\:sticky {position:sticky;}
+.xl\:static {position:static;}
 .xl\:z-1 {z-index:1;}
 .xl\:z-2 {z-index:2;}
 .xl\:z-4 {z-index:4;}
@@ -34048,9 +34283,6 @@ ol, ul {list-style:none;}
 .2xl\:pr-3xl {padding-right:2.24rem;}
 .2xl\:pr-4xl {padding-right:2.52rem;}
 .2xl\:pr-5xl {padding-right:2.80rem;}
-.2xl\:absolute {position:absolute;}
-.2xl\:fixed {position:fixed;}
-.2xl\:relative {position:relative;}
 .2xl\:rounded-1 {border-radius:0.16rem;}
 .2xl\:rounded-2 {border-radius:0.32rem;}
 .2xl\:rounded-4 {border-radius:0.64rem;}
@@ -34126,6 +34358,20 @@ ol, ul {list-style:none;}
 .2xl\:columns-196 {columns:196;}
 .2xl\:columns-256 {columns:256;}
 .2xl\:columns-512 {columns:512;}
+.2xl\:object-contain {object-fit:contain;}
+.2xl\:object-cover {object-fit:cover;}
+.2xl\:object-fill {object-fit:fill;}
+.2xl\:object-none {object-fit:none;}
+.2xl\:object-scale-down {object-fit:scale-down;}
+.2xl\:object-top-left {object-position:top left;}
+.2xl\:object-top {object-position:top;}
+.2xl\:object-top-right {object-position:top right;}
+.2xl\:object-left {object-position:left;}
+.2xl\:object-center {object-position:center;}
+.2xl\:object-right {object-position:right;}
+.2xl\:object-bottom-left {object-position:bottom left;}
+.2xl\:object-bottom {object-position:bottom;}
+.2xl\:object-bottom-right {object-position:bottom right;}
 .2xl\:top-1 {top:0.40rem;}
 .2xl\:top-2 {top:0.80rem;}
 .2xl\:top-4 {top:1.60rem;}
@@ -34259,6 +34505,22 @@ ol, ul {list-style:none;}
 .2xl\:table-row {display:table-row;}
 .2xl\:list-item {display:list-item;}
 .2xl\:hidden {display:none !important;}
+.2xl\:float-right {float:right;}
+.2xl\:float-left {float:left;}
+.2xl\:float-start {float:inline-start;}
+.2xl\:float-end {float:inline-end;}
+.2xl\:float-none {float:none;}
+.2xl\:clear-left {clear:left;}
+.2xl\:clear-right {clear:right;}
+.2xl\:clear-both {clear:both;}
+.2xl\:clear-start {clear:inline-start;}
+.2xl\:clear-end {clear:inline-end;}
+.2xl\:clear-none {clear:none;}
+.2xl\:overflow-auto {overflow:auto;}
+.2xl\:overflow-hidden {overflow:hidden;}
+.2xl\:overflow-clip {overflow:clip;}
+.2xl\:overflow-visible {overflow:visible;}
+.2xl\:overflow-scroll {overflow:scroll;}
 .2xl\:overflow-x-auto {overflow-x:auto;}
 .2xl\:overflow-x-hidden {overflow-x:hidden;}
 .2xl\:overflow-x-clip {overflow-x:clip;}
@@ -34269,6 +34531,26 @@ ol, ul {list-style:none;}
 .2xl\:overflow-y-clip {overflow-y:clip;}
 .2xl\:overflow-y-visible {overflow-y:visible;}
 .2xl\:overflow-y-scroll {overflow-y:scroll;}
+.2xl\:overscroll-auto {overscroll-behavior:auto;}
+.2xl\:overscroll-contain {overscroll-behavior:contain;}
+.2xl\:overscroll-none {overscroll-behavior:none;}
+.2xl\:overscroll-x-auto {overscroll-behavior-x:auto;}
+.2xl\:overscroll-x-contain {overscroll-behavior-x:contain;}
+.2xl\:overscroll-x-none {overscroll-behavior-x:none;}
+.2xl\:overscroll-y-auto {overscroll-behavior-y:auto;}
+.2xl\:overscroll-y-contain {overscroll-behavior-y:contain;}
+.2xl\:overscroll-y-none {overscroll-behavior-y:none;}
+.2xl\:box-decoration-clone {box-decoration-break:clone;}
+.2xl\:box-decoration-slice {box-decoration-break:slice;}
+.2xl\:box-border {box-sizing:border-box;}
+.2xl\:box-content {box-sizing:content-box;}
+.2xl\:isolate {isolation:isolate;}
+.2xl\:isolation-auto {isolation:auto;}
+.2xl\:absolute {position:absolute;}
+.2xl\:fixed {position:fixed;}
+.2xl\:relative {position:relative;}
+.2xl\:sticky {position:sticky;}
+.2xl\:static {position:static;}
 .2xl\:z-1 {z-index:1;}
 .2xl\:z-2 {z-index:2;}
 .2xl\:z-4 {z-index:4;}
