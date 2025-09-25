@@ -21,7 +21,9 @@
   #:use-module (ice-9 string-fun)
   #:use-module (hygguile hss dsl)
   #:use-module (hygguile hss sizes)
-  #:export (flex-basis flex-justifies
+  #:export (flex-basis flex-justify-content
+                       flex-justify-items
+                       flex-justify-self
                        flex-align-items
                        flex-align-self
                        flex-align-content
@@ -29,6 +31,9 @@
                        flex-directions
                        gap
                        flex flex-shrink flex-grow
+                       flex-place-content
+                       flex-place-items
+                       flex-place-self
                        gap-multiplier
                        order
                        flex-wrap))
@@ -41,7 +46,7 @@
                         #:property 'flex-basis
                         #:variants (append tshirt-sizes numeric-sizes))))
 
-(define flex-justifies
+(define flex-justify-content
   (make-parameter (rulv ".justify-~a"
                         #:property 'justify-content
                         #:variants '((start flex-start)
@@ -155,9 +160,72 @@
                                                            (last 9999)
                                                            (none 0))))))
 
+(define flex-place-content
+  (make-parameter (rulv ".place-content-~a"
+                        #:property 'place-content
+                        #:variants '((center center)
+                                     (center-safe "safe center")
+                                     (start start)
+                                     (end end)
+                                     (end-safe "safe end")
+                                     (between space-between)
+                                     (around space-around)
+                                     (evenly space-evenly)
+                                     (baseline baseline)
+                                     (stretch stretch)))))
+
+(define flex-place-items
+  (make-parameter (rulv ".place-items-~a"
+                        #:property 'place-items
+                        #:variants '((start start)
+                                     (end end)
+                                     (end-safe "safe end")
+                                     (center center)
+                                     (center-safe "safe center")
+                                     (baseline baseline)
+                                     (stretch stretch)))))
+
+(define flex-place-self
+  (make-parameter (rulv ".place-self-~a"
+                        #:property 'place-self
+                        #:variants '((auto auto)
+                                     (start start)
+                                     (end end)
+                                     (end-safe "safe end")
+                                     (center center)
+                                     (center-safe "safe center")
+                                     (stretch stretch)))))
+
+(define flex-justify-items
+  (make-parameter (rulv ".justify-items-~a"
+                        #:property 'justify-items
+                        #:variants '((start start)
+                                     (end end)
+                                     (end-safe "safe end")
+                                     (center center)
+                                     (center-safe "safe center")
+                                     (stretch stretch)
+                                     (normal normal)))))
+
+(define flex-justify-self
+  (make-parameter (rulv ".justify-self-~a"
+                        #:property 'justify-self
+                        #:variants '((auto auto)
+                                     (start start)
+                                     (center center)
+                                     (center-safe "safe center")
+                                     (end end)
+                                     (end-safe "safe end")
+                                     (stretch stretch)))))
+
 (define flexbox-classes
   (make-parameter (list (flex-basis)
-                        (flex-justifies)
+                        (flex-place-content)
+                        (flex-place-items)
+                        (flex-place-self)
+                        (flex-justify-content)
+                        (flex-justify-items)
+                        (flex-justify-self)
                         (flex-align-items)
                         (flex-align-self)
                         (flex-directions)
