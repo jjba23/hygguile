@@ -27,7 +27,6 @@
   #:use-module (hygguile hss decl reset)
   #:export (font-size-multiplier margin-multiplier
                                  padding-multiplier
-                                 gap-multiplier
                                  rounded-multiplier
                                  width-multiplier
                                  weight-multiplier
@@ -43,8 +42,7 @@
   (make-parameter 0.28))
 (define padding-multiplier
   (make-parameter 0.28))
-(define gap-multiplier
-  (make-parameter 0.3))
+
 (define rounded-multiplier
   (make-parameter 0.16))
 (define width-multiplier

@@ -30,6 +30,9 @@
                        gap
                        flex-wrap))
 
+(define gap-multiplier
+  (make-parameter 0.3))
+
 (define flex-basis
   (make-parameter (rulv ".basis-~a"
                         #:property 'flex-basis
@@ -98,13 +101,12 @@
 
 (define gap
   (make-parameter (rulv ".gap-~a"
-                                #:property 'gap
-                                #:variants (map (lambda (s)
-                                                  (siz s
-                                                       #:conversion to-rem
-                                                       #:multiplier (gap-multiplier)))
-                                                (append numeric-sizes
-                                                        tshirt-sizes)))))
+                        #:property 'gap
+                        #:variants (map (lambda (s)
+                                          (siz s
+                                               #:conversion to-rem
+                                               #:multiplier (gap-multiplier)))
+                                        (append numeric-sizes tshirt-sizes)))))
 
 (define flex-wrap
   (make-parameter (rulv ".flex-~a"
@@ -113,6 +115,23 @@
                                      (wrap wrap)
                                      (wrap-reverse wrap-reverse)))))
 
+(define flex
+  (make-parameter (list (rulv ".flex-~a"
+                              #:property 'flex
+                              #:variants (map (lambda (s)
+                                                (siz s
+                                                     #:conversion to-rem))
+                                              (append numeric-sizes
+                                                      tshirt-sizes )))
+                        (rulv ".flex-~a"
+                              #:property 'flex
+                              #:variants fractions)
+                        (rulv ".flex-~a"
+                              #:property 'flex
+                              #:variants '((initial "0 auto")
+                                           (none none)
+                                           (auto auto))))))
+
 (define flexbox-classes
   (make-parameter (list (flex-basis)
                         (flex-justifies)
@@ -120,5 +139,6 @@
                         (flex-align-self)
                         (flex-directions)
                         (flex-align-content)
+                        (flex)
                         (gap)
                         (flex-wrap))))
