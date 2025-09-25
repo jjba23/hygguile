@@ -23,6 +23,7 @@
   #:use-module (hygguile hss sizes)
   #:use-module (hygguile hss decl colors)
   #:use-module (hygguile hss decl layout)
+  #:use-module (hygguile hss decl flexbox)
   #:use-module (hygguile hss decl reset)
   #:export (font-size-multiplier margin-multiplier
                                  padding-multiplier
@@ -208,59 +209,6 @@
                              (dec 'font-family
                                   (serif-font-family))))))
 
-(define flex-justifies
-  (make-parameter (rulv ".justify-~a"
-                        #:property 'justify-content
-                        #:variants '((start flex-start)
-                                     (end flex-end)
-                                     (end-safe "safe flex-end")
-                                     (center center)
-                                     (center-safe "safe center")
-                                     (between space-between)
-                                     (around space-around)
-                                     (evenly space-evenly)
-                                     (stretch stretch)
-                                     (baseline baseline)
-                                     (normal normal)))))
-
-(define flex-align-items
-  (make-parameter (rulv ".items-~a"
-                        #:property 'align-items
-                        #:variants '((start flex-start)
-                                     (end flex-end)
-                                     (end-safe "safe flex-end")
-                                     (center center)
-                                     (center-safe "safe center")
-                                     (baseline baseline)
-                                     (baseline-last "last baseline")
-                                     (stretch stretch)))))
-
-(define flex-align-self
-  (make-parameter (rulv ".self-~a"
-                        #:property 'align-self
-                        #:variants '((auto auto)
-                                     (start flex-start)
-                                     (end flex-end)
-                                     (end-safe "safe flex-end")
-                                     (center center)
-                                     (center-safe "safe center")
-                                     (baseline baseline)
-                                     (baseline-last "last baseline")
-                                     (stretch stretch)))))
-
-(define flex-align-content
-  (make-parameter (rulv ".content-~a"
-                        #:property 'align-content
-                        #:variants '((start flex-start)
-                                     (end flex-end)
-                                     (center center)
-                                     (normal normal)
-                                     (between space-between)
-                                     (around space-around)
-                                     (evenly space-evenly)
-                                     (baseline baseline)
-                                     (stretch stretch)))))
-
 (define shadows
   (make-parameter (rulv ".shadow-~a"
                         #:property 'box-shadow
@@ -300,30 +248,7 @@
                                      (center center)
                                      (none none)))))
 
-(define flex-directions
-  (make-parameter (rulv ".flex-~a"
-                        #:property 'flex-direction
-                        #:variants '((row row)
-                                     (col column)
-                                     (row-reverse row-reverse)
-                                     (col-reverse column-reverse)))))
 
-(define flex-utilities
-  (make-parameter (append (rulv ".gap-~a"
-                                #:property 'gap
-                                #:variants (map (lambda (s)
-                                                  (siz s
-                                                       #:conversion to-rem
-                                                       #:multiplier (gap-multiplier)))
-                                                (append numeric-sizes
-                                                        tshirt-sizes)))
-
-                          (list (rul ".flex-wrap"
-                                     (dec 'flex-wrap
-                                          'wrap))
-                                (rul ".flex-nowrap"
-                                     (dec 'flex-wrap
-                                          'nowrap))))))
 
 (define colors
   (make-parameter (append (rulv ".bg-~a"
@@ -475,18 +400,13 @@
                           (heights)
                           (widths)
                           (font-weights)
-                          (flex-align-self)
-                          (flex-align-items)
-                          (flex-align-content)
-                          (flex-directions)
-                          (flex-justifies)
-                          (flex-utilities)
                           (margins)
                           (paddings)
                           (roundings)
                           (scroll-snap-aligns)
                           (scroll-snap-types)
-                          (layout-classes))))
+                          (layout-classes)
+                          (flexbox-classes))))
 
 (define sm-responsive
   (make-parameter (map (lambda (r)
@@ -534,6 +454,7 @@
           (rulc "Load HSS Hygge Style Sheets")
 
           (layout-classes)
+          (flexbox-classes)
 
           ;;
           
@@ -541,15 +462,8 @@
           (borders)
           (display-utilities)
           (fade-in-page-transition)
-          (flex-align-self)
-          (flex-align-items)
-          (flex-align-content)
-          (flex-directions)
-          (flex-justifies)
-          (flex-utilities)
           (font-families)
           (font-weights)
-
           (visibility)
           (heights)
           (margins)
