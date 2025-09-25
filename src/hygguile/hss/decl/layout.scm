@@ -102,7 +102,7 @@
                             (table-row-group table-row-group)
                             (table-row table-row)
                             (list-item list-item)
-                            (hidden "none !important")))))
+                            (hidden none)))))
 
 (define visibility
   (param (rulv ".~a"

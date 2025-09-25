@@ -34,6 +34,8 @@
                                                      (wine))
                                                (cons 'spiced-terracotta
                                                      (spiced-terracotta))
+                                               (cons 'papaya-whip
+                                                     (papaya-whip))
                                                (cons 'onyx
                                                      (onyx))
                                                (cons 'stone
