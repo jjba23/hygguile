@@ -2028,9 +2028,13 @@ ol, ul {list-style:none;}
 .font-mono {font-family:'IBM Plex Mono', monospace;}
 .font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .font-thin {font-weight:100;}
+.font-extralight {font-weight:200;}
 .font-light {font-weight:300;}
+.font-normal {font-weight:400;}
 .font-medium {font-weight:500;}
+.font-semibold {font-weight:600;}
 .font-bold {font-weight:700;}
+.font-extrabold {font-weight:800;}
 .font-black {font-weight:900;}
 .text-2xs {font-size:0.25rem;}
 .text-xs {font-size:0.50rem;}
@@ -2077,6 +2081,59 @@ ol, ul {list-style:none;}
 .text-justify {text-align:justify;}
 .text-start {text-align:start;}
 .text-end {text-align:end;}
+.font-stretch-ultra-condensed {font-stretch:ultra-condensed;}
+.font-stretch-extra-condensed {font-stretch:extra-condensed;}
+.font-stretch-condensed {font-stretch:condensed;}
+.font-stretch-semi-condensed {font-stretch:semi-condensed;}
+.font-stretch-normal {font-stretch:normal;}
+.font-stretch-semi-expanded {font-stretch:semi-expanded;}
+.font-stretch-expanded {font-stretch:expanded;}
+.font-stretch-extra-expanded {font-stretch:extra-expanded;}
+.font-stretch-ultra-expanded {font-stretch:ultra-expanded;}
+.antialiased {-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+.subpixel-antialiased {-webkit-font-smoothing:auto; -moz-osx-font-smoothing:auto;}
+.line-clamp-1 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:1;}
+.line-clamp-2 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;}
+.line-clamp-3 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3;}
+.line-clamp-4 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4;}
+.line-clamp-5 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:5;}
+.line-clamp-6 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:6;}
+.line-clamp-7 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:7;}
+.line-clamp-8 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:8;}
+.line-clamp-9 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:9;}
+.line-clamp-10 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:10;}
+.line-clamp-12 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:12;}
+.line-clamp-14 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:14;}
+.line-clamp-16 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:16;}
+.line-clamp-20 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:20;}
+.line-clamp-24 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:24;}
+.line-clamp-28 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:28;}
+.line-clamp-32 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:32;}
+.line-clamp-48 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:48;}
+.line-clamp-64 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:64;}
+.line-clamp-72 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:72;}
+.line-clamp-90 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:90;}
+.line-clamp-96 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:96;}
+.line-clamp-100 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:100;}
+.line-clamp-128 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:128;}
+.line-clamp-196 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:196;}
+.line-clamp-256 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:256;}
+.line-clamp-512 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:512;}
+.normal-nums {font-variant-numeric:normal;}
+.ordinal {font-variant-numeric:ordinal;}
+.slashed-zero {font-variant-numeric:slashed-zero;}
+.lining-nums {font-variant-numeric:lining-nums;}
+.oldstyle-nums {font-variant-numeric:oldstyle-nums;}
+.proportional-nums {font-variant-numeric:proportional-nums;}
+.tabular-nums {font-variant-numeric:tabular-nums;}
+.diagonal-fractions {font-variant-numeric:diagonal-fractions;}
+.stacked-fractions {font-variant-numeric:stacked-fractions;}
+.tracking-tighter {letter-spacing:-0.05em;}
+.tracking-tight {letter-spacing:-0.025em;}
+.tracking-normal {letter-spacing:0em;}
+.tracking-wide {letter-spacing:0.025em;}
+.tracking-wider {letter-spacing:0.05em;}
+.tracking-widest {letter-spacing:0.1em;}
 .active\:scale-95 {&:active {scale:95% 95%;}}
 .border-1 {border-style:solid; border-width:1.00px;}
 .border-2 {border-style:solid; border-width:2.00px;}
@@ -31034,9 +31091,13 @@ ol, ul {list-style:none;}
 .sm\:font-mono {font-family:'IBM Plex Mono', monospace;}
 .sm\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .sm\:font-thin {font-weight:100;}
+.sm\:font-extralight {font-weight:200;}
 .sm\:font-light {font-weight:300;}
+.sm\:font-normal {font-weight:400;}
 .sm\:font-medium {font-weight:500;}
+.sm\:font-semibold {font-weight:600;}
 .sm\:font-bold {font-weight:700;}
+.sm\:font-extrabold {font-weight:800;}
 .sm\:font-black {font-weight:900;}
 .sm\:text-2xs {font-size:0.25rem;}
 .sm\:text-xs {font-size:0.50rem;}
@@ -31083,6 +31144,59 @@ ol, ul {list-style:none;}
 .sm\:text-justify {text-align:justify;}
 .sm\:text-start {text-align:start;}
 .sm\:text-end {text-align:end;}
+.sm\:font-stretch-ultra-condensed {font-stretch:ultra-condensed;}
+.sm\:font-stretch-extra-condensed {font-stretch:extra-condensed;}
+.sm\:font-stretch-condensed {font-stretch:condensed;}
+.sm\:font-stretch-semi-condensed {font-stretch:semi-condensed;}
+.sm\:font-stretch-normal {font-stretch:normal;}
+.sm\:font-stretch-semi-expanded {font-stretch:semi-expanded;}
+.sm\:font-stretch-expanded {font-stretch:expanded;}
+.sm\:font-stretch-extra-expanded {font-stretch:extra-expanded;}
+.sm\:font-stretch-ultra-expanded {font-stretch:ultra-expanded;}
+.sm\:antialiased {-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+.sm\:subpixel-antialiased {-webkit-font-smoothing:auto; -moz-osx-font-smoothing:auto;}
+.sm\:line-clamp-1 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:1;}
+.sm\:line-clamp-2 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;}
+.sm\:line-clamp-3 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3;}
+.sm\:line-clamp-4 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4;}
+.sm\:line-clamp-5 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:5;}
+.sm\:line-clamp-6 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:6;}
+.sm\:line-clamp-7 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:7;}
+.sm\:line-clamp-8 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:8;}
+.sm\:line-clamp-9 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:9;}
+.sm\:line-clamp-10 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:10;}
+.sm\:line-clamp-12 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:12;}
+.sm\:line-clamp-14 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:14;}
+.sm\:line-clamp-16 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:16;}
+.sm\:line-clamp-20 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:20;}
+.sm\:line-clamp-24 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:24;}
+.sm\:line-clamp-28 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:28;}
+.sm\:line-clamp-32 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:32;}
+.sm\:line-clamp-48 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:48;}
+.sm\:line-clamp-64 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:64;}
+.sm\:line-clamp-72 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:72;}
+.sm\:line-clamp-90 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:90;}
+.sm\:line-clamp-96 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:96;}
+.sm\:line-clamp-100 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:100;}
+.sm\:line-clamp-128 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:128;}
+.sm\:line-clamp-196 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:196;}
+.sm\:line-clamp-256 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:256;}
+.sm\:line-clamp-512 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:512;}
+.sm\:normal-nums {font-variant-numeric:normal;}
+.sm\:ordinal {font-variant-numeric:ordinal;}
+.sm\:slashed-zero {font-variant-numeric:slashed-zero;}
+.sm\:lining-nums {font-variant-numeric:lining-nums;}
+.sm\:oldstyle-nums {font-variant-numeric:oldstyle-nums;}
+.sm\:proportional-nums {font-variant-numeric:proportional-nums;}
+.sm\:tabular-nums {font-variant-numeric:tabular-nums;}
+.sm\:diagonal-fractions {font-variant-numeric:diagonal-fractions;}
+.sm\:stacked-fractions {font-variant-numeric:stacked-fractions;}
+.sm\:tracking-tighter {letter-spacing:-0.05em;}
+.sm\:tracking-tight {letter-spacing:-0.025em;}
+.sm\:tracking-normal {letter-spacing:0em;}
+.sm\:tracking-wide {letter-spacing:0.025em;}
+.sm\:tracking-wider {letter-spacing:0.05em;}
+.sm\:tracking-widest {letter-spacing:0.1em;}
 .sm\:rounded-1 {border-radius:0.16rem;}
 .sm\:rounded-2 {border-radius:0.32rem;}
 .sm\:rounded-3 {border-radius:0.48rem;}
@@ -33125,9 +33239,13 @@ ol, ul {list-style:none;}
 .md\:font-mono {font-family:'IBM Plex Mono', monospace;}
 .md\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .md\:font-thin {font-weight:100;}
+.md\:font-extralight {font-weight:200;}
 .md\:font-light {font-weight:300;}
+.md\:font-normal {font-weight:400;}
 .md\:font-medium {font-weight:500;}
+.md\:font-semibold {font-weight:600;}
 .md\:font-bold {font-weight:700;}
+.md\:font-extrabold {font-weight:800;}
 .md\:font-black {font-weight:900;}
 .md\:text-2xs {font-size:0.25rem;}
 .md\:text-xs {font-size:0.50rem;}
@@ -33174,6 +33292,59 @@ ol, ul {list-style:none;}
 .md\:text-justify {text-align:justify;}
 .md\:text-start {text-align:start;}
 .md\:text-end {text-align:end;}
+.md\:font-stretch-ultra-condensed {font-stretch:ultra-condensed;}
+.md\:font-stretch-extra-condensed {font-stretch:extra-condensed;}
+.md\:font-stretch-condensed {font-stretch:condensed;}
+.md\:font-stretch-semi-condensed {font-stretch:semi-condensed;}
+.md\:font-stretch-normal {font-stretch:normal;}
+.md\:font-stretch-semi-expanded {font-stretch:semi-expanded;}
+.md\:font-stretch-expanded {font-stretch:expanded;}
+.md\:font-stretch-extra-expanded {font-stretch:extra-expanded;}
+.md\:font-stretch-ultra-expanded {font-stretch:ultra-expanded;}
+.md\:antialiased {-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+.md\:subpixel-antialiased {-webkit-font-smoothing:auto; -moz-osx-font-smoothing:auto;}
+.md\:line-clamp-1 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:1;}
+.md\:line-clamp-2 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;}
+.md\:line-clamp-3 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3;}
+.md\:line-clamp-4 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4;}
+.md\:line-clamp-5 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:5;}
+.md\:line-clamp-6 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:6;}
+.md\:line-clamp-7 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:7;}
+.md\:line-clamp-8 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:8;}
+.md\:line-clamp-9 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:9;}
+.md\:line-clamp-10 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:10;}
+.md\:line-clamp-12 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:12;}
+.md\:line-clamp-14 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:14;}
+.md\:line-clamp-16 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:16;}
+.md\:line-clamp-20 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:20;}
+.md\:line-clamp-24 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:24;}
+.md\:line-clamp-28 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:28;}
+.md\:line-clamp-32 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:32;}
+.md\:line-clamp-48 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:48;}
+.md\:line-clamp-64 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:64;}
+.md\:line-clamp-72 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:72;}
+.md\:line-clamp-90 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:90;}
+.md\:line-clamp-96 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:96;}
+.md\:line-clamp-100 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:100;}
+.md\:line-clamp-128 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:128;}
+.md\:line-clamp-196 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:196;}
+.md\:line-clamp-256 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:256;}
+.md\:line-clamp-512 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:512;}
+.md\:normal-nums {font-variant-numeric:normal;}
+.md\:ordinal {font-variant-numeric:ordinal;}
+.md\:slashed-zero {font-variant-numeric:slashed-zero;}
+.md\:lining-nums {font-variant-numeric:lining-nums;}
+.md\:oldstyle-nums {font-variant-numeric:oldstyle-nums;}
+.md\:proportional-nums {font-variant-numeric:proportional-nums;}
+.md\:tabular-nums {font-variant-numeric:tabular-nums;}
+.md\:diagonal-fractions {font-variant-numeric:diagonal-fractions;}
+.md\:stacked-fractions {font-variant-numeric:stacked-fractions;}
+.md\:tracking-tighter {letter-spacing:-0.05em;}
+.md\:tracking-tight {letter-spacing:-0.025em;}
+.md\:tracking-normal {letter-spacing:0em;}
+.md\:tracking-wide {letter-spacing:0.025em;}
+.md\:tracking-wider {letter-spacing:0.05em;}
+.md\:tracking-widest {letter-spacing:0.1em;}
 .md\:rounded-1 {border-radius:0.16rem;}
 .md\:rounded-2 {border-radius:0.32rem;}
 .md\:rounded-3 {border-radius:0.48rem;}
@@ -35216,9 +35387,13 @@ ol, ul {list-style:none;}
 .lg\:font-mono {font-family:'IBM Plex Mono', monospace;}
 .lg\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .lg\:font-thin {font-weight:100;}
+.lg\:font-extralight {font-weight:200;}
 .lg\:font-light {font-weight:300;}
+.lg\:font-normal {font-weight:400;}
 .lg\:font-medium {font-weight:500;}
+.lg\:font-semibold {font-weight:600;}
 .lg\:font-bold {font-weight:700;}
+.lg\:font-extrabold {font-weight:800;}
 .lg\:font-black {font-weight:900;}
 .lg\:text-2xs {font-size:0.25rem;}
 .lg\:text-xs {font-size:0.50rem;}
@@ -35265,6 +35440,59 @@ ol, ul {list-style:none;}
 .lg\:text-justify {text-align:justify;}
 .lg\:text-start {text-align:start;}
 .lg\:text-end {text-align:end;}
+.lg\:font-stretch-ultra-condensed {font-stretch:ultra-condensed;}
+.lg\:font-stretch-extra-condensed {font-stretch:extra-condensed;}
+.lg\:font-stretch-condensed {font-stretch:condensed;}
+.lg\:font-stretch-semi-condensed {font-stretch:semi-condensed;}
+.lg\:font-stretch-normal {font-stretch:normal;}
+.lg\:font-stretch-semi-expanded {font-stretch:semi-expanded;}
+.lg\:font-stretch-expanded {font-stretch:expanded;}
+.lg\:font-stretch-extra-expanded {font-stretch:extra-expanded;}
+.lg\:font-stretch-ultra-expanded {font-stretch:ultra-expanded;}
+.lg\:antialiased {-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+.lg\:subpixel-antialiased {-webkit-font-smoothing:auto; -moz-osx-font-smoothing:auto;}
+.lg\:line-clamp-1 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:1;}
+.lg\:line-clamp-2 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;}
+.lg\:line-clamp-3 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3;}
+.lg\:line-clamp-4 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4;}
+.lg\:line-clamp-5 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:5;}
+.lg\:line-clamp-6 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:6;}
+.lg\:line-clamp-7 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:7;}
+.lg\:line-clamp-8 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:8;}
+.lg\:line-clamp-9 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:9;}
+.lg\:line-clamp-10 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:10;}
+.lg\:line-clamp-12 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:12;}
+.lg\:line-clamp-14 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:14;}
+.lg\:line-clamp-16 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:16;}
+.lg\:line-clamp-20 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:20;}
+.lg\:line-clamp-24 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:24;}
+.lg\:line-clamp-28 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:28;}
+.lg\:line-clamp-32 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:32;}
+.lg\:line-clamp-48 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:48;}
+.lg\:line-clamp-64 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:64;}
+.lg\:line-clamp-72 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:72;}
+.lg\:line-clamp-90 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:90;}
+.lg\:line-clamp-96 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:96;}
+.lg\:line-clamp-100 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:100;}
+.lg\:line-clamp-128 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:128;}
+.lg\:line-clamp-196 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:196;}
+.lg\:line-clamp-256 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:256;}
+.lg\:line-clamp-512 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:512;}
+.lg\:normal-nums {font-variant-numeric:normal;}
+.lg\:ordinal {font-variant-numeric:ordinal;}
+.lg\:slashed-zero {font-variant-numeric:slashed-zero;}
+.lg\:lining-nums {font-variant-numeric:lining-nums;}
+.lg\:oldstyle-nums {font-variant-numeric:oldstyle-nums;}
+.lg\:proportional-nums {font-variant-numeric:proportional-nums;}
+.lg\:tabular-nums {font-variant-numeric:tabular-nums;}
+.lg\:diagonal-fractions {font-variant-numeric:diagonal-fractions;}
+.lg\:stacked-fractions {font-variant-numeric:stacked-fractions;}
+.lg\:tracking-tighter {letter-spacing:-0.05em;}
+.lg\:tracking-tight {letter-spacing:-0.025em;}
+.lg\:tracking-normal {letter-spacing:0em;}
+.lg\:tracking-wide {letter-spacing:0.025em;}
+.lg\:tracking-wider {letter-spacing:0.05em;}
+.lg\:tracking-widest {letter-spacing:0.1em;}
 .lg\:rounded-1 {border-radius:0.16rem;}
 .lg\:rounded-2 {border-radius:0.32rem;}
 .lg\:rounded-3 {border-radius:0.48rem;}
@@ -37307,9 +37535,13 @@ ol, ul {list-style:none;}
 .xl\:font-mono {font-family:'IBM Plex Mono', monospace;}
 .xl\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .xl\:font-thin {font-weight:100;}
+.xl\:font-extralight {font-weight:200;}
 .xl\:font-light {font-weight:300;}
+.xl\:font-normal {font-weight:400;}
 .xl\:font-medium {font-weight:500;}
+.xl\:font-semibold {font-weight:600;}
 .xl\:font-bold {font-weight:700;}
+.xl\:font-extrabold {font-weight:800;}
 .xl\:font-black {font-weight:900;}
 .xl\:text-2xs {font-size:0.25rem;}
 .xl\:text-xs {font-size:0.50rem;}
@@ -37356,6 +37588,59 @@ ol, ul {list-style:none;}
 .xl\:text-justify {text-align:justify;}
 .xl\:text-start {text-align:start;}
 .xl\:text-end {text-align:end;}
+.xl\:font-stretch-ultra-condensed {font-stretch:ultra-condensed;}
+.xl\:font-stretch-extra-condensed {font-stretch:extra-condensed;}
+.xl\:font-stretch-condensed {font-stretch:condensed;}
+.xl\:font-stretch-semi-condensed {font-stretch:semi-condensed;}
+.xl\:font-stretch-normal {font-stretch:normal;}
+.xl\:font-stretch-semi-expanded {font-stretch:semi-expanded;}
+.xl\:font-stretch-expanded {font-stretch:expanded;}
+.xl\:font-stretch-extra-expanded {font-stretch:extra-expanded;}
+.xl\:font-stretch-ultra-expanded {font-stretch:ultra-expanded;}
+.xl\:antialiased {-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+.xl\:subpixel-antialiased {-webkit-font-smoothing:auto; -moz-osx-font-smoothing:auto;}
+.xl\:line-clamp-1 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:1;}
+.xl\:line-clamp-2 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;}
+.xl\:line-clamp-3 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3;}
+.xl\:line-clamp-4 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4;}
+.xl\:line-clamp-5 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:5;}
+.xl\:line-clamp-6 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:6;}
+.xl\:line-clamp-7 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:7;}
+.xl\:line-clamp-8 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:8;}
+.xl\:line-clamp-9 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:9;}
+.xl\:line-clamp-10 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:10;}
+.xl\:line-clamp-12 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:12;}
+.xl\:line-clamp-14 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:14;}
+.xl\:line-clamp-16 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:16;}
+.xl\:line-clamp-20 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:20;}
+.xl\:line-clamp-24 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:24;}
+.xl\:line-clamp-28 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:28;}
+.xl\:line-clamp-32 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:32;}
+.xl\:line-clamp-48 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:48;}
+.xl\:line-clamp-64 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:64;}
+.xl\:line-clamp-72 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:72;}
+.xl\:line-clamp-90 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:90;}
+.xl\:line-clamp-96 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:96;}
+.xl\:line-clamp-100 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:100;}
+.xl\:line-clamp-128 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:128;}
+.xl\:line-clamp-196 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:196;}
+.xl\:line-clamp-256 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:256;}
+.xl\:line-clamp-512 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:512;}
+.xl\:normal-nums {font-variant-numeric:normal;}
+.xl\:ordinal {font-variant-numeric:ordinal;}
+.xl\:slashed-zero {font-variant-numeric:slashed-zero;}
+.xl\:lining-nums {font-variant-numeric:lining-nums;}
+.xl\:oldstyle-nums {font-variant-numeric:oldstyle-nums;}
+.xl\:proportional-nums {font-variant-numeric:proportional-nums;}
+.xl\:tabular-nums {font-variant-numeric:tabular-nums;}
+.xl\:diagonal-fractions {font-variant-numeric:diagonal-fractions;}
+.xl\:stacked-fractions {font-variant-numeric:stacked-fractions;}
+.xl\:tracking-tighter {letter-spacing:-0.05em;}
+.xl\:tracking-tight {letter-spacing:-0.025em;}
+.xl\:tracking-normal {letter-spacing:0em;}
+.xl\:tracking-wide {letter-spacing:0.025em;}
+.xl\:tracking-wider {letter-spacing:0.05em;}
+.xl\:tracking-widest {letter-spacing:0.1em;}
 .xl\:rounded-1 {border-radius:0.16rem;}
 .xl\:rounded-2 {border-radius:0.32rem;}
 .xl\:rounded-3 {border-radius:0.48rem;}
@@ -39398,9 +39683,13 @@ ol, ul {list-style:none;}
 .2xl\:font-mono {font-family:'IBM Plex Mono', monospace;}
 .2xl\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .2xl\:font-thin {font-weight:100;}
+.2xl\:font-extralight {font-weight:200;}
 .2xl\:font-light {font-weight:300;}
+.2xl\:font-normal {font-weight:400;}
 .2xl\:font-medium {font-weight:500;}
+.2xl\:font-semibold {font-weight:600;}
 .2xl\:font-bold {font-weight:700;}
+.2xl\:font-extrabold {font-weight:800;}
 .2xl\:font-black {font-weight:900;}
 .2xl\:text-2xs {font-size:0.25rem;}
 .2xl\:text-xs {font-size:0.50rem;}
@@ -39447,6 +39736,59 @@ ol, ul {list-style:none;}
 .2xl\:text-justify {text-align:justify;}
 .2xl\:text-start {text-align:start;}
 .2xl\:text-end {text-align:end;}
+.2xl\:font-stretch-ultra-condensed {font-stretch:ultra-condensed;}
+.2xl\:font-stretch-extra-condensed {font-stretch:extra-condensed;}
+.2xl\:font-stretch-condensed {font-stretch:condensed;}
+.2xl\:font-stretch-semi-condensed {font-stretch:semi-condensed;}
+.2xl\:font-stretch-normal {font-stretch:normal;}
+.2xl\:font-stretch-semi-expanded {font-stretch:semi-expanded;}
+.2xl\:font-stretch-expanded {font-stretch:expanded;}
+.2xl\:font-stretch-extra-expanded {font-stretch:extra-expanded;}
+.2xl\:font-stretch-ultra-expanded {font-stretch:ultra-expanded;}
+.2xl\:antialiased {-webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+.2xl\:subpixel-antialiased {-webkit-font-smoothing:auto; -moz-osx-font-smoothing:auto;}
+.2xl\:line-clamp-1 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:1;}
+.2xl\:line-clamp-2 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;}
+.2xl\:line-clamp-3 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3;}
+.2xl\:line-clamp-4 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4;}
+.2xl\:line-clamp-5 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:5;}
+.2xl\:line-clamp-6 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:6;}
+.2xl\:line-clamp-7 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:7;}
+.2xl\:line-clamp-8 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:8;}
+.2xl\:line-clamp-9 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:9;}
+.2xl\:line-clamp-10 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:10;}
+.2xl\:line-clamp-12 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:12;}
+.2xl\:line-clamp-14 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:14;}
+.2xl\:line-clamp-16 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:16;}
+.2xl\:line-clamp-20 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:20;}
+.2xl\:line-clamp-24 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:24;}
+.2xl\:line-clamp-28 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:28;}
+.2xl\:line-clamp-32 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:32;}
+.2xl\:line-clamp-48 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:48;}
+.2xl\:line-clamp-64 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:64;}
+.2xl\:line-clamp-72 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:72;}
+.2xl\:line-clamp-90 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:90;}
+.2xl\:line-clamp-96 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:96;}
+.2xl\:line-clamp-100 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:100;}
+.2xl\:line-clamp-128 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:128;}
+.2xl\:line-clamp-196 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:196;}
+.2xl\:line-clamp-256 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:256;}
+.2xl\:line-clamp-512 {overflow:hidden; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:512;}
+.2xl\:normal-nums {font-variant-numeric:normal;}
+.2xl\:ordinal {font-variant-numeric:ordinal;}
+.2xl\:slashed-zero {font-variant-numeric:slashed-zero;}
+.2xl\:lining-nums {font-variant-numeric:lining-nums;}
+.2xl\:oldstyle-nums {font-variant-numeric:oldstyle-nums;}
+.2xl\:proportional-nums {font-variant-numeric:proportional-nums;}
+.2xl\:tabular-nums {font-variant-numeric:tabular-nums;}
+.2xl\:diagonal-fractions {font-variant-numeric:diagonal-fractions;}
+.2xl\:stacked-fractions {font-variant-numeric:stacked-fractions;}
+.2xl\:tracking-tighter {letter-spacing:-0.05em;}
+.2xl\:tracking-tight {letter-spacing:-0.025em;}
+.2xl\:tracking-normal {letter-spacing:0em;}
+.2xl\:tracking-wide {letter-spacing:0.025em;}
+.2xl\:tracking-wider {letter-spacing:0.05em;}
+.2xl\:tracking-widest {letter-spacing:0.1em;}
 .2xl\:rounded-1 {border-radius:0.16rem;}
 .2xl\:rounded-2 {border-radius:0.32rem;}
 .2xl\:rounded-3 {border-radius:0.48rem;}

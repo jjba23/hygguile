@@ -23,9 +23,14 @@
   #:use-module (hygguile hss sizes)
   #:export (typography-classes font-family
                                mono-font-family
+                               font-smoothing
                                sans-font-family
                                serif-font-family
+                               font-variant-numeric
+                               font-stretch
                                weight-multiplier
+                               letter-spacing
+                               line-clamp
                                font-size-multiplier
                                font-style
                                font-weight
@@ -82,6 +87,11 @@
                             (start start)
                             (end end)))))
 
+(define letter-spacing
+  (param (rulv ".tracking-~a"
+               #:property 'letter-spacing
+               #:variants trackings)))
+
 (define font-style
   (param (list (rul ".italic"
                     (dec 'font-style
@@ -90,9 +100,40 @@
                     (dec 'font-style
                          'normal)))))
 
+(define font-smoothing
+  (param (list (rul ".antialiased"
+                    (dec "-webkit-font-smoothing" "antialiased")
+                    (dec "-moz-osx-font-smoothing" "grayscale"))
+               (rul ".subpixel-antialiased"
+                    (dec "-webkit-font-smoothing" "auto")
+                    (dec "-moz-osx-font-smoothing" "auto")))))
+
+(define font-stretch
+  (param (rulv ".font-stretch-~a"
+               #:property 'font-stretch
+               #:variants stretches)))
+
+(define font-variant-numeric
+  (param (rulv ".~a"
+               #:property 'font-variant-numeric
+               #:variants numeric-variants)))
+
+(define line-clamp
+  (param (rulv ".line-clamp-~a"
+               #:property "-webkit-line-clamp"
+               #:other-properties '((overflow hidden)
+                                    (display "-webkit-box")
+                                    ("-webkit-box-orient" vertical))
+               #:variants numeric-sizes)))
+
 (define typography-classes
   (param (list (font-family)
                (font-weight)
                (font-size)
                (font-style)
-               (text-align))))
+               (text-align)
+               (font-stretch)
+               (font-smoothing)
+               (line-clamp)
+               (font-variant-numeric)
+               (letter-spacing))))

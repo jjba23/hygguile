@@ -19,7 +19,14 @@
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-13)
   #:use-module (ice-9 string-fun)
-  #:export (tshirt-sizes numeric-sizes weights alphas color-weights fractions))
+  #:export (tshirt-sizes numeric-sizes
+                         weights
+                         alphas
+                         color-weights
+                         fractions
+                         trackings
+                         stretches
+                         numeric-variants))
 
 (define tshirt-sizes
   `(("2xs" 1)
@@ -64,9 +71,13 @@
 
 (define weights
   '((thin 100)
+    (extralight 200)
     (light 300)
+    (normal 400)
     (medium 500)
+    (semibold 600)
     (bold 700)
+    (extrabold 800)
     (black 900)))
 
 (define fractions
@@ -95,3 +106,32 @@
     (90 0.9)
     (95 0.95)
     ("" 1)))
+
+(define trackings
+  '((tighter "-0.05em")
+    (tight "-0.025em")
+    (normal "0em")
+    (wide "0.025em")
+    (wider "0.05em")
+    (widest "0.1em")))
+
+(define stretches
+  '((ultra-condensed ultra-condensed)
+    (extra-condensed extra-condensed)
+    (condensed condensed)
+    (semi-condensed semi-condensed)
+    (normal normal)
+    (semi-expanded semi-expanded)
+    (expanded expanded)
+    (extra-expanded extra-expanded)
+    (ultra-expanded ultra-expanded)))
+
+(define numeric-variants '((normal-nums normal)
+                           (ordinal ordinal)
+                           (slashed-zero slashed-zero)
+                           (lining-nums lining-nums)
+                           (oldstyle-nums oldstyle-nums)
+                           (proportional-nums proportional-nums)
+                           (tabular-nums tabular-nums)
+                           (diagonal-fractions diagonal-fractions)
+                           (stacked-fractions stacked-fractions)))
