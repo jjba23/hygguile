@@ -20,7 +20,6 @@
   #:use-module (ice-9 string-fun)
   #:use-module (hygguile embed css)
   #:use-module (hygguile sxml)
-  #:use-module (hygguile embed tailwind-css)
   #:export (custom-fonts phosphor-icons))
 
 (define* (custom-fonts #:key (preconnects `((link (@ (rel preconnect)

@@ -59,6 +59,11 @@
   "Embed static assets into Scheme code."
   (manifest-shell '("guile -L ./src" "./scripts/embedder.scm")))
 
+(define (hss)
+  "Generate production CSS."
+  (manifest-shell '("guile -L ./src" "./scripts/hss-gen.scm"))
+  ($ '("cp resources/css/hss.min.css dist/hss.min.css")))
+
 (define (docs)
   "Generate technical API documentation for Hygguile."
   (delete-file-recursively "doc")
@@ -69,9 +74,9 @@
 
 (define (deploy)
   "Generate documentation for the project and publish to web directory."
-  (embed)
   (fmt)
   (build)
+  (embed)
   (docs)
   (delete-file-recursively deploy-dir)
   (mv "dist" deploy-dir)
@@ -97,11 +102,13 @@
 (define (build)
   "Build production release of the project."
   (remkdir-p "dist")
+  (hss)
   (manifest-shell (list "guile -L ./src showcase.scm")))
 
 (define (test-build-and-serve)
   (test)
   (build)
+  (embed)
   (docs)
   (serve))
 
@@ -124,10 +131,6 @@
                         "--shell bash"
                         "--watch . --"
                         "maak test-build-and-serve")))
-
-(define (hr)
-  "Alias to hot-reloading."
-  (hot-reload))
 
 (define (dev)
   "Developer's setup."

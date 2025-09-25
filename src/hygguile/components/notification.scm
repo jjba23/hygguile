@@ -21,5 +21,5 @@
 
 (define notification-tray
   `((div (@ (id notification-tray)
-            (class ,(mk-class '(sm:fixed sm:z-40 sm:top-8 sm:right-8)))) "")))
+            (class ,(mk-class '(fixed z-32 top-8 right-8)))) "")))
 

@@ -39,8 +39,8 @@
                 (div ,(eval-string tt))
                 (button (@ (aria-label "Show code for example")
                            (class ,(mk-class '(font-light text-sm
-                                                          text-stone-700
-                                                          dark:text-stone-200)))
+                                                          text-onyx-300
+                                                          dark:text-stone-300)))
                            (onclick ,(format #f
                                       "document.getElementById('~a-example').classList.toggle('hidden')"
                                       uid)))
@@ -49,19 +49,19 @@
            (div (@ (id ,(format #f "~a-example" uid))
                    (class ,(mk-class '(hidden flex flex-col gap-2))))
                 (pre (@ (id ,(format #f "~a-pre" uid))
-                        (class ,(mk-class '(font-medium text-stone-800
-                                                        dark:text-stone-200
-                                                        text-md
-                                                        bg-stone-200/75
-                                                        dark:bg-stone-700/75
-                                                        rounded-lg
-                                                        shadow-md
-
-                                                        text-wrap
-                                                        py-4
-                                                        px-4
-                                                        overflow-x-scroll
-                                                        whitespace-pre-wrap))))
+                        (class ,(mk-class '(font-medium text-onyx-500
+                                            dark:text-stone-300
+                                            text-md
+                                            bg-stone-300/75
+                                            dark:bg-raisin-black-700/75
+                                            rounded-lg
+                                            shadow-md
+                                            text-wrap
+                                            py-4
+                                            px-4
+                                            font-mono
+                                            overflow-x-scroll
+                                            whitespace-pre-wrap))))
                      ,t)
                 (div (@ (class ,(mk-class '(w-min))))
                      ,(icon-button #:icon 'copy
@@ -74,6 +74,22 @@
                                                 #:title "Copied to clipboard!"
                                                 #:body t
                                                 #:body-font-family "font-mono")))))))))
+
+(define trigger-notifications-section
+  `((div (@ (class ,(mk-class '(flex flex-row
+                                     flex-wrap
+                                     gap-2
+                                     justify-center
+                                     align-center
+                                     max-w-96))))
+         ,(button "trigger simple notification"
+                  #:on-click (trigger-notification-function-js #:title
+                              "You are notified!"))
+         ,(button "trigger full notification"
+                  #:on-click (trigger-notification-function-js #:title
+                              "Notified succesfully!"
+                              #:body
+                              "The reason we notified you like this is to showcase the possibilities that hygguile offers for easy and convenient, good-looking notifications.")))))
 
 (define button-section
   `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
@@ -88,32 +104,33 @@
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
                   ,(as-example '(icon-button #:icon 'gear
                                              #:content "gear"
-                                             #:background '(bg-teal-700)
-                                             #:color '(text-stone-200
+                                             #:background '(bg-jeans-blue-500)
+                                             #:hover-background '(hover:bg-jeans-blue-900)
+                                             #:color '(text-stone-300
                                                        dark:text-stone-100)
-                                             #:size '(text-xs)
+                                             #:size '(text-md)
                                              #:icon-css '(text-stone-100
                                                           dark:text-stone-100
-                                                          text-md)
-                                             #:hover-background '(hover:bg-teal-900)))
+                                                          text-md)))
                   ,(as-example '(icon-button #:icon 'user
                                              #:content "user"
-                                             #:background '(bg-earthyellow)
-                                             #:color '(text-stone-900)
-                                             #:hover-background '(hover:bg-amber-500)
+                                             #:background '(bg-naples-yellow-500)
+                                             #:color '(text-onyx-500)
+                                             #:hover-background '(hover:bg-naples-yellow-700)
                                              #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'calendar
                                              #:content "Book now"
                                              #:weight '(font-light)
-                                             #:background '(bg-vinrouge)
-                                             #:color '(text-papayawhip)
-                                             #:hover-background '(hover:bg-cafenoir)
+                                             #:size '(text-md)
+                                             #:background '(bg-wine-500)
+                                             #:color '(text-papaya-whip-500)
+                                             #:hover-background '(hover:bg-wine-700)
                                              #:icon-css '(text-xl)))
                   ,(as-example '(icon-button #:icon 'airplane-tilt
                                              #:content "airplane-tilt"
-                                             #:background '(bg-chinarose)
+                                             #:background '(bg-china-rose-500)
                                              #:weight '(font-medium)
-                                             #:color '(text-stone-200
+                                             #:color '(text-stone-300
                                                        dark:text-stone-100)
                                              #:icon-css '(text-stone-100
                                                           dark:text-stone-100
@@ -128,7 +145,7 @@
                    #:size '(text-xl))
               ,(sub-h2 "Typography"))
          (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-8))))
-              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+              (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
                        ,(as-example '(h1
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(h1
@@ -140,7 +157,7 @@
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(h4
                                       "Sphinx of black quartz, judge my vow")))
-              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+              (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
                        ,(as-example '(h1
                                       "Sphinx of black quartz, judge my vow"
                                       #:family '(font-serif)))
@@ -157,7 +174,7 @@
                        ,(as-example '(h4
                                       "Sphinx of black quartz, judge my vow"
                                       #:family '(font-serif))))
-              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+              (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
                        ,(as-example '(sub-h1
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(sub-h2
@@ -167,13 +184,13 @@
                        ,(as-example '(sub-h4
                                       "Sphinx of black quartz, judge my vow")))
 
-              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+              (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
                        ,(as-example '(strong
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(p "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(em
                                       "Sphinx of black quartz, judge my vow")))
-              (section (@ (class ,(mk-class '(py-3 flex flex-col gap-3))))
+              (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
                        ,(as-example '(mono
                                       "Sphinx of black quartz, judge my vow"))
                        ,(as-example '(code
@@ -204,7 +221,7 @@
 (define footer
   (footer `(,(em "Copyright &copy; Josep Bigorra &lt;jjbigorra@gmail.com&gt;") ,
             (em "licensed under the LGPL v3, or newer at your convenience")
-            (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-3
+            (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-4
                                              align-center items-center))))
                  ,(em "find the source code here:")
                  ,(a "https://codeberg.org/jjba23/hygguile"))
@@ -221,8 +238,10 @@
          (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
                                           align-center items-center))))
               (span "⚙️")
-              ,(sub-h2 "Settings"))
-         (div ,(ui-mode-button)))))
+              ,(sub-h2 "Utilities"))
+         (div (@ (class ,(mk-class '(flex flex-wrap gap-2 flex-row))))
+              (div ,(ui-mode-button))
+              (div ,trigger-notifications-section)))))
 
 (define containers-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6 align-center))))
@@ -250,17 +269,6 @@
                     (dt "some key:")
                     (dd "some value"))))))
 
-(define trigger-notifications-section
-  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
-         ,(button "trigger simple notification"
-                  #:on-click (trigger-notification-function-js #:title
-                              "You are notified!"))
-         ,(button "trigger full notification"
-                  #:on-click (trigger-notification-function-js #:title
-                              "Notified succesfully!"
-                              #:body
-                              "The reason we notified you like this is to showcase the possibilities that hygguile offers for easy and convenient, good-looking notifications.")))))
-
 (define carousel-section
   (let* ((imgs '(("Hygguile Logo" . "https://jointhefreeworld.org/static-assets/hygguile/hygguile-2-small.png")
                  ("WikiMusic Logo" . "https://jointhefreeworld.org/static-assets/wikimusic/img/wikimusic.jpg")
@@ -275,7 +283,7 @@
                           "ACTA NON VERBA"
                           "DEUS EX MACHINA"))
          (render-img-with-figcaption (lambda (l)
-                                       `((figure (img (@ (class ,(mk-class '(max-w-32
+                                       `((figure (img (@ (class ,(mk-class '(max-w-64
                                                                              rounded-xl)))
                                                          (alt ,(cond
                                                                  ((pair? l)
@@ -293,15 +301,16 @@
                                                      '())
                                                     ((pair? l)
                                                      `(figcaption (@ (class ,(mk-class '
-                                                                              (text-stone-600
-                                                                               dark:text-stone-400
+                                                                              (text-onyx-300
+                                                                               dark:text-stone-500
                                                                                text-lg
                                                                                font-light))))
                                                                   ,(car l))))))))
          (render-other-content (lambda (c)
-                                 `((div (@ (class ,(mk-class '(text-stone-600
+                                 `((div (@ (class ,(mk-class '(text-onyx-300
                                                                dark:text-stone-300
                                                                text-2xl
+                                                               min-w-48
                                                                font-light))))
                                         ,c))))
          (fragments (map render-img-with-figcaption imgs))
@@ -348,10 +357,12 @@
         (fly-out #:items some-fly-out-items)))
 
 (define* (mk-color-show #:key color text-class)
-  `((div (@ (class ,(mk-class (append (list (string->symbol (format #f "bg-~a"
+  `((div (@ (onclick "cycleColorShow(this)")
+            (class ,(mk-class (append (list (string->symbol (format #f "bg-~a"
                                                                     color)))
                                       '(rounded-2xl shadow-md
                                                     p-4
+                                                    cursor-pointer
                                                     w-32
                                                     h-32
                                                     flex
@@ -368,90 +379,90 @@
                                             items-center
                                             align-center
                                             py-4))))
-    `(,(sub-h2 "🎨 Colors") (div (@ (class ,(mk-class '(py-3))))
-                                ,(p
-                                  "Hygguile offers all Tailwind colors out of the box, in all their variants.")
+    `(,(sub-h2 "🎨 Colors") (div (@ (class ,(mk-class '(py-4))))
+                                (div (@ (class ,(mk-class '(max-w-prose flex
+                                                            flex-col gap-2))))
+                                     ,(p
+                                       "Hygguile offers colors in the 100, 300, 500, 700 and 900 variants. Some of these colors are essential for the hygguile components, however not all of them are."
+                                       #:weight '(font-light))
+                                     ,(p
+                                       "It is recommended to tweak the HSS build so as to only include colors that you will actually use in your project. This will save lots of KBs from the build and speed up page load times."
+                                       #:weight '(font-light)))
                                 (div (@ (class ,color-grid-class))
-                                     ,(mk-color-show #:color 'red-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'orange-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'amber-500
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'yellow-500
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'lime-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'green-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'emerald-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'teal-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'cyan-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'cyan-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'sky-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'blue-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'indigo-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'violet-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'purple-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'fuchsia-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'pink-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'rose-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'slate-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'gray-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'zinc-500
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'stone-500
-                                                     #:text-class 'text-white))
-                                ,(p
-                                  "It also offers some custom colors (no variants)")
-                                (div (@ (class ,color-grid-class))
-                                     ,(mk-color-show #:color 'spicedterracotta
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'burntumber
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'bistre
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'cafenoir
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'oldlace
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'floralwhite
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'cornsilk
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'papayawhip
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'chinarose
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'earthyellow
-                                                     #:text-class 'text-black)
-                                     ,(mk-color-show #:color 'burgundy
-                                                     #:text-class 'text-white)
-                                     ,(mk-color-show #:color 'vinrouge
-                                                     #:text-class 'text-white))))))
+                                     ,(map (lambda (x)
+                                             (mk-color-show #:color (car x)
+                                                            #:text-class (cadr
+                                                                          x)))
+                                           '((apple-green-500 text-white)
+                                             (ash-gray-500 text-black)
+                                             (asparagus-500 text-white)
+                                             (beaver-500 text-white)
+                                             (bistre-500 text-white)
+                                             (black-bean-500 text-white)
+                                             (black-olive-500 text-white)
+                                             (buff-500 text-black)
+                                             (cadet-gray-500 text-black)
+                                             (cambridge-green-500 text-white)
+                                             (castleton-green-500 text-white)
+                                             (charcoal-500 text-white)
+                                             (china-rose-500 text-white)
+                                             (china-violet-500 text-white)
+                                             (claret-500 text-white)
+                                             (coffee-500 text-white)
+                                             (dark-purple-500 text-white)
+                                             (ferrari-red-500 text-white)
+                                             (floral-white-500 text-black)
+                                             (glaucous-500 text-white)
+                                             (iris-500 text-white)
+                                             (jeans-blue-500 text-white)
+                                             (lapis-lazuli-500 text-white)
+                                             (light-coral-500 text-white)
+                                             (mantis-500 text-white)
+                                             (melon-500 text-black)
+                                             (midnight-green-500 text-white)
+                                             (mikado-yellow-500 text-black)
+                                             (moonstone-500 text-black)
+                                             (naples-yellow-500 text-black)
+                                             (onyx-500 text-white)
+                                             (orange-500 text-white)
+                                             (pale-dogwood-500 text-white)
+                                             (papaya-whip-500 text-black)
+                                             (persia-pink-500 text-white)
+                                             (pomp-and-power-500 text-white)
+                                             (prussian-blue-500 text-white)
+                                             (raisin-black-500 text-white)
+                                             (redwood-500 text-white)
+                                             (russia-violet-500 text-white)
+                                             (sienna-500 text-white)
+                                             (spiced-terracotta-500 text-white)
+                                             (stone-500 text-black)
+                                             (tawny-500 text-white)
+                                             (tyrian-500 text-white)
+                                             (umber-500 text-white)
+                                             (van-dyke-500 text-white)
+                                             (white-smoke-500 text-black)
+                                             (wine-500 text-white))))))))
 
 (define (showcase-body)
-  (with-footer #:main `((div (@ (class ,(mk-class '(py-9 px-2 container
-                                                         mx-auto))))
+  (with-footer #:main `((div (@ (class ,(mk-class '(py-10 px-4 container
+                                                          mx-auto))))
                              (div (@ (class ,(mk-class '(flex flex-col gap-4))))
                                   (a (@ (href "/"))
-                                     ,(h1 "hygguile"))
-                                  ,(sub-h2
-                                    "cozy and professional user-interfaces for everyone"))
+                                     ,(h1 "Hygguile + HSS"))
+                                  ,(sub-h4 "Hygge Style Sheets")
+                                  ,(sub-h3
+                                    "cozy and professional user-interfaces for everyone")
+                                  (div (@ (class ,(mk-class '(max-w-prose flex
+                                                              flex-col gap-2))))
+                                       ,(p
+                                         "Hygguile and HSS are an opinionated, batteries-included UI framework written in a dialect of the Lisp programming language, Guile Scheme."
+                                         #:weight '(font-light))
+                                       ,(p
+                                         "Its syntax is much inspired on plain vanilla HTML, utility-class, Tailwind CSS"
+                                         #:weight '(font-light))
+                                       ,(p
+                                         "It defines an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and modern CSS."
+                                         #:weight '(font-light))))
                              ,(hr)
                              ,settings-section
                              ,(hr)
@@ -469,9 +480,7 @@
                              ,(hr)
                              ,containers-section
                              ,(hr)
-                             ,forms-section
-                             ,(hr)
-                             ,trigger-notifications-section))
+                             ,forms-section))
                #:footer footer))
 
 (define* (html-template #:key title body)
@@ -479,8 +488,10 @@
                         (head (title ,title)
                               ,hygguile-recommended-meta
                               ,hygguile-recommended-resources
-                              (body (@ (class ,(mk-class '(bg-white
-                                                           dark:bg-stone-800))))
+                              (link (@ (rel stylesheet)
+                                       (href "hss.min.css")))
+                              (body (@ (class ,(mk-class '(bg-stone-100
+                                                           dark:bg-raisin-black-700))))
                                     ,notification-tray
                                     ,@body)))))
 

@@ -20,14 +20,15 @@
   #:export (carousel))
 
 (define* (carousel #:key (id #f)
-                   (carousel-list-css '(flex gap-8
+                   (carousel-list-css '(flex gap-24
                                              p-12
                                              list-none
                                              overflow-x-scroll
                                              snap-x
-                                             bg-stone-200/70
-                                             dark:bg-stone-700/70
+                                             bg-stone-300/75
+                                             dark:bg-onyx-700/75
                                              rounded-xl
+                                             shadow-md
                                              my-6))
                    (item-width '(w-64))
                    (item-height '(h-1/2))
@@ -39,18 +40,19 @@
                                                      text-xl
                                                      font-bold))
                    (carousel-list-wrapper-css '(relative))
-                   (carousel-button-css '(absolute top-1/4
+                   (carousel-button-css '(absolute bottom-1/2
                                                    w-18
                                                    h-18
-                                                   bg-stone-400/25
-                                                   dark:bg-stone-800/25
-                                                   rounded-xl
-                                                   text-stone-800
-                                                   dark:text-stone-200
+                                                   bg-stone-500/75
+                                                   dark:bg-onyx-700/75
+                                                   p-2
+                                                   rounded-4xl
+                                                   text-onyx-500
+                                                   dark:text-stone-300
                                                    cursor-pointer
-                                                   text-2xl))
-                   (carousel-left-button-css '(left-3))
-                   (carousel-right-button-css '(right-3))
+                                                   text-3xl))
+                   (carousel-left-button-css '(left-4))
+                   (carousel-right-button-css '(right-4))
                    (fragments '()))
   `((div (@ (class ,(mk-class carousel-list-wrapper-css)))
          (ul (@ (id ,(format #f "~a" id))

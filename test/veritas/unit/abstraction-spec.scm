@@ -29,8 +29,8 @@
                              #:expect "")
                (assert-equal #:name
                 "mk-class list of symbols is converted to sorted space-separated string"
-                #:got (mk-class '(p-2 my-2 bg-stone-900/75 hover:bg-stone-800))
-                #:expect "bg-stone-900/75 hover:bg-stone-800 my-2 p-2")
+                #:got (mk-class '(p-2 my-2 bg-stone-900/75 hover:bg-stone-900))
+                #:expect "bg-stone-900/75 hover:bg-stone-900 my-2 p-2")
 
                (assert-equal #:name
                              "mk-class list of symbols removes duplication"
@@ -108,9 +108,9 @@
 
                (assert-equal #:name "Real-world like string"
                 #:got (pretty-quote
-                       "(quote user) #:content \"user\" #:background (quote bg-amber-400) #:hover-background (quote hover:bg-amber-600) #:color (quote text-stone-900) #:icon-css (quote (text-stone-900 text-xl))")
+                       "(quote user) #:content \"user\" #:background (quote bg-amber-500) #:hover-background (quote hover:bg-amber-700) #:color (quote text-onyx-500) #:icon-css (quote (text-onyx-500 text-xl))")
                 #:expect
-                "'user #:content \"user\" #:background 'bg-amber-400 #:hover-background 'hover:bg-amber-600 #:color 'text-stone-900 #:icon-css '(text-stone-900 text-xl)")
+                "'user #:content \"user\" #:background 'bg-amber-500 #:hover-background 'hover:bg-amber-700 #:color 'text-onyx-500 #:icon-css '(text-onyx-500 text-xl)")
 
                (assert-equal #:name
                 "Multiple occurrences of the same quoted expression"

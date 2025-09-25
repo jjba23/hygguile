@@ -17,34 +17,19 @@
   along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+function cycleBgClass(currentClass) {
+  const parts = currentClass.split('-')
+  const currentNumber = parseInt(parts.toReversed()[0], 10)
+  const nextNumber = currentNumber >= 900 ? 100 : currentNumber + 200
+  const startParts = parts.slice(0, parts.length - 1).join("-")
 
-@theme {
-  --font-sans: "IBM Plex Sans", sans-serif;
-  --font-mono: "IBM Plex Mono", monospace;
-  --font-serif: "IBM Plex Serif", serif;
-  --animate-wiggle: wiggle 750ms ease-in-out 50ms;
+  return `${startParts}-${nextNumber}`
+}
 
-  @keyframes wiggle {
-    0%,
-    100% {
-      transform: rotate(-3deg);
-    }
-    50% {
-      transform: rotate(3deg);
-    }
-  }
-
-  --color-spicedterracotta: #BB7546;
-  --color-burntumber: #943524;
-  --color-bistre: #261903;
-  --color-oldlace: #FFF8EB;
-  --color-floralwhite: #FDF9ED;
-  --color-cornsilk: #FBF3DA;
-  --color-papayawhip: #FFF1D6;
-  --color-chinarose: #944C63;
-  --color-earthyellow: #F7AE50;
-  --color-cafenoir: #392605;
-  --color-vinrouge: #8d2f1a;
-  --color-burgundy: #5e1f11;
+function cycleColorShow(el) {
+  const currentClass = [...el.classList].find(cls => cls.startsWith('bg-'))
+  const newClass = cycleBgClass(currentClass)
+  el.classList.toggle(currentClass)
+  el.classList.toggle(newClass)
+  el.children[0].innerText = newClass.replace("bg-", "")
 }

@@ -19,9 +19,7 @@
   #:use-module (hygguile abstraction)
   #:use-module (hygguile js)
   #:use-module (hygguile embed js)
-  #:use-module (hygguile embed tailwind-js)
   #:use-module (hygguile embed css)
-  #:use-module (hygguile embed tailwind-css)
   #:use-module (hygguile components button)
   #:use-module (hygguile components container)
   #:use-module (hygguile components icon)
@@ -39,7 +37,7 @@
                  col
                  copy-pre-inner-text-js
                  custom-fonts
-                 custom-tailwind-css
+
                  danger-submit-button
                  dd
                  dl
@@ -92,16 +90,15 @@
                          hygguile-recommended-resources))
 
 (define hygguile-recommended-resources
-  (list (tailwind-js)
-        (custom-fonts)
+  (list (custom-fonts)
         (phosphor-icons)
-        (custom-tailwind-css)
         (fly-out-css)
         (toggle-dark-theme-js)
         (copy-pre-inner-text-js)
         (show-notifications-from-url-js)
         (carousel-button-js)
         (remember-dark-theme-js)
+        (color-show-js)
         (fly-out-js)))
 
 (define doctype-html
@@ -110,4 +107,4 @@
 (define hygguile-recommended-meta
   (list `(meta (@ (name viewport)
                   (content "width=device-width, initial-scale=1.0")))
-        `(meta (@ (charset "UTF-8")))))
+        `(meta (@ (charset UTF-8)))))

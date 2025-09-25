@@ -21,7 +21,8 @@
 
 (define* (fly-out #:key (aria-label "Fly-out selection menu")
                   (nav-class '(py-4))
-                  (top-ul-class '(flex flex-row flex-wrap justify-center gap-4))
+                  (top-ul-class '(flex flex-row flex-wrap justify-center
+                                       items-start gap-4))
                   (items '()))
   `((nav (@ (class ,(mk-class nav-class))
             (aria-label ,aria-label))
@@ -31,16 +32,16 @@
 (define* (fly-out-submenu #:key (li-class '(flyout-menu-container
                                             cursor-pointer px-4 py-4))
                           (button-class '(flyout-submenu-button cursor-pointer
-                                          flex text-stone-700
+                                          flex text-onyx-300
                                           dark:text-stone-300))
                           (ul-class '(flyout-submenu z-10
                                                      absolute
-                                                     bg-stone-100/70
-                                                     dark:bg-stone-900/70
+                                                     bg-stone-100/75
+                                                     dark:bg-onyx-700/75
                                                      rounded-xl
                                                      shadow-md
                                                      my-2
-                                                     px-3
+                                                     px-4
                                                      py-1))
                           (button-content `((h4 "Menu")))
                           (items '()))

@@ -51,36 +51,24 @@
 
 (define js-dir
   "./resources/js")
-(define tailwind-js-dir
-  "./resources/js")
+
 (define css-dir
-  "./resources/css")
-(define tailwind-css-dir
   "./resources/css")
 
 ;; embed destination files
 (define js-dest-file
   "./src/hygguile/embed/js.scm")
-(define tailwind-js-dest-file
-  "./src/hygguile/embed/tailwind-js.scm")
+
 (define css-dest-file
   "./src/hygguile/embed/css.scm")
-(define tailwind-css-dest-file
-  "./src/hygguile/embed/tailwind-css.scm")
 
 ;; files to embed
 (define js-files
-  '(carousel-button copy-pre-inner-text fly-out remember-dark-theme
+  '(carousel-button copy-pre-inner-text color-show fly-out remember-dark-theme
                     toggle-dark-theme))
-
-(define tailwind-js-files
-  '(tailwind))
 
 (define css-files
   '(fly-out))
-
-(define tailwind-css-files
-  '(custom-tailwind))
 
 (define license-text
   ";; hygguile - cozy and professional user-interfaces for everyone
@@ -104,15 +92,8 @@
 (let* ( ;full path to files to embed
         (js-embed-files (map (lambda (file)
                                (format #f "~a/~a.js" js-dir file)) js-files))
-       (tailwind-js-embed-files (map (lambda (file)
-                                       (format #f "~a/~a.js" tailwind-js-dir
-                                               file)) tailwind-js-files))
        (css-embed-files (map (lambda (file)
                                (format #f "~a/~a.css" css-dir file)) css-files))
-       (tailwind-css-embed-files (map (lambda (file)
-                                        (format #f "~a/~a.css"
-                                                tailwind-css-dir file))
-                                      tailwind-css-files))
        ;; load contents into maps
        (js-content-map (map (lambda (file)
                               (cons (mk-method-name #:dir js-dir
@@ -120,28 +101,12 @@
                                                     #:extension 'js)
                                     (get-string-all (open-input-file file))))
                             js-embed-files))
-       (tailwind-js-content-map (map (lambda (file)
-                                       (cons (mk-method-name #:dir
-                                                             tailwind-js-dir
-                                                             #:file file
-                                                             #:extension 'js)
-                                             (get-string-all (open-input-file
-                                                              file))))
-                                     tailwind-js-embed-files))
        (css-content-map (map (lambda (file)
                                (cons (mk-method-name #:dir css-dir
                                                      #:file file
                                                      #:extension 'css)
                                      (get-string-all (open-input-file file))))
                              css-embed-files))
-       (tailwind-css-content-map (map (lambda (file)
-                                        (cons (mk-method-name #:dir
-                                               tailwind-css-dir
-                                               #:file file
-                                               #:extension 'css)
-                                              (get-string-all (open-input-file
-                                                               file))))
-                                      tailwind-css-embed-files))
        ;;
        ;; ====== generate Scheme code to embed =======
        ;;
@@ -149,43 +114,22 @@
        ;; generate methods
        (js-methods (mk-js-embed-method js-content-map))
        (js-method-names (map car js-content-map))
-       (tailwind-js-methods (mk-js-embed-method tailwind-js-content-map))
-       (tailwind-js-method-names (map car tailwind-js-content-map))
        (css-methods (mk-css-embed-method css-content-map))
        (css-method-names (map car css-content-map))
-       (tailwind-css-methods (mk-css-embed-method tailwind-css-content-map
-                                                  #:style-type
-                                                  "text/tailwindcss"))
-       (tailwind-css-method-names (map car tailwind-css-content-map))
 
        ;; bundle in modules
        (js-module (mk-module #:name 'js
                              #:method-names js-method-names
                              #:methods js-methods))
-       (tailwind-js-module (mk-module #:name 'tailwind-js
-                                      #:method-names tailwind-js-method-names
-                                      #:methods tailwind-js-methods))
        (css-module (mk-module #:name 'css
                               #:method-names css-method-names
-                              #:methods css-methods))
-       (tailwind-css-module (mk-module #:name 'tailwind-css
-                                       #:method-names
-                                       tailwind-css-method-names
-                                       #:methods tailwind-css-methods)))
+                              #:methods css-methods)))
   
   (with-output-to-file js-dest-file
     (lambda ()
       (for-each display js-module)))
 
-  (with-output-to-file tailwind-js-dest-file
-    (lambda ()
-      (for-each display tailwind-js-module)))
-
   (with-output-to-file css-dest-file
     (lambda ()
-      (for-each display css-module)))
-
-  (with-output-to-file tailwind-css-dest-file
-    (lambda ()
-      (for-each display tailwind-css-module))))
+      (for-each display css-module))))
 
