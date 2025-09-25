@@ -26,6 +26,7 @@
   #:use-module (hygguile hss decl flexbox)
   #:use-module (hygguile hss decl spacing)
   #:use-module (hygguile hss decl sizing)
+  #:use-module (hygguile hss decl filters)
   #:use-module (hygguile hss decl reset)
   #:export (font-size-multiplier rounded-multiplier
                                  weight-multiplier
@@ -174,12 +175,13 @@
 
                           )))
 
-(define dark-mode-colors
+(define dark-mode
   (make-parameter (list '("")
                         (rulc "Load HSS Dark mode colors")
                         (list where-dark " {")
                         (addmq 'dark
                                (colors))
+                        (addmq 'dark (filter-classes))
                         '("")
                         (rulc "Load HSS Dark mode hover colors")
                         (addhover "hover\\:dark"
@@ -280,6 +282,7 @@
 
 (define responsive-classes
   (make-parameter (append (layout-classes)
+                          (filter-classes)
                           (flexbox-classes)
                           (spacing-classes)
                           (sizing-classes)
@@ -333,6 +336,7 @@
           '("")
           (rulc "Load HSS Hygge Style Sheets")
           (layout-classes)
+          (filter-classes)
           (flexbox-classes)
           (spacing-classes)
           (sizing-classes)
@@ -359,7 +363,7 @@
           '("")
           (rulc "Load HSS hover colors")
           (hover-colors)
-          (dark-mode-colors)
+          (dark-mode)
           '("")
           (rulc "Load responsive classes")
           (responsive)))
