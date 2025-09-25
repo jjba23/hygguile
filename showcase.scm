@@ -489,7 +489,7 @@
                               ,hygguile-recommended-meta
                               ,hygguile-recommended-resources
                               (link (@ (rel stylesheet)
-                                       (href "hss.css")))
+                                       (href "hss.min.css")))
                               (body (@ (class ,(mk-class '(bg-stone-100
                                                            dark:bg-raisin-black-700))))
                                     ,notification-tray

@@ -24,13 +24,11 @@
   #:use-module (hygguile hss decl colors)
   #:use-module (hygguile hss decl layout)
   #:use-module (hygguile hss decl flexbox)
-  #:use-module (hygguile hss decl spacing)  
+  #:use-module (hygguile hss decl spacing)
+  #:use-module (hygguile hss decl sizing)
   #:use-module (hygguile hss decl reset)
-  #:export (font-size-multiplier 
-                                 rounded-multiplier
-                                 width-multiplier
+  #:export (font-size-multiplier rounded-multiplier
                                  weight-multiplier
-                                 height-multiplier
                                  mono-font-family
                                  sans-font-family
                                  serif-font-family
@@ -39,17 +37,12 @@
 (define font-size-multiplier
   (make-parameter 0.25))
 
-
 (define rounded-multiplier
   (make-parameter 0.16))
-(define width-multiplier
-  (make-parameter 0.24))
-(define height-multiplier
-  (make-parameter 0.24))
+
 (define weight-multiplier
   (make-parameter 1))
-(define prose-size
-  (make-parameter "84ch"))
+
 (define shadow-multiplier
   (make-parameter 0.3))
 
@@ -82,62 +75,10 @@
 
 ;; ========================================================================
 
-
-
 (define font-weights
   (make-parameter (rulv ".font-~a"
                         #:property 'font-weight
                         #:variants weights)))
-
-(define widths
-  (make-parameter (append (list (rul ".min-w-screen"
-                                     (dec 'min-width "1vh"))
-                                (rul ".max-w-screen"
-                                     (dec 'max-width "1vh"))
-                                (rul ".min-w-prose"
-                                     (dec 'min-width
-                                          (prose-size)))
-                                (rul ".max-w-prose"
-                                     (dec 'max-width
-                                          (prose-size))))
-                          (map (lambda (d)
-                                 (rulv (string-append "."
-                                                      (format #f "~a"
-                                                              (car d)) "-"
-                                                      "~a")
-                                       #:property (cadr d)
-                                       #:variants (map (lambda (s)
-                                                         (siz s
-                                                              #:conversion
-                                                              to-rem
-                                                              #:multiplier (width-multiplier)))
-                                                       (append numeric-sizes
-                                                               tshirt-sizes))))
-                               '((w width)
-                                 (min-w min-width)
-                                 (max-w max-width))))))
-
-(define heights
-  (make-parameter (append (list (rul ".min-h-screen"
-                                     (dec 'min-height "1vh"))
-                                (rul ".max-h-screen"
-                                     (dec 'max-height "1vh")))
-                          (map (lambda (d)
-                                 (rulv (string-append "."
-                                                      (format #f "~a"
-                                                              (car d)) "-"
-                                                      "~a")
-                                       #:property (cadr d)
-                                       #:variants (map (lambda (s)
-                                                         (siz s
-                                                              #:conversion
-                                                              to-rem
-                                                              #:multiplier (height-multiplier)))
-                                                       (append numeric-sizes
-                                                               tshirt-sizes))))
-                               '((h height)
-                                 (min-h min-height)
-                                 (max-h max-height))))))
 
 (define text-sizes
   (make-parameter (rulv ".text-~a"
@@ -338,16 +279,14 @@
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define responsive-classes
-  (make-parameter (append 
-                          (heights)
-                          (widths)
+  (make-parameter (append (layout-classes)
+                          (flexbox-classes)
+                          (spacing-classes)
+                          (sizing-classes)
                           (font-weights)
                           (roundings)
                           (scroll-snap-aligns)
-                          (scroll-snap-types)
-                          (spacing-classes)
-                          (layout-classes)
-                          (flexbox-classes))))
+                          (scroll-snap-types))))
 
 (define sm-responsive
   (make-parameter (map (lambda (r)
@@ -393,10 +332,10 @@
           (reset-css)
           '("")
           (rulc "Load HSS Hygge Style Sheets")
-
           (layout-classes)
           (flexbox-classes)
           (spacing-classes)
+          (sizing-classes)
           ;;
           
           (active-scale)
@@ -406,7 +345,6 @@
           (font-families)
           (font-weights)
           (visibility)
-          (heights)
           (roundings)
           (scroll-snap-aligns)
           (scroll-snap-types)
@@ -414,8 +352,6 @@
           (text-aligns)
           (text-sizes)
           (text-utilities)
-
-          (widths)
 
           '("")
           (rulc "Load HSS colors")

@@ -62,7 +62,7 @@
 (define (hss)
   "Generate production CSS."
   (manifest-shell '("guile -L ./src" "./scripts/hss-gen.scm"))
-  ($ '("cp resources/css/hss.css dist/hss.css")))
+  ($ '("cp resources/css/hss.min.css dist/hss.min.css")))
 
 (define (docs)
   "Generate technical API documentation for Hygguile."

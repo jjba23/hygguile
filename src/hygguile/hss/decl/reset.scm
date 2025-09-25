@@ -26,65 +26,65 @@
   '("*" "::after" "::before" "::backdrop" "::file-selector-button"))
 
 (define reset-css
-  (make-parameter (list (rul (string-join all-html-elements ", ")
-                             (dec 'margin 0)
-                             (dec 'padding 0)
-                             (dec 'border "0 solid")
-                             (dec 'box-sizing
-                                  'border-box)
-                             (dec 'font
-                                  'inherit)
-                             (dec 'vertical-align
-                                  'baseline))
-                        (rul (string-join (map symbol->string
-                                               '(h1 h2 h3 h4 h5 h6)) ",")
-                             (dec 'font-size
-                                  'inherit)
-                             (dec 'font-weight
-                                  'inherit))
-                        (rul (string-join (map symbol->string
-                                               '(article aside
-                                                         details
-                                                         figcaption
-                                                         figure
-                                                         footer
-                                                         header
-                                                         hgroup
-                                                         menu
-                                                         nav
-                                                         section)) ", ")
-                             (dec 'display
-                                  'block))
-                        (rul 'button
-                             (dec 'background
-                                  'transparent)
-                             (dec 'border
-                                  'none))
-                        (rul 'body
-                             (dec 'line-height 1))
+  (param (list (rul (string-join all-html-elements ", ")
+                    (dec 'margin 0)
+                    (dec 'padding 0)
+                    (dec 'border "0 solid")
+                    (dec 'box-sizing
+                         'border-box)
+                    (dec 'font
+                         'inherit)
+                    (dec 'vertical-align
+                         'baseline))
+               (rul (string-join (map symbol->string
+                                      '(h1 h2 h3 h4 h5 h6)) ",")
+                    (dec 'font-size
+                         'inherit)
+                    (dec 'font-weight
+                         'inherit))
+               (rul (string-join (map symbol->string
+                                      '(article aside
+                                                details
+                                                figcaption
+                                                figure
+                                                footer
+                                                header
+                                                hgroup
+                                                menu
+                                                nav
+                                                section)) ", ")
+                    (dec 'display
+                         'block))
+               (rul 'button
+                    (dec 'background
+                         'transparent)
+                    (dec 'border
+                         'none))
+               (rul 'body
+                    (dec 'line-height 1))
 
-                        (rul (string-join (map symbol->string
-                                               '(blockquote q)) ", ")
-                             (dec 'quotes
-                                  'none))
+               (rul (string-join (map symbol->string
+                                      '(blockquote q)) ", ")
+                    (dec 'quotes
+                         'none))
 
-                        (rul 'table
-                             (dec 'borser-collpase
-                                  'collapse)
-                             (dec 'border-spacing 0))
+               (rul 'table
+                    (dec 'borser-collpase
+                         'collapse)
+                    (dec 'border-spacing 0))
 
-                        (rul (string-join (map symbol->string
-                                               '(blockquote:before
-                                                 blockquote:after
+               (rul (string-join (map symbol->string
+                                      '(blockquote:before blockquote:after
 
-                                                 q:before q:after)) ", ")
-                             (dec 'content "''")
-                             (dec 'content
-                                  'none))
-                        (rul (string-join (map symbol->string
-                                               '(ol ul)) ", ")
-                             (dec 'list-style
-                                  'none))
+                                                          q:before q:after))
+                                 ", ")
+                    (dec 'content "''")
+                    (dec 'content
+                         'none))
+               (rul (string-join (map symbol->string
+                                      '(ol ul)) ", ")
+                    (dec 'list-style
+                         'none))
 
-                        )))
+               )))
 

@@ -6,7 +6,7 @@
              (hygguile hss dsl))
 
 (define hss-dest-file
-  "./resources/css/hss.css")
+  "./resources/css/hss.min.css")
 
 (let* ((styles (list (hss))))
   (catch #t

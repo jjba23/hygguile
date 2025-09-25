@@ -52,8 +52,12 @@
               siz
               to-rem
               to-px
+              param
               ;;
               ))
+
+(define param
+  make-parameter)
 
 (define* (~ #:rest args)
   (apply format
