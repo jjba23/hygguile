@@ -74,6 +74,7 @@
                                                      #:conversion to-rem
                                                      #:multiplier (absolute-positions-multiplier)))
                                               numeric-sizes)
+                                         '((0 0))
                                          (map siz fractions))))
               '(top bottom left right)))
 
