@@ -23,11 +23,15 @@
   #:use-module (hygguile hss sizes)
   #:export (typography-classes font-family
                                mono-font-family
+                               text-underline-offset
+                               text-transform
                                font-smoothing
                                sans-font-family
                                serif-font-family
                                font-variant-numeric
+                               text-decoration-style
                                list-style-type
+                               text-overflow
                                font-stretch
                                weight-multiplier
                                text-decoration-line
@@ -159,11 +163,56 @@
                                   (outside outside))))))
 
 (define text-decoration-line
-  (param (rulv ".~a" #:property 'text-decoration-line
+  (param (rulv ".~a"
+               #:property 'text-decoration-line
                #:variants '((underline underline)
                             (overline overline)
                             (line-through line-through)
                             (no-underline none)))))
+
+(define text-decoration-style
+  (param (rulv ".decoration-~a"
+               #:property 'text-decoration-style
+               #:variants '((solid solid)
+                            (double double)
+                            (dotted dotted)
+                            (dashed dashed)
+                            (wavy wavy)))))
+
+(define text-underline-offset
+  (param (list (rul ".underline-offset-auto"
+                    (dec 'text-underline-offset
+                         'auto))
+               (rulv ".underline-offset-~a"
+                     #:property 'text-underline-offset
+                     #:variants (map (lambda (s)
+                                       (siz s
+                                            #:conversion to-rem
+                                            #:multiplier (line-height-multiplier)))
+                                     (append tshirt-sizes numeric-sizes))))))
+
+(define text-transform
+  (param (rulv ".~a"
+               #:property 'text-transform
+               #:variants '((uppercase uppercase)
+                            (lowercase lowercase)
+                            (capitalize capitalize)
+                            (normal-case none)))))
+
+(define text-overflow
+  (param (list (rul ".truncate"
+                    (dec 'overflow
+                         'hidden)
+                    (dec 'text-overflow
+                         'ellipsis)
+                    (dec 'white-space
+                         'nowrap))
+               (rul ".text-ellipsis"
+                    (dec 'text-overflow
+                         'ellipsis))
+               (rul ".text-clip"
+                    (dec 'text-overflow
+                         'clip)))))
 
 (define typography-classes
   (param (list (font-family)
@@ -180,4 +229,8 @@
                (font-variant-numeric)
                (list-style-type)
                (text-decoration-line)
+               (text-decoration-style)
+               (text-underline-offset)
+               (text-transform)
+               (text-overflow)
                (letter-spacing))))
