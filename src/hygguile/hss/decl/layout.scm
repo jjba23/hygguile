@@ -39,6 +39,7 @@
                          overscroll-behavior-x
                          overscroll-behavior-y
                          position
+                         absolute-positions-multiplier
                          layout-classes))
 
 (define absolute-positions-multiplier

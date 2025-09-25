@@ -24,9 +24,9 @@
   #:use-module (hygguile hss decl colors)
   #:use-module (hygguile hss decl layout)
   #:use-module (hygguile hss decl flexbox)
+  #:use-module (hygguile hss decl spacing)  
   #:use-module (hygguile hss decl reset)
-  #:export (font-size-multiplier margin-multiplier
-                                 padding-multiplier
+  #:export (font-size-multiplier 
                                  rounded-multiplier
                                  width-multiplier
                                  weight-multiplier
@@ -38,10 +38,7 @@
 
 (define font-size-multiplier
   (make-parameter 0.25))
-(define margin-multiplier
-  (make-parameter 0.28))
-(define padding-multiplier
-  (make-parameter 0.28))
+
 
 (define rounded-multiplier
   (make-parameter 0.16))
@@ -85,52 +82,7 @@
 
 ;; ========================================================================
 
-(define paddings
-  (make-parameter (map (lambda (d)
-                         (map (lambda (p)
-                                (rulv (string-append "."
-                                                     (format #f "~a"
-                                                             (car d)) "-" "~a")
-                                      #:property p
-                                      #:variants (map (lambda (s)
-                                                        (siz s
-                                                             #:conversion
-                                                             to-rem
-                                                             #:multiplier (padding-multiplier)))
-                                                      (append numeric-sizes
-                                                              tshirt-sizes))))
-                              (cdr d)))
-                       '((p padding-top padding-bottom padding-left
-                            padding-right)
-                         (px padding-left padding-right)
-                         (py padding-top padding-bottom)
-                         (pt padding-top)
-                         (pb padding-bottom)
-                         (pl padding-left)
-                         (pr padding-right)))))
 
-(define margins
-  (make-parameter (map (lambda (d)
-                         (map (lambda (p)
-                                (rulv (string-append "."
-                                                     (format #f "~a"
-                                                             (car d)) "-" "~a")
-                                      #:property p
-                                      #:variants (map (lambda (s)
-                                                        (siz s
-                                                             #:conversion
-                                                             to-rem
-                                                             #:multiplier (margin-multiplier)))
-                                                      (append numeric-sizes
-                                                              tshirt-sizes))))
-                              (cdr d)))
-                       '((m margin-top margin-bottom margin-left margin-right)
-                         (mx margin-left margin-right)
-                         (my margin-top margin-bottom)
-                         (mt margin-top)
-                         (mb margin-bottom)
-                         (ml margin-left)
-                         (mr margin-right)))))
 
 (define font-weights
   (make-parameter (rulv ".font-~a"
@@ -245,8 +197,6 @@
                                      (end end)
                                      (center center)
                                      (none none)))))
-
-
 
 (define colors
   (make-parameter (append (rulv ".bg-~a"
@@ -366,12 +316,6 @@
                              (rul "&:active"
                                   (dec 'scale "95% 95%"))))))
 
-(define shrinks
-  (make-parameter (list (rul ".shrink"
-                             (dec 'flex-shrink 1))
-                        (rul ".shrink-0"
-                             (dec 'flex-shrink 0)))))
-
 (define license-header
   (make-parameter
    "hygguile - cozy and professional user-interfaces for everyone
@@ -394,15 +338,14 @@
 ;; ============ Stylesheet Generation Entry-point =========================
 
 (define responsive-classes
-  (make-parameter (append (z-index)
+  (make-parameter (append 
                           (heights)
                           (widths)
                           (font-weights)
-                          (margins)
-                          (paddings)
                           (roundings)
                           (scroll-snap-aligns)
                           (scroll-snap-types)
+                          (spacing-classes)
                           (layout-classes)
                           (flexbox-classes))))
 
@@ -453,7 +396,7 @@
 
           (layout-classes)
           (flexbox-classes)
-
+          (spacing-classes)
           ;;
           
           (active-scale)
@@ -464,13 +407,10 @@
           (font-weights)
           (visibility)
           (heights)
-          (margins)
-          (paddings)
           (roundings)
           (scroll-snap-aligns)
           (scroll-snap-types)
           (shadows)
-          (shrinks)
           (text-aligns)
           (text-sizes)
           (text-utilities)

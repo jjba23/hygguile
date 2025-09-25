@@ -28,6 +28,9 @@
                        flexbox-classes
                        flex-directions
                        gap
+                       flex flex-shrink flex-grow
+                       gap-multiplier
+                       order
                        flex-wrap))
 
 (define gap-multiplier
@@ -132,6 +135,26 @@
                                            (none none)
                                            (auto auto))))))
 
+
+(define flex-shrink
+  (make-parameter (list (rul ".shrink"
+                             (dec 'flex-shrink 1))
+                        (rul ".shrink-0"
+                             (dec 'flex-shrink 0)))))
+
+(define flex-grow
+  (make-parameter (list (rul ".grow"
+                             (dec 'flex-grow 1))
+                        (rul ".grow-0"
+                             (dec 'flex-grow 0)))))
+
+(define order
+  (make-parameter (rulv ".order-~a"
+                        #:property 'order
+                        #:variants (append numeric-sizes '((first -9999)
+                                                           (last 9999)
+                                                           (none 0))))))
+
 (define flexbox-classes
   (make-parameter (list (flex-basis)
                         (flex-justifies)
@@ -140,5 +163,8 @@
                         (flex-directions)
                         (flex-align-content)
                         (flex)
+                        (order)
+                        (flex-shrink)
+                        (flex-grow)
                         (gap)
                         (flex-wrap))))
