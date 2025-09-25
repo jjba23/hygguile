@@ -27,6 +27,7 @@
                                sans-font-family
                                serif-font-family
                                font-variant-numeric
+                               list-style-type
                                font-stretch
                                weight-multiplier
                                letter-spacing
@@ -37,6 +38,7 @@
                                font-size
                                leading
                                line-height-multiplier
+                               list-style-position
                                text-align))
 
 (define mono-font-family
@@ -132,14 +134,28 @@
                #:variants numeric-sizes)))
 
 (define leading
-  (param (list (rul ".leading-none" (dec 'line-height 1))
+  (param (list (rul ".leading-none"
+                    (dec 'line-height 1))
                (rulv ".leading-~a"
                      #:property 'line-height
                      #:variants (map (lambda (s)
-                                 (siz s
-                                      #:conversion to-rem
-                                      #:multiplier (line-height-multiplier)))
-                               (append tshirt-sizes numeric-sizes))))))
+                                       (siz s
+                                            #:conversion to-rem
+                                            #:multiplier (line-height-multiplier)))
+                                     (append tshirt-sizes numeric-sizes))))))
+
+(define list-style-type
+  (param (list (rulv ".list-~a"
+                     #:property 'list-style-type
+                     #:variants '((disc disc)
+                                  (decimal decimal)
+                                  (none none))))))
+
+(define list-style-position
+  (param (list (rulv ".list-~a"
+                     #:property 'list-style-position
+                     #:variants '((inside inside)
+                                  (outside outside))))))
 
 (define typography-classes
   (param (list (font-family)
@@ -151,5 +167,8 @@
                (font-smoothing)
                (line-clamp)
                (leading)
+               (list-style-type)
+               (list-style-position)
                (font-variant-numeric)
+               (list-style-type)
                (letter-spacing))))
