@@ -441,7 +441,9 @@
                                              (umber-500 text-white)
                                              (van-dyke-500 text-white)
                                              (white-smoke-500 text-black)
-                                             (wine-500 text-white))))))))
+                                             (wine-500 text-white)
+                                             (olive-500 text-white)
+                                             (dark-khaki-500 text-black))))))))
 
 (define (showcase-body)
   (with-footer #:main `((div (@ (class ,(mk-class '(py-10 px-4 container
@@ -489,7 +491,7 @@
                               ,hygguile-recommended-meta
                               ,hygguile-recommended-resources
                               (link (@ (rel stylesheet)
-                                       (href "hss.min.css")))
+                                       (href "olive.min.css")))
                               (body (@ (class ,(mk-class '(bg-stone-100
                                                            dark:bg-raisin-black-700))))
                                     ,notification-tray

@@ -59,10 +59,10 @@
   "Embed static assets into Scheme code."
   (manifest-shell '("guile -L ./src" "./scripts/embedder.scm")))
 
-(define (hss)
-  "Generate production CSS."
-  (manifest-shell '("guile -L ./src" "./scripts/hss-gen.scm"))
-  ($ '("cp resources/css/hss.min.css dist/hss.min.css")))
+(define (olive-css)
+  "Get latest version of Olive CSS."
+  ($ '("curl --output resources/css/olive.min.css"
+       "\"https://codeberg.org/jjba23/olive-css/raw/branch/trunk/resources/css/olive.min.css\"")))
 
 (define (docs)
   "Generate technical API documentation for Hygguile."
@@ -102,7 +102,7 @@
 (define (build)
   "Build production release of the project."
   (remkdir-p "dist")
-  (hss)
+  ($ '("cp -rfv resources/css/olive.min.css dist/olive.min.css"))
   (manifest-shell (list "guile -L ./src showcase.scm")))
 
 (define (test-build-and-serve)
