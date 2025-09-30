@@ -50,18 +50,18 @@
                    (class ,(mk-class '(hidden flex flex-col gap-2))))
                 (pre (@ (id ,(format #f "~a-pre" uid))
                         (class ,(mk-class '(font-medium text-onyx-500
-                                            dark:text-stone-300
-                                            text-md
-                                            bg-stone-300/75
-                                            dark:bg-raisin-black-700/75
-                                            rounded-lg
-                                            shadow-md
-                                            text-wrap
-                                            py-4
-                                            px-4
-                                            font-mono
-                                            overflow-x-scroll
-                                            whitespace-pre-wrap))))
+                                                        dark:text-stone-300
+                                                        text-md
+                                                        bg-stone-300/75
+                                                        dark:bg-onyx-700/75
+                                                        rounded-lg
+                                                        shadow-md
+                                                        text-wrap
+                                                        py-4
+                                                        px-4
+                                                        font-mono
+                                                        overflow-x-scroll
+                                                        whitespace-pre-wrap))))
                      ,t)
                 (div (@ (class ,(mk-class '(w-min))))
                      ,(icon-button #:icon 'copy
@@ -493,7 +493,7 @@
                               (link (@ (rel stylesheet)
                                        (href "olive.min.css")))
                               (body (@ (class ,(mk-class '(bg-stone-100
-                                                           dark:bg-raisin-black-700))))
+                                                           dark:bg-onyx-900))))
                                     ,notification-tray
                                     ,@body)))))
 

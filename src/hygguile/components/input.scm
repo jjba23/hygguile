@@ -28,10 +28,10 @@
                 (input-css '(p-4 max-w-prose
                                  rounded-xl
                                  border-stone-300
-                                 dark:border-stone-700
+                                 dark:border-onyx-100
                                  dark:text-stone-300
                                  bg-stone-300/75
-                                 dark:bg-raisin-black-700/75
+                                 dark:bg-onyx-700/75
                                  border-2
                                  shadow-md))
                 (label-css '(text-sm font-bold text-onyx-300
@@ -56,9 +56,9 @@
                    (required #f)
                    (textarea-css '(p-4 rounded-xl
                                        border-stone-300
-                                       dark:border-stone-700
+                                       dark:border-onyx-100
                                        dark:text-stone-300
-                                       dark:bg-raisin-black-700/75
+                                       dark:bg-onyx-700/75
                                        bg-stone-300/75
                                        border-2
                                        min-h-72

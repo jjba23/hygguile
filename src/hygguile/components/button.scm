@@ -83,7 +83,7 @@
                       (color '(text-onyx-300 dark:text-stone-300))
                       (rounding '(rounded-2xl))
                       (active '(active:scale-95))
-                      (icon-css '(text-stone-100 dark:text-stone-100 text-xl))
+                      (icon-css '(text-onyx-300 dark:text-stone-100 text-md))
                       (extra-classes '(py-2 px-4 max-w-prose cursor-pointer))
                       (icon-text-container-classes '(flex flex-row gap-1
                                                           items-center)))

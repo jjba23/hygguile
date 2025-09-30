@@ -33,7 +33,7 @@
 
 (define* (hr #:key (margin '(my-8 mx-4))
              (border '(border-2))
-             (color '(border-stone-500/50 dark:border-stone-500/50)))
+             (color '(border-stone-500/50 dark:border-onyx-100/50)))
   `((hr (@ (class ,(mk-class (append color margin border)))))))
 
 (define* (footer content

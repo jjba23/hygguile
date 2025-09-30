@@ -48,9 +48,9 @@
                  id
                  (select-classes '(p-4 border-2
                                        border-stone-300
-                                       dark:border-stone-700
+                                       dark:border-onyx-100
                                        bg-stone-300/75
-                                       dark:bg-raisin-black-900
+                                       dark:bg-onyx-700
                                        text-onyx-500
                                        dark:text-stone-300
                                        text-md

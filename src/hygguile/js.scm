@@ -63,9 +63,9 @@
                                                                                 rounded-xl
                                                                                 bg-stone-300/90
                                                                                 border-stone-500
-                                                                                dark:bg-raisin-black-700/75
+                                                                                dark:bg-onyx-700/75
                                                                                 border-2
-                                                                                dark:border-stone-900
+                                                                                dark:border-onyx-100
                                                                                 text-onyx-300
                                                                                 dark:text-stone-300
                                                                                 font-sans
