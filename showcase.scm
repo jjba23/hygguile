@@ -472,8 +472,10 @@
   (with-footer #:main `((div (@ (class ,(mk-class '(py-10 px-4 container
                                                           mx-auto))))
                              (div (@ (class ,(mk-class '(flex flex-col gap-4))))
-                                  (a (@ (href "/"))
-                                     ,(h1 "Hygguile + HSS"))
+                                  (a (@ (href "/")
+                                        (class ,(mk-class '(no-underline
+                                                            slide-from-right))))
+                                     ,(h1 "Hygguile"))
                                   ,(sub-h4 "Hygge Style Sheets")
                                   ,(sub-h3
                                     "cozy and professional user-interfaces for everyone")
