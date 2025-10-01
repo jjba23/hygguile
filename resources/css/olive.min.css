@@ -2540,6 +2540,10 @@ ol, ul {list-style:none;}
 @view-transition {navigation:auto;}
 ::view-transition-old(root), ::view-transition-new(root) {animation:fade 0.1s ease both;}
 @keyframes fade {from {opacity:0.2;} to {opacity:1;}}
+@keyframes slide-from-right-element {from {translate:150vw 0; scale:200% 1;} to {translate:0 0; scale:100% 1;}}
+.slide-from-right {animation-duration:1s; animation-name:slide-from-right-element;}
+@keyframes slide-from-left-element {from {translate:-150vw 0; scale:200% 1;} to {translate:0 0; scale:100% 1;}}
+.slide-from-left {animation-duration:1s; animation-name:slide-from-left-element;}
 .visible {visibility:visible;}
 .invisible {visibility:invisible;}
 .collapse {visibility:collapse;}
