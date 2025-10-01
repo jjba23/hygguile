@@ -356,6 +356,29 @@
   (list (sub-h2 "🦋 Fly-out section")
         (fly-out #:items some-fly-out-items)))
 
+(define (gradients-section)
+  `(,(sub-h2 "🖌️ Gradients") (div (@ (class ,(mk-class '(py-4 flex flex-col
+                                                              gap-4))))
+                                  ,(linear-gradient `((p
+                                                       "simple vertical gradient"))
+                                                    #:direction 'top
+                                                    #:container-class (mk-class '
+                                                                       (px-4
+                                                                        py-8
+                                                                        rounded-xl
+                                                                        shadow-md))
+                                                    #:steps '("oklch(1 0.0164 91.55 / 1)"
+                                                              "oklch(0.6777 0.1081 53.34 / 0.7)"))
+                                  ,(linear-gradient `((p
+                                                       "simple horizontal gradient"))
+                                                    #:container-class (mk-class '
+                                                                       (px-4
+                                                                        py-8
+                                                                        rounded-xl
+                                                                        shadow-md))
+                                                    #:steps '("oklch(1 0.0164 91.55 / 1)"
+                                                              "oklch(0.6777 0.1081 53.34 / 0.7) 90%")))))
+
 (define* (mk-color-show #:key color text-class)
   `((div (@ (onclick "cycleColorShow(this)")
             (class ,(mk-class (append (list (string->symbol (format #f "bg-~a"
@@ -482,7 +505,9 @@
                              ,(hr)
                              ,containers-section
                              ,(hr)
-                             ,forms-section))
+                             ,forms-section
+                             ,(hr)
+                             ,(gradients-section)))
                #:footer footer))
 
 (define* (html-template #:key title body)

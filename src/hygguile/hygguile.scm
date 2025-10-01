@@ -37,7 +37,7 @@
                  col
                  copy-pre-inner-text-js
                  custom-fonts
-
+                 linear-gradient
                  danger-submit-button
                  dd
                  dl

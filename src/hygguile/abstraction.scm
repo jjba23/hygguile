@@ -24,8 +24,18 @@
   #:use-module (ice-9 format)
   #:use-module (ice-9 match)
   #:use-module (ice-9 regex)
-  #:export (mk-class render-if-nestring render-if-nempty pretty-quote syscall
-                     get-short-commit-sha))
+  #:export (mk-class render-if-nestring
+                     render-if-nempty
+                     pretty-quote
+                     syscall
+                     get-short-commit-sha
+                     mk-style))
+
+(define (mk-style pairs)
+  (string-join (map (lambda (p)
+                      (format #f "~a: ~a"
+                              (car p)
+                              (cdr p))) pairs) "; "))
 
 ;; mk-class: Convert a list of symbols into a CSS `class` attribute pair.
 ;;

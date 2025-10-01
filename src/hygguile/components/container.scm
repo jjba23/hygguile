@@ -24,7 +24,8 @@
                    row
                    dl
                    dd
-                   dt))
+                   dt
+                   linear-gradient))
 
 (define* (with-footer #:key main footer)
   `((div (@ (class ,(mk-class '(flex flex-col justify-between min-h-screen))))
@@ -112,3 +113,11 @@
              (size '(text-lg)))
   `((dd (@ (class ,(mk-class (append dd-classes weight color size))))
         ,content)))
+
+(define* (linear-gradient content
+                                     #:key (container-class "") (direction 'right) steps)
+  `((div (@ (class ,container-class)(style ,(mk-style `((background-color . ,(car steps))
+                                (background-image . ,(format #f
+                                                    "linear-gradient(to ~a, ~a)"
+                                                    direction (string-join steps ", ")))))))
+         ,content)))
