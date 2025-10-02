@@ -36,6 +36,9 @@ ol, ul {list-style:none;}
 .font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
 .font-mono {font-family:'IBM Plex Mono', monospace;}
 .font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
+.hover\:font-sans {&:hover {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}}
+.hover\:font-mono {&:hover {font-family:'IBM Plex Mono', monospace;}}
+.hover\:font-serif {&:hover {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}}
 .aspect-square {aspect-ratio:1 / 1;}
 .aspect-auto {aspect-ratio:auto;}
 .aspect-16\/9 {aspect-ratio:16 / 9;}
