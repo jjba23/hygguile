@@ -115,9 +115,14 @@
         ,content)))
 
 (define* (linear-gradient content
-                                     #:key (container-class "") (direction 'right) steps)
-  `((div (@ (class ,container-class)(style ,(mk-style `((background-color . ,(car steps))
-                                (background-image . ,(format #f
-                                                    "linear-gradient(to ~a, ~a)"
-                                                    direction (string-join steps ", ")))))))
+                          #:key (container-class "")
+                          (direction 'right) steps)
+  `((div (@ (class ,container-class)
+            (style ,(mk-style `((background-color unquote
+                                                  (car steps))
+                                (background-image unquote
+                                                  (format #f
+                                                   "linear-gradient(to ~a, ~a)"
+                                                   direction
+                                                   (string-join steps ", ")))))))
          ,content)))

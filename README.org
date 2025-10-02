@@ -93,8 +93,6 @@ You can take a look at the ~showcase.scm~ file which includes some facilities an
 
 In summary hygguile provides everything for you, from JavaScript, to CSS, but it's all modular and flexible, so you are in charge of loading what you like.
 
-A recommendation is to use IBM Plex fonts, hygguile 's custom animations and theme, Phosphor icons, and some other conveniences, since Hygguile is built relying on some underlying technologies.
-
 It's all free for you to change or modify though, the functions are also customizable with key arguments, check the ~hygguile css~ and ~js~ modules too.
 
 It's REQUIRED to load ~olive.min.css~ in your preferred manner, and by preference your custom optimized build of it, in SXML it can look like this:
@@ -107,12 +105,12 @@ This is preferable to embedding it directly in a ~<style>~ block due to its size
 
 The recommended snippet in your SXML ~head~
 #+begin_src scheme
-,hygguile-recommended-meta
+,(hygguile-recommended-meta)
 ;; equivalent to loading:
 ;;   (meta (@ (name viewport)(content "width=device-width, initial-scale=1.0")))
 ;;   (meta (@ (charset "UTF-8")))
 
-,hygguile-recommended-resources
+,(hygguile-recommended-resources)
 ;; equivalent to loading:
 ;;   carousel-button-js
 ;;   remember-dark-theme-js

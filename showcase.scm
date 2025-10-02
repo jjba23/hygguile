@@ -515,8 +515,8 @@
 (define* (html-template #:key title body)
   `(,doctype-html (html (@ (lang en))
                         (head (title ,title)
-                              ,hygguile-recommended-meta
-                              ,hygguile-recommended-resources
+                              ,(hygguile-recommended-meta)
+                              ,(hygguile-recommended-resources)
                               (link (@ (rel stylesheet)
                                        (href "olive.min.css")))
                               (body (@ (class ,(mk-class '(bg-stone-100

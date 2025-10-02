@@ -89,8 +89,8 @@
   #:export (doctype-html hygguile-recommended-meta
                          hygguile-recommended-resources))
 
-(define hygguile-recommended-resources
-  (list (custom-fonts)
+(define* (hygguile-recommended-resources #:key (fonts (custom-fonts)))
+  (list fonts
         (phosphor-icons)
         (fly-out-css)
         (toggle-dark-theme-js)
@@ -104,7 +104,7 @@
 (define doctype-html
   "<!DOCTYPE html>")
 
-(define hygguile-recommended-meta
+(define (hygguile-recommended-meta)
   (list `(meta (@ (name viewport)
                   (content "width=device-width, initial-scale=1.0")))
         `(meta (@ (charset UTF-8)))))
