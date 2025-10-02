@@ -33,6 +33,9 @@ ol, ul {list-style:none;}
 /*
   Load Olive CSS Hygge Style Sheets
 */
+.font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
+.font-mono {font-family:'IBM Plex Mono', monospace;}
+.font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .aspect-square {aspect-ratio:1 / 1;}
 .aspect-auto {aspect-ratio:auto;}
 .aspect-16\/9 {aspect-ratio:16 / 9;}
@@ -2032,9 +2035,6 @@ ol, ul {list-style:none;}
 .max-h-3xl {max-height:1.92rem;}
 .max-h-4xl {max-height:2.16rem;}
 .max-h-5xl {max-height:2.40rem;}
-.font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
-.font-mono {font-family:'IBM Plex Mono', monospace;}
-.font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .font-thin {font-weight:100;}
 .font-extralight {font-weight:200;}
 .font-light {font-weight:300;}
@@ -2269,9 +2269,6 @@ ol, ul {list-style:none;}
 .tracking-wide {letter-spacing:0.025em;}
 .tracking-wider {letter-spacing:0.05em;}
 .tracking-widest {letter-spacing:0.1em;}
-.hover\:font-sans {&:hover {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}}
-.hover\:font-mono {&:hover {font-family:'IBM Plex Mono', monospace;}}
-.hover\:font-serif {&:hover {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}}
 .hover\:font-thin {&:hover {font-weight:100;}}
 .hover\:font-extralight {&:hover {font-weight:200;}}
 .hover\:font-light {&:hover {font-weight:300;}}
@@ -21150,10 +21147,13 @@ ol, ul {list-style:none;}
 .hover\:decoration-wine-900 {&:hover {text-decoration-color:oklch(0.3284 0.0747 9.86 / 1);}}
 
 /*
-  Load Olive CSS Dark mode colors
+  Load Olive CSS Dark mode
 */
 &:where([data-theme=dark], [data-theme=dark] *)
  {
+.dark\:font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
+.dark\:font-mono {font-family:'IBM Plex Mono', monospace;}
+.dark\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .dark\:bg-inherit {background:inherit;}
 .dark\:bg-white {background:white;}
 .dark\:bg-black {background:black;}
@@ -41907,9 +41907,6 @@ ol, ul {list-style:none;}
 .sm\:max-h-3xl {max-height:1.92rem;}
 .sm\:max-h-4xl {max-height:2.16rem;}
 .sm\:max-h-5xl {max-height:2.40rem;}
-.sm\:font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
-.sm\:font-mono {font-family:'IBM Plex Mono', monospace;}
-.sm\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .sm\:font-thin {font-weight:100;}
 .sm\:font-extralight {font-weight:200;}
 .sm\:font-light {font-weight:300;}
@@ -42337,6 +42334,9 @@ ol, ul {list-style:none;}
 .sm\:snap-x {scroll-snap-type:x proximity;}
 .sm\:snap-y {scroll-snap-type:y proximity;}
 .sm\:snap-both {scroll-snap-type:both proximity;}
+.sm\:font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
+.sm\:font-mono {font-family:'IBM Plex Mono', monospace;}
+.sm\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 }
 @media (width >= 48rem) {
 .md\:aspect-square {aspect-ratio:1 / 1;}
@@ -44338,9 +44338,6 @@ ol, ul {list-style:none;}
 .md\:max-h-3xl {max-height:1.92rem;}
 .md\:max-h-4xl {max-height:2.16rem;}
 .md\:max-h-5xl {max-height:2.40rem;}
-.md\:font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
-.md\:font-mono {font-family:'IBM Plex Mono', monospace;}
-.md\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .md\:font-thin {font-weight:100;}
 .md\:font-extralight {font-weight:200;}
 .md\:font-light {font-weight:300;}
@@ -44768,6 +44765,9 @@ ol, ul {list-style:none;}
 .md\:snap-x {scroll-snap-type:x proximity;}
 .md\:snap-y {scroll-snap-type:y proximity;}
 .md\:snap-both {scroll-snap-type:both proximity;}
+.md\:font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
+.md\:font-mono {font-family:'IBM Plex Mono', monospace;}
+.md\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 }
 @media (width >= 64rem) {
 .lg\:aspect-square {aspect-ratio:1 / 1;}
@@ -46769,9 +46769,6 @@ ol, ul {list-style:none;}
 .lg\:max-h-3xl {max-height:1.92rem;}
 .lg\:max-h-4xl {max-height:2.16rem;}
 .lg\:max-h-5xl {max-height:2.40rem;}
-.lg\:font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
-.lg\:font-mono {font-family:'IBM Plex Mono', monospace;}
-.lg\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .lg\:font-thin {font-weight:100;}
 .lg\:font-extralight {font-weight:200;}
 .lg\:font-light {font-weight:300;}
@@ -47199,6 +47196,9 @@ ol, ul {list-style:none;}
 .lg\:snap-x {scroll-snap-type:x proximity;}
 .lg\:snap-y {scroll-snap-type:y proximity;}
 .lg\:snap-both {scroll-snap-type:both proximity;}
+.lg\:font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
+.lg\:font-mono {font-family:'IBM Plex Mono', monospace;}
+.lg\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 }
 @media (width >= 80rem) {
 .xl\:aspect-square {aspect-ratio:1 / 1;}
@@ -49200,9 +49200,6 @@ ol, ul {list-style:none;}
 .xl\:max-h-3xl {max-height:1.92rem;}
 .xl\:max-h-4xl {max-height:2.16rem;}
 .xl\:max-h-5xl {max-height:2.40rem;}
-.xl\:font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
-.xl\:font-mono {font-family:'IBM Plex Mono', monospace;}
-.xl\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .xl\:font-thin {font-weight:100;}
 .xl\:font-extralight {font-weight:200;}
 .xl\:font-light {font-weight:300;}
@@ -49630,6 +49627,9 @@ ol, ul {list-style:none;}
 .xl\:snap-x {scroll-snap-type:x proximity;}
 .xl\:snap-y {scroll-snap-type:y proximity;}
 .xl\:snap-both {scroll-snap-type:both proximity;}
+.xl\:font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
+.xl\:font-mono {font-family:'IBM Plex Mono', monospace;}
+.xl\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 }
 @media (width >= 96rem) {
 .2xl\:aspect-square {aspect-ratio:1 / 1;}
@@ -51631,9 +51631,6 @@ ol, ul {list-style:none;}
 .2xl\:max-h-3xl {max-height:1.92rem;}
 .2xl\:max-h-4xl {max-height:2.16rem;}
 .2xl\:max-h-5xl {max-height:2.40rem;}
-.2xl\:font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
-.2xl\:font-mono {font-family:'IBM Plex Mono', monospace;}
-.2xl\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 .2xl\:font-thin {font-weight:100;}
 .2xl\:font-extralight {font-weight:200;}
 .2xl\:font-light {font-weight:300;}
@@ -52061,4 +52058,7 @@ ol, ul {list-style:none;}
 .2xl\:snap-x {scroll-snap-type:x proximity;}
 .2xl\:snap-y {scroll-snap-type:y proximity;}
 .2xl\:snap-both {scroll-snap-type:both proximity;}
+.2xl\:font-sans {font-family:'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';}
+.2xl\:font-mono {font-family:'IBM Plex Mono', monospace;}
+.2xl\:font-serif {font-family:'IBM Plex Serif', ui-serif, serif, 'Times New Roman';}
 }
