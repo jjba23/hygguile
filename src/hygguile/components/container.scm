@@ -100,18 +100,25 @@
 (define* (dt content
              #:key (dt-classes '(py-2 pb-1))
              (weight '(font-light))
+             (family '(font-sans))
              (style '(italic))
              (color '(text-onyx-300 dark:text-stone-500))
              (size '(text-lg)))
-  `((dt (@ (class ,(mk-class (append dt-classes weight style color size))))
+  `((dt (@ (class ,(mk-class (append dt-classes
+                                     weight
+                                     style
+                                     color
+                                     size
+                                     family))))
         ,content)))
 
 (define* (dd content
              #:key (dd-classes '(px-2 text-onyx-300 dark:text-stone-300))
              (weight '(font-medium))
+             (family '(font-sans))
              (color '(text-onyx-300 dark:text-stone-500))
              (size '(text-lg)))
-  `((dd (@ (class ,(mk-class (append dd-classes weight color size))))
+  `((dd (@ (class ,(mk-class (append dd-classes weight color size family))))
         ,content)))
 
 (define* (linear-gradient content
