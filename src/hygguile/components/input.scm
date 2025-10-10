@@ -66,7 +66,7 @@
                                        min-w-90
                                        shadow-md
                                        min-w-prose))
-                   (label-css '(text-md font-bold text-onyx-300
+                   (label-css '(text-lg font-light text-onyx-100
                                         dark:text-stone-300 font-sans py-2))
                    (textarea-flex-css '(my-2 flex flex-col gap-1 w-full
                                              font-sans)))
