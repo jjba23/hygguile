@@ -21,11 +21,13 @@
 
 (define* (option #:key value
                  (content #f)
+                 (family '(font-sans))
                  (selected-value #f))
   (let ((option-content (if (not (equal? #f content)) content value)))
     (cond
       ((equal? value selected-value)
        `(option (@ (value ,value)
+                   (class ,(mk-class (append family)))
                    (selected ""))
                 ,option-content))
       (else `(option (@ (value ,value))
@@ -34,11 +36,12 @@
 (define* (glyph-option #:key value
                        glyph
                        (content #f)
+                       (family '(font-sans))
                        (selected-value #f)
                        (option-flex-css '(flex gap-1)))
   (option #:value value
           #:selected-value selected-value
-          #:content `(div (@ (class ,(mk-class option-flex-css)))
+          #:content `(div (@ (class ,(mk-class (append family option-flex-css))))
                           (span ,glyph)
                           (span ,(if (not (equal? #f content)) content value)))))
 
@@ -46,12 +49,13 @@
                  on-change
                  name
                  id
+                 (family '(font-sans))
                  (select-classes '(p-4 border-2
-                                       border-stone-300
+                                       border-stone-700
                                        dark:border-onyx-100
                                        bg-stone-300/75
-                                       dark:bg-onyx-700
                                        text-onyx-500
+                                       dark:bg-onyx-700
                                        dark:text-stone-300
                                        text-md
                                        rounded-xl
@@ -60,5 +64,6 @@
          (select (@ (onchange ,on-change)
                     (name ,name)
                     (id ,id)
-                    (class ,(mk-class select-classes)))
-                 ,options))))
+                    (class ,(mk-class (append select-classes family))))
+                 (div (@ (class ,(mk-class (append family))))
+                      ,options)))))

@@ -27,7 +27,7 @@
                 (required #f)
                 (input-css '(p-4 max-w-prose
                                  rounded-xl
-                                 border-stone-300
+                                 border-stone-700
                                  dark:border-onyx-100
                                  dark:text-stone-300
                                  bg-stone-300/75
@@ -35,8 +35,8 @@
                                  border-2
                                  shadow-md
                                  font-sans))
-                (label-css '(text-md font-bold text-onyx-300
-                                     dark:text-stone-300 font-sans))
+                (label-css '(text-lg font-light text-onyx-100
+                                     dark:text-stone-300 font-sans py-2))
                 (input-flex-css '(my-2 flex flex-col gap-1)))
   `((div (@ (class ,(mk-class input-flex-css)))
          (label (@ (class ,(mk-class label-css))
@@ -56,7 +56,7 @@
                    (value "")
                    (required #f)
                    (textarea-css '(p-4 rounded-xl
-                                       border-stone-300
+                                       border-stone-700
                                        dark:border-onyx-100
                                        dark:text-stone-300
                                        dark:bg-onyx-700/75
@@ -67,7 +67,7 @@
                                        shadow-md
                                        min-w-prose))
                    (label-css '(text-md font-bold text-onyx-300
-                                        dark:text-stone-300 font-sans))
+                                        dark:text-stone-300 font-sans py-2))
                    (textarea-flex-css '(my-2 flex flex-col gap-1 w-full
                                              font-sans)))
   `((div (@ (class ,(mk-class textarea-flex-css)))
