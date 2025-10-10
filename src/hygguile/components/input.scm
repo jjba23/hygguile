@@ -33,9 +33,10 @@
                                  bg-stone-300/75
                                  dark:bg-onyx-700/75
                                  border-2
-                                 shadow-md))
-                (label-css '(text-sm font-bold text-onyx-300
-                                     dark:text-stone-300))
+                                 shadow-md
+                                 font-sans))
+                (label-css '(text-md font-bold text-onyx-300
+                                     dark:text-stone-300 font-sans))
                 (input-flex-css '(my-2 flex flex-col gap-1)))
   `((div (@ (class ,(mk-class input-flex-css)))
          (label (@ (class ,(mk-class label-css))
@@ -65,9 +66,10 @@
                                        min-w-90
                                        shadow-md
                                        min-w-prose))
-                   (label-css '(text-sm font-bold text-onyx-300
-                                        dark:text-stone-300))
-                   (textarea-flex-css '(my-2 flex flex-col gap-1 w-full)))
+                   (label-css '(text-md font-bold text-onyx-300
+                                        dark:text-stone-300 font-sans))
+                   (textarea-flex-css '(my-2 flex flex-col gap-1 w-full
+                                             font-sans)))
   `((div (@ (class ,(mk-class textarea-flex-css)))
          (label (@ (class ,(mk-class label-css))
                    (for ,name))
