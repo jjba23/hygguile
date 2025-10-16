@@ -50,7 +50,7 @@
                  name
                  id
                  (family '(font-sans))
-                 (select-classes '(p-4 border-2
+                 (select-classes '(px-3 py-2 border-2
                                        border-stone-700
                                        dark:border-onyx-100
                                        bg-stone-300/75

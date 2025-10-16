@@ -11,7 +11,7 @@
 
 Hygguile is an opinionated, batteries-included UI framework written in Guile Scheme, that allows you to create cozy web user-interfaces, by defining an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and modern CSS.
 
-This project is also powered by the [[https://codeberg.org/jjba23/olive-css][Olive CSS]] utility-class framework.
+Hygguile is built on top of [[https://codeberg.org/jjba23/olive-css][Olive CSS]] the utility-class vanilla CSS framework powered by Lisp.
 
 Hygguile aims to provide reusable, professional-looking and accessible web components, whose names resemble the HTML counterparts, thus easing the learning curve, and reducing the cognitive load.
 
@@ -30,6 +30,7 @@ https://jointhefreeworld.org/api-docs/hygguile/API.html
 If you like my work, please support me by [[https://bmc.link/jjbigorra][buying me a cup of coffee ☕]] so I can continue with a lot of motivation.
 
 ------------
+
 
 * How components look like?
 
@@ -51,8 +52,8 @@ I'd encourage navigating to the ~src/hygguile~ directory and studying the code t
 ;; or if you want more control, you can go more low-level
 (button "click here"
             #:type 'submit
-            #:background '(bg-green-700 dark:bg-green-500)
-            #:hover-background '(hover:bg-green-900 hover:dark:bg-green-700)
+            #:background '(bg-redwood-700 dark:bg-redwood-500)
+            #:hover-background '(hover:bg-redwood-900 hover:dark:bg-redwood-700)
             #:border-color '(border-stone-300))
 
 #+end_src
@@ -66,6 +67,7 @@ One of the main abstractions we use is the ~mk-class~ procedure, which takes a l
 ;; this gives you
 ;; <p class="bg-stone-300 my-2 p-2">Some paragraph</p>  
 #+end_src
+
 
 
 --------
@@ -209,6 +211,3 @@ You can always choose to import hygguile using a prefix to avoid name clashes if
 
 --------
 
-** TODO generate CSS documentation like tailwind does, but by analyzing hss.css directly and perform analysis
-
-** TODO color blocks should show a scrollable color list
