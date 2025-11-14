@@ -428,9 +428,6 @@
                                                             flex-col gap-2))))
                                      ,(p
                                        "Hygguile offers colors in the 100, 300, 500, 700 and 900 variants. Some of these colors are essential for the hygguile components, however not all of them are."
-                                       #:weight '(font-light))
-                                     ,(p
-                                       "It is recommended to tweak the HSS build so as to only include colors that you will actually use in your project. This will save lots of KBs from the build and speed up page load times."
                                        #:weight '(font-light)))
                                 (div (@ (class ,color-grid-class))
                                      ,(map (lambda (x)
@@ -503,10 +500,10 @@
                                   (div (@ (class ,(mk-class '(max-w-prose flex
                                                               flex-col gap-2))))
                                        ,(p
-                                         "Hygguile and HSS are an opinionated, batteries-included UI framework written in a dialect of the Lisp programming language, Guile Scheme."
+                                         "Hygguile is an opinionated, batteries-included UI framework written in a dialect of the Lisp programming language, Guile Scheme."
                                          #:weight '(font-light))
                                        ,(p
-                                         "Its syntax is much inspired on plain vanilla HTML, utility-class, Tailwind CSS"
+                                         "It uses OliveCSS, whose syntax is much inspired utility-class Tailwind CSS but functions 100% with vanilla CSS instead of JS."
                                          #:weight '(font-light))
                                        ,(p
                                          "It defines an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and modern CSS."
