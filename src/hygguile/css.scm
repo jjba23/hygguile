@@ -29,9 +29,11 @@
                                                      (href
                                                       "https://fonts.gstatic.com")
                                                      (crossorigin "")))))
-                       (fonts `("IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"
-                                "IBM+Plex+Sans:ital,wght@0,100..700;1,100..700"
-                                "IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"))
+                       (fonts `("Intel+One+Mono:ital,wght@0,300..700;1,300..700"
+                                "Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800"))
+                       ;; "IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"
+                       ;; "IBM+Plex+Sans:ital,wght@0,100..700;1,100..700"
+                       ;; "IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"
                        (display-swap "display=swap"))
   (let* ((font-string (string-join fonts "&family=")))
     `(,preconnects (link (@ (rel preload)
@@ -51,6 +53,6 @@
              (as style)
              (onload "this.onload=null;this.rel='stylesheet'")
              (href ,stylesheet-href)))
-    
+
     (noscript (link (@ (rel stylesheet)
                        (href ,stylesheet-href))))))
