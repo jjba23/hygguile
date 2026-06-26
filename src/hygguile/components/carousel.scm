@@ -54,6 +54,38 @@
                    (carousel-left-button-css '(left-4))
                    (carousel-right-button-css '(right-4))
                    (fragments '()))
+  "Construct an S-expression representation of a carousel UI component.
+
+@table @var
+@item id
+The unique HTML string identifier for the inner carousel list element.
+@item carousel-list-css
+List of symbols representing CSS classes for the @code{<ul>} element.
+@item item-width
+List of symbols specifying the width CSS classes for each carousel item.
+@item item-height
+List of symbols specifying the height CSS classes for each carousel item.
+@item carousel-item-css
+List of symbols representing CSS classes for each item wrapper @code{<li>}.
+@item carousel-item-content-css
+List of symbols representing CSS classes for the wrapper @code{<div>} of the content.
+@item carousel-list-wrapper-css
+List of symbols representing CSS classes for the outer wrapper @code{<div>}.
+@item carousel-button-css
+List of symbols representing base CSS classes for the previous/next buttons.
+@item carousel-left-button-css
+List of symbols representing additional CSS classes for the left (previous) button.
+@item carousel-right-button-css
+List of symbols representing additional CSS classes for the right (next) button.
+@item fragments
+A list of HTML/component S-expression fragments to be rendered as the carousel items.
+@end table
+
+@example
+(carousel #:id \"image-carousel\"
+          #:fragments '(((img (@@ (src \"img1.png\"))))
+                        ((img (@@ (src \"img2.png\"))))))
+@end example"
   `((div (@ (class ,(mk-class carousel-list-wrapper-css)))
          (ul (@ (id ,(format #f "~a" id))
                 (class ,(mk-class (append carousel-list-css
@@ -76,4 +108,3 @@
                     (class ,(mk-class (append carousel-button-css
                                               carousel-right-button-css))))
                  "→"))))
-

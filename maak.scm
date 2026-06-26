@@ -46,6 +46,11 @@
 
 ;; ====== Maak tasks ======
 
+(define (compile)
+  "Compile all project source code."
+  (time-machine-manifest-shell (list "guild compile -L ./src" "-W3"
+                                     "./src/**/*.scm")))
+
 (define (fmt)
   "Format Scheme source code files according to the Guix style guide."
   ($ '("find . -maxdepth 8 -name '*.scm'" "-type f -exec guix style -f {} \\;")))
@@ -144,3 +149,8 @@
   "Default task to be run, list available tasks."
   ($ '("maak --list")))
 
+(define (validate)
+  "Format, compile and test."
+  (fmt)
+  (compile)
+  (test))

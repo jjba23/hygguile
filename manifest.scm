@@ -25,6 +25,7 @@
              (gnu packages nss)
              (gnu packages gnupg)
              (gnu packages guile-xyz)
+             (gnu packages rust-apps)
              (gnu packages pkg-config)
              (guix build-system guile)
              (gnu packages linux)
@@ -35,63 +36,7 @@
              ((guix licenses)
               #:prefix license:))
 
-(define-public guile-uuid
-  (let ((commit "64002d74025f577e1eeea7bc51218a2c7929631f")
-        (revision "0"))
-    (package
-      (name "guile-uuid")
-      (version (git-version "0.0.0" revision commit))
-      (source
-       (origin
-         (method git-fetch)
-         (uri (git-reference
-               (url "https://codeberg.org/elb/guile-uuid.git")
-               (commit commit)))
-         (file-name (git-file-name name version))
-         (sha256
-          (base32 "1q6dqm2hzq75aa5mrrwgqdml864pdrxc98j7pyj1y0827phnzjfj"))))
-      (build-system guile-build-system)
-      (native-inputs (list guile-3.0 guile-gcrypt))
-      (home-page "https://codeberg.org/elb/guile-uuid")
-      (synopsis
-       "Guile-UUID is a UUID generation and manipulation module for GNU Guile.")
-      (description
-       "This package implements RFC 9562 UUIDs, and can generate versions 1 and 3–8 from that specification.
-        It provides parsing for UUIDs in standard hex-and-dash format of any variant and version.
-        It can also query the variant and version of UUIDs from the RFC.
-        Simple routines for converting between binary and hex-and-dash string UUIDs are included.")
-      (license license:gpl3+))))
-
-(define-public guile-veritas
-  (package
-    (name "guile-veritas")
-    (version "0.1.8")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://codeberg.org/jjba23/veritas.git")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "0yg9qqwlln6y9ay1yljxq4x35il5bz7fl7j9nz5dygvdfffqs1v0"))))
-    (build-system guile-build-system)
-    (arguments
-     (list
-      #:source-directory "src"))
-    (native-inputs (list guile-3.0))
-    (propagated-inputs (list guile-fibers guile-json-4))
-    (home-page "https://codeberg.org/jjba23/veritas")
-    (synopsis "Testing framework for Guile")
-    (description
-     "Veritas is a testing framework for Guile with an @acronym{EDSL,
-embedded domain specific language} to define test suites.  Emphasis is placed
-on legibility and maintainability of tests.  Veritas shuffles tests and
-runs them concurrently by default to ensure robust testing practices.")
-    (license license:lgpl3+)))
-
-(packages->manifest (list (specification->package "make")
-                          guile-next
+(packages->manifest (list guile-3.0-latest
                           texinfo
                           guile-ares-rs
                           guile-uuid
@@ -99,5 +44,5 @@ runs them concurrently by default to ensure robust testing practices.")
                           darkhttpd
                           guile-veritas
                           direvent
+                          watchexec
                           guile-documenta))
-

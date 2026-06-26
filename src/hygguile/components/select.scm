@@ -50,16 +50,17 @@
                  name
                  id
                  (family '(font-sans))
-                 (select-classes '(px-3 py-2 border-2
-                                       border-stone-700
-                                       dark:border-onyx-100
-                                       bg-stone-300/75
-                                       text-onyx-500
-                                       dark:bg-onyx-700
-                                       dark:text-stone-300
-                                       text-md
-                                       rounded-xl
-                                       shadow-md)))
+                 (select-classes '(px-3 py-2
+                                        border-2
+                                        border-stone-700
+                                        dark:border-onyx-100
+                                        bg-stone-300/75
+                                        text-onyx-500
+                                        dark:bg-onyx-700
+                                        dark:text-stone-300
+                                        text-md
+                                        rounded-xl
+                                        shadow-md)))
   `((div (@ (class ,(mk-class '(flex flex-col gap-2 w-min))))
          (select (@ (onchange ,on-change)
                     (name ,name)

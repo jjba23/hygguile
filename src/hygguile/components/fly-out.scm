@@ -24,6 +24,23 @@
                   (top-ul-class '(flex flex-row flex-wrap justify-center
                                        items-start gap-4))
                   (items '()))
+  "Construct an S-expression representation of an outer fly-out navigation menu shell.
+
+@table @var
+@item aria-label
+The accessibility text label string assigned to the @code{<nav>} component.
+@item nav-class
+List of symbols representing CSS classes for the structural @code{<nav>} wrapper.
+@item top-ul-class
+List of symbols representing CSS classes for the top-level container @code{<ul>}.
+@item items
+A list of sub-components or list items to nest within the top-level menu container.
+@end table
+
+@example
+(fly-out #:aria-label \"Main Navigation\"
+         #:items (list (fly-out-item \"Home\")))
+@end example"
   `((nav (@ (class ,(mk-class nav-class))
             (aria-label ,aria-label))
          (ul (@ (class ,(mk-class top-ul-class)))
@@ -45,6 +62,25 @@
                                                      py-1))
                           (button-content `((h4 "Menu")))
                           (items '()))
+  "Construct an S-expression representation of a fly-out sub-menu dropdown block.
+
+@table @var
+@item li-class
+List of symbols representing CSS classes for the wrapper @code{<li>} component.
+@item button-class
+List of symbols representing CSS classes for the trigger @code{<button>} element.
+@item ul-class
+List of symbols representing CSS classes for the inner hidden dropdown @code{<ul>} list.
+@item button-content
+S-expression content or fragments rendered inside the dropdown trigger button.
+@item items
+A list of nested child items (typically @code{fly-out-item} items) belonging to this sub-menu.
+@end table
+
+@example
+(fly-out-submenu #:button-content '((span \"Settings\"))
+                 #:items (list (fly-out-item \"Account Profile\")))
+@end example"
   `((li (@ (class ,(mk-class li-class)))
         (button (@ (class ,(mk-class button-class))
                    (aria-haspopup true)
@@ -57,5 +93,17 @@
 
 (define* (fly-out-item content
                        #:key (li-class '(px-4 py-4)))
+  "Construct an S-expression representation of a single leaf item within a fly-out menu.
+
+@table @var
+@item content
+The text description, link, or component fragment inside the item container.
+@item li-class
+List of symbols representing CSS classes for the wrapping @code{<li>} item.
+@end table
+
+@example
+(fly-out-item \"Documentation\" #:li-class '(px-2 py-2))
+@end example"
   `((li (@ (class ,(mk-class li-class)))
         ,content)))
