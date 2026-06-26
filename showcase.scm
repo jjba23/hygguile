@@ -49,20 +49,19 @@
            (div (@ (id ,(format #f "~a-example" uid))
                    (class ,(mk-class '(hidden flex flex-col gap-2))))
                 (pre (@ (id ,(format #f "~a-pre" uid))
-                        (class ,(mk-class '(text-onyx-500
-                                                        dark:text-stone-300
-                                                        text-md
-                                                        bg-stone-300/75
-                                                        dark:bg-onyx-700/75
-                                                        rounded-lg
-                                                        shadow-md
-                                                        text-wrap
-                                                        py-4
-                                                        px-4
-                                                        font-mono
-                                                        leading-6
-                                                        overflow-x-scroll
-                                                        whitespace-pre-wrap))))
+                        (class ,(mk-class '(text-onyx-500 dark:text-stone-300
+                                                          text-md
+                                                          bg-stone-300/75
+                                                          dark:bg-onyx-700/75
+                                                          rounded-lg
+                                                          shadow-md
+                                                          text-wrap
+                                                          py-4
+                                                          px-4
+                                                          font-mono
+                                                          leading-6
+                                                          overflow-x-scroll
+                                                          whitespace-pre-wrap))))
                      ,t)
                 (div (@ (class ,(mk-class '(w-min))))
                      ,(icon-button #:icon 'copy

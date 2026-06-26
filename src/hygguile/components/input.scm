@@ -38,6 +38,32 @@
                 (label-css '(text-lg font-light text-onyx-100
                                      dark:text-stone-300 font-sans py-2))
                 (input-flex-css '(my-2 flex flex-col gap-1)))
+  "Construct an S-expression representation of an HTML @code{<input>} component with a matching label.
+
+@table @var
+@item label
+The descriptive text string displaying the identity of the field.
+@item name
+The name mapping configuration string bound onto form serialization attributes.
+@item value
+The standard default textual configuration payload string.
+@item placeholder
+The ambient string text descriptive hint applied when the field boundary is unpopulated.
+@item type
+A configuration symbol managing browser input rendering choices (e.g., @code{'text}, @code{'password}).
+@item required
+A boolean property indicating if form verification forces evaluation validation.
+@item input-css
+List of symbols representing layout utility CSS classes for the input field.
+@item label-css
+List of symbols representing presentation utility CSS classes for the label field.
+@item input-flex-css
+List of symbols regulating structure container box margins and gaps.
+@end table
+
+@example
+(input #:label \"Email Address\" #:name \"email\" #:type 'email #:required #t)
+@end example"
   `((div (@ (class ,(mk-class input-flex-css)))
          (label (@ (class ,(mk-class label-css))
                    (for ,name))
@@ -70,6 +96,28 @@
                                         dark:text-stone-300 font-sans py-2))
                    (textarea-flex-css '(my-2 flex flex-col gap-1 w-full
                                              font-sans)))
+  "Construct an S-expression representation of an HTML @code{<textarea>} multiline field block.
+
+@table @var
+@item label
+The explicit header string informing users of required field contexts.
+@item name
+The unique string structural identifier mapping the entity across standard DOM tables.
+@item value
+The initial text block paragraph payload string nested inside the block.
+@item required
+A field completion mandatory requirement boolean validation gate switch.
+@item textarea-css
+List of symbols targeting specific dimensions and borders configuration styles.
+@item label-css
+List of symbols handling sizing constraints applied onto the matching label tags.
+@item textarea-flex-css
+List of symbols managing outer wrapper responsive card flex constraints.
+@end table
+
+@example
+(textarea #:label \"User Bio\" #:name \"biography\" #:value \"Born in Scheme...\")
+@end example"
   `((div (@ (class ,(mk-class textarea-flex-css)))
          (label (@ (class ,(mk-class label-css))
                    (for ,name))
@@ -81,4 +129,3 @@
                            '(required "")
                            '(not-required "")))
                    ,value))))
-

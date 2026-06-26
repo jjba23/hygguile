@@ -23,6 +23,22 @@
                                            (body "")
                                            (duration 5000)
                                            (body-font-family "font-sans"))
+  "Generate a JavaScript IIFE string that pushes notification parameters into the URL query string and reloads the window.
+
+@table @var
+@item title
+The fallback string title of the notification.
+@item body
+The core informational content string of the notification.
+@item duration
+The visibility timeline limit in milliseconds before the notification is cleared.
+@item body-font-family
+The fallback typography class string applied to the notification's description field.
+@end table
+
+@example
+(trigger-notification-function-js #:title \"Alert\" #:body \"System update complete.\")
+@end example"
   (format #f
           "
 (() => {
@@ -74,6 +90,26 @@
                                                                                 flex
                                                                                 flex-col
                                                                                 gap-6))))
+  "Generate a client-side script block that handles rendering notifications from URL parameters.
+
+This macro sets up a DOM listener evaluating parameters matching @code{notify-title} and @code{notify-body} from the window URL properties. When populated, it generates the corresponding component subtree inside the layout tray wrapper designated by the element identifier @code{notification-tray}.
+
+@table @var
+@item header-classes
+A space-separated string containing CSS layout configuration targeting the card header text elements.
+@item close-icon-on-click
+The client-side callback script evaluated whenever a dismiss interaction triggers.
+@item close-icon-classes
+A space-separated string containing structural component icon identifiers and layout options.
+@item title-container-classes
+A space-separated string containing CSS layout parameters handling the alignment properties of the text boundaries.
+@item notification-tray-container-classes
+A space-separated string containing global structural box presentation layouts applied directly onto the notification layout wrapper block.
+@end table
+
+@example
+(show-notifications-from-url-js #:header-classes \"text-lg font-bold\")
+@end example"
   `((script ,(format #f
               "
 document.addEventListener('DOMContentLoaded', () => {
@@ -99,4 +135,3 @@ document.addEventListener('DOMContentLoaded', () => {
               header-classes
               close-icon-on-click
               close-icon-classes))))
-
