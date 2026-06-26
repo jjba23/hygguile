@@ -38,7 +38,7 @@
                 (label-css '(text-lg font-light text-onyx-100
                                      dark:text-stone-300 font-sans py-2))
                 (input-flex-css '(my-2 flex flex-col gap-1)))
-  "Construct an S-expression representation of an HTML @code{<input>} component with a matching label.
+  "Construct an HTML @code{<input>} component with a matching label.
 
 @table @var
 @item label
@@ -96,7 +96,7 @@ List of symbols regulating structure container box margins and gaps.
                                         dark:text-stone-300 font-sans py-2))
                    (textarea-flex-css '(my-2 flex flex-col gap-1 w-full
                                              font-sans)))
-  "Construct an S-expression representation of an HTML @code{<textarea>} multiline field block.
+  "Construct an HTML @code{<textarea>} multiline field block.
 
 @table @var
 @item label

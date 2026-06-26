@@ -54,7 +54,7 @@
                    (carousel-left-button-css '(left-4))
                    (carousel-right-button-css '(right-4))
                    (fragments '()))
-  "Construct an S-expression representation of a carousel UI component.
+  "Construct a carousel UI component.
 
 @table @var
 @item id

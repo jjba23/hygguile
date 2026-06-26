@@ -24,6 +24,16 @@
 (define check-name
   (let ((*good-cache* (make-hash-table)))
     (lambda (name)
+      "Validate an XML name or QName symbol or string for correctness against XML specification rules.
+
+@table @var
+@item name
+The symbol or string representing an element or attribute name.
+@end table
+
+@example
+(check-name 'div)
+@end example"
       (if (not (hashq-ref *good-cache* name))
           (let* ((str (symbol->string name))
                  (i (string-index str #\:))
@@ -57,6 +67,18 @@
 ;; below.
 
 (define (attribute-value->xml value port)
+  "Serialize an attribute value into its XML representation, writing output to a port.
+
+@table @var
+@item value
+The attribute value configuration, which can be a string, list, nested pair, or a procedure.
+@item port
+The destination output port where the serialized characters are written.
+@end table
+
+@example
+(attribute-value->xml \"container\" (current-output-port))
+@end example"
   (cond
     ((pair? value)
      (attribute-value->xml (car value) port)
@@ -72,6 +94,20 @@
                                port))))
 
 (define (attribute->xml attr value port)
+  "Serialize a single attribute-value pair into a valid XML attribute string format.
+
+@table @var
+@item attr
+The symbol representing the attribute name key.
+@item value
+The configuration data payload value belonging to the attribute.
+@item port
+The destination output port.
+@end table
+
+@example
+(attribute->xml 'class \"btn-primary\" (current-output-port))
+@end example"
   (check-name attr)
   (display attr port)
   (display "=\"" port)
@@ -79,6 +115,22 @@
   (display #\" port))
 
 (define (element->xml tag attrs body port)
+  "Serialize an SXML element structure including its tag, optional attribute list, and body content.
+
+@table @var
+@item tag
+The structural symbol name of the XML element.
+@item attrs
+An association list of attribute keys and values or false if empty.
+@item body
+The internal nested content child list structures or strings.
+@item port
+The destination output port.
+@end table
+
+@example
+(element->xml 'p '((id . \"intro\")) '(\"Hello World\") (current-output-port))
+@end example"
   (check-name tag)
   (display #\< port)
   (display tag port)
@@ -113,12 +165,38 @@
 
 ;; FIXME: ensure name is valid
 (define (entity->xml name port)
+  "Write a standard XML named entity reference to the target output port.
+
+@table @var
+@item name
+The target entity identifier name string or symbol.
+@item port
+The destination output port.
+@end table
+
+@example
+(entity->xml \"copy\" (current-output-port))
+@end example"
   (display #\& port)
   (display name port)
   (display #\; port))
 
 ;; FIXME: ensure tag and str are valid
 (define (pi->xml tag str port)
+  "Write an XML processing instruction block to the target output port.
+
+@table @var
+@item tag
+The processing instruction target name configuration indicator.
+@item str
+The data command payload text content string.
+@item port
+The destination output port.
+@end table
+
+@example
+(pi->xml \"xml-stylesheet\" \"href=\\\"style.css\\\"\" (current-output-port))
+@end example"
   (display "<?" port)
   (display tag port)
   (display #\space port)
@@ -128,9 +206,20 @@
 (define* (sxml->xml tree
                     #:optional (port (current-output-port))
                     (escape? #f))
-  "Serialize the sxml tree @var{tree} as XML. The output will be written
-to the current output port, unless the optional argument @var{port} is
-present."
+  "Serialize an arbitrary SXML layout tree structure into valid XML text output format.
+
+@table @var
+@item tree
+The node list, single element pair list, text string, or active layout generation procedure representing an SXML architecture.
+@item port
+The optional destination output port. Defaults to @code{(current-output-port)}.
+@item escape?
+An optional boolean constraint indicating if nested string values undergo special character reference processing. Defaults to false.
+@end table
+
+@example
+(sxml->xml '(div (@@ (class \"wrapper\")) \"Content\") (current-output-port) #t)
+@end example"
   (cond
     ((pair? tree)
      (if (symbol? (car tree))
@@ -163,7 +252,7 @@ present."
                                        (cdr elems) elems) port)))))
          ;; A nodelist.
          (for-each (lambda (x)
-                     (sxml->xml x port)) tree)))
+                       (sxml->xml x port)) tree)))
     ((string? tree)
      (if escape?
          (string->escaped-xml tree port)
@@ -182,23 +271,41 @@ present."
                                  port)))))
 
 (define (sxml->string sxml)
-  "Detag an sxml tree @var{sxml} into a string. Does not perform any
-formatting."
+  "Strip all structural markup tags from an SXML layout tree, concatenating textual nodes into a plain string.
+
+@table @var
+@item sxml
+The input target SXML node or tree architecture.
+@end table
+
+@example
+(sxml->string '(div (span \"Hello \") \"World\"))
+@end example"
   (string-concatenate-reverse (foldts (lambda (seed tree)
-                                        ;; fdown
-                                        '())
+                                         ;; fdown
+                                         '())
                                       (lambda (seed kid-seed tree)
-                                        ;; fup
-                                        (append! kid-seed seed))
+                                         ;; fup
+                                         (append! kid-seed seed))
                                       (lambda (seed tree)
-                                        ;; fhere
-                                        (if (string? tree)
-                                            (cons tree seed) seed))
+                                         ;; fhere
+                                         (if (string? tree)
+                                             (cons tree seed) seed))
                                       '() sxml)))
 
 (define (make-char-quotator char-encoding)
+  "Create a higher-order procedure designed to escape specific literal characters into entity references.
+
+@table @var
+@item char-encoding
+An association list mapping specific character primitives to target substitution entity string slices.
+@end table
+
+@example
+(make-char-quotator '((#\\< . \"&lt;\") (#\\> . \"&gt;\")))
+@end example"
   (let ((bad-chars (list->char-set (map car char-encoding))))
-    
+
     ;; Check to see if str contains one of the characters in charset,
     ;; from the position i onward. If so, return that character's index.
     ;; otherwise, return #f
@@ -219,7 +326,7 @@ formatting."
                  *unspecified*)
                 ((not to)
                  (display (substring str from
-                                     (string-length str)) port))
+                                    (string-length str)) port))
                 (else (let ((quoted-char (cdr (assv (string-ref str to)
                                                     char-encoding)))
                             (new-to (index-cset str
@@ -236,5 +343,5 @@ formatting."
 
 (define string->escaped-xml
   (make-char-quotator '((#\< . "&lt;") (#\> . "&gt;")
-                        (#\& . "&amp;")
+                        (#& . "&amp;")
                         (#\" . "&quot;"))))

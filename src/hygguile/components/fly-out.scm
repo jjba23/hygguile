@@ -24,7 +24,7 @@
                   (top-ul-class '(flex flex-row flex-wrap justify-center
                                        items-start gap-4))
                   (items '()))
-  "Construct an S-expression representation of an outer fly-out navigation menu shell.
+  "Construct an outer fly-out navigation menu shell.
 
 @table @var
 @item aria-label
@@ -62,7 +62,7 @@ A list of sub-components or list items to nest within the top-level menu contain
                                                      py-1))
                           (button-content `((h4 "Menu")))
                           (items '()))
-  "Construct an S-expression representation of a fly-out sub-menu dropdown block.
+  "Construct a fly-out sub-menu dropdown block.
 
 @table @var
 @item li-class
@@ -93,7 +93,7 @@ A list of nested child items (typically @code{fly-out-item} items) belonging to 
 
 (define* (fly-out-item content
                        #:key (li-class '(px-4 py-4)))
-  "Construct an S-expression representation of a single leaf item within a fly-out menu.
+  "Construct a single leaf item within a fly-out menu.
 
 @table @var
 @item content

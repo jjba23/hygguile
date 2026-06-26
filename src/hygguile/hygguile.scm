@@ -90,6 +90,16 @@
                          hygguile-recommended-resources))
 
 (define* (hygguile-recommended-resources #:key (fonts (custom-fonts)))
+  "Assemble a list of recommended UI resource fragments, including standard web typography assets and component script blocks.
+
+@table @var
+@item fonts
+An S-expression block managing custom font loading configurations, defaulting to the result of @code{(custom-fonts)}.
+@end table
+
+@example
+(hygguile-recommended-resources)
+@end example"
   (list fonts
         (phosphor-icons)
         (fly-out-css)
@@ -105,6 +115,13 @@
   "<!DOCTYPE html>")
 
 (define (hygguile-recommended-meta)
+  "Return an S-expression list containing basic framework-recommended HTML metadata tags.
+
+Includes mobile-responsive viewport parameters and typical character set configurations.
+
+@example
+(hygguile-recommended-meta)
+@end example"
   (list `(meta (@ (name viewport)
                   (content "width=device-width, initial-scale=1.0")))
         `(meta (@ (charset UTF-8)))))

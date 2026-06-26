@@ -31,6 +31,20 @@
                        ;; "IBM+Plex+Sans:ital,wght@0,100..700;1,100..700"
                        ;; "IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"
                        (display-swap "display=swap"))
+  "Generate S-expression tags to optimize and load external web typography families asynchronously.
+
+@table @var
+@item preconnects
+A list of S-expression initialization link tags specifying network domains to warm up.
+@item fonts
+A list of configuration strings selecting families and weights to include from the external repository API.
+@item display-swap
+A string directive identifying font rendering behaviors during file downloads.
+@end table
+
+@example
+(custom-fonts #:fonts '(\"Merriweather\" \"Open+Sans\"))
+@end example"
   (let* ((font-string (string-join fonts "&family=")))
     `(,preconnects (link (@ (rel preload)
                             (as style)
@@ -45,6 +59,18 @@
 
 (define* (phosphor-icons #:key (stylesheet-href
                                 "https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"))
+  "Generate S-expression link tags to pull down standard Phosphor icon asset libraries asynchronously.
+
+Note: If the default value string containing an internal NPM handle is modified, any raw symbol characters must continue to obey parsing constraints.
+
+@table @var
+@item stylesheet-href
+The source URL string pointing directly to the distributed stylesheet manifest location.
+@end table
+
+@example
+(phosphor-icons #:stylesheet-href \"https://example.com/assets/icons.css\")
+@end example"
   `((link (@ (rel preload)
              (as style)
              (onload "this.onload=null;this.rel='stylesheet'")
