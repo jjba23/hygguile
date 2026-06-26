@@ -16,10 +16,6 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile css)
-  #:use-module (hygguile abstraction)
-  #:use-module (ice-9 string-fun)
-  #:use-module (hygguile embed css)
-  #:use-module (hygguile sxml)
   #:export (custom-fonts phosphor-icons))
 
 (define* (custom-fonts #:key (preconnects `((link (@ (rel preconnect)

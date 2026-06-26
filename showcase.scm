@@ -494,7 +494,6 @@
                                         (class ,(mk-class '(no-underline
                                                             slide-from-right))))
                                      ,(h1 "Hygguile"))
-                                  ,(sub-h4 "Hygge Style Sheets")
                                   ,(sub-h3
                                     "cozy and professional user-interfaces for everyone")
                                   (div (@ (class ,(mk-class '(max-w-prose flex
@@ -559,4 +558,3 @@
  "
 >>= successfully built hygguile showcase to destination: dist/index.html
 ")
-

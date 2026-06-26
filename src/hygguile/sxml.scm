@@ -16,8 +16,6 @@
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile sxml)
-  #:use-module (sxml ssax input-parse)
-  #:use-module (sxml ssax)
   #:use-module (sxml transform)
   #:export (sxml->xml sxml->string))
 
