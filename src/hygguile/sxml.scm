@@ -343,5 +343,5 @@ An association list mapping specific character primitives to target substitution
 
 (define string->escaped-xml
   (make-char-quotator '((#\< . "&lt;") (#\> . "&gt;")
-                        (#& . "&amp;")
+                        (#\& . "&amp;")
                         (#\" . "&quot;"))))
