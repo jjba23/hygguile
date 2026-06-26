@@ -49,7 +49,7 @@
            (div (@ (id ,(format #f "~a-example" uid))
                    (class ,(mk-class '(hidden flex flex-col gap-2))))
                 (pre (@ (id ,(format #f "~a-pre" uid))
-                        (class ,(mk-class '(font-medium text-onyx-500
+                        (class ,(mk-class '(text-onyx-500
                                                         dark:text-stone-300
                                                         text-md
                                                         bg-stone-300/75
@@ -60,6 +60,7 @@
                                                         py-4
                                                         px-4
                                                         font-mono
+                                                        leading-6
                                                         overflow-x-scroll
                                                         whitespace-pre-wrap))))
                      ,t)
@@ -76,16 +77,12 @@
                                                 #:body-font-family "font-mono")))))))))
 
 (define trigger-notifications-section
-  `((div (@ (class ,(mk-class '(flex flex-row
-                                     flex-wrap
-                                     gap-2
-                                     justify-center
-                                     align-center
-                                     max-w-96))))
-         ,(button "trigger simple notification"
+  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 justify-center
+                                     align-center))))
+         ,(button "🔔 trigger simple notification"
                   #:on-click (trigger-notification-function-js #:title
                               "You are notified!"))
-         ,(button "trigger full notification"
+         ,(button "✨ trigger full notification"
                   #:on-click (trigger-notification-function-js #:title
                               "Notified succesfully!"
                               #:body
@@ -250,14 +247,8 @@
                         #:weight '(font-light))))))
 
 (define settings-section
-  `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
-         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                          align-center items-center))))
-              (span "⚙️")
-              ,(sub-h2 "Utilities"))
-         (div (@ (class ,(mk-class '(flex flex-wrap gap-2 flex-row))))
-              (div ,(ui-mode-button))
-              (div ,trigger-notifications-section)))))
+  `((div (@ (class ,(mk-class '(flex flex-row gap-5))))
+         (div ,trigger-notifications-section))))
 
 (define containers-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6 align-center))))
@@ -497,10 +488,11 @@
                                   ,(sub-h3
                                     "cozy and professional user-interfaces for everyone")
                                   (div (@ (class ,(mk-class '(max-w-prose flex
-                                                              flex-col gap-2))))
+                                                              flex-col gap-5))))
                                        ,(p
                                          "Hygguile is an opinionated, batteries-included UI framework written in a dialect of the Lisp programming language, Guile Scheme."
                                          #:weight '(font-light))
+                                       (div ,(ui-mode-button))
                                        ,(p
                                          "It uses OliveCSS, whose syntax is much inspired utility-class Tailwind CSS but functions 100% with vanilla CSS instead of JS."
                                          #:weight '(font-light))
