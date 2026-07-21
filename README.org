@@ -31,6 +31,9 @@ If you like my work, please support me by [[https://bmc.link/jjbigorra][buying m
 
 ------------
 
+[[https://jointhefreeworld.org/static-assets/hygguile/screen-2026-07-21-20-55-35.png]]
+
+--------
 
 * How components look like?
 
@@ -71,6 +74,10 @@ One of the main abstractions we use is the ~mk-class~ procedure, which takes a l
 
 
 --------
+
+[[https://jointhefreeworld.org/static-assets/hygguile/screen-2026-07-21-20-55-49.png]]
+
+-------
 
 * Licensing
 
