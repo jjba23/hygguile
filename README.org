@@ -4,8 +4,8 @@
 #+language: en
 
 
-[[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]]  
-[[https://jointhefreeworld.org/ggg/dist/license-lgpl3+.svg]]    [[https://jointhefreeworld.org/ggg/dist/license-fdl13+.svg]] 
+[[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]]
+[[https://jointhefreeworld.org/ggg/dist/license-lgpl3+.svg]]    [[https://jointhefreeworld.org/ggg/dist/license-fdl13+.svg]]
 
 /Cozy and professional user-interfaces for everyone/
 
@@ -65,7 +65,7 @@ One of the main abstractions we use is the ~mk-class~ procedure, which takes a l
   `((p (@(class ,(mk-class '(my-2 p-2 bg-stone-300))) "Some paragraph")))
 
 ;; this gives you
-;; <p class="bg-stone-300 my-2 p-2">Some paragraph</p>  
+;; <p class="bg-stone-300 my-2 p-2">Some paragraph</p>
 #+end_src
 
 
@@ -209,5 +209,25 @@ You can always choose to import hygguile using a prefix to avoid name clashes if
 #+end_src
 
 
---------
+-------
 
+* On Reproducibility, and Why GNU Guix? 🐂️
+
+A build should never fail because "it works on my machine." Software must aim to be transparent, fluid, powerful, and extensible, and for this, reproducibility is essential.
+
+With [[https://guix.gnu.org/][GNU Guix]], you get:
+
+- 🧠 *Infinite Expressiveness:* [[https://www.gnu.org/software/guile/][Guile Scheme]] provides total, unconstrained control over packages and build definitions.
+- 🎯 *Bit-Identical Environments:* Every dependency graph is declarative, immutable, and functionally derived.
+- ⏳ *Time Travel:* Recreate the exact system state from months or years ago using ~guix time-machine~.
+- ✨ *No Hidden State:* Build artifacts are pure functions of their inputs—zero implicit system dependencies.
+- 🔍 *Total Inspectability:* Easily inspect, modify, and patch any point in the build graph.
+
+Far from rigid, absolute reproducibility empowers fearless experimentation:
+
+- *Declarative Shells:* Instantly spin up isolated environments:
+  #+BEGIN_SRC sh
+  guix shell -m manifest.scm
+  #+END_SRC
+- 🔄 *Transactional Upgrades & Rollbacks:* Experiment freely. If an update breaks, rollbacks are atomic and instantaneous.
+- *Unified Tooling:* One tool seamlessly handles dev shells, containers, system configs, and package builds.
