@@ -252,7 +252,7 @@ An optional boolean constraint indicating if nested string values undergo specia
                                        (cdr elems) elems) port)))))
          ;; A nodelist.
          (for-each (lambda (x)
-                       (sxml->xml x port)) tree)))
+                     (sxml->xml x port)) tree)))
     ((string? tree)
      (if escape?
          (string->escaped-xml tree port)
@@ -282,15 +282,15 @@ The input target SXML node or tree architecture.
 (sxml->string '(div (span \"Hello \") \"World\"))
 @end example"
   (string-concatenate-reverse (foldts (lambda (seed tree)
-                                         ;; fdown
-                                         '())
+                                        ;; fdown
+                                        '())
                                       (lambda (seed kid-seed tree)
-                                         ;; fup
-                                         (append! kid-seed seed))
+                                        ;; fup
+                                        (append! kid-seed seed))
                                       (lambda (seed tree)
-                                         ;; fhere
-                                         (if (string? tree)
-                                             (cons tree seed) seed))
+                                        ;; fhere
+                                        (if (string? tree)
+                                            (cons tree seed) seed))
                                       '() sxml)))
 
 (define (make-char-quotator char-encoding)
@@ -305,7 +305,7 @@ An association list mapping specific character primitives to target substitution
 (make-char-quotator '((#\\< . \"&lt;\") (#\\> . \"&gt;\")))
 @end example"
   (let ((bad-chars (list->char-set (map car char-encoding))))
-
+    
     ;; Check to see if str contains one of the characters in charset,
     ;; from the position i onward. If so, return that character's index.
     ;; otherwise, return #f
@@ -326,7 +326,7 @@ An association list mapping specific character primitives to target substitution
                  *unspecified*)
                 ((not to)
                  (display (substring str from
-                                    (string-length str)) port))
+                                     (string-length str)) port))
                 (else (let ((quoted-char (cdr (assv (string-ref str to)
                                                     char-encoding)))
                             (new-to (index-cset str

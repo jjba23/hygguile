@@ -27,10 +27,11 @@
                                                      (crossorigin "")))))
                        (fonts `("Intel+One+Mono:ital,wght@0,300..700;1,300..700"
                                 "Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800"))
+                       (cdn-fonts `("https://fonts.cdnfonts.com/css/lucida-sans"))
                        ;; "IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"
                        ;; "IBM+Plex+Sans:ital,wght@0,100..700;1,100..700"
                        ;; "IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"
-                       (display-swap "display=swap"))
+                       )
   "Generate S-expression tags to optimize and load external web typography families asynchronously.
 
 @table @var
@@ -40,22 +41,21 @@ A list of S-expression initialization link tags specifying network domains to wa
 A list of configuration strings selecting families and weights to include from the external repository API.
 @item display-swap
 A string directive identifying font rendering behaviors during file downloads.
-@end table
-
-@example
-(custom-fonts #:fonts '(\"Merriweather\" \"Open+Sans\"))
-@end example"
+@end table"
   (let* ((font-string (string-join fonts "&family=")))
     `(,preconnects (link (@ (rel preload)
                             (as style)
                             (onload "this.onload=null;this.rel='stylesheet'")
                             (href ,(string-append
                                     "https://fonts.googleapis.com/css2?family="
-                                    font-string "&" display-swap))))
+                                    font-string "&display=swap"))))
       (noscript (link (@ (rel stylesheet)
                          (href ,(string-append
                                  "https://fonts.googleapis.com/css2?family="
-                                 font-string "&" display-swap))))))))
+                                 font-string "&display=swap")))))
+      ,(map (lambda (cf)
+              `(link (@ (href ,cf)
+                        (rel stylesheet)) "")) cdn-fonts))))
 
 (define* (phosphor-icons #:key (stylesheet-href
                                 "https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"))
