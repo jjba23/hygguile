@@ -173,6 +173,14 @@ Alternatively, you can install it by downloading the source code files and addin
 
 -------
 
+** On Lucida fonts
+
+Lucida fonts are proprietary typefaces originally developed by Bigelow & Holmes. They remain a long-time favorite for many people and are very legible in many situations and hardware/software. While they are bundled pre-installed on many operating systems and platforms, they remain proprietary fonts.
+
+You may use these font files under principles of fair use or for local development and non-commercial purposes, provided it is not for profit and used without securing a proper commercial license where required by law. Users and contributors are solely responsible for ensuring their usage complies with applicable software licensing terms and intellectual property rights.
+
+-------
+
 * Code of conduct
 
 This project adheres to the jointhefreeworld code of conduct. Find it here:

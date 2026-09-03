@@ -27,7 +27,6 @@
                                                      (crossorigin "")))))
                        (fonts `("Intel+One+Mono:ital,wght@0,300..700;1,300..700"
                                 "Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800"))
-                       (cdn-fonts `("https://fonts.cdnfonts.com/css/lucida-sans"))
                        ;; "IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"
                        ;; "IBM+Plex+Sans:ital,wght@0,100..700;1,100..700"
                        ;; "IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700"
@@ -53,9 +52,78 @@ A string directive identifying font rendering behaviors during file downloads.
                          (href ,(string-append
                                  "https://fonts.googleapis.com/css2?family="
                                  font-string "&display=swap")))))
-      ,(map (lambda (cf)
-              `(link (@ (href ,cf)
-                        (rel stylesheet)) "")) cdn-fonts))))
+      (style
+       "/* --- Lucida Sans --- */
+
+@font-face {
+  font-family: 'Lucida Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lucida Sans Regular'), url('https://jointhefreeworld.org/static-assets/fonts/LSANS.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lucida Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('Lucida Sans Italic'), url('https://jointhefreeworld.org/static-assets/fonts/LSANSI.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lucida Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Lucida Sans Demibold Roman'), url('https://jointhefreeworld.org/static-assets/fonts/LSANSD.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lucida Sans';
+  font-style: italic;
+  font-weight: 600;
+  src: local('Lucida Sans Demibold Italic'), url('https://jointhefreeworld.org/static-assets/fonts/LSANSDI.woff') format('woff');
+}
+
+
+/* --- Lucida Sans Typewriter --- */
+
+@font-face {
+  font-family: 'Lucida Sans Typewriter';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lucida Sans Typewriter Regular'), url('https://jointhefreeworld.org/static-assets/fonts/LTYPE.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lucida Sans Typewriter';
+  font-style: oblique;
+  font-weight: 400;
+  src: local('Lucida Sans Typewriter Oblique'), url('https://jointhefreeworld.org/static-assets/fonts/LTYPEO.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lucida Sans Typewriter';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lucida Sans Typewriter Bold'), url('https://jointhefreeworld.org/static-assets/fonts/LTYPEB.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Lucida Sans Typewriter';
+  font-style: oblique;
+  font-weight: 700;
+  src: local('Lucida Sans Typewriter Bold Oblique'), url('https://jointhefreeworld.org/static-assets/fonts/LTYPEBO.woff') format('woff');
+}
+
+
+/* --- Lucida Sans Unicode --- */
+
+@font-face {
+  font-family: 'Lucida Sans Unicode';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lucida Sans Unicode Regular'), url('https://jointhefreeworld.org/static-assets/fonts/l_10646.woff') format('woff');
+}
+"))))
 
 (define* (phosphor-icons #:key (stylesheet-href
                                 "https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"))
