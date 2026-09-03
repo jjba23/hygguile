@@ -59,28 +59,28 @@ A string directive identifying font rendering behaviors during file downloads.
   font-family: 'Lucida Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Lucida Sans Regular'), url('https://jointhefreeworld.org/static-assets/fonts/LSANS.woff') format('woff');
+  src: url('https://jointhefreeworld.org/static-assets/fonts/LSANS.woff') format('woff');
 }
 
 @font-face {
   font-family: 'Lucida Sans';
   font-style: italic;
   font-weight: 400;
-  src: local('Lucida Sans Italic'), url('https://jointhefreeworld.org/static-assets/fonts/LSANSI.woff') format('woff');
+  src: url('https://jointhefreeworld.org/static-assets/fonts/LSANSI.woff') format('woff');
 }
 
 @font-face {
   font-family: 'Lucida Sans';
   font-style: normal;
   font-weight: 600;
-  src: local('Lucida Sans Demibold Roman'), url('https://jointhefreeworld.org/static-assets/fonts/LSANSD.woff') format('woff');
+  src: url('https://jointhefreeworld.org/static-assets/fonts/LSANSD.woff') format('woff');
 }
 
 @font-face {
   font-family: 'Lucida Sans';
   font-style: italic;
   font-weight: 600;
-  src: local('Lucida Sans Demibold Italic'), url('https://jointhefreeworld.org/static-assets/fonts/LSANSDI.woff') format('woff');
+  src: url('https://jointhefreeworld.org/static-assets/fonts/LSANSDI.woff') format('woff');
 }
 
 
@@ -90,28 +90,28 @@ A string directive identifying font rendering behaviors during file downloads.
   font-family: 'Lucida Sans Typewriter';
   font-style: normal;
   font-weight: 400;
-  src: local('Lucida Sans Typewriter Regular'), url('https://jointhefreeworld.org/static-assets/fonts/LTYPE.woff') format('woff');
+  src: url('https://jointhefreeworld.org/static-assets/fonts/LTYPE.woff') format('woff');
 }
 
 @font-face {
   font-family: 'Lucida Sans Typewriter';
   font-style: oblique;
   font-weight: 400;
-  src: local('Lucida Sans Typewriter Oblique'), url('https://jointhefreeworld.org/static-assets/fonts/LTYPEO.woff') format('woff');
+  src: url('https://jointhefreeworld.org/static-assets/fonts/LTYPEO.woff') format('woff');
 }
 
 @font-face {
   font-family: 'Lucida Sans Typewriter';
   font-style: normal;
   font-weight: 700;
-  src: local('Lucida Sans Typewriter Bold'), url('https://jointhefreeworld.org/static-assets/fonts/LTYPEB.woff') format('woff');
+  src: url('https://jointhefreeworld.org/static-assets/fonts/LTYPEB.woff') format('woff');
 }
 
 @font-face {
   font-family: 'Lucida Sans Typewriter';
   font-style: oblique;
   font-weight: 700;
-  src: local('Lucida Sans Typewriter Bold Oblique'), url('https://jointhefreeworld.org/static-assets/fonts/LTYPEBO.woff') format('woff');
+  src: url('https://jointhefreeworld.org/static-assets/fonts/LTYPEBO.woff') format('woff');
 }
 
 
@@ -121,7 +121,7 @@ A string directive identifying font rendering behaviors during file downloads.
   font-family: 'Lucida Sans Unicode';
   font-style: normal;
   font-weight: 400;
-  src: local('Lucida Sans Unicode Regular'), url('https://jointhefreeworld.org/static-assets/fonts/l_10646.woff') format('woff');
+  src: url('https://jointhefreeworld.org/static-assets/fonts/l_10646.woff') format('woff');
 }
 "))))
 
@@ -143,6 +143,6 @@ The source URL string pointing directly to the distributed stylesheet manifest l
              (as style)
              (onload "this.onload=null;this.rel='stylesheet'")
              (href ,stylesheet-href)))
-    
+
     (noscript (link (@ (rel stylesheet)
                        (href ,stylesheet-href))))))
