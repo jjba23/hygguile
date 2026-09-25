@@ -126,5 +126,4 @@ List of symbols specifying visual layout styles for the component wrapper card.
                     (name ,name)
                     (id ,id)
                     (class ,(mk-class (append select-classes family))))
-                 (div (@ (class ,(mk-class (append family))))
-                      ,options)))))
+                 ,options))))
