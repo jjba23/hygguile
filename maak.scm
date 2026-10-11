@@ -90,6 +90,23 @@
       (~ "~a/api-docs/~a" deploy-api-docs-dir project-name))
   (delete-file-recursively "doc"))
 
+(define (example)
+  "Render the onboarding example page to dist/example.html.
+
+Unlike `build', this leaves the rest of dist/ alone, so run it after
+`build' when you want to serve the example next to the showcase."
+  ($ '("mkdir -pv dist"))
+  ($ '("cp -rfv resources/css/olive.min.css dist/olive.min.css"))
+  (manifest-shell (list "guile -L ./src examples/minimal.scm")))
+
+(define (example-server)
+  "Serve the server-driven sortable table example on port 8095.
+
+The other half of the sorting contract: a real server that reads
+`?sort=&dir=' back and re-renders the rows. Run it from the project root
+so the example can find resources/css/olive.min.css."
+  (manifest-shell (list "guile -L ./src examples/sortable-table.scm")))
+
 (define (test)
   "Run project's tests."
   (manifest-shell (list "guile -L ./src -L ./test"

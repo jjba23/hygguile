@@ -20,10 +20,11 @@
   #:export (carousel))
 
 (define* (carousel #:key (id #f)
-                   (carousel-list-css '(flex gap-24
-                                             p-12
+                   (carousel-list-css '(flex gap-4 sm:gap-8 md:gap-24
+                                             p-4 sm:p-8 md:p-12
                                              list-none
                                              overflow-x-scroll
+                                             scroll-smooth
                                              snap-x
                                              bg-stone-300/75
                                              dark:bg-onyx-700/75
@@ -33,28 +34,61 @@
                    (item-width '(w-64))
                    (item-height '(h-1/2))
                    (carousel-item-css '(snap-center shrink-0))
-                   (carousel-item-content-css '(flex align-center
+                   (carousel-item-content-css '(flex items-center
                                                      justify-center
                                                      h-full
                                                      font-sans
                                                      text-xl
                                                      font-bold))
                    (carousel-list-wrapper-css '(relative))
-                   (carousel-button-css '(absolute bottom-1/2
-                                                   w-18
-                                                   h-18
-                                                   bg-stone-500/75
-                                                   dark:bg-onyx-700/75
-                                                   p-2
-                                                   rounded-4xl
-                                                   text-onyx-500
-                                                   dark:text-stone-300
-                                                   cursor-pointer
-                                                   text-3xl))
-                   (carousel-left-button-css '(left-4))
-                   (carousel-right-button-css '(right-4))
+                   ;; the arrows are glass discs: compact on a phone, where
+                   ;; every pixel of the track counts, and roomy from the
+                   ;; small breakpoint up; they are vertically centred with
+                   ;; translate, not an offset
+                   (carousel-button-css '(absolute top-1/2
+                                          -translate-y-1/2
+                                          flex
+                                          items-center
+                                          justify-center
+                                          w-9
+                                          h-9
+                                          sm:w-14
+                                          sm:h-14
+                                          p-0
+                                          leading-none
+                                          bg-stone-100/50
+                                          dark:bg-onyx-900/50
+                                          backdrop-blur-sm
+                                          hover:bg-stone-100/75
+                                          dark:hover:bg-onyx-900/75
+                                          hover:scale-105
+                                          border-2
+                                          border-stone-500/25
+                                          dark:border-onyx-100/25
+                                          rounded-512
+                                          shadow-lg
+                                          text-onyx-500
+                                          dark:text-stone-300
+                                          cursor-pointer
+                                          transition-colors
+                                          duration-200
+                                          focus-visible:outline-2
+                                          focus-visible:outline-offset-2
+                                          outline-onyx-500
+                                          text-lg
+                                          sm:text-2xl))
+                   (carousel-left-button-css '(left-2 sm:left-4))
+                   (carousel-right-button-css '(right-2 sm:right-4))
+                   (no-js-hint
+                    "JavaScript is disabled — scroll horizontally to browse the items.")
                    (fragments '()))
   "Construct a carousel UI component.
+
+Items are centred on a scroll-snap track that pans with a swipe, and the
+previous/next arrows page exactly one item at a time using the live gap
+between items. The arrows themselves are frosted glass discs: compact on
+phones, where the track needs every pixel it can get, and larger from the
+small breakpoint up.
 
 @table @var
 @item id
@@ -77,6 +111,8 @@ List of symbols representing base CSS classes for the previous/next buttons.
 List of symbols representing additional CSS classes for the left (previous) button.
 @item carousel-right-button-css
 List of symbols representing additional CSS classes for the right (next) button.
+@item no-js-hint
+Fallback copy shown inside a @code{<noscript>} element when JavaScript is disabled.
 @item fragments
 A list of HTML/component S-expression fragments to be rendered as the carousel items.
 @end table
@@ -101,10 +137,19 @@ A list of HTML/component S-expression fragments to be rendered as the carousel i
                                       "handleCarouselClick('previous', '~a')"
                                       id))
                     (class ,(mk-class (append carousel-button-css
-                                              carousel-left-button-css)))) "←")
+                                              carousel-left-button-css
+                                              '(js-only))))) "←")
          (button (@ (type button)
                     (onclick ,(format #f "handleCarouselClick('next', '~a')"
                                       id))
                     (class ,(mk-class (append carousel-button-css
-                                              carousel-right-button-css))))
-                 "→"))))
+                                              carousel-right-button-css
+                                              '(js-only))))) "→")
+         (noscript (@ (class ,(mk-class '(block text-center
+                                                text-sm
+                                                font-light
+                                                text-onyx-300
+                                                dark:text-stone-500
+                                                font-sans
+                                                py-2))))
+                   ,no-js-hint))))

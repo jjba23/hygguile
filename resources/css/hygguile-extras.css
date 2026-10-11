@@ -1,0 +1,499 @@
+/*
+  hygguile - cozy and professional user-interfaces for everyone
+
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*
+  Companion stylesheet for hygguile.
+
+  Olive CSS intentionally only ships utility classes. A handful of
+  components need a little structural CSS that cannot be expressed with
+  single utilities (the styling of native <progress> and <details>, the
+  CSS-only tabs, switch, modal and tooltip widgets). Everything here is
+  plain, dependency-free CSS and works without JavaScript.
+
+  Wherever Olive already provides the feature we lean on its utilities
+  instead of reimplementing it: screen-reader-only text uses `sr-only`,
+  loading animations use `animate-spin` and `animate-pulse`, and focus
+  rings use the `focus-visible:outline-*` variants.
+*/
+
+/* ===== A couple of missing intrinsic-size utilities ===== */
+
+.h-auto {
+  height: auto;
+}
+
+.w-auto {
+  width: auto;
+}
+
+/* ===== Spinner =====
+
+   Only the ring visual lives here; the rotation is Olive's
+   `animate-spin` utility, applied by the component itself. */
+
+.hg-spinner {
+  border-radius: 50%;
+  border: 0.25rem solid rgba(120, 113, 108, 0.35);
+  border-top-color: #57534e;
+}
+
+[data-theme="dark"] .hg-spinner {
+  border-color: rgba(214, 211, 209, 0.25);
+  border-top-color: #d6d3d1;
+}
+
+/* ===== A readable default ink =====
+
+   Components carry their own colour classes, but text a page does not
+   decorate must still be readable, and Olive ships no base ink of its own.
+   Both rules land before olive.min.css in the document, so a `text-*`
+   utility anywhere in the markup still wins over them. */
+
+body {
+  color: #1c1917;
+}
+
+[data-theme="dark"] body {
+  color: #ededee;
+}
+
+/* ===== Native progress bar ===== */
+
+.hg-progress {
+  width: 100%;
+  height: 1rem;
+  border: 0;
+  border-radius: 81.92rem;
+  overflow: hidden;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(120, 113, 108, 0.25);
+}
+
+.hg-progress::-webkit-progress-bar {
+  background: rgba(120, 113, 108, 0.25);
+  border-radius: 81.92rem;
+}
+
+.hg-progress::-webkit-progress-value {
+  background: #57534e;
+  border-radius: 81.92rem;
+}
+
+.hg-progress::-moz-progress-bar {
+  background: #57534e;
+  border-radius: 81.92rem;
+}
+
+[data-theme="dark"] .hg-progress,
+[data-theme="dark"] .hg-progress::-webkit-progress-bar {
+  background: rgba(214, 211, 209, 0.2);
+}
+
+[data-theme="dark"] .hg-progress::-webkit-progress-value,
+[data-theme="dark"] .hg-progress::-moz-progress-bar {
+  background: #d6d3d1;
+}
+
+/* ===== CSS-only tabs (no JavaScript) ===== */
+
+.hg-tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+.hg-tab-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hg-tab-labels {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  border-bottom: 2px solid rgba(120, 113, 108, 0.35);
+}
+
+.hg-tab-label {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem 0.75rem 0 0;
+  font-weight: 500;
+  /* 7.4:1 on the panel, not the 4.6:1 of a lighter grey: an unselected
+     label is still text and still has to be read */
+  color: #57534e;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+[data-theme="dark"] .hg-tab-label {
+  color: #d6d3d1;
+}
+
+.hg-tab-panels {
+  padding-top: 1rem;
+}
+
+.hg-tab-panel {
+  display: none;
+}
+
+/* active label highlight */
+.hg-tabs:has(> .hg-tab-input:nth-of-type(1):checked) > .hg-tab-labels > .hg-tab-label:nth-child(1),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(2):checked) > .hg-tab-labels > .hg-tab-label:nth-child(2),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(3):checked) > .hg-tab-labels > .hg-tab-label:nth-child(3),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(4):checked) > .hg-tab-labels > .hg-tab-label:nth-child(4),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(5):checked) > .hg-tab-labels > .hg-tab-label:nth-child(5),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(6):checked) > .hg-tab-labels > .hg-tab-label:nth-child(6),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(7):checked) > .hg-tab-labels > .hg-tab-label:nth-child(7),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(8):checked) > .hg-tab-labels > .hg-tab-label:nth-child(8) {
+  background: rgba(120, 113, 108, 0.25);
+  color: #1c1917;
+}
+
+[data-theme="dark"] .hg-tabs:has(> .hg-tab-input:nth-of-type(1):checked) > .hg-tab-labels > .hg-tab-label:nth-child(1),
+[data-theme="dark"] .hg-tabs:has(> .hg-tab-input:nth-of-type(2):checked) > .hg-tab-labels > .hg-tab-label:nth-child(2),
+[data-theme="dark"] .hg-tabs:has(> .hg-tab-input:nth-of-type(3):checked) > .hg-tab-labels > .hg-tab-label:nth-child(3),
+[data-theme="dark"] .hg-tabs:has(> .hg-tab-input:nth-of-type(4):checked) > .hg-tab-labels > .hg-tab-label:nth-child(4),
+[data-theme="dark"] .hg-tabs:has(> .hg-tab-input:nth-of-type(5):checked) > .hg-tab-labels > .hg-tab-label:nth-child(5),
+[data-theme="dark"] .hg-tabs:has(> .hg-tab-input:nth-of-type(6):checked) > .hg-tab-labels > .hg-tab-label:nth-child(6),
+[data-theme="dark"] .hg-tabs:has(> .hg-tab-input:nth-of-type(7):checked) > .hg-tab-labels > .hg-tab-label:nth-child(7),
+[data-theme="dark"] .hg-tabs:has(> .hg-tab-input:nth-of-type(8):checked) > .hg-tab-labels > .hg-tab-label:nth-child(8) {
+  background: rgba(214, 211, 209, 0.2);
+  color: #f5f5f4;
+}
+
+/* active panel */
+.hg-tabs:has(> .hg-tab-input:nth-of-type(1):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(1),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(2):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(2),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(3):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(3),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(4):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(4),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(5):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(5),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(6):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(6),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(7):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(7),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(8):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(8) {
+  display: block;
+}
+
+/* keyboard focus */
+.hg-tabs:has(> .hg-tab-input:nth-of-type(1):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(1),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(2):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(2),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(3):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(3),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(4):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(4),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(5):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(5),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(6):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(6),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(7):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(7),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(8):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(8) {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ===== Switch backed by a native checkbox ===== */
+
+.hg-switch-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hg-switch {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: 2.75rem;
+  height: 1.5rem;
+  border-radius: 81.92rem;
+  background: #a8a29e;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.hg-switch::after {
+  content: "";
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 81.92rem;
+  background: #ffffff;
+  transition: transform 0.2s ease;
+}
+
+.hg-switch-input:checked ~ .hg-switch {
+  background: #57534e;
+}
+
+[data-theme="dark"] .hg-switch-input:checked ~ .hg-switch {
+  background: #d6d3d1;
+}
+
+.hg-switch-input:checked ~ .hg-switch::after {
+  transform: translateX(1.25rem);
+}
+
+.hg-switch-input:focus-visible ~ .hg-switch {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ===== CSS-only modal via :target ===== */
+
+.hg-modal {
+  display: none;
+}
+
+.hg-modal:target {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 64;
+}
+
+.hg-modal-backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(12, 10, 9, 0.6);
+}
+
+.hg-modal-content {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 34rem;
+  margin: 1rem;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.35);
+  background: #f5f5f4;
+  color: #1c1917;
+}
+
+[data-theme="dark"] .hg-modal-content {
+  background: #262626;
+  color: #f5f5f4;
+}
+
+.hg-modal-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.hg-modal-close {
+  text-decoration: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: inherit;
+}
+
+.hg-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hg-modal-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* ===== CSS-only tooltips ===== */
+
+.hg-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.hg-tooltip::after {
+  content: attr(data-hg-tooltip);
+  /* Hidden really means hidden: an absolutely positioned bubble still
+     occupies layout space, so a tooltip near the right edge would widen
+     the page and leave a phone layout that can be panned sideways.
+     `display: none` removes the box entirely, which is how the modal and
+     the fly-out menu already hide themselves. */
+  display: none;
+  position: absolute;
+  z-index: 64;
+  width: max-content;
+  max-width: 16rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.6rem;
+  background: #1c1917;
+  color: #f5f5f4;
+  font-size: 0.8rem;
+  line-height: 1.25;
+  pointer-events: none;
+}
+
+.hg-tooltip:hover::after,
+.hg-tooltip:focus-visible::after {
+  display: block;
+  /* display cannot be transitioned, so the fade-in is an animation */
+  animation: hg-tooltip-in 0.15s ease;
+}
+
+@keyframes hg-tooltip-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hg-tooltip-top::after {
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -0.4rem);
+}
+
+.hg-tooltip-bottom::after {
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0.4rem);
+}
+
+.hg-tooltip-left::after {
+  right: 100%;
+  top: 50%;
+  transform: translate(-0.4rem, -50%);
+}
+
+.hg-tooltip-right::after {
+  left: 100%;
+  top: 50%;
+  transform: translate(0.4rem, -50%);
+}
+
+/* On a narrow viewport a wide bubble cannot always be centred on its
+   trigger without leaving the screen, so the vertical variants are
+   capped in width and aligned to the trigger's end edge instead. In
+   left-to-right writing, overflow to the left never makes a page pan
+   sideways, while overflow to the right does. */
+
+@media (max-width: 40rem) {
+  .hg-tooltip-top::after,
+  .hg-tooltip-bottom::after {
+    left: auto;
+    right: 0;
+    max-width: calc(100vw - 3rem);
+  }
+
+  .hg-tooltip-top::after {
+    transform: translate(0, -0.4rem);
+  }
+
+  .hg-tooltip-bottom::after {
+    transform: translate(0, 0.4rem);
+  }
+}
+
+/* ===== Drifting colour washes =====
+
+   The wallpaper trick: a few oversized, heavily blurred discs of colour
+   behind a frosted panel. `.hg-blob` only adds the slow drift, so the
+   size, position, colour and blur stay in the markup where Olive already
+   expresses them (`blur-3xl`, `w-96`, `bg-naples-yellow-500/50`, ...).
+   Stagger the discs with an inline `animation-delay` so they never move
+   in lockstep. */
+
+.hg-blob {
+  animation: hg-blob-drift 26s ease-in-out infinite alternate;
+}
+
+@keyframes hg-blob-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(1.5rem, -1.25rem, 0) scale(1.08);
+  }
+}
+
+/* ===== Gradient text =====
+
+   One gradient per theme, since a deep sweep that sings on the light
+   background turns to mud on the dark one.
+
+   The compound `h1.`/`h2.` selectors are deliberate: Olive's text-colour
+   utilities are single classes, and this sheet is inlined before
+   olive.min.css, so a bare `.hg-gradient-text` would lose the cascade
+   and the heading would keep its solid colour. */
+
+h1.hg-gradient-text,
+h2.hg-gradient-text {
+  background-image: linear-gradient(100deg,
+                                    oklch(0.7404 0.1399 91.55 / 1),
+                                    oklch(0.6183 0.1557 45.26 / 1) 45%,
+                                    oklch(0.4929 0.161 279.98 / 1));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+[data-theme="dark"] h1.hg-gradient-text,
+[data-theme="dark"] h2.hg-gradient-text {
+  background-image: linear-gradient(100deg,
+                                    oklch(0.8855 0.1307 92.19 / 1),
+                                    oklch(0.7404 0.1656 39.8 / 1) 45%,
+                                    oklch(0.7439 0.1301 288.16 / 1));
+}
+
+/* ===== Respect reduced-motion preferences ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .hg-switch,
+  .hg-switch::after,
+  .hg-tooltip::after,
+  .hg-tab-label,
+  .hg-blob {
+    transition: none;
+    animation: none;
+  }
+}

@@ -74,7 +74,7 @@ The fallback typography class string applied to the notification's description f
                                                                               items-center)))
                                          (notification-tray-container-classes (mk-class '
                                                                                (max-w-full
-                                                                                animate-wiggle
+                                                                                animate-bounce
                                                                                 max-w-prose
                                                                                 rounded-xl
                                                                                 bg-stone-300/90

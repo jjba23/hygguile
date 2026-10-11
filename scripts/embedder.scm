@@ -68,7 +68,7 @@
                     toggle-dark-theme))
 
 (define css-files
-  '(fly-out))
+  '(fly-out hygguile-extras no-js))
 
 (define license-text
   ";; hygguile - cozy and professional user-interfaces for everyone

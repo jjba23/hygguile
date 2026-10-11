@@ -34,7 +34,7 @@ List of symbols representing additional layout formatting rules or sizing CSS cl
 @end table
 
 @example
-(icon #:type 'heart #:weight 'bold #:icon-css '(text-red-500 text-2xl))
+(icon #:type 'heart #:weight 'bold #:icon-css '(text-redwood-500 text-2xl))
 @end example"
   (let* ((weight-class (cond
                          ((eq? 'bold weight)
@@ -43,5 +43,5 @@ List of symbols representing additional layout formatting rules or sizing CSS cl
                           'ph-light)
                          (else 'ph)))
          (icon-class (string->symbol (format #f "ph-~a" type))))
-    `(i (@ (class ,(mk-class (append (list weight-class icon-class) icon-css))))
-        "")))
+    `(i (@ (class ,(mk-class (append (list weight-class icon-class) icon-css
+                                     '(select-none shrink-0))))) "")))

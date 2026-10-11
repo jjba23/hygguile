@@ -15,6 +15,8 @@ Hygguile is built on top of [[https://codeberg.org/jjba23/olive-css][Olive CSS]]
 
 Hygguile aims to provide reusable, professional-looking and accessible web components, whose names resemble the HTML counterparts, thus easing the learning curve, and reducing the cognitive load.
 
+Hygguile renders every component to real HTML on the server and enhances it in the browser only where that helps. Pages stay fast, accessible, and fully usable without JavaScript, following the web's original request/response model rather than a client-side rendering one.
+
 /hygge + guile = hygguile/
 
 This project is licensed under the Lesser GNU General Public License v3 or later.
@@ -71,7 +73,50 @@ One of the main abstractions we use is the ~mk-class~ procedure, which takes a l
 ;; <p class="bg-stone-300 my-2 p-2">Some paragraph</p>
 #+end_src
 
+Components keep their native semantics, so the HTML you emit carries the meaning a browser, a crawler and a screen reader all agree on: ~<caption>~, ~<thead>~, ~<th scope>~, ~<label for>~, ~<time datetime>~. That is also why the components are named after the elements they produce.
 
+#+begin_src scheme
+;; a data table: caption, header group, body and totals
+(table (list (thead (list (tr (list (th "Plan" #:scope 'col)
+                                   (th "Price" #:scope 'col #:numeric #t)))))
+             (tbody (list (tr (list (td "Cozy")
+                                    (td "9" #:numeric #t)))))
+             (tfoot (list (tr (list (th "Total" #:scope 'row)
+                                    (td "9" #:numeric #t))))))
+       #:caption "Plans")
+
+;; a working form: real <form>, native validation, ready-made submit button
+(form (list (input #:label "Your email:"
+                   #:name "email"
+                   #:type 'email
+                   #:autocomplete "email"
+                   #:required #t))
+      #:action "/subscribe"
+      #:submit "Subscribe")
+
+;; the small inline elements are worth marking up too
+(p (list "Press " (kbd "Ctrl") " then " (kbd "l")
+         ", last updated " (time "11 October 2026" #:datetime "2026-10-11")))
+#+end_src
+
+A few of the shipped looks need more than one utility class, and those live in the companion stylesheet that ~(hygguile-recommended-resources)~ embeds for you. Two of them are the classy ones:
+
+#+begin_src scheme
+;; a frosted panel with a soft colour wash drifting behind it, the
+;; wallpaper look, in Olive utilities plus one animation class
+(div (@ (class "relative overflow-hidden rounded-3xl backdrop-blur-md bg-stone-100/75 dark:bg-onyx-900/75"))
+     (div (@ (aria-hidden "true")
+             (class "hg-blob absolute pointer-events-none blur-3xl rounded-512 w-96 h-96 bg-naples-yellow-500/75")
+             ;; stagger the discs so they never drift in lockstep
+             (style "animation-delay: -6s")))
+     (div (@ (class "relative")) (h1 "Hygguile")))
+
+;; gradient text: the class list of `color' is simply appended, so a
+;; gradient treatment belongs there; it has a lighter variant for dark mode
+(h1 "Hygguile" #:color '(hg-gradient-text))
+#+end_src
+
+Both respect ~prefers-reduced-motion: reduce~. And one serialization rule worth knowing: an element without children is written as an explicit open/close pair (~<div></div>~), never as the XML shorthand ~<div />~, because hygguile's output is served as ~text/html~, where that shorthand is read as an open tag and silently swallows the rest of the document. Only HTML void elements (~<img>~, ~<input>~, ~<hr>~, ...) are written as a lone tag.
 
 --------
 
@@ -90,6 +135,78 @@ The showcase site, documentation and examples, including this document, which ar
 https://www.gnu.org/licenses/fdl-1.3.html
 
 ---------
+
+
+* Quickstart
+
+The short path from nothing to a page you can open in a browser. Only the install step prefers Guix; any Guile 3.0 with hygguile on ~GUILE_LOAD_PATH~ works the same way.
+
+** 1. Put hygguile in your environment
+
+#+begin_src scheme
+;; manifest.scm, next to your project
+(use-modules (gnu packages guile)
+             (gnu packages guile-xyz))
+(specifications->manifest (list "guile" "guile-hygguile"))
+#+end_src
+
+#+begin_src sh
+guix shell -m manifest.scm
+#+end_src
+
+** 2. Write one page
+
+Components are ordinary Scheme procedures that return SXML, so a page is data and ~sxml->xml~ turns it into the HTML you serve:
+
+#+begin_src scheme
+(use-modules (hygguile hygguile)   ; every component, re-exported
+             (hygguile sxml))      ; sxml->xml
+
+(define page
+  `(,doctype-html
+    (html (@ (lang en))
+          (head (title "Hello")
+                ,(hygguile-recommended-meta)
+                ,(hygguile-recommended-resources)
+                (link (@ (rel stylesheet) (href "olive.min.css"))))
+          (body (@ (class ,(mk-class '(bg-stone-100 dark:bg-onyx-900
+                                                 font-sans))))
+                ;; components are evaluated, not written out: each `,' below
+                ;; calls one and splices the SXML it returns
+                ,(h1 "Hello, hygguile")
+                ,(p (list "Press " (kbd "Ctrl") " " (kbd "l") "."))
+                ,(input #:label "Your email:" #:name "email" #:type 'email)
+                ,(submit-button "Save")))))
+
+(call-with-output-file "index.html"
+  (lambda (port)
+    (sxml->xml page port)))
+#+end_src
+
+That last point is the one newcomers trip over. Inside a quasiquote, ~(h1 "Hi")~ is a *literal SXML node* called ~h1~ and ~,(h1 "Hi")~ is a *call to the component*. The first only looks right when the tag name happens to match: ~(input #:label "Email")~ written without the comma is emitted as an ~<input>~ element with your key arguments as its children, and ~(p (list "a" "b"))~ inside a quasiquote becomes a ~<list>~ tag. When in doubt, build the body with ~list~ and let every component be an ordinary call, the way ~examples/minimal.scm~ does.
+
+Serve that directory with any static file server (~python3 -m http.server~, ~darkhttpd~, ...) and open the page. Two things have to be true first:
+
+- ~olive.min.css~ has to sit next to the page; copy it from ~resources/css/~ (or link the one you built yourself).
+- ~(hygguile-recommended-resources)~ has to be in the ~head~. That is what loads the companion stylesheet and the few progressive-enhancement scripts. ~(hygguile-recommended-meta)~ is the viewport and charset pair.
+
+A complete, commented version of that page is ~examples/minimal.scm~, and ~maak example~ renders it to ~dist/example.html~.
+
+** 3. Where things are
+
+- ~src/hygguile/components/~ :: one module per family of components (~button~, ~input~, ~card~, ~navigation~, ...). Every procedure documents each key argument in its docstring, and those docstrings are what the API reference is generated from.
+- ~resources/css/hygguile-extras.css~ :: the components that need structure rather than a single utility: ~<progress>~, ~<details>~, the CSS-only tabs, the switch, the modal, the tooltip. Embedded into Scheme by ~maak embed~.
+- ~resources/js/~ :: the small enhancement scripts (theme memory, carousel paging, fly-out menus, notifications, copy buttons), embedded the same way.
+- ~olive.min.css~ :: the utility-class framework hygguile is built on. Ship it as its own cacheable file instead of inlining it.
+- ~showcase.scm~ :: the kitchen sink, and the best place to see a component in a realistic layout.
+
+** 4. Where to look next
+
+- The component index below says what each module exports.
+- The API reference documents every procedure and every key argument: https://jointhefreeworld.org/api-docs/hygguile/API.html (or generate it locally with ~maak docs~).
+- ~showcase.scm~ and ~examples/minimal.scm~ are working pages you can read end to end.
+
+-------
 
 
 * Installing and Using
@@ -160,6 +277,164 @@ Alternatively, you can install it by downloading the source code files and addin
 
 ----------------
 
+* Component index
+
+Everything below is re-exported by the single ~(hygguile hygguile)~ module, so one ~use-modules~ gives you all of it. Components are named after the element they produce, and each one keeps that element's native semantics: a ~table~ is a ~<table>~ with ~<caption>~, ~<thead>~ and ~<th scope>~, an ~input~ is an ~<input>~ with a ~<label for>~ bound to it, a ~details~ is a ~<details>~.
+
+| module | exports | renders |
+|--------+---------+---------|
+| ~button~ | ~button~, ~icon-button~, ~submit-button~, ~danger-submit-button~, ~light-button~, ~mono-button~, ~ui-mode-button~ | ~<button>~, ~<input type="submit">~ |
+| ~typography~ | ~h1~--~h4~, ~sub-h1~--~sub-h4~, ~p~, ~em~, ~strong~, ~a~, ~mono~, ~pre~, ~code~, ~kbd~, ~samp~, ~var~, ~mark~, ~time~, ~abbr~, ~sup~, ~sub~ | the matching ~<h1>~...~<sub>~ inline and block elements |
+| ~container~ | ~with-footer~, ~footer~, ~hr~, ~row~, ~col~, ~dl~, ~dd~, ~dt~, ~noscript~ | ~<main>~ plus ~<footer>~, ~<hr>~, grid rows and columns, ~<dl>~/~<dt>~/~<dd>~, a ~<noscript>~ fallback |
+| ~card~ | ~card~, ~card-header~, ~card-body~, ~card-footer~, ~card-title~, ~card-description~, ~badge~, ~stat-card~ | ~<div>~/~<header>~/~<footer>~ surfaces, ~<h3>~ titles, a ~<span>~ badge, a key-figure block |
+| ~input~ | ~form~, ~input~, ~textarea~, ~checkbox~, ~radio~, ~switch~, ~range~, ~help-text~, ~form-error~ | ~<form>~ and the native controls, label bound to field, helper copy wired through ~aria-describedby~ |
+| ~feedback~ | ~alert~, ~progress~, ~spinner~, ~skeleton~ | an inline ~<div>~ alert with ~role~, a native ~<progress>~, loading placeholders |
+| ~navigation~ | ~navbar~, ~nav-link~, ~breadcrumbs~, ~pagination~, ~tabs~, ~tab~ | ~<header>~ bar, ~<a>~ links, ~<nav>~ breadcrumbs, page pills, a JavaScript-free tab set |
+| ~disclosure~ | ~details~, ~summary~, ~accordion~, ~accordion-item~, ~modal~, ~tooltip~ | ~<details>~/~<summary>~, stacked disclosures, a CSS-only dialog and tooltip |
+| ~table~ | ~table~, ~caption~, ~thead~, ~tbody~, ~tfoot~, ~tr~, ~th~, ~td~, ~table-column~, ~sortable-table~, ~sort-href~, ~parse-sort~ | the whole ~<table>~ family, with a scrollable region for narrow screens, plus server-driven sorting |
+| ~media~ | ~img~, ~source~, ~picture~, ~figure~, ~figcaption~, ~avatar~, ~image-gallery~ | the ~<img>~/~<picture>~ family plus two common compositions |
+| ~select~ | ~select~, ~option~, ~glyph-option~ | ~<select>~ and its ~<option>~ rows, including icon rows |
+| ~fly-out~ | ~fly-out~, ~fly-out-submenu~, ~fly-out-item~ | nested ~<nav>~/~<ul>~ drop-down menus |
+| ~carousel~ | ~carousel~ | a scroll-snap track with paging arrows |
+| ~icon~ | ~icon~ | a Phosphor icon, at the requested weight |
+| ~notification~ | ~notification-tray~ | the polite live region the notification URL parameters fill |
+| ~css~ / ~js~ | ~custom-fonts~, ~phosphor-icons~, and the enhancement scripts | the ~<link>~ and ~<script>~ fragments ~(hygguile-recommended-resources)~ assembles |
+| ~abstraction~ | ~mk-class~, ~override-classes~, ~attr-when~, ~render-if-nempty~, ~pretty-quote~, ... | no HTML of their own: the helpers components are written with |
+
+----------------
+
+* Sorting a data table in the URL
+
+Which order a table is in is a question for the server, and the query string is where the answer travels. A sortable header cell is therefore an ordinary link -- ~?sort=<key>&dir=<asc|desc>~ -- and clicking it is a plain navigation: the table sorts with JavaScript disabled, a reload reproduces the order, and the URL can be bookmarked, shared or pasted into a colleague's browser and land on the same view. No client-side sort of a handful of rendered rows pretends to be the whole data set, and no invisible state has to be kept in sync with it.
+
+The contract is one pair of names:
+
+| name | value |
+|------+-------|
+| ~sort~ | the key of the column to order by, a symbol such as ~seats~ |
+| ~dir~ | ~asc~ or ~desc~; absent means ~asc~ |
+
+~sort~ naming a column the table does not have -- a hand-edited, truncated or stale link -- is treated as no sort at all, so it falls back to the natural order instead of reaching your query layer.
+
+Three pieces implement it, and a page only needs the first and the last:
+
+#+begin_src scheme
+(use-modules (hygguile hygguile))
+
+(define columns
+  (list (table-column #:key 'plan #:label "Plan")
+        (table-column #:key 'seats #:label "Seats" #:numeric #t)
+        ;; the first click on a column usually wants ascending order,
+        ;; but a column of figures is read from the biggest down
+        (table-column #:key 'revenue #:label "Revenue" #:numeric #t
+                      #:default-direction 'desc)
+        ;; no key: rendered, but not a link
+        (table-column #:label "Actions")))
+
+;; the page: the current order may come from anywhere, the component
+;; only turns it into links and aria-sort
+(sortable-table #:columns columns
+                #:rows rows
+                #:sort 'seats #:direction 'desc
+                #:params (request-query)
+                #:caption "Plans, ordered by seats")
+
+;; the server half: hand it the decoded query and it answers
+;; (key direction), with a key no column declares turned into #f
+(parse-sort (request-query) #:columns columns)
+;; => (seats desc)
+#+end_src
+
+A route therefore reads the query, hands it to ~parse-sort~, orders its rows by the answer, and passes the same ~(key direction)~ back to ~sortable-table~; the component writes the state into the links and ~parse-sort~ reads it back on the next request, so the two can never drift apart. ~sort-href~ is the same URL builder on its own, for a table you assemble by hand with ~table~, ~th #:aria-sort~ and ~tfoot~.
+
+Clicking the column the table is already ordered by reverses it; clicking any other column starts that column in its own direction, or the table's ~#:default-direction~ when it declares none. The links carry the page's other query parameters along, so a filter survives a sort -- except ~page~, which is dropped by default through ~#:drop-params~, because page 4 of the old order is an arbitrary slice of the new one: a sort starts at the first page. A ~sort~ or ~dir~ already in the query is replaced rather than repeated, so the whole query the page received can be handed straight back in.
+
+Accessibility is carried by the markup, not by a script: every sortable cell announces its state with ~aria-sort~ (~ascending~, ~descending~ or ~none~ for a column that can be sorted but is not), and the link's ~title~ says what a click would do. The arrow beside the label shows the order that column is in -- up or down -- and becomes a dimmed double arrow on the columns that are not ordering the table; it is decorative, so it is hidden from assistive technology and never part of the label. Sortable headers name their own ink, the page's link colours one per theme, because a bare ~<a>~ would fall back to the browser's default blue, which is off-palette and unreadable on a dark surface.
+
+~examples/sortable-table.scm~ is the other half written out in full: a real Guile web server (~maak example-server~, then http://localhost:8095/) that renders the page, reads ~?sort=&dir=~ back with ~parse-sort~, sorts its rows with ~(srfi srfi-1)~'s ~sort~, and prints what it understood so the contract is visible rather than implied. Swap the in-memory list for a database and the only change is the ~order by~ clause.
+
+----------------
+
+* Theming, dark mode and contrast
+
+** How a theme is selected
+
+The theme is one attribute on the root element: ~<html data-theme="dark">~. Olive ships its dark utilities under ~:where([data-theme=dark], [data-theme=dark] *)~, plus a ~prefers-color-scheme~ block for visitors who never chose. ~remember-dark-theme-js~ (loaded for you by ~(hygguile-recommended-resources)~) toggles the attribute and remembers the choice in ~localStorage~, so ~dark:~ utilities and your own extra styles are all you need to think about.
+
+Because both themes are one stylesheet, there is no second palette to maintain and no flash of the wrong theme.
+
+** The ink rule
+
+Olive's ramps are perceptual (~oklch~), but a ramp alone does not tell you what is readable: you need the pair. Every hygguile component therefore names two inks for every surface it paints -- one for each theme -- and picks the ends that actually contrast:
+
+- on the light theme, ~bg-stone-*~ surfaces carry the dark end of a ramp (~text-onyx-300~ is the default body ink) or a saturated mid-ramp plus near-white type;
+- on the dark theme, ~dark:bg-onyx-*~ surfaces carry the light end (~dark:text-stone-300~).
+
+A ramp is not always usable at both ends. Yellow and blue ramps in particular never reach a readable lightness, which is why those components borrow a neighbouring hue instead of forcing their own: warnings take ~coffee-900~ ink on light and ~naples-yellow-100~ on dark, info alerts take ~jeans-blue-900~/~moonstone-100~, and links take ~moonstone-300~ with ~moonstone-100~ on hover.
+
+The one rule worth memorising: ~text-stone-*~ is a *light* ink and ~text-onyx-*~ a *dark* one. Olive's ~stone~ ramp runs from 0.987 down to 0.807 and ~onyx~ from 0.459 down to 0.259, so "stone" is not a darker grey than "onyx".
+
+** Never stack two colours on one variant
+
+Two colour utilities on the same variant -- say ~text-onyx-300~ and ~text-stone-100~ -- set the same CSS property, and which one wins is decided by the order of the generated stylesheet, not by the order you wrote them. That is a coin flip, and it is exactly how a page ends up with near-white text on a near-white pill.
+
+~override-classes~ settles it in Scheme instead of in the cascade:
+
+#+begin_src scheme
+;; the current-page pill: the base link classes keep their shape, but their
+;; colour utilities are replaced by the pill's, so there is only ever one
+;; `text-' and one `dark:text-' on the element
+(override-classes '(no-underline border-2 border-onyx-300
+                    text-onyx-300 dark:text-stone-300)
+                  '(bg-onyx-500 text-stone-100
+                    dark:bg-stone-100 dark:text-onyx-900))
+;; => (no-underline border-2 border-onyx-300
+;;     bg-onyx-500 text-stone-100 dark:bg-stone-100 dark:text-onyx-900)
+#+end_src
+
+It only ever removes *colour* utilities (a ramp plus a 2--3 digit shade, optionally behind a variant), so shape and size utilities such as ~border-2~ or ~text-sm~ survive untouched, and variants are part of the identity: ~dark:text-onyx-900~ overrides ~dark:text-stone-300~ without disturbing the light theme's ~text-onyx-300~. Reach for it whenever a component's base classes meet a state list.
+
+** Measuring instead of guessing
+
+~scripts/contrast-audit.js~ answers "is this readable?" the only honest way: in the browser. It reads the computed ink of every element that renders text, composites every translucent background above it, and compares the result with the WCAG 2.1 formula, reporting failures below the AA thresholds (4.5:1 for body text, 3:1 for large text and non-text UI). It also lists pairs that pass with less than 20% of headroom, which are the ones that will break on the next shade change.
+
+#+begin_src sh
+# in the browser console of any rendered hygguile page
+await fetch('/contrast-audit.js').then(r => r.text()).then(eval)
+copy(window.__contrastAudit)
+#+end_src
+
+Run it once per theme (~data-theme~ on ~<html>~), and give the transitions a moment to settle first, since ~transition-colors~ means the computed colour is briefly mid-animation.
+
+The showcase currently passes with 329 text elements checked in each theme and zero below AA, the minimal example with 41 and zero, and the sortable-table example server with 29 and zero (measured after ~data-theme~ was switched and the colour transitions had settled). The three pairs worth remembering from the last pass over it:
+
+| pair | before | after |
+|------+--------+-------|
+| dark-theme link ink | ~glaucous-100~, 4.56:1 on the darkest panel | ~moonstone-300~, 5.5:1 |
+| dark-theme ~danger~ badge | ~onyx-900~ on ~redwood-100~, 4.7:1 | on ~light-coral-100~, 6.9:1 |
+| unselected tab label, light theme | ~#78716c~, 4.6:1 | ~#57534e~, 7.4:1 |
+
+----------------
+
+* Development tasks
+
+The repository is driven by [[https://codeberg.org/jjba23/maak][maak]]. ~maak --list~ prints the tasks; the ones worth knowing:
+
+| task | what it does |
+|------+--------------|
+| ~maak test~ | runs the [[https://codeberg.org/jjba23/guile-veritas][veritas]] unit suite (component SXML shapes, the abstraction helpers, the serializer) |
+| ~maak build~ | renders ~showcase.scm~ into ~dist/index.html~ next to a copy of ~olive.min.css~ (it recreates ~dist/~, so run it first) |
+| ~maak example~ | renders ~examples/minimal.scm~ into ~dist/example.html~ |
+| ~maak example-server~ | runs ~examples/sortable-table.scm~ on port 8095: the server half of the sorting contract, so you can click a header and watch the URL |
+| ~maak serve~ | serves ~dist/~ on port 50054 with ~darkhttpd~ |
+| ~maak embed~ | re-embeds ~resources/~ into ~src/hygguile/embed/~ (run it after touching any CSS or JavaScript) |
+| ~maak docs~ | regenerates the API reference into ~doc/api-dist~ with ~documenta~ and ~texi2any~ |
+| ~maak fmt~ | formats every ~.scm~ file with ~guix style~ |
+| ~maak validate~ | ~fmt~, ~compile~ and ~test~ in one go |
+| ~maak dev~ (alias ~maak hr~) | watches the tree and re-runs test, build and docs on every change |
+
+----------------
+
 * Projects that use Hygguile
 
 - WikiMusic :: https://codeberg.org/jjba23/wikimusic
@@ -223,6 +498,46 @@ You can always choose to import hygguile using a prefix to avoid name clashes if
   ((hygguile hygguile) #:prefix hyg:))
 #+end_src
 
+
+-------
+
+* On Server-Side Rendering: Why render on the server?
+
+Hygguile renders complete HTML on the server. The browser receives a finished document and a little JavaScript enhances it afterwards. That "old school" approach is worth defending even in the age of single-page applications, because for the kind of software most of us ship -- content sites, forms, dashboards, admin panels -- it keeps the fast path fast and the simple path simple.
+
+The showcase page makes the same case, in the same order, at https://hygguile.jointhefreeworld.org/#why-ssr
+
+** The first paint is not gated on a framework
+
+The HTML arrives ready to render. There is no bundle to download, parse and execute before the first pixel, so pages feel immediate even on slow connections and modest hardware. The cost of your interface is paid once, on the server, and shared by every visitor, instead of being paid again on each device that opens the page.
+
+** There is no hydration step to get out of sync
+
+The server produces the final tree. Nothing is re-rendered on the client merely to attach behaviour, so there is no hydration pass that can disagree with the markup, and no flash of a not-yet-interactive page.
+
+** It works when JavaScript does not
+
+Links navigate and forms submit. ~<details>~, CSS-only tabs, the modal and tooltips keep working with scripting disabled; the theme toggle, carousel arrows and live notifications step in only when they can. Progressive enhancement is not a slogan here, it is the default: Hygguile ships components that degrade to ordinary, usable HTML.
+
+** One source of truth
+
+State lives in the database and in the URL, not in a second client-side store. There is no model to duplicate, no cache to invalidate, and no class of stale-UI bugs caused by the two drifting apart. A page is a pure function of its request.
+
+** Cacheable, cheap and small
+
+Because a page is a function of its request, responses are easy to cache, compress and proxy. Payloads stay small -- mostly text, styled by one stylesheet the browser already holds -- which matters most to the users on the worst connections.
+
+** Accessible and discoverable by default
+
+Real headings, landmarks, labels and form controls are present in the first byte. Screen readers and crawlers never have to wait on a client-side rendering race, and the page is useful the moment it is parsed.
+
+** A smaller, calmer stack
+
+No client router, no global store, no build step that has to agree with the server. The mental model is the one the web began with: ask for a URL, receive a document, follow a link.
+
+** When is an SPA the right call?
+
+Single-page applications earn their complexity when you genuinely need offline support or a deeply interactive workspace. Even then it is a spectrum rather than a binary: you can ship mostly-static HTML and add interactivity only where it repays its cost. Hygguile is built exactly that way -- a document first, with small islands of behaviour.
 
 -------
 

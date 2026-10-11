@@ -22,12 +22,14 @@
   #:use-module (ice-9 popen)
   #:use-module (ice-9 format)
   #:use-module (ice-9 regex)
-  #:export (mk-class render-if-nestring
+  #:export (mk-class override-classes
+                     render-if-nestring
                      render-if-nempty
                      pretty-quote
                      syscall
                      get-short-commit-sha
-                     mk-style))
+                     mk-style
+                     attr-when))
 
 (define (mk-style pairs)
   "Convert an association list of properties and values into a CSS inline style string.
@@ -44,6 +46,31 @@ An association list or list of pairs where each element's @code{car} is the CSS 
                       (format #f "~a: ~a"
                               (car p)
                               (cdr p))) pairs) "; "))
+
+(define (attr-when condition name value)
+  "Return a one-element list holding the SXML attribute pair @code{(name . value)} when @var{condition} is true, otherwise the empty list.
+
+This helper makes it easy to build optional HTML attributes without
+sprinkling @code{if} expressions through a template. It is designed to
+be spliced into an attribute list with @code{,@@}, so an unfulfilled
+condition simply omits the attribute.
+
+@table @var
+@item condition
+Any Scheme value; only @code{#f} makes the attribute disappear.
+@item name
+A symbol representing the attribute name.
+@item value
+The attribute value to render when @var{condition} is truthy.
+@end table
+
+@example
+`(img (@@ ,@@(attr-when srcset 'srcset srcset)
+            (alt ,alt)))
+@end example"
+  (if condition
+      (list (cons name value))
+      '()))
 
 (define* (mk-class xs)
   "Return a sorted, space-separated string of unique class names from @var{xs}.
@@ -68,6 +95,70 @@ A list of symbols.
      "")
     (else (string-join (sort (map symbol->string
                                   (delete-duplicates xs)) string<?) " "))))
+
+(define (colour-utility-key class)
+  "Return a string naming the variant and colour property a class sets, or @code{#f}.
+
+Only colour utilities need this identity. Two colour classes on the same
+variant (@code{text-onyx-300} and @code{text-stone-100}, say) both set
+@code{color}, and which one wins is decided by the order of the generated
+stylesheet rather than the order written in the class attribute. Size and
+shape utilities are deliberately not matched, so @code{text-sm} (font
+size) and @code{text-onyx-300} (colour) stay distinguishable.
+
+@table @var
+@item class
+A class name, as a symbol or a string.
+@end table
+
+@example
+(colour-utility-key 'dark:text-onyx-900)
+;; => \"dark|text\"
+@end example"
+  (let* ((name (if (symbol? class) (symbol->string class) class))
+         (parts (string-split name #\:))
+         (variant (string-join (drop-right parts 1) ":"))
+         (utility (last parts))
+         (m (string-match "^([a-z]+)-[a-z][a-z-]*-[0-9]{2,3}(/[0-9.]+)?$"
+                          utility)))
+    (if m
+        (format #f "~a|~a" variant (match:substring m 1))
+        #f)))
+
+(define* (override-classes base overrides)
+  "Return @var{base} with every colour utility that @var{overrides} also sets removed, then @var{overrides} appended.
+
+Utility-class frameworks settle a conflict between two classes that set
+the same CSS property, such as @code{text-onyx-300} and
+@code{text-stone-100}, by generated-stylesheet order. That order is not
+the order you wrote, and it is not stable across builds, so the result is
+a coin flip. The moment two class lists meet -- a component's base classes
+plus its active-state list, for instance -- @code{override-classes} makes
+the outcome deterministic: the later list wins.
+
+Variants count as part of the identity, so @code{dark:text-onyx-900}
+overrides @code{dark:text-stone-300} without disturbing the light-theme
+@code{text-onyx-300}. Size and shape utilities are never removed.
+
+@table @var
+@item base
+The class list to keep.
+@item overrides
+The class list that wins.
+@end table
+
+@example
+(override-classes '(text-onyx-300 dark:text-stone-300)
+                  '(text-stone-100 dark:text-onyx-900))
+;; => (text-stone-100 dark:text-onyx-900)
+@end example"
+  (let ((keys (delete-duplicates
+               (filter-map colour-utility-key overrides))))
+    (append (filter (lambda (c)
+                      (let ((k (colour-utility-key c)))
+                        (not (and k (member k keys)))))
+                    base)
+            overrides)))
 
 (define* (render-if-nestring expr x)
   "Evaluate and return the result of @var{expr} with @var{x} if @var{x} is a non-empty string.

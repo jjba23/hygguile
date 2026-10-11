@@ -33,7 +33,7 @@
                  (on-click "")
                  (background '(bg-stone-500/90 dark:bg-onyx-500/90))
                  (hover-background '(hover:bg-stone-900/90
-                                     hover:dark:bg-onyx-900))
+                                     dark:hover:bg-onyx-900))
                  (border-size '(border-2))
                  (border-color '(border-stone-700 dark:border-onyx-300))
                  (shadow '(shadow-md))
@@ -43,7 +43,16 @@
                  (family '(font-sans))
                  (weight '(font-medium))
                  (rounding '(rounded-2xl))
-                 (extra-classes '(py-2 px-4 max-w-prose cursor-pointer)))
+                 (extra-classes '(py-2 px-4
+                                       max-w-prose
+                                       cursor-pointer
+                                       select-none
+                                       transition-colors
+                                       duration-200
+                                       ease-in-out
+                                       focus-visible:outline-2
+                                       focus-visible:outline-offset-2
+                                       outline-onyx-500)))
   "Create a standard HTML button element.
 
 @table @var
@@ -115,7 +124,7 @@ List of utility formatting layout classes.
                       (type 'button)
                       (background '(bg-stone-500/90 dark:bg-onyx-500/90))
                       (hover-background '(hover:bg-stone-900/90
-                                          hover:dark:bg-onyx-900))
+                                          dark:hover:bg-onyx-900))
                       (border-size '(border-2))
                       (border-color '(border-stone-700 dark:border-onyx-300))
                       (shadow '(shadow-md))
@@ -126,7 +135,16 @@ List of utility formatting layout classes.
                       (rounding '(rounded-2xl))
                       (active '(active:scale-95))
                       (icon-css '(text-onyx-300 dark:text-stone-100 text-md))
-                      (extra-classes '(py-2 px-4 max-w-prose cursor-pointer))
+                      (extra-classes '(py-2 px-4
+                                            max-w-prose
+                                            cursor-pointer
+                                            select-none
+                                            transition-colors
+                                            duration-200
+                                            ease-in-out
+                                            focus-visible:outline-2
+                                            focus-visible:outline-offset-2
+                                            outline-onyx-500))
                       (icon-text-container-classes '(flex flex-row gap-1
                                                           items-center)))
   "Create a button containing both an icon and text.
@@ -204,6 +222,10 @@ List of symbols applied to the inner layout wrapper surrounding the icon and con
 (define* (submit-button content)
   "Create a green-themed standard HTML form submission button.
 
+The fill is the dark end of the green ramp with near-white type on the
+light theme, and the light end with dark type on the dark theme, so the
+label clears WCAG AA (4.5:1) whichever theme is active.
+
 @table @var
 @item content
 The inner content (text string or HTML fragments) of the button.
@@ -214,9 +236,10 @@ The inner content (text string or HTML fragments) of the button.
 @end example"
   (button content
           #:type 'submit
-          #:background '(bg-asparagus-300)
-          #:color '(text-stone-300)
-          #:hover-background '(hover:bg-asparagus-700)))
+          #:background '(bg-asparagus-900 dark:bg-asparagus-100)
+          #:color '(text-stone-100 dark:text-onyx-900)
+          #:hover-background '(hover:bg-black-olive-700
+                               dark:hover:bg-asparagus-300)))
 
 (define* (danger-submit-button content)
   "Create a red-themed HTML form submission button meant for destructive actions.
@@ -268,7 +291,7 @@ The inner content (text string or HTML fragments) of the button.
                          (type 'button)
                          (background '(bg-stone-500/90 dark:bg-onyx-500/90))
                          (hover-background '(hover:bg-stone-900/90
-                                             hover:dark:bg-onyx-900))
+                                             dark:hover:bg-onyx-900))
                          (border-size '(border-2))
                          (border-color '(border-stone-700 dark:border-onyx-300))
                          (shadow '(shadow-md))
@@ -280,7 +303,16 @@ The inner content (text string or HTML fragments) of the button.
                          (on-click "hygguileToggleDarkTheme()")
                          (rounding '(rounded-2xl))
                          (icon-css '(text-onyx-300 dark:text-stone-300 text-xl))
-                         (extra-classes '(py-2 px-4 max-w-prose cursor-pointer))
+                         (extra-classes '(py-2 px-4
+                                               max-w-prose
+                                               cursor-pointer
+                                               select-none
+                                               transition-colors
+                                               duration-200
+                                               ease-in-out
+                                               focus-visible:outline-2
+                                               focus-visible:outline-offset-2
+                                               outline-onyx-500))
                          (icon-text-container-classes '(flex flex-row gap-1
                                                              items-center)))
   "Create a utility button pre-wired to toggle UI dark/light mode themes.
@@ -338,7 +370,10 @@ List of symbols applied to the inner layout wrapper surrounding the icon and con
                             weight
                             border-size
                             rounding
-                            extra-classes)))
+                            extra-classes
+                            ;; the theme toggle needs JavaScript, so it
+                            ;; hides itself through the no-JS stylesheet
+                            '(js-only))))
     `((button (@ (onclick ,on-click)
                  (type ,(symbol->string type))
                  (class ,(mk-class button-css)))

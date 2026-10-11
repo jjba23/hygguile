@@ -62,6 +62,20 @@ The symbol or string representing an element or attribute name.
                       (list head tail))
             (hashq-set! *good-cache* name #t))))))
 
+;; HTML5 void elements, which are the only elements allowed to be written
+;; as a lone tag. Everything else has to be written as an explicit
+;; open/close pair: hygguile serves its output as text/html, where the XML
+;; shorthand `<div />` is read as an open tag and quietly swallows the rest
+;; of the document.
+(define html-void-elements
+  '("area" "base" "br" "col" "embed" "hr" "img" "input" "link" "meta"
+    "param" "source" "track" "wbr"))
+
+(define (void-element? tag)
+  "Answer whether @var{tag} is an HTML void element, which is serialized
+without a closing tag."
+  (member (string-downcase (format #f "~a" tag)) html-void-elements))
+
 ;; The following two functions serialize tags and attributes. They are
 ;; being used in the node handlers for the post-order function, see
 ;; below.
@@ -161,7 +175,13 @@ The destination output port.
              (display tag port)
              (display ">" port))
             (else (error "bad element body" tag body)))))
-      (display " />" port)))
+      (if (void-element? tag)
+          (display " />" port)
+          (begin
+            (display #\> port)
+            (display "</" port)
+            (display tag port)
+            (display ">" port)))))
 
 ;; FIXME: ensure name is valid
 (define (entity->xml name port)

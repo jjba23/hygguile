@@ -24,67 +24,133 @@
   #:use-module (hygguile components container)
   #:use-module (hygguile components icon)
   #:use-module (hygguile components input)
+  #:use-module (hygguile components media)
+  #:use-module (hygguile components card)
+  #:use-module (hygguile components feedback)
+  #:use-module (hygguile components navigation)
+  #:use-module (hygguile components disclosure)
   #:use-module (hygguile components fly-out)
   #:use-module (hygguile components select)
   #:use-module (hygguile components notification)
   #:use-module (hygguile components typography)
+  #:use-module (hygguile components table)
   #:use-module (hygguile components carousel)
   #:use-module (hygguile css)
-  #:re-export (a button
+  #:re-export (a abbr accordion
+                 accordion-item
+                 alert
+                 avatar
+                 badge
+                 breadcrumbs
+                 button
+                 caption
+                 card
+                 card-body
+                 card-description
+                 card-footer
+                 card-header
+                 card-title
                  carousel
                  carousel-button-js
+                 checkbox
                  code
                  col
                  copy-pre-inner-text-js
                  custom-fonts
-                 linear-gradient
+                 details
                  danger-submit-button
                  dd
                  dl
                  dt
                  em
+                 fieldset
+                 figure
+                 figcaption
                  fly-out
                  fly-out-css
                  fly-out-item
                  fly-out-js
                  fly-out-submenu
                  footer
+                 form
+                 form-error
                  get-short-commit-sha
                  glyph-option
                  h1
                  h2
                  h3
                  h4
+                 help-text
                  hr
                  icon
                  icon-button
+                 image-gallery
+                 img
                  input
+                 kbd
+                 legend
                  light-button
+                 linear-gradient
+                 mark
                  mk-class
+                 modal
                  mono
                  mono-button
+                 navbar
+                 nav-link
+                 noscript
                  notification-tray
                  option
                  p
+                 pagination
+                 parse-sort
                  phosphor-icons
+                 picture
                  pre
                  pretty-quote
+                 progress
+                 radio
+                 range
                  remember-dark-theme-js
                  render-if-nempty
                  render-if-nestring
                  row
+                 samp
                  select
                  show-notifications-from-url-js
+                 skeleton
+                 sort-href
+                 sortable-table
+                 source
+                 spinner
+                 stat-card
                  strong
                  sub-h1
                  sub-h2
                  sub-h3
                  sub-h4
+                 sub
                  submit-button
+                 summary
+                 sup
+                 switch
+                 table
+                 table-column
+                 tab
+                 tabs
+                 tbody
+                 td
                  textarea
+                 tfoot
+                 th
+                 thead
+                 time
                  toggle-dark-theme-js
+                 tooltip
+                 tr
                  trigger-notification-function-js
                  ui-mode-button
+                 var
                  with-footer)
   #:export (doctype-html hygguile-recommended-meta
                          hygguile-recommended-resources))
@@ -103,6 +169,8 @@ An S-expression block managing custom font loading configurations, defaulting to
   (list fonts
         (phosphor-icons)
         (fly-out-css)
+        (hygguile-extras-css)
+        `(noscript ,@(no-js-css))
         (toggle-dark-theme-js)
         (copy-pre-inner-text-js)
         (show-notifications-from-url-js)

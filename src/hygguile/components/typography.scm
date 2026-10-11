@@ -30,7 +30,15 @@
                strong
                pre
                mono
-               code))
+               code
+               kbd
+               samp
+               var
+               mark
+               time
+               abbr
+               sup
+               sub))
 
 (define* (h1 content
              #:key (weight '(font-bold))
@@ -53,7 +61,7 @@ List of symbols representing text sizing CSS classes.
 @end table
 
 @example
-(h1 \"Main Page Title\" #:color '(text-stone-900))
+(h1 \"Main Page Title\" #:color '(text-onyx-700 dark:text-stone-100))
 @end example"
   `((h1 (@ (class ,(mk-class (append color size weight family))))
         ,content)))
@@ -350,10 +358,19 @@ List of symbols representing text sizing CSS classes.
 (define* (a content
             #:key (weight '(font-bold))
             (size '(text-md))
-            (color '(text-jeans-blue-500 dark:text-jeans-blue-500))
+            ;; jeans-blue is a dark ramp with no light end, so the dark theme
+            ;; borrows the light end of a neighbouring blue instead: glaucous
+            ;; only reaches oklch 0.665, which is 4.56:1 on the darkest panel,
+            ;; while moonstone-300 clears 5.5:1 there and 6.2:1 on the page.
+            (color '(text-jeans-blue-500 dark:text-moonstone-300))
             (family '(font-sans))
-            (hover '(hover:text-jeans-blue-900 hover:dark:text-jeans-blue-100))
-            (extra-classes '(no-underline hover:underline))
+            (hover '(hover:text-jeans-blue-900 dark:hover:text-moonstone-100))
+            (extra-classes '(no-underline hover:underline
+                                          transition-colors
+                                          duration-150
+                                          focus-visible:outline-2
+                                          focus-visible:outline-offset-2
+                                          outline-jeans-blue-500))
             (href #f))
   "Create an HTML anchor link (@code{<a>}) component.
 
@@ -472,12 +489,12 @@ List of font typography rules enforcing monospaced code metrics.
               (background '(bg-stone-300/75 dark:bg-onyx-700/75))
               (rounding '(rounded-lg))
               (shadow '(shadow-md))
-              (width '(w-full))
+              (width '(w-full max-w-full min-w-0))
               (leading '(leading-6))
-              (text-wrap '(text-nowrap))
-              (padding-y '(py-6))
-              (padding-x '(px-8))
-              (pre-classes '(font-mono overflow-auto whitespace-pre)))
+              (text-wrap '())
+              (padding-y '(py-4 sm:py-6))
+              (padding-x '(px-4 sm:px-8))
+              (pre-classes '(font-mono overflow-x-auto whitespace-pre-wrap)))
   "Create an HTML preformatted multi-line source code container block (@code{<pre>}).
 
 @table @var
@@ -524,4 +541,332 @@ List of structural code scrolling mechanisms and whitespace behaviors.
                                       padding-y
                                       padding-x
                                       rounding))))
+         ,content)))
+
+(define* (kbd content
+              #:key (weight '(font-medium))
+              (size '(text-sm))
+              (color '(text-onyx-500 dark:text-stone-300))
+              (background '(bg-stone-300/75 dark:bg-onyx-700/75))
+              (border-color '(border-stone-500/50 dark:border-onyx-100/50))
+              (rounding '(rounded-md))
+              (shadow '(shadow-sm))
+              (padding-y '(py-1))
+              (padding-x '(px-2))
+              (kbd-classes '(font-mono whitespace-nowrap border-2)))
+  "Create an inline HTML @code{<kbd>} fragment for user keyboard input.
+
+Use @code{kbd} for keys the user presses (@code{Ctrl}, @code{Enter},
+@code{Esc}). Marking them up lets assistive technology announce them as
+input rather than as ordinary prose.
+
+@table @var
+@item content
+The key name or inline nodes.
+@item weight
+List of symbols representing font weight CSS classes.
+@item size
+List of symbols representing text sizing CSS classes.
+@item color
+List of symbols representing text color CSS classes.
+@item background
+List of symbols representing the key surface background colors.
+@item border-color
+List of symbols representing the key border colors.
+@item rounding
+List of symbols representing container boundary radius options.
+@item shadow
+List of symbols representing the key depth shadow.
+@item padding-y
+List of symbols controlling top/bottom padding.
+@item padding-x
+List of symbols controlling left/right padding.
+@item kbd-classes
+List of structural typography rules for keyboard keys.
+@end table
+
+@example
+(kbd \"Ctrl\")
+@end example"
+  `((kbd (@ (class ,(mk-class (append color
+                                      background
+                                      kbd-classes
+                                      shadow
+                                      size
+                                      weight
+                                      padding-y
+                                      padding-x
+                                      rounding))))
+          ,content)))
+
+(define* (samp content
+               #:key (weight '(font-medium))
+               (color '(text-onyx-500 dark:text-stone-300))
+               (size '(text-md))
+               (samp-classes '(font-mono)))
+  "Create an inline HTML @code{<samp>} fragment for program output.
+
+@code{samp} marks text produced by a computer: a command's reply, a
+compiler diagnostic, a log line.
+
+@table @var
+@item content
+The sampled output text string or inline nodes.
+@item weight
+List of symbols representing font weight CSS classes.
+@item color
+List of symbols representing text color CSS classes.
+@item size
+List of symbols representing text sizing CSS classes.
+@item samp-classes
+List of typography rules enforcing monospaced output metrics.
+@end table
+
+@example
+(samp \"Build succeeded.\")
+@end example"
+  `((samp (@ (class ,(mk-class (append color samp-classes size weight))))
+          ,content)))
+
+(define* (var content
+              #:key (weight '(font-medium))
+              (style '(italic))
+              (color '(text-onyx-500 dark:text-stone-300))
+              (size '(text-md))
+              (family '(font-serif))
+              (var-classes '()))
+  "Create an inline HTML @code{<var>} fragment for a variable or placeholder.
+
+A serif italic @code{var} stands out from the surrounding sans-serif
+text, which is exactly what you want for a name the reader is expected
+to substitute.
+
+@table @var
+@item content
+The variable name or placeholder text string.
+@item weight
+List of symbols representing font weight CSS classes.
+@item style
+List of symbols representing text style transformations.
+@item color
+List of symbols representing text color CSS classes.
+@item size
+List of symbols representing text sizing CSS classes.
+@item family
+List of symbols representing font family CSS classes.
+@item var-classes
+List of additional typography utility classes.
+@end table
+
+@example
+(var \"username\")
+@end example"
+  `((var (@ (class ,(mk-class (append color
+                                     var-classes
+                                     size
+                                     weight
+                                     style
+                                     family))))
+         ,content)))
+
+(define* (mark content
+               #:key (weight '(font-medium))
+               (color '(text-onyx-700 dark:text-onyx-900))
+               (size '(text-md))
+               (background '(bg-naples-yellow-500/75))
+               (rounding '(rounded-2xs))
+               (padding-x '(px-1))
+               (mark-classes '()))
+  "Create an inline HTML @code{<mark>} fragment highlighting relevant text.
+
+The highlight is a soft yellow wash rather than the browser's default
+neon, so it reads as an annotation instead of a warning.
+
+@table @var
+@item content
+The highlighted text string or inline nodes.
+@item weight
+List of symbols representing font weight CSS classes.
+@item color
+List of symbols representing text color CSS classes.
+@item size
+List of symbols representing text sizing CSS classes.
+@item background
+List of symbols representing the highlight background colors.
+@item rounding
+List of symbols representing container boundary radius options.
+@item padding-x
+List of symbols controlling left/right padding.
+@item mark-classes
+List of additional typography utility classes.
+@end table
+
+@example
+(mark \"today\")
+@end example"
+  `((mark (@ (class ,(mk-class (append color
+                                      background
+                                      mark-classes
+                                      size
+                                      weight
+                                      padding-x
+                                      rounding))))
+          ,content)))
+
+(define* (time content
+               #:key (datetime #f)
+               (weight '(font-medium))
+               (color '(text-onyx-500 dark:text-stone-300))
+               (size '(text-md))
+               (time-classes '(tabular-nums)))
+  "Create an inline HTML @code{<time>} fragment for a machine-readable date.
+
+The @var{datetime} attribute carries the value in ISO format
+(@code{2026-10-11}, @code{2026-10-11T09:30}) so that browsers, calendars
+and crawlers can parse it, while the visible text stays human and
+locale-appropriate. When @var{content} is a string and no
+@var{datetime} is given, the content itself is used.
+
+@table @var
+@item content
+The human-readable date or time string.
+@item datetime
+An optional ISO-8601 machine-readable value.
+@item weight
+List of symbols representing font weight CSS classes.
+@item color
+List of symbols representing text color CSS classes.
+@item size
+List of symbols representing text sizing CSS classes.
+@item time-classes
+List of typography rules, such as tabular figures for aligned dates.
+@end table
+
+@example
+(time \"11 October 2026\" #:datetime \"2026-10-11\")
+@end example"
+  (let ((machine-value (cond
+                         (datetime datetime)
+                         ((string? content) content)
+                         (else #f))))
+    `((time (@ ,@(attr-when machine-value
+                            'datetime machine-value)
+              (class ,(mk-class (append color
+                                        time-classes
+                                        size
+                                        weight))))
+            ,content))))
+
+(define* (abbr content
+               #:key (title #f)
+               (weight '(font-medium))
+               (color '(text-onyx-500 dark:text-stone-300))
+               (size '(text-md))
+               (decoration '(underline decoration-dotted))
+               (abbr-classes '(cursor-help)))
+  "Create an inline HTML @code{<abbr>} fragment expanding an abbreviation.
+
+The expansion travels in the @code{title} attribute, which browsers show
+on hover and assistive technology can read out.
+
+@table @var
+@item content
+The abbreviation text, e.g. @code{\"HTTP\"}.
+@item title
+The expansion, e.g. @code{\"HyperText Transfer Protocol\"}.
+@item weight
+List of symbols representing font weight CSS classes.
+@item color
+List of symbols representing text color CSS classes.
+@item size
+List of symbols representing text sizing CSS classes.
+@item decoration
+List of symbols representing text decoration classes.
+@item abbr-classes
+List of additional typography utility classes.
+@end table
+
+@example
+(abbr \"HTTP\" #:title \"HyperText Transfer Protocol\")
+@end example"
+  `((abbr (@ ,@(attr-when title
+                          'title title)
+            (class ,(mk-class (append color
+                                      abbr-classes
+                                      decoration
+                                      size
+                                      weight))))
+          ,content)))
+
+(define* (sup content
+              #:key (weight '(font-medium))
+              (color '(text-onyx-500 dark:text-stone-300))
+              ;; Olive's scale puts text-xs at 0.5rem, too small to read as
+              ;; a footnote marker or an exponent, so the raised and lowered
+              ;; inline elements keep text-sm and rely on vertical-align.
+              (size '(text-sm))
+              (vertical '(align-super))
+              (sup-classes '(leading-none)))
+  "Create an inline HTML @code{<sup>} superscript fragment.
+
+Use it for footnote markers, ordinal suffixes and exponents.
+
+@table @var
+@item content
+The superscript text or inline nodes.
+@item weight
+List of symbols representing font weight CSS classes.
+@item color
+List of symbols representing text color CSS classes.
+@item size
+List of symbols representing text sizing CSS classes.
+@item vertical
+List of symbols setting the vertical alignment offset.
+@item sup-classes
+List of additional typography utility classes.
+@end table
+
+@example
+(p (list \"Copyright\" (sup \"©\")))
+@end example"
+  `((sup (@ (class ,(mk-class (append color
+                                     sup-classes
+                                     size
+                                     weight
+                                     vertical))))
+         ,content)))
+
+(define* (sub content
+              #:key (weight '(font-medium))
+              (color '(text-onyx-500 dark:text-stone-300))
+              (size '(text-sm))
+              (vertical '(align-sub))
+              (sub-classes '(leading-none)))
+  "Create an inline HTML @code{<sub>} subscript fragment.
+
+The natural home for chemical formulae and mathematical indices.
+
+@table @var
+@item content
+The subscript text or inline nodes.
+@item weight
+List of symbols representing font weight CSS classes.
+@item color
+List of symbols representing text color CSS classes.
+@item size
+List of symbols representing text sizing CSS classes.
+@item vertical
+List of symbols setting the vertical alignment offset.
+@item sub-classes
+List of additional typography utility classes.
+@end table
+
+@example
+(p (list \"H\" (sub \"2\") \"O\"))
+@end example"
+  `((sub (@ (class ,(mk-class (append color
+                                     sub-classes
+                                     size
+                                     weight
+                                     vertical))))
          ,content)))

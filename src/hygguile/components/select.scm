@@ -88,7 +88,8 @@ List of symbols determining internal flexbox element alignment constraints.
                  name
                  id
                  (family '(font-sans))
-                 (select-classes '(px-3 py-2
+                 (select-classes '(w-full max-w-full
+                                        px-3 py-2
                                         border-2
                                         border-stone-700
                                         dark:border-onyx-100
@@ -98,8 +99,18 @@ List of symbols determining internal flexbox element alignment constraints.
                                         dark:text-stone-300
                                         text-md
                                         rounded-xl
-                                        shadow-md)))
+                                        shadow-md
+                                        cursor-pointer
+                                        transition-colors
+                                        duration-150
+                                        focus-visible:outline-2
+                                        focus-visible:outline-offset-2
+                                        outline-onyx-500)))
   "Construct a dropdown list interactive selection menu wrapper.
+
+The menu fills its container on phones and shrinks to its own
+min-content width from the small breakpoint up, so a long option label
+can never push a narrow page sideways.
 
 @table @var
 @item options
@@ -121,7 +132,7 @@ List of symbols specifying visual layout styles for the component wrapper card.
         #:on-change \"console.log('Changed!')\"
         #:options (list (option #:value \"dim\")))
 @end example"
-  `((div (@ (class ,(mk-class '(flex flex-col gap-2 w-min))))
+  `((div (@ (class ,(mk-class '(flex flex-col gap-2 w-full sm:w-min))))
          (select (@ (onchange ,on-change)
                     (name ,name)
                     (id ,id)

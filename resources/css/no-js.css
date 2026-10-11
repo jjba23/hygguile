@@ -1,0 +1,54 @@
+/*
+  hygguile - cozy and professional user-interfaces for everyone
+
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*
+  Progressive-enhancement rules that only apply when scripting is
+  disabled, because hygguile loads this file inside a <noscript> element
+  (see hygguile-recommended-resources).
+
+  The contract is simple:
+
+  - Anything that only works with JavaScript carries the .js-only class
+    and is hidden here.
+  - Components that can be made to work without JavaScript (the fly-out
+    submenus, the carousel) are progressively revealed instead of being
+    hidden.
+*/
+
+/* Interactive controls that depend on JavaScript do nothing without it. */
+.js-only {
+  display: none !important;
+}
+
+/* Fly-out menus: reveal every submenu and drop the meaningless arrow. */
+.flyout-submenu[hidden] {
+  display: block !important;
+}
+
+.flyout-submenu {
+  position: static !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-left: 1rem !important;
+}
+
+.flyout-submenu-button::after {
+  content: "" !important;
+  padding-left: 0 !important;
+}

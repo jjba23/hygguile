@@ -49,12 +49,16 @@ A list of sub-components or list items to nest within the top-level menu contain
 (define* (fly-out-submenu #:key (li-class '(flyout-menu-container
                                             cursor-pointer px-4 py-4))
                           (button-class '(flyout-submenu-button cursor-pointer
-                                          flex text-onyx-300
-                                          dark:text-stone-300))
+                                          flex
+                                          text-onyx-300
+                                          dark:text-stone-300
+                                          transition-colors
+                                          duration-150))
                           (ul-class '(flyout-submenu z-10
                                                      absolute
                                                      bg-stone-100/75
                                                      dark:bg-onyx-700/75
+                                                     backdrop-blur-md
                                                      rounded-xl
                                                      shadow-md
                                                      my-2

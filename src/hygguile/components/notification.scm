@@ -19,7 +19,14 @@
   #:use-module (hygguile abstraction)
   #:export (notification-tray))
 
+;; A polite live region: injected notifications are announced by
+;; assistive technology without interrupting whatever the user is
+;; doing, and the default empty value keeps the region silent until
+;; something is actually added.
 (define notification-tray
   `((div (@ (id notification-tray)
+            (role status)
+            (aria-live polite)
+            (aria-atomic "true")
             (class ,(mk-class '(fixed z-32 top-8 right-8)))) "")))
 

@@ -25,7 +25,33 @@
                    dl
                    dd
                    dt
+                   noscript
                    linear-gradient))
+
+(define* (noscript content
+                   #:key (classes '()))
+  "Wrap @var{content} in an HTML @code{<noscript>} fallback element.
+
+The contents are rendered and executed by browsers only when JavaScript
+is disabled, which makes this component the natural home for no-script
+notices or alternative navigation. Pair it with the recommended
+JavaScript-free stylesheet so JavaScript-dependent controls can hide
+themselves gracefully.
+
+@table @var
+@item content
+The fallback content shown when scripting is unavailable.
+@item classes
+List of symbols representing utility CSS classes applied to the element.
+@end table
+
+@example
+(noscript fallback-fragment)
+@end example"
+  `((noscript (@ ,@(attr-when (not (null? classes))
+                              'class
+                              (mk-class classes)))
+              ,content)))
 
 (define* (with-footer #:key main footer)
   "Wrap a main content fragment and a footer fragment within a full-screen vertical flex container.
@@ -41,7 +67,9 @@ S-expression representing the footer layout.
 (with-footer #:main '((p \"Hello World\")) #:footer '((footer \"Standard Footer\")))
 @end example"
   `((div (@ (class ,(mk-class '(flex flex-col justify-between min-h-screen))))
-         ,main
+         ;; a real <main> landmark so assistive technology can jump
+         ;; straight to the page content
+         (main (@ (class ,(mk-class '(flex-1)))) ,main)
          ,footer)))
 
 (define* (hr #:key (margin '(my-8 mx-4))
@@ -59,7 +87,7 @@ List of symbols representing border color CSS classes.
 @end table
 
 @example
-(hr #:margin '(my-4) #:color '(border-red-500))
+(hr #:margin '(my-4) #:color '(border-redwood-500))
 @end example"
   `((hr (@ (class ,(mk-class (append color margin border)))))))
 
@@ -67,12 +95,13 @@ List of symbols representing border color CSS classes.
                  #:key (background '(bg-stone-300 dark:bg-onyx-700/75))
                  (shadow '(shadow-xl))
                  (footer-classes '(flex flex-col
-                                        gap-4
-                                        items-left
+                                        gap-3
+                                        items-start
                                         px-6
+                                        sm:px-8
                                         md:px-12
-                                        justify-left
-                                        py-10)))
+                                        justify-start
+                                        py-8)))
   "Create an HTML footer element.
 
 @table @var
@@ -191,8 +220,14 @@ List of base vertical flex layout CSS classes.
          ,content)))
 
 (define* (dl content
-             #:key (dl-classes '(flex flex-col)))
+             #:key (dl-classes '(flex flex-col gap-1
+                                        my-4
+                                        max-w-prose)))
   "Create an HTML description list (@code{<dl>}) element.
+
+Terms and descriptions are stacked in a single column with a little
+vertical rhythm and a comfortable reading width. Pair it with @code{dt}
+for the term and @code{dd} for its description.
 
 @table @var
 @item content
@@ -208,25 +243,29 @@ List of symbols for layout and style CSS classes.
         ,content)))
 
 (define* (dt content
-             #:key (dt-classes '(py-2 pb-1))
-             (weight '(font-light))
+             #:key (dt-classes '(mt-2 pt-1))
+             (weight '(font-semibold))
              (family '(font-sans))
-             (style '(italic))
-             (color '(text-onyx-300 dark:text-stone-500))
-             (size '(text-lg)))
+             (style '())
+             (color '(text-onyx-500 dark:text-stone-100))
+             (size '(text-md)))
   "Create an HTML description term (@code{<dt>}) element.
+
+A term renders as a compact, semi-bold label so it reads as a key above
+its description. The small top margin separates one term/description
+pair from the next.
 
 @table @var
 @item content
 The term text string or fragment.
 @item dt-classes
-List of symbols for default structural padding CSS classes.
+List of symbols for default structural spacing CSS classes.
 @item weight
 List of symbols for font weight CSS classes.
 @item family
 List of symbols for font family CSS classes.
 @item style
-List of symbols for font style CSS classes.
+List of symbols for font style CSS classes (empty by default).
 @item color
 List of symbols for text color CSS classes.
 @item size
@@ -245,18 +284,25 @@ List of symbols for text sizing CSS classes.
         ,content)))
 
 (define* (dd content
-             #:key (dd-classes '(px-2 text-onyx-300 dark:text-stone-300))
-             (weight '(font-medium))
+             #:key (dd-classes '(pl-4 ml-2 mb-1
+                                 border-l-2
+                                 border-stone-700
+                                 dark:border-onyx-100
+                                 leading-6))
+             (weight '(font-light))
              (family '(font-sans))
-             (color '(text-onyx-300 dark:text-stone-500))
-             (size '(text-lg)))
+             (color '(text-onyx-300 dark:text-stone-300))
+             (size '(text-md)))
   "Create an HTML description details (@code{<dd>}) element.
+
+A description is indented behind a subtle left rule, which visually ties
+it to the term above and keeps longer prose easy to scan.
 
 @table @var
 @item content
 The detailed explanation text string or fragment.
 @item dd-classes
-List of symbols for layout and fallback color CSS classes.
+List of symbols for layout and indentation CSS classes.
 @item weight
 List of symbols for font weight CSS classes.
 @item family
