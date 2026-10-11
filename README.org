@@ -317,7 +317,7 @@ Everything below is re-exported by the single ~(hygguile hygguile)~ module, so o
 | ~disclosure~ | ~details~, ~summary~, ~accordion~, ~accordion-item~, ~modal~, ~tooltip~ | ~<details>~/~<summary>~, stacked disclosures, a CSS-only dialog and tooltip |
 | ~table~ | ~table~, ~caption~, ~thead~, ~tbody~, ~tfoot~, ~tr~, ~th~, ~td~, ~table-column~, ~sortable-table~, ~sort-href~, ~parse-sort~ | the whole ~<table>~ family, with a scrollable region for narrow screens, plus server-driven sorting |
 | ~media~ | ~img~, ~source~, ~picture~, ~figure~, ~figcaption~, ~avatar~, ~image-gallery~ | the ~<img>~/~<picture>~ family plus two common compositions |
-| ~select~ | ~select~, ~option~, ~glyph-option~ | ~<select>~ and its ~<option>~ rows, including icon rows |
+| ~select~ | ~select~, ~option~, ~glyph-option~, ~optgroup~ | ~<select>~ and its ~<option>~ rows, grouped under headings, one row stated as ~selected~, a label bound to the control, helper copy wired through ~aria-describedby~ |
 | ~fly-out~ | ~fly-out~, ~fly-out-submenu~, ~fly-out-item~ | nested ~<nav>~/~<ul>~ drop-down menus |
 | ~carousel~ | ~carousel~ | a scroll-snap track with paging arrows |
 | ~icon~ | ~icon~ | a Phosphor icon, at the requested weight |
@@ -378,6 +378,50 @@ Clicking the column the table is already ordered by reverses it; clicking any ot
 Accessibility is carried by the markup, not by a script: every sortable cell announces its state with ~aria-sort~ (~ascending~, ~descending~ or ~none~ for a column that can be sorted but is not), and the link's ~title~ says what a click would do. The arrow beside the label shows the order that column is in -- up or down -- and becomes a dimmed double arrow on the columns that are not ordering the table; it is decorative, so it is hidden from assistive technology and never part of the label. Sortable headers name their own ink, the page's link colours one per theme, because a bare ~<a>~ would fall back to the browser's default blue, which is off-palette and unreadable on a dark surface.
 
 ~examples/sortable-table.scm~ is the other half written out in full: a real Guile web server (~maak example-server~, then http://localhost:8095/) that renders the page, reads ~?hygguile-table-sort=&hygguile-table-dir=~ back with ~parse-sort~, sorts its rows with ~(srfi srfi-1)~'s ~sort~, and prints what it understood so the contract is visible rather than implied. Swap the in-memory list for a database and the only change is the ~order by~ clause.
+
+----------------
+
+* Which option a dropdown is showing
+
+A dropdown's state is markup like any other: exactly one ~<option>~ carries the ~selected~ attribute, and the page rendering it says which row it is showing. That matters more than it looks. A menu whose rows say nothing is drawn by the browser with its own fallback -- the first row a reader can pick -- so a page that leaves the attribute out cannot be read back as the state the reader is looking at, and a form submitted without touching the field sends a value the server never chose.
+
+The attribute is written from the value the options were built with, and the two are compared as the text they are written as:
+
+#+begin_src scheme
+(use-modules (hygguile hygguile))
+
+;; a value written as a symbol and a selection written as a string name
+;; the same row, and that is the row the page states
+(select #:label "Language:"
+        #:name 'user-lang
+        #:options (list (glyph-option #:value 'en_US #:glyph "🇬🇧" #:content "English"
+                                     #:selected-value "en_US")
+                        (glyph-option #:value 'nl_NL #:glyph "🇳🇱" #:content "Nederlands"
+                                     #:selected-value "en_US")))
+#+end_src
+
+Writing ~en_US~ where the selection says ~"en_US"~ is the same option -- a page is free to write either, and the component reads both sides as the text they become -- but a selection that matched nothing is not a selection, and a menu whose rows match no ~#:selected-value~ gets its first choosable row marked instead, because that is the row the browser would have displayed anyway. A ~#:disabled~ row is skipped, so the familiar ~"Choose one..."~ placeholder stays unselected and a ~#:required~ menu starts invalid, which is what makes the browser refuse to submit it.
+
+An ~<option>~ holds text, and only text: a native dropdown is drawn by the browser or the operating system, which lays out the characters of a row and ignores any element nested inside it. ~glyph-option~ therefore writes its glyph and its label as the row's own text, and a glyph is a character or an emoji rather than an icon component.
+
+The control takes a ~#:label~, ~#:help-text~ and ~#:error~ like the other fields, bound with ~for~ and linked with ~aria-describedby~, so a menu is described to assistive technology the same way an input is. A ~#:name~ (or an ~#:id~) is what the label binds to.
+
+A long menu reads as a handful of headings rather than one run of rows once its options are grouped. An ~optgroup~ stands in the ~#:options~ list beside the rows and holds rows of its own, under a ~#:label~:
+
+#+begin_src scheme
+(select #:label "Language:"
+        #:name 'user-lang
+        #:options (list (optgroup #:label "Americas"
+                                 #:options (list (option #:value "en_US" #:content "English (US)"
+                                                 #:selected-value "en_US")))
+                        (optgroup #:label "Europe"
+                                 #:options (list (glyph-option #:value "nl_NL" #:glyph "🇳🇱" #:content "Nederlands"
+                                                               #:selected-value "en_US")
+                                                 (glyph-option #:value "es_ES" #:glyph "🇪🇸" #:content "Español"
+                                                               #:selected-value "en_US")))))
+#+end_src
+
+The heading is the browser's own -- a native dropdown draws it and indents the rows under it -- so there is no class of ours to go with it, and the label attribute is written only when given rather than as ~#f~. A group is still rows to the selection above: a ~#:selected-value~ inside a group marks that row like any other, and a menu that states no selection falls back to the first row a reader can pick, walking the groups in order. A ~#:disabled~ group takes every row under it out of play, so a menu never states one of its rows as its selection.
 
 ----------------
 

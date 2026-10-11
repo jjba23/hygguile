@@ -255,22 +255,41 @@
                   ,(as-example '(textarea #:label "some textarea:"
                                           #:name "textarea-1"
                                           #:autocomplete "off"))
-                  ,(as-example '(select #:name 'user-lang
-                                        #:options (list (option #:value 'en_US
-                                                         #:content
-                                                         "English (US)"
-                                                         #:selected-value
-                                                         "en_US")
-                                                        (option #:value 'nl_NL
-                                                                #:content
-                                                                "Nederlands"
-                                                                #:selected-value
-                                                                "en_US")
-                                                        (option #:value 'es_ES
-                                                                #:content
-                                                                "Español"
-                                                                #:selected-value
-                                                                "en_US")))))
+                  ,(as-example '(select #:label "Language:"
+                                        #:name 'user-lang
+                                        #:options (list (optgroup #:label
+                                                                 "Americas"
+                                                                 #:options
+                                                                 (list (option #:value
+                                                                               'en_US
+                                                                               #:content
+                                                                               "English (US)"
+                                                                               #:selected-value
+                                                                               "en_US")))
+                                                        (optgroup #:label
+                                                                 "Europe"
+                                                                 #:options
+                                                                 (list (glyph-option #:value
+                                                                                     'nl_NL
+                                                                                     #:glyph
+                                                                                     "🇳🇱"
+                                                                                     #:content
+                                                                                     "Nederlands"
+                                                                                     #:selected-value
+                                                                                     "en_US")
+                                                                       (glyph-option #:value
+                                                                                     'es_ES
+                                                                                     #:glyph
+                                                                                     "🇪🇸"
+                                                                                     #:content
+                                                                                     "Español"
+                                                                                     #:selected-value
+                                                                                     "en_US")))))))
+             (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-2))))
+                  ,(p
+                    "A select states its own selection: exactly one option carries the selected attribute, written from the value the server rendered. The rows here are built with symbols and compared with strings, which used to lose the selection between the two; an option whose value the menu does not have falls back to the first row a reader can actually pick, and rows grouped under an optgroup are still rows -- the headings are the browser's own, and the group a reader cannot choose never holds the selection."
+                    #:weight '(font-light)
+                    #:size '(text-md)))
              (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6
                                               items-center w-full))))
                   ,(as-example '(checkbox #:label "I accept the terms"
@@ -306,7 +325,11 @@
                                                        #:help-text
                                                        "Used once, to confirm the subscription.")
                                               (select #:id "plan"
+                                                      #:label
+                                                      "Plan:"
                                                       #:name 'plan
+                                                      #:help-text
+                                                      "You can change this later, at any time."
                                                       #:options (list (option #:value
                                                                        "cozy"
                                                                        #:content

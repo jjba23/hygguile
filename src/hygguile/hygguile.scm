@@ -105,6 +105,7 @@
                  notification-card
                  notification-tray
                  option
+                 optgroup
                  p
                  pagination
                  parse-sort
