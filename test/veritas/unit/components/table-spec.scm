@@ -111,14 +111,15 @@ ordered, so it is only meaningful on the sorted column itself."
          (match:substring m 1))))
 
 (define (link-direction html label)
-  "The dir= value of the sort link labelled LABEL, or #f."
+  "The direction parameter's value in the sort link labelled LABEL, or #f."
   (let ((href (sort-link-href html label)))
     (and href
          (let* ((clean (unamp href))
-                (at (string-contains clean "dir=")))
+                (at (string-contains clean "hygguile-table-dir=")))
            (and at
                 (substring clean
-                           (+ at 4)))))))
+                           (+ at
+                              (string-length "hygguile-table-dir="))))))))
 
 (define sort-columns
   (list (table-column #:key 'plan
@@ -258,45 +259,68 @@ ordered, so it is only meaningful on the sorted column itself."
                 "sort-href puts the order in a bare query by default"
                 #:got (sort-href #:sort 'seats
                                  #:direction 'desc)
-                #:expect "?sort=seats&dir=desc")
+                #:expect "?hygguile-table-sort=seats&hygguile-table-dir=desc")
                (assert-equal #:name "sort-href can prefix an explicit path"
-                             #:got (sort-href #:path "/plans"
-                                              #:sort 'plan)
-                             #:expect "/plans?sort=plan&dir=asc")
+                #:got (sort-href #:path "/plans"
+                                 #:sort 'plan)
+                #:expect
+                "/plans?hygguile-table-sort=plan&hygguile-table-dir=asc")
                (assert-equal #:name "sort-href carries other parameters along"
-                             #:got (sort-href #:params (list (cons "filter"
-                                                                   "active"))
-                                              #:sort 'seats)
-                             #:expect "?filter=active&sort=seats&dir=asc")
+                #:got (sort-href #:params (list (cons "filter" "active"))
+                                 #:sort 'seats)
+                #:expect
+                "?filter=active&hygguile-table-sort=seats&hygguile-table-dir=asc")
                (assert-equal #:name
-                             "sort-href drops the page it would invalidate"
-                             #:got (sort-href #:params (list (cons "page" "4"))
-                                              #:sort 'seats)
-                             #:expect "?sort=seats&dir=asc")
+                "a parameter of the page's own called sort is left alone"
+                #:got (sort-href #:params (list (cons "sort" "cozy"))
+                                 #:sort 'seats)
+                #:expect
+                "?sort=cozy&hygguile-table-sort=seats&hygguile-table-dir=asc")
+               (assert-equal #:name
+                             "the table reads only its own two names back"
+                             #:got (parse-sort (list (cons "sort" "seats")
+                                                     (cons "dir" "desc"))
+                                               #:columns sort-columns)
+                             #:expect '(#f asc))
+               (assert-equal #:name
+                "sort-href drops the page it would invalidate"
+                #:got (sort-href #:params (list (cons "page" "4"))
+                                 #:sort 'seats)
+                #:expect "?hygguile-table-sort=seats&hygguile-table-dir=asc")
                (assert-equal #:name "sort-href keeps the page when asked to"
-                             #:got (sort-href #:params (list (cons "page" "4"))
-                                              #:drop-params '()
-                                              #:sort 'seats)
-                             #:expect "?page=4&sort=seats&dir=asc")
+                #:got (sort-href #:params (list (cons "page" "4"))
+                                 #:drop-params '()
+                                 #:sort 'seats)
+                #:expect
+                "?page=4&hygguile-table-sort=seats&hygguile-table-dir=asc")
                (assert-equal #:name
                 "sort-href replaces an order already in the query"
                 #:got (sort-href #:params (list (cons "region" "europe")
-                                                (cons "sort" "plan")
-                                                (cons "dir" "asc"))
+                                                (cons "hygguile-table-sort"
+                                                      "plan")
+                                                (cons "hygguile-table-dir"
+                                                      "asc"))
                                  #:sort 'seats
                                  #:direction 'desc)
-                #:expect "?region=europe&sort=seats&dir=desc")
+                #:expect
+                "?region=europe&hygguile-table-sort=seats&hygguile-table-dir=desc")
                (assert-equal #:name
                 "sort-href leaves one order in the URL it builds"
-                #:got (count-of (sort-href #:params (list (cons "sort" "plan")
-                                                          (cons "dir" "asc"))
-                                           #:sort 'seats) "sort=")
+                #:got (count-of (sort-href #:params (list (cons
+                                                           "hygguile-table-sort"
+                                                           "plan")
+                                                          (cons
+                                                           "hygguile-table-dir"
+                                                           "asc"))
+                                           #:sort 'seats)
+                                "hygguile-table-sort=")
                 #:expect 1)
                (assert-equal #:name
-                             "sort-href encodes what it puts in the URL"
-                             #:got (sort-href #:params (list (cons "q" "a b"))
-                                              #:sort 'seats)
-                             #:expect "?q=a%20b&sort=seats&dir=asc")
+                "sort-href encodes what it puts in the URL"
+                #:got (sort-href #:params (list (cons "q" "a b"))
+                                 #:sort 'seats)
+                #:expect
+                "?q=a%20b&hygguile-table-sort=seats&hygguile-table-dir=asc")
                (assert-equal #:name "sort-href can ask for the natural order"
                              #:got (sort-href #:params (list (cons "filter"
                                                                    "active")))
@@ -307,13 +331,17 @@ ordered, so it is only meaningful on the sorted column itself."
                 #:expect "?")
                (assert-equal #:name
                              "parse-sort reads the key and the direction"
-                             #:got (parse-sort (list (cons "sort" "seats")
-                                                     (cons "dir" "desc"))
+                             #:got (parse-sort (list (cons
+                                                      "hygguile-table-sort"
+                                                      "seats")
+                                                     (cons
+                                                      "hygguile-table-dir"
+                                                      "desc"))
                                                #:columns sort-columns)
                              #:expect '(seats desc))
                (assert-equal #:name
                 "parse-sort answers an unknown key with the natural order"
-                #:got (parse-sort (list (cons "sort" "nope"))
+                #:got (parse-sort (list (cons "hygguile-table-sort" "nope"))
                                   #:columns sort-columns)
                 #:expect '(#f asc))
                (assert-equal #:name
@@ -323,18 +351,20 @@ ordered, so it is only meaningful on the sorted column itself."
                              #:expect '(#f asc))
                (assert-equal #:name
                 "parse-sort falls back to the caller's default direction"
-                #:got (parse-sort (list (cons "sort" "seats"))
+                #:got (parse-sort (list (cons "hygguile-table-sort" "seats"))
                                   #:columns sort-columns
                                   #:default-direction 'desc)
                 #:expect '(seats desc))
                (assert-equal #:name
                 "parse-sort accepts symbol names and (name value) pairs"
-                #:got (parse-sort '((sort seats)
-                                    (dir "DESC"))
+                #:got (parse-sort '((hygguile-table-sort seats)
+                                    (hygguile-table-dir "DESC"))
                                   #:columns sort-columns)
                 #:expect '(seats desc))
                (assert-equal #:name "parse-sort works on a plain list of keys"
-                             #:got (parse-sort (list (cons "sort" "name"))
+                             #:got (parse-sort (list (cons
+                                                      "hygguile-table-sort"
+                                                      "name"))
                                                #:columns '(name seats))
                              #:expect '(name asc))
                (assert-equal #:name
@@ -355,10 +385,10 @@ ordered, so it is only meaningful on the sorted column itself."
                                                                           #:params
                                                                           (list
                                                                            (cons
-                                                                            "sort"
+                                                                            "hygguile-table-sort"
                                                                             "seats")
                                                                            (cons
-                                                                            "dir"
+                                                                            "hygguile-table-dir"
                                                                             "desc")
                                                                            (cons
                                                                             "filter"

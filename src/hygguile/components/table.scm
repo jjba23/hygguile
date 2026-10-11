@@ -390,18 +390,28 @@ List of symbols representing the data cell CSS classes.
 ;;
 ;; The order of a table belongs to the server, and the URL is where a server
 ;; gets it. A sortable header cell is therefore an ordinary link: clicking it
-;; navigates to the same page with ?sort=<column>&dir=<direction>, the server
-;; reads that, and renders the rows in the order it was asked for. Nothing
-;; has to run in the browser, so the table sorts with JavaScript disabled,
-;; a reload reproduces the order, and a shared or bookmarked link opens on
-;; the same view.
+;; navigates to the same page with the two names below set to the column and
+;; the direction, the server reads them, and renders the rows in the order it
+;; was asked for. Nothing has to run in the browser, so the table sorts with
+;; JavaScript disabled, a reload reproduces the order, and a shared or
+;; bookmarked link opens on the same view.
 
-;; The names that describe the order itself. They are replaced rather than
-;; carried over, since a link is asking for a new order: leaving the old
-;; pair in place would put two contradictory orders in one URL, and a
-;; server reading the first one would ignore the click.
+;; The two names the order travels under. Every page has query parameters of
+;; its own, and `sort' and `dir' are a common enough pair for an application
+;; to be using for something else entirely, so the table's state is prefixed
+;; with the library's name instead of claiming a bare one.
+(define sort-key-param
+  "hygguile-table-sort")
+
+(define sort-direction-param
+  "hygguile-table-dir")
+
+;; They are replaced rather than carried over when a link is built, since a
+;; link is asking for a new order: leaving the old pair in place would put
+;; two contradictory orders in one URL, and a server reading the first one
+;; would ignore the click.
 (define sort-state-params
-  '("sort" "dir"))
+  (list sort-key-param sort-direction-param))
 
 (define (param-string value)
   "Return a query parameter name or value as a string, whatever it was written as."
@@ -415,9 +425,9 @@ List of symbols representing the data cell CSS classes.
 (define (query-ref params name)
   "Return the value of @var{name} in a decoded query, or @code{#f}.
 
-Accepts an association list such as @code{((\"sort\" . \"seats\"))} or the
-SXML-flavoured @code{((sort seats))}, so it can be handed the query as the
-framework or the caller happens to hold it."
+Accepts an association list such as @code{((\"filter\" . \"active\"))} or the
+SXML-flavoured @code{((filter active))}, so it can be handed the query as
+the framework or the caller happens to hold it."
   (let ((hit (find (lambda (entry)
                      (and (pair? entry)
                           (equal? name
@@ -436,20 +446,25 @@ framework or the caller happens to hold it."
 
 The link a header cell carries is the whole sorting state: the server
 reads it back on the next request, and a reload or a shared link
-reproduces the same order without any scripting. Every value is
-URL-encoded, and the parameters named in @var{drop-params} are left out,
-because they describe a position in the order that is being replaced:
-keeping @code{page=4} while the sort changes would show an arbitrary
-slice of the new order. Sorting therefore starts at the first page.
+reproduces the same order without any scripting. The order itself travels
+in @code{hygguile-table-sort} and @code{hygguile-table-dir}, prefixed so
+that a page's own @code{sort} or @code{dir} parameter is never mistaken
+for the table's state. Every value is URL-encoded, and the parameters
+named in @var{drop-params} are left out, because they describe a
+position in the order that is being replaced: keeping @code{page=4}
+while the sort changes would show an arbitrary slice of the new order.
+Sorting therefore starts at the first page.
 
-A @code{sort} or @code{dir} already present in @var{params} is replaced,
-not repeated, so the whole query such a page received can be handed
-straight back in without the link contradicting itself.
+An order already present in @var{params} is replaced, not repeated, so
+the whole query such a page received can be handed straight back in
+without the link contradicting itself. Parameters of the page's own are
+carried over untouched, however they are named: a page whose @code{sort}
+means something else keeps it.
 
 With no @var{path} the href is a bare query, such as
-@code{?sort=seats&dir=desc}, which the browser resolves against the page's
-own path. That is what a table route wants, since one route renders the
-page and handles the sort.
+@code{?hygguile-table-sort=seats&hygguile-table-dir=desc}, which the
+browser resolves against the page's own path. That is what a table route
+wants, since one route renders the page and handles the sort.
 
 @table @var
 @item path
@@ -471,7 +486,7 @@ is built.
 @example
 (sort-href #:params '((\"page\" . \"4\"))
            #:sort 'seats #:direction 'desc)
-;; => \"?sort=seats&dir=desc\"
+;; => \"?hygguile-table-sort=seats&hygguile-table-dir=desc\"
 @end example"
   (let* ((dropped (append (map param-string drop-params) sort-state-params))
          (kept (filter (lambda (pair)
@@ -481,9 +496,9 @@ is built.
                                (cons (param-string (car pair))
                                      (param-string (cdr pair)))) kept)
                         (if sort
-                            (list (cons "sort"
+                            (list (cons sort-key-param
                                         (param-string sort))
-                                  (cons "dir"
+                                  (cons sort-direction-param
                                         (param-string direction)))
                             '())))
          (query (string-join (map (lambda (pair)
@@ -575,7 +590,8 @@ when it declares none."
 The text shown in the header cell. When omitted, the sort key is used.
 @item key
 The sort key this column is ordered by, and the value that travels in the
-URL as @code{?sort=}. Symbols are conventional. A column without a key is
+URL as @code{?hygguile-table-sort=}. Symbols are conventional. A column
+without a key is
 rendered but not sortable, which is what a column of row actions wants.
 @item numeric
 A boolean right-aligning the column and letting its digits line up.
@@ -609,7 +625,9 @@ A boolean preventing this column's cells from wrapping.
 
 This is the other half of @code{sortable-table}: the component writes the
 order into the URL, and this reads it back on the following request, so a
-route only has to hand over the query it decoded.
+route only has to hand over the query it decoded. Only the two prefixed
+names are read, so a @code{sort} or a @code{dir} belonging to the page's
+own query is left to the page.
 
 A key no column declares is reported as no sort at all rather than passed
 through, so a hand-edited, stale or truncated link falls back to the
@@ -620,7 +638,7 @@ with @code{eq?} and handed straight back to @code{sortable-table}.
 @table @var
 @item params
 The decoded query, an association list such as
-@code{'((\"sort\" . \"seats\") (\"dir\" . \"desc\"))}; symbol names and
+@code{'((\"hygguile-table-sort\" . \"seats\"))}; symbol names and
 @code{(name value)} pairs are accepted too.
 @item columns
 The column descriptors given to @code{sortable-table}, or a plain list of
@@ -633,18 +651,20 @@ Returns a two-element list, @code{(key direction)}, where @code{key} is
 @code{#f} when the request asks for the natural order.
 
 @example
-(parse-sort '((\"sort\" . \"seats\") (\"dir\" . \"desc\"))
+(parse-sort '((\"hygguile-table-sort\" . \"seats\")
+              (\"hygguile-table-dir\" . \"desc\"))
             #:columns (list (table-column #:key 'seats #:label \"Seats\")))
 ;; => (seats desc)
 @end example"
-  (let ((requested (query-ref params "sort"))
+  (let ((requested (query-ref params sort-key-param))
         (keys (filter identity
                       (map column-sort-key columns))))
     (list (and requested
                (find (lambda (key)
                        (equal? (param-string key)
                                (param-string requested))) keys))
-          (or (direction-symbol (query-ref params "dir")) default-direction))))
+          (or (direction-symbol (query-ref params sort-direction-param))
+              default-direction))))
 
 (define (header-text label key)
   "Return the text a header cell shows: its label, or its key, always as a string.
@@ -813,11 +833,12 @@ which is off-palette and unreadable on a dark surface."
   "Create a data table whose column order lives in the URL.
 
 Each sortable header cell is a link to the same page carrying
-@code{?sort=<column>&dir=<asc|desc>}, and the cell announces the state it
-is in through @code{aria-sort}. Nothing runs in the browser: clicking a
-header is an ordinary navigation, so the table sorts with JavaScript
-disabled, a reload reproduces the order, and a shared link opens on the
-same view. The server reads the order back with @code{parse-sort}.
+@code{hygguile-table-sort} and @code{hygguile-table-dir}, and the cell
+announces the state it is in through @code{aria-sort}. Nothing runs in
+the browser: clicking a header is an ordinary navigation, so the table
+sorts with JavaScript disabled, a reload reproduces the order, and a
+shared link opens on the same view. The server reads the order back with
+@code{parse-sort}.
 
 Clicking the column the table is already ordered by reverses it; clicking
 another starts that column in its own direction. The other query

@@ -35,6 +35,7 @@
   #:use-module (hygguile components typography)
   #:use-module (hygguile components table)
   #:use-module (hygguile components carousel)
+  #:use-module (hygguile components glass)
   #:use-module (hygguile css)
   #:re-export (a abbr accordion
                  accordion-item
@@ -75,6 +76,8 @@
                  form
                  form-error
                  get-short-commit-sha
+                 glass-panel
+                 glass-wash
                  glyph-option
                  h1
                  h2
@@ -99,6 +102,7 @@
                  navbar
                  nav-link
                  noscript
+                 notification-card
                  notification-tray
                  option
                  p

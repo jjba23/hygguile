@@ -19,8 +19,9 @@
 ;;
 ;; The showcase can only show you the markup of a sortable table, because a
 ;; static page has nobody to answer its sort links. This is the other half:
-;; a real Guile web server that renders the page, reads ?sort=&dir= back
-;; with `parse-sort', and re-renders the rows in the order it was asked for.
+;; a real Guile web server that renders the page, reads the table's two
+;; query parameters back with `parse-sort', and re-renders the rows in the
+;; order it was asked for.
 ;;
 ;; Run it from the repository root:
 ;;
@@ -32,7 +33,10 @@
 ;; page is an ordinary form-less navigation, and a reload, a bookmark or a
 ;; shared link lands on the same order because the order lives in the URL.
 ;; The response also prints what the server understood, so the contract
-;; (sort=<key>&dir=asc|desc) is visible rather than implied.
+;; (hygguile-table-sort=<key>&hygguile-table-dir=asc|desc) is visible
+;; rather than implied. The names are prefixed with the library's own, so a
+;; page's own `sort' or `dir' parameter -- see the links at the bottom of
+;; the page -- is left to the page.
 ;;
 ;; Swapping the in-memory list for a database is the only change a real
 ;; application needs: ask the database for `order by <key> <direction>'
@@ -200,7 +204,13 @@ itself. A raw `&region' would otherwise be read by the browser as the
                                     (p (list
                                         "The links carry the other query parameters along, so add your own to see them survive a sort: "
                                         (a "?region=europe"
-                                           #:href "/?region=europe") ".")))
+                                           #:href "/?region=europe")
+                                        ". A parameter called "
+                                        (code "sort")
+                                        " is the page's own, not the table's, so even "
+                                        (a "?sort=cozy"
+                                           #:href "/?sort=cozy&region=europe")
+                                        " is carried through untouched.")))
                        #:footer (footer (list (p
                                                "hygguile's server-driven sorting, end to end.")))))))
 

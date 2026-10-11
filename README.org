@@ -104,20 +104,42 @@ A few of the shipped looks need more than one utility class, and those live in t
 
 #+begin_src scheme
 ;; a frosted panel with a soft colour wash drifting behind it, the
-;; wallpaper look, in Olive utilities plus one animation class
-(div (@ (class "relative overflow-hidden rounded-3xl backdrop-blur-md bg-stone-100/75 dark:bg-onyx-900/75"))
-     (div (@ (aria-hidden "true")
-             (class "hg-blob absolute pointer-events-none blur-3xl rounded-512 w-96 h-96 bg-naples-yellow-500/75")
-             ;; stagger the discs so they never drift in lockstep
-             (style "animation-delay: -6s")))
-     (div (@ (class "relative")) (h1 "Hygguile")))
+;; wallpaper look: each wash says where its disc sits and what colour it
+;; is, and the drift is asked for by name
+(glass-panel
+ (list (h1 "Hygguile"))
+ #:washes (list (glass-wash '(w-96 h-96 left-4 top-4 bg-naples-yellow-500/75)
+                           ;; stagger the discs so they never drift in lockstep
+                           #:delay -6))
+ #:drift? #t)
 
 ;; gradient text: the class list of `color' is simply appended, so a
 ;; gradient treatment belongs there; it has a lighter variant for dark mode
 (h1 "Hygguile" #:color '(hg-gradient-text))
 #+end_src
 
-Both respect ~prefers-reduced-motion: reduce~. And one serialization rule worth knowing: an element without children is written as an explicit open/close pair (~<div></div>~), never as the XML shorthand ~<div />~, because hygguile's output is served as ~text/html~, where that shorthand is read as an open tag and silently swallows the rest of the document. Only HTML void elements (~<img>~, ~<input>~, ~<hr>~, ...) are written as a lone tag.
+Gradient ink is a background image clipped to the letters, and a background is painted only where its element's own box reaches. Since Olive pairs every size utility with a line-height of 1, the letters of a heading -- the descender of a `g`, an accented capital -- used to hang outside that box and be painted nowhere at all, which is why headings were previously padded back into shape. They no longer are: the heading type scale below leads every level generously enough that its ink stays inside its own line, so gradient ink keeps its `g` descenders the same way solid ink does.
+
+=== The heading type scale
+
+Every heading is a size paired with a leading, and the pairing is the scale. Sizes come from Olive, leadings from the companion stylesheet, and the two are joined by the heading components themselves:
+
+| component | size | leading | ratio |
+|-----------+------------+------------------------+-------|
+| ~h1~      | ~text-4xl~ | ~hg-leading-display~   | 1.3   |
+| ~h2~      | ~text-3xl~ | ~hg-leading-display~   | 1.3   |
+| ~h3~      | ~text-2xl~ | ~hg-leading-title~     | 1.35  |
+| ~h4~      | ~text-xl~  | ~hg-leading-subtitle~  | 1.4   |
+| ~sub-h1~  | ~text-3xl~ | ~hg-leading-display~   | 1.3   |
+| ~sub-h2~  | ~text-2xl~ | ~hg-leading-title~     | 1.35  |
+| ~sub-h3~  | ~text-xl~  | ~hg-leading-subtitle~  | 1.4   |
+| ~sub-h4~  | ~text-xl~  | ~hg-leading-subtitle~  | 1.4   |
+
+The steps loosen as the size shrinks, which is the shape a type scale usually has, and they are ratios rather than lengths for a reason: a page that moves a heading up or down the scale with ~#:size~ gets a leading that follows on its own. Every component takes ~#:leading~ as well, so a heading can be set looser or tighter by hand, and a size the scale does not name is led by its tightest step rather than by nothing at all.
+
+The floor of 1.3 is not a matter of taste. A leaded line sits in a box of the line's own height, and ink outside that box is unpainted rather than merely cropped -- the gradient case above, and a clipped descender in any other. Measured on the two faces the framework ships, Plus Jakarta Sans asks for 1.24 of that box at worst and Lucida Sans for 1.16, so the tightest step clears both with room to spare. Body copy is looser still, at ~leading-6~ (1.5).
+
+The drift respects ~prefers-reduced-motion: reduce~, which the companion stylesheet handles for you. And one serialization rule worth knowing: an element without children is written as an explicit open/close pair (~<div></div>~), never as the XML shorthand ~<div />~, because hygguile's output is served as ~text/html~, where that shorthand is read as an open tag and silently swallows the rest of the document. Only HTML void elements (~<img>~, ~<input>~, ~<hr>~, ...) are written as a lone tag.
 
 --------
 
@@ -288,6 +310,7 @@ Everything below is re-exported by the single ~(hygguile hygguile)~ module, so o
 | ~typography~ | ~h1~--~h4~, ~sub-h1~--~sub-h4~, ~p~, ~em~, ~strong~, ~a~, ~mono~, ~pre~, ~code~, ~kbd~, ~samp~, ~var~, ~mark~, ~time~, ~abbr~, ~sup~, ~sub~ | the matching ~<h1>~...~<sub>~ inline and block elements |
 | ~container~ | ~with-footer~, ~footer~, ~hr~, ~row~, ~col~, ~dl~, ~dd~, ~dt~, ~noscript~ | ~<main>~ plus ~<footer>~, ~<hr>~, grid rows and columns, ~<dl>~/~<dt>~/~<dd>~, a ~<noscript>~ fallback |
 | ~card~ | ~card~, ~card-header~, ~card-body~, ~card-footer~, ~card-title~, ~card-description~, ~badge~, ~stat-card~ | ~<div>~/~<header>~/~<footer>~ surfaces, ~<h3>~ titles, a ~<span>~ badge, a key-figure block |
+| ~glass~ | ~glass-panel~, ~glass-wash~ | the frosted surface every other component builds on: a ~<div>~ (or ~<header>~, or ~<ul>~) over a backdrop blur, with blurred colour washes behind it when you ask for them |
 | ~input~ | ~form~, ~input~, ~textarea~, ~checkbox~, ~radio~, ~switch~, ~range~, ~help-text~, ~form-error~ | ~<form>~ and the native controls, label bound to field, helper copy wired through ~aria-describedby~ |
 | ~feedback~ | ~alert~, ~progress~, ~spinner~, ~skeleton~ | an inline ~<div>~ alert with ~role~, a native ~<progress>~, loading placeholders |
 | ~navigation~ | ~navbar~, ~nav-link~, ~breadcrumbs~, ~pagination~, ~tabs~, ~tab~ | ~<header>~ bar, ~<a>~ links, ~<nav>~ breadcrumbs, page pills, a JavaScript-free tab set |
@@ -306,16 +329,18 @@ Everything below is re-exported by the single ~(hygguile hygguile)~ module, so o
 
 * Sorting a data table in the URL
 
-Which order a table is in is a question for the server, and the query string is where the answer travels. A sortable header cell is therefore an ordinary link -- ~?sort=<key>&dir=<asc|desc>~ -- and clicking it is a plain navigation: the table sorts with JavaScript disabled, a reload reproduces the order, and the URL can be bookmarked, shared or pasted into a colleague's browser and land on the same view. No client-side sort of a handful of rendered rows pretends to be the whole data set, and no invisible state has to be kept in sync with it.
+Which order a table is in is a question for the server, and the query string is where the answer travels. A sortable header cell is therefore an ordinary link -- ~?hygguile-table-sort=<key>&hygguile-table-dir=<asc|desc>~ -- and clicking it is a plain navigation: the table sorts with JavaScript disabled, a reload reproduces the order, and the URL can be bookmarked, shared or pasted into a colleague's browser and land on the same view. No client-side sort of a handful of rendered rows pretends to be the whole data set, and no invisible state has to be kept in sync with it.
 
-The contract is one pair of names:
+The contract is one pair of names, prefixed with the library's own:
 
 | name | value |
 |------+-------|
-| ~sort~ | the key of the column to order by, a symbol such as ~seats~ |
-| ~dir~ | ~asc~ or ~desc~; absent means ~asc~ |
+| ~hygguile-table-sort~ | the key of the column to order by, a symbol such as ~seats~ |
+| ~hygguile-table-dir~ | ~asc~ or ~desc~; absent means ~asc~ |
 
-~sort~ naming a column the table does not have -- a hand-edited, truncated or stale link -- is treated as no sort at all, so it falls back to the natural order instead of reaching your query layer.
+The prefix is not decoration. A page has query parameters of its own, and ~sort~ and ~dir~ are a common enough pair for an application to be using for something else entirely, so the table claims ~hygguile-table-sort~ and ~hygguile-table-dir~ rather than a bare name: every other parameter in the query is carried through a sort untouched, a page's own ~sort~ included.
+
+~hygguile-table-sort~ naming a column the table does not have -- a hand-edited, truncated or stale link -- is treated as no sort at all, so it falls back to the natural order instead of reaching your query layer.
 
 Three pieces implement it, and a page only needs the first and the last:
 
@@ -348,11 +373,42 @@ Three pieces implement it, and a page only needs the first and the last:
 
 A route therefore reads the query, hands it to ~parse-sort~, orders its rows by the answer, and passes the same ~(key direction)~ back to ~sortable-table~; the component writes the state into the links and ~parse-sort~ reads it back on the next request, so the two can never drift apart. ~sort-href~ is the same URL builder on its own, for a table you assemble by hand with ~table~, ~th #:aria-sort~ and ~tfoot~.
 
-Clicking the column the table is already ordered by reverses it; clicking any other column starts that column in its own direction, or the table's ~#:default-direction~ when it declares none. The links carry the page's other query parameters along, so a filter survives a sort -- except ~page~, which is dropped by default through ~#:drop-params~, because page 4 of the old order is an arbitrary slice of the new one: a sort starts at the first page. A ~sort~ or ~dir~ already in the query is replaced rather than repeated, so the whole query the page received can be handed straight back in.
+Clicking the column the table is already ordered by reverses it; clicking any other column starts that column in its own direction, or the table's ~#:default-direction~ when it declares none. The links carry the page's other query parameters along, so a filter survives a sort -- except ~page~, which is dropped by default through ~#:drop-params~, because page 4 of the old order is an arbitrary slice of the new one: a sort starts at the first page. A ~hygguile-table-sort~ or ~hygguile-table-dir~ already in the query is replaced rather than repeated, so the whole query the page received can be handed straight back in.
 
 Accessibility is carried by the markup, not by a script: every sortable cell announces its state with ~aria-sort~ (~ascending~, ~descending~ or ~none~ for a column that can be sorted but is not), and the link's ~title~ says what a click would do. The arrow beside the label shows the order that column is in -- up or down -- and becomes a dimmed double arrow on the columns that are not ordering the table; it is decorative, so it is hidden from assistive technology and never part of the label. Sortable headers name their own ink, the page's link colours one per theme, because a bare ~<a>~ would fall back to the browser's default blue, which is off-palette and unreadable on a dark surface.
 
-~examples/sortable-table.scm~ is the other half written out in full: a real Guile web server (~maak example-server~, then http://localhost:8095/) that renders the page, reads ~?sort=&dir=~ back with ~parse-sort~, sorts its rows with ~(srfi srfi-1)~'s ~sort~, and prints what it understood so the contract is visible rather than implied. Swap the in-memory list for a database and the only change is the ~order by~ clause.
+~examples/sortable-table.scm~ is the other half written out in full: a real Guile web server (~maak example-server~, then http://localhost:8095/) that renders the page, reads ~?hygguile-table-sort=&hygguile-table-dir=~ back with ~parse-sort~, sorts its rows with ~(srfi srfi-1)~'s ~sort~, and prints what it understood so the contract is visible rather than implied. Swap the in-memory list for a database and the only change is the ~order by~ clause.
+
+----------------
+
+* Frosted glass panels
+
+A glass panel is a surface you can see through: a translucent tint over a backdrop blur, with its contents clipped, so whatever sits behind the panel arrives softened rather than hidden. ~glass-panel~ renders a plain ~<div>~ and nothing else, which is what lets it sit behind a hero, around a sidebar, or over a table.
+
+The washes are optional, and so is their drift. Each one is described by ~glass-wash~ using the same utility classes as any other element -- its size, its place in the panel, its colour -- plus a delay, which is what keeps several discs out of phase instead of moving in lockstep:
+
+#+begin_src scheme
+(use-modules (hygguile hygguile))
+
+(glass-panel
+ (list (h1 "Hygguile")
+       (p "cozy and professional user-interfaces for everyone"))
+ #:washes (list (glass-wash '(bg-naples-yellow-500/75 w-96 h-96 left-4 top-4)
+                           #:delay -6)
+                ;; a panel can also set the drift's pace and reach: how long one
+                ;; crossing takes, and how far the disc travels in it
+                (glass-wash '(bg-jeans-blue-500/50 w-96 h-96 right-24 bottom-4)
+                            #:delay -22 #:pace 40 #:distance '(3 -2)))
+ #:drift? #t)                     ; without it the discs simply stand still
+#+end_src
+
+Left as it is a panel is still, which is the calmer default for something that is often just background; with ~#:drift?~ the discs drift very slowly and out of phase, so the glass has something to frost without ever stealing attention. Either way ~prefers-reduced-motion~ stops the drift in the stylesheet, so the motion is decoration and never a commitment. An ~#:accent~ node is drawn inside the clipped surface, above the washes and below the content -- which is where the showcase's hero puts its hairline of gradient.
+
+How fast a disc moves and how far it travels are the page's to choose, from Scheme: ~#:pace~ is one crossing (~40~ seconds, or any CSS time such as ~"1.5m"~), ~#:distance~ is a pair of lengths -- horizontally then vertically, in rems unless you write ~"2.5rem"~ -- and a disc that says neither drifts at the stylesheet's own default. Both reach the browser as inline custom properties (~--hg-blob-duration~, ~--hg-blob-x~, ~--hg-blob-y~) that the one ~.hg-blob~ rule reads, so a page never needs a second stylesheet or a new class to change the mood of its own glass.
+
+The surface the tint and the blur live on deliberately does not clip. A ~rounded-3xl~ together with ~overflow-hidden~ on the very element carrying a backdrop blur is what paints a square edge out of a round corner in some browsers, so the decorations are clipped in a rounded layer of their own and the content in the layer that holds it: two plain elements, which are clipped to their radius reliably, over a surface whose own rounding is then never fighting the backdrop filter. A panel with nothing to clip has no layers at all and hands its text straight to its own tag, which is how the same component is also a ~<header>~ and a ~<ul>~.
+
+Every frosted surface in Hygguile is that one component. The notification tray's card asks for the pane with the tray's own tint; the fly-out submenu asks for it with ~#:tag 'ul~ and keeps its own shape -- absolutely placed under its trigger, rounded and shadowed by the classes it passes in -- and the navigation bar asks for it with ~#:tag 'header~, its own ~(sticky top-0)~ placement, and no clipping, because a bar has to let the menu it dropped out of escape. None of them spells out a frost utility of its own: the ~bg-...~ tint and ~backdrop-blur-md~ belong to ~glass-panel~, so the glass has one definition, one set of knobs and one spec, and a change to how it looks lands everywhere at once.
 
 ----------------
 
@@ -407,7 +463,9 @@ copy(window.__contrastAudit)
 
 Run it once per theme (~data-theme~ on ~<html>~), and give the transitions a moment to settle first, since ~transition-colors~ means the computed colour is briefly mid-animation.
 
-The showcase currently passes with 329 text elements checked in each theme and zero below AA, the minimal example with 41 and zero, and the sortable-table example server with 29 and zero (measured after ~data-theme~ was switched and the colour transitions had settled). The three pairs worth remembering from the last pass over it:
+The gate, ~maak contrast~, takes that walk for you. It renders nothing itself: it opens both built pages in a headless Chrome or Chromium, walks each one through every theme, and exits non-zero the moment a pair is below AA. Each page is stilled first, with a stylesheet that turns transitions and animations off, because a colour graded mid-fade is a colour no reader ever sees. ~maak build~ runs it, which is what makes readability a gate instead of a habit; both pages and both themes take about two seconds. It finds the browser on ~$PATH~, or wherever ~CHROME_BIN~ points.
+
+The showcase currently passes with 341 text elements checked in each theme and zero below AA, and the minimal example with 41 and zero. The sortable-table example server passes with 29 and zero, but it is rendered by ~maak example-server~ rather than by ~build~, so the gate does not reach it yet. The three pairs worth remembering from the last pass over it:
 
 | pair | before | after |
 |------+--------+-------|
@@ -424,8 +482,9 @@ The repository is driven by [[https://codeberg.org/jjba23/maak][maak]]. ~maak --
 | task | what it does |
 |------+--------------|
 | ~maak test~ | runs the [[https://codeberg.org/jjba23/guile-veritas][veritas]] unit suite (component SXML shapes, the abstraction helpers, the serializer) |
-| ~maak build~ | renders ~showcase.scm~ into ~dist/index.html~ next to a copy of ~olive.min.css~ (it recreates ~dist/~, so run it first) |
-| ~maak example~ | renders ~examples/minimal.scm~ into ~dist/example.html~ |
+| ~maak build~ | renders ~showcase.scm~ and ~examples/minimal.scm~ into ~dist/~ next to a copy of ~olive.min.css~ (it recreates ~dist/~), then runs the contrast gate |
+| ~maak contrast~ | re-checks every text pair on the built pages in every theme and exits non-zero when one is below WCAG AA (needs a Chrome or Chromium binary) |
+| ~maak example~ | renders ~examples/minimal.scm~ into ~dist/example.html~ on its own |
 | ~maak example-server~ | runs ~examples/sortable-table.scm~ on port 8095: the server half of the sorting contract, so you can click a header and watch the URL |
 | ~maak serve~ | serves ~dist/~ on port 50054 with ~darkhttpd~ |
 | ~maak embed~ | re-embeds ~resources/~ into ~src/hygguile/embed/~ (run it after touching any CSS or JavaScript) |
@@ -487,6 +546,10 @@ It basically works with the query params:
 - ~notify-body~ optional string representing the notification body/message
 - ~notify-duration-millis~ optional integer representing the milliseconds to show the notification
 - ~notify-body-font-family~ optional symbol choice between font-sans and font-mono
+
+The card that appears in the tray is a ~glass-panel~, the same frosted pane as every other surface in the framework. ~notification-card~ renders it server-side, with an empty title and body already in place for the script to fill, and ~show-notifications-from-url-js~ writes the parameters into those nodes with ~textContent~: a query string is data, so anything that looks like markup is shown as the characters it is instead of becoming an element. The tray stays the polite ~role="status"~ region it always was, which is why the notification is announced without interrupting the reader.
+
+The card is deliberately quiet: it appears and then holds still, with no bounce or pulse, and its silhouette is the same hairline border and modest padding as any other pane rather than a hard outline. A notification is information, and motion at the edge of the eye competes with the page the reader was already on.
 
 -----------------
 

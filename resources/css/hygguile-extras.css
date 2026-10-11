@@ -440,10 +440,18 @@ body {
    size, position, colour and blur stay in the markup where Olive already
    expresses them (`blur-3xl`, `w-96`, `bg-naples-yellow-500/50`, ...).
    Stagger the discs with an inline `animation-delay` so they never move
-   in lockstep. */
+   in lockstep.
+
+   How fast a disc drifts and how far it travels are the page's business,
+   not this sheet's: `glass-wash` writes `--hg-blob-duration`, `--hg-blob-x`
+   and `--hg-blob-y` as inline custom properties -- and an inline
+   `animation-delay` to stagger the discs -- so the values below are only
+   the defaults for a wash that says nothing. A keyframe resolves its
+   `var()`s per element, so one panel can breathe for a minute while the
+   next crosses its own corner in a couple of rems. */
 
 .hg-blob {
-  animation: hg-blob-drift 26s ease-in-out infinite alternate;
+  animation: hg-blob-drift var(--hg-blob-duration, 26s) ease-in-out infinite alternate;
 }
 
 @keyframes hg-blob-drift {
@@ -452,8 +460,42 @@ body {
   }
 
   to {
-    transform: translate3d(1.5rem, -1.25rem, 0) scale(1.08);
+    transform: translate3d(var(--hg-blob-x, 1.5rem),
+                           var(--hg-blob-y, -1.25rem),
+                           0)
+               scale(var(--hg-blob-scale, 1.08));
   }
+}
+
+/* ===== The heading type scale =====
+
+   Heading line-heights are ratios rather than lengths, because a heading is
+   sized by a utility the page may move up or down the scale at will: a
+   length would have to be re-picked whenever the font-size changed, and a
+   ratio follows on its own. The steps loosen as the size shrinks (1.3 for
+   the display sizes, 1.35 for a section title, 1.4 for the smaller
+   headings), which is the usual shape of a type scale, and every one of
+   them is loose enough that a line's glyphs -- descenders, accents, the lot
+   -- stay inside the box the line occupies.
+
+   That is a requirement, not a preference. Gradient ink is a background
+   clipped to the letters, so it can only paint where the heading's own box
+   reaches: a `g` whose descender falls below it is not cropped but drawn
+   transparent. The ratios here are measured against the two faces the
+   framework ships, of which Plus Jakarta Sans asks for the most room at
+   1.24 of the line box at worst; 1.3 is that with margin to spare. Body
+   copy sits looser still, at 1.5. */
+
+.hg-leading-display {
+  line-height: 1.3;
+}
+
+.hg-leading-title {
+  line-height: 1.35;
+}
+
+.hg-leading-subtitle {
+  line-height: 1.4;
 }
 
 /* ===== Gradient text =====
@@ -464,7 +506,15 @@ body {
    The compound `h1.`/`h2.` selectors are deliberate: Olive's text-colour
    utilities are single classes, and this sheet is inlined before
    olive.min.css, so a bare `.hg-gradient-text` would lose the cascade
-   and the heading would keep its solid colour. */
+   and the heading would keep its solid colour.
+
+   Nothing here has to widen the box the ink is painted in, and that is the
+   heading scale's doing rather than this rule's: every heading it matches
+   carries a leaded line-height from `hg-leading-*' above, so the descenders
+   of a `g` sit inside the heading's own box and have gradient to paint.
+   A page that overrides the leading with a tighter one -- `leading-none' or
+   a `leading-*' of its own, which lands after this sheet -- takes the clip
+   back into its own hands. */
 
 h1.hg-gradient-text,
 h2.hg-gradient-text {

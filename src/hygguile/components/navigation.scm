@@ -17,8 +17,15 @@
 
 (define-module (hygguile components navigation)
   #:use-module (hygguile abstraction)
+  #:use-module (hygguile components glass)
   #:use-module (srfi srfi-1)
   #:export (navbar nav-link breadcrumbs pagination tabs tab))
+
+;; One shade deeper than the glass panel's own tint: the bar spans the whole
+;; viewport, so it has to hold its own against whatever it scrolls over
+;; rather than read as a pane resting on a page.
+(define navbar-tint
+  '(bg-stone-300/75 dark:bg-onyx-700/75))
 
 (define* (navbar content
                  #:key (brand #f)
@@ -31,12 +38,16 @@
                                           items-center
                                           justify-between
                                           gap-4
-                                          bg-stone-300/75
-                                          dark:bg-onyx-700/75
-                                          backdrop-blur-md
                                           shadow-md
                                           z-32)))
   "Create a top navigation bar shell.
+
+The bar is a frosted glass surface like every other one in the framework: it
+is built by @code{glass-panel}, which owns the frost (the translucent tint
+and the backdrop blur), so the tint in @var{navbar-classes} is not the
+bar's to invent. What the bar owns is its silhouette -- it spans the
+viewport, so it has no rounding, no border and no padding of the panel's
+own, and its layout lives in @var{navbar-classes}.
 
 @table @var
 @item content
@@ -46,25 +57,35 @@ An optional brand/logo node shown at the start of the bar.
 @item sticky
 A boolean pinning the bar to the top of the viewport. Defaults to true.
 @item navbar-classes
-List of symbols representing layout CSS classes.
+List of symbols representing the bar's layout and place. A colour utility
+among them replaces the panel's tint, so a bar can recolour its own glass.
 @end table
 
 @example
 (navbar (list (nav-link \"Home\" #:href \"/\" #:active #t)) #:brand \"Hygguile\")
 @end example"
-  `((header (@ (class ,(mk-class (append navbar-classes
-                                         (if sticky
-                                             '(sticky top-0)
-                                             '())))))
-            ,@(if brand
-                  `((div (@ (class ,(mk-class '(text-xl font-bold
-                                                        text-onyx-500
-                                                        dark:text-stone-300))))
-                         ,brand))
-                  '())
-            (nav (@ (class ,(mk-class '(flex flex-row flex-wrap items-center
-                                             gap-4))))
-                 ,content))))
+  (glass-panel (append (if brand
+                           (list `(div (@ (class ,(mk-class '(text-xl
+                                                              font-bold
+                                                              text-onyx-500
+                                                              dark:text-stone-300))))
+                                       ,brand))
+                           '())
+                       (list `(nav (@ (class ,(mk-class '(flex flex-row
+                                                              flex-wrap
+                                                              items-center
+                                                              gap-4))))
+                                   ,content)))
+               #:tag 'header
+               #:tint navbar-tint
+               #:position (if sticky
+                              '(sticky top-0)
+                              '())
+               #:rounding '()
+               #:border '()
+               #:shadow '()
+               #:padding '()
+               #:classes navbar-classes))
 
 (define* (nav-link content
                    #:key href

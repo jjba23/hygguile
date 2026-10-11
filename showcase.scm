@@ -567,7 +567,61 @@
               ,(row `(,(p "first element") ,(p "second element")
                       ,(p "third element")))
               ,(col `(,(p "first element") ,(p "second element")
-                      ,(p "third element")))))))
+                      ,(p "third element"))))
+         (sub-h3 "Glass panels")
+         (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-4))))
+              ,(p
+                "A glass panel is a surface you can see through: a translucent tint over a backdrop blur, clipping whatever it is given, so what sits behind the panel is softened rather than hidden. The washes are the wallpaper trick -- a few oversized, blurred discs of colour thrown across the glass -- and they are optional, as is their drift."
+                #:weight '(font-light)))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6
+                                          items-start))))
+              ,(glass-panel
+                (list (h3 "Static washes")
+                      (p (list
+                          "The discs are there, but nothing moves. This is the panel without "
+                          (code "#:drift?")
+                          " -- the washes are simply still.")
+                         #:weight '(font-light)))
+                #:classes '(w-96 max-w-full)
+                #:washes (list (glass-wash '(bg-naples-yellow-500/75
+                                             w-72 h-72 left-8 top-4)
+                                           #:delay -4)
+                               (glass-wash '(bg-jeans-blue-500/50
+                                             w-64 h-64 right-8 bottom-4)
+                                           #:delay -12)))
+              ,(glass-panel
+                (list (h3 "Drifting washes")
+                      (p (list
+                          "The same panel with "
+                          (code "#:drift? #t")
+                          ", and a pace and a distance of its own: "
+                          (code "#:pace")
+                          " and "
+                          (code "#:distance")
+                          " are the page's to choose, so these discs cross their corner in a few rems while the hero's wander for half a minute.")
+                         #:weight '(font-light)))
+                #:classes '(w-96 max-w-full)
+                #:washes (list (glass-wash '(bg-china-rose-500/50
+                                             w-72 h-72 left-8 top-4)
+                                           #:delay -4
+                                           #:pace 11
+                                           #:distance '(2.5 -2))
+                               (glass-wash '(bg-asparagus-500/50
+                                             w-64 h-64 right-8 bottom-4)
+                                           #:delay -6
+                                           #:pace 18
+                                           #:distance '(1 -2.5)))
+                #:drift? #t))
+         ,(as-example '(glass-panel
+                        (list (h3 "Frosted, not opaque")
+                              (p "Any content can live behind the glass."))
+                        #:washes (list (glass-wash '(bg-naples-yellow-500/75
+                                                     w-72 h-72 left-8 top-4)
+                                                   #:delay -4)
+                                       (glass-wash '(bg-jeans-blue-500/50
+                                                     w-64 h-64 right-8 bottom-4)
+                                                   #:delay -12))
+                        #:drift? #t)))))
 
 (define dl-section
   `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 items-center
@@ -654,7 +708,7 @@
            "Sorting is not a rendering trick, it is a question a page asks the server: in which order? A sortable header cell is therefore an ordinary link that carries the order in the query string, and the cell announces the state it is in with aria-sort. Clicking a column is a plain navigation: it works with JavaScript disabled, a reload reproduces the order, and the URL can be shared or bookmarked."
            #:weight '(font-light))
          ,(p
-           "Only a server can answer that link, and this showcase is a static page, so what you see below is the markup it produces: each header carries ?sort=&dir= and the current column says which way it is going. examples/sortable-table.scm runs the other half -- a server that reads the order back with parse-sort and re-renders the rows in it."
+           "Only a server can answer that link, and this showcase is a static page, so what you see below is the markup it produces: each header carries ?hygguile-table-sort= and ?hygguile-table-dir=, and the current column says which way it is going. The names are prefixed so that a sort or a dir parameter of the page's own is never read as the table's state. examples/sortable-table.scm runs the other half -- a server that reads the order back with parse-sort and re-renders the rows in it."
            #:weight '(font-light))
          ,(sortable-table #:columns (list (table-column #:key 'plan
                                                         #:label "Plan")
@@ -1097,70 +1151,15 @@ landmark."
   (with-footer #:main `((div (@ (class ,(mk-class '(py-8 px-4 sm:px-6
                                                           max-w-256
                                                           mx-auto))))
-                             ;; a frosted hero: soft, out-of-focus colour washes
-                             ;; behind glass, the macOS wallpaper trick done with
-                             ;; plain Olive utilities
-                             (div (@ (class ,(mk-class '(relative
-                                                         overflow-hidden
-                                                         rounded-3xl
-                                                         border-2
-                                                         border-stone-500/25
-                                                         dark:border-onyx-100/25
-                                                         bg-stone-100/75
-                                                         dark:bg-onyx-900/75
-                                                         backdrop-blur-md
-                                                         shadow-lg
-                                                         p-6
-                                                         sm:p-8))))
-                                  ;; the washes drift very slowly, and out of
-                                  ;; phase, so the glass has something to frost
-                                  ;; without ever stealing attention
-                                  (div (@ (aria-hidden "true")
-                                          (class ,(mk-class '(hg-blob
-                                                              absolute pointer-events-none
-                                                              select-none rounded-512
-                                                              blur-3xl opacity-75
-                                                              w-96 h-96 left-4 top-4
-                                                              bg-naples-yellow-500/75)))
-                                          (style "animation-delay: -6s")))
-                                  (div (@ (aria-hidden "true")
-                                          (class ,(mk-class '(hg-blob
-                                                              absolute pointer-events-none
-                                                              select-none rounded-512
-                                                              blur-3xl opacity-75
-                                                              w-72 h-72 right-4 top-4
-                                                              bg-china-rose-500/50)))
-                                          (style "animation-delay: -14s")))
-                                  (div (@ (aria-hidden "true")
-                                          (class ,(mk-class '(hg-blob
-                                                              absolute pointer-events-none
-                                                              select-none rounded-512
-                                                              blur-3xl opacity-75
-                                                              w-96 h-96 right-24 bottom-4
-                                                              bg-jeans-blue-500/50)))
-                                          (style "animation-delay: -22s")))
-                                  (div (@ (aria-hidden "true")
-                                          (class ,(mk-class '(hg-blob
-                                                              absolute pointer-events-none
-                                                              select-none rounded-512
-                                                              blur-3xl opacity-75
-                                                              w-72 h-72 left-4 bottom-4
-                                                              bg-asparagus-500/50)))
-                                          (style "animation-delay: -9s")))
-                                  ;; a hairline of the title's own gradient
-                                  ;; along the top edge of the glass
-                                  ,(linear-gradient '()
-                                                    #:container-class
-                                                    (mk-class '(absolute top-0 left-0
-                                                                 h-1 w-full
-                                                                 opacity-90))
-                                                    #:direction 'right
-                                                    #:steps '("oklch(0.7404 0.1399 91.55 / 1)"
-                                                              "oklch(0.6183 0.1557 45.26 / 1)"
-                                                              "oklch(0.4929 0.161 279.98 / 1)"
-                                                              "oklch(0.6609 0.0708 213.97 / 1)"))
-                                  (div (@ (class ,(mk-class '(relative
-                                                              flex flex-col gap-6))))
+                             ;; a glass hero: soft, out-of-focus colour washes
+                             ;; behind frosted glass, the macOS wallpaper trick
+                             ;; done with plain Olive utilities -- the same panel
+                             ;; any page can have, shown again in the containers
+                             ;; section below
+                             ,(glass-panel
+                               ;; a real list of nodes, not `(list ...)`: a
+                               ;; literal head would render as a <list> element
+                               `(
                                   (div (@ (id "top")
                                           (class ,(mk-class '(flex flex-col gap-2))))
                                        ,(h1 "Hygguile"
@@ -1236,7 +1235,39 @@ landmark."
                                                    "JavaScript is disabled"
                                                    #:body
                                                    "hygguile progressively enhances. Theme toggles and carousel arrows hide themselves, fly-out submenus open up, and tabs, accordions, modals, tooltips and every form control keep working without a single line of JavaScript."
-                                                   #:variant 'info)))))
+                                                   #:variant 'info))))
+                               ;; a generous gap between the rows, so the
+                               ;; tagline is not crowded by the links that
+                               ;; follow it
+                               #:content-classes '(flex flex-col gap-10)
+                               ;; the washes drift very slowly, and out of phase,
+                               ;; so the glass has something to frost without
+                               ;; ever stealing attention
+                               #:washes (list (glass-wash '(bg-naples-yellow-500/75
+                                                           w-96 h-96 left-4 top-4)
+                                                         #:delay -6)
+                                              (glass-wash '(bg-china-rose-500/50
+                                                            w-72 h-72 right-4 top-4)
+                                                          #:delay -14)
+                                              (glass-wash '(bg-jeans-blue-500/50
+                                                            w-96 h-96 right-24 bottom-4)
+                                                          #:delay -22)
+                                              (glass-wash '(bg-asparagus-500/50
+                                                            w-72 h-72 left-4 bottom-4)
+                                                          #:delay -9))
+                               #:drift? #t
+                               ;; a hairline of the title's own gradient along
+                               ;; the top edge of the glass
+                               #:accent (linear-gradient '()
+                                                         #:container-class
+                                                         (mk-class '(absolute top-0 left-0
+                                                                     h-1 w-full
+                                                                     opacity-90))
+                                                         #:direction 'right
+                                                         #:steps '("oklch(0.7404 0.1399 91.55 / 1)"
+                                                                   "oklch(0.6183 0.1557 45.26 / 1)"
+                                                                   "oklch(0.4929 0.161 279.98 / 1)"
+                                                                   "oklch(0.6609 0.0708 213.97 / 1)")))
                              ,showcase-toc
                              ,gradient-rule
                              ,(anchored "settings" settings-section)

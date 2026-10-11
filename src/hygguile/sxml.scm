@@ -68,8 +68,19 @@ The symbol or string representing an element or attribute name.
 ;; shorthand `<div />` is read as an open tag and quietly swallows the rest
 ;; of the document.
 (define html-void-elements
-  '("area" "base" "br" "col" "embed" "hr" "img" "input" "link" "meta"
-    "param" "source" "track" "wbr"))
+  '("area" "base"
+    "br"
+    "col"
+    "embed"
+    "hr"
+    "img"
+    "input"
+    "link"
+    "meta"
+    "param"
+    "source"
+    "track"
+    "wbr"))
 
 (define (void-element? tag)
   "Answer whether @var{tag} is an HTML void element, which is serialized
@@ -128,7 +139,7 @@ The destination output port.
   (attribute-value->xml value port)
   (display #\" port))
 
-(define (element->xml tag attrs body port)
+(define (element->xml tag attrs body port escape?)
   "Serialize an SXML element structure including its tag, optional attribute list, and body content.
 
 @table @var
@@ -140,10 +151,14 @@ An association list of attribute keys and values or false if empty.
 The internal nested content child list structures or strings.
 @item port
 The destination output port.
+@item escape?
+Whether text inside the element is written as character references.  It
+is threaded down rather than re-derived, because a document that escapes
+its own text has to escape it at every depth.
 @end table
 
 @example
-(element->xml 'p '((id . \"intro\")) '(\"Hello World\") (current-output-port))
+(element->xml 'p '((id . \"intro\")) '(\"Hello World\") (current-output-port) #f)
 @end example"
   (check-name tag)
   (display #\< port)
@@ -168,7 +183,7 @@ The destination output port.
           ((body body))
           (cond
             ((pair? body)
-             (sxml->xml (car body) port)
+             (sxml->xml (car body) port escape?)
              (lp (cdr body)))
             ((null? body)
              (display "</" port)
@@ -234,7 +249,7 @@ The node list, single element pair list, text string, or active layout generatio
 @item port
 The optional destination output port. Defaults to @code{(current-output-port)}.
 @item escape?
-An optional boolean constraint indicating if nested string values undergo special character reference processing. Defaults to false.
+Whether text is written as character references instead of literal characters. It follows the tree to any depth, through nested elements and nodelists alike. Attribute values are always escaped, so they ignore this argument. Defaults to false.
 @end table
 
 @example
@@ -269,10 +284,10 @@ An optional boolean constraint indicating if nested string values undergo specia
                                       (cdar elems))))
                      (element->xml tag attrs
                                    (if attrs
-                                       (cdr elems) elems) port)))))
+                                       (cdr elems) elems) port escape?)))))
          ;; A nodelist.
          (for-each (lambda (x)
-                     (sxml->xml x port)) tree)))
+                     (sxml->xml x port escape?)) tree)))
     ((string? tree)
      (if escape?
          (string->escaped-xml tree port)

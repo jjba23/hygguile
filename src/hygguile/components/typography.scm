@@ -40,11 +40,46 @@
                sup
                sub))
 
+;; ===== The heading type scale =====
+;;
+;; Every heading is a size paired with a leading, and the pairing is the
+;; scale: `text-4xl' at 2.25rem gets 1.3, `text-2xl' at 1.75rem gets 1.35,
+;; `text-xl' at 1.5rem gets 1.4. Tightening as the size grows is the
+;; familiar shape of a type scale, and the ratios are ratios rather than
+;; fixed lengths so that a page moving a heading up or down a step keeps a
+;; leading to match -- Olive's own `leading-*' utilities are absolute rems,
+;; so they cannot follow a font-size a page chose for itself.
+;;
+;; The floor is not a matter of taste. A leaded line sits in a box of the
+;; line's own height, and every glyph the line might hold -- descenders,
+;; accents -- has to fit inside that box: ink outside it is not merely
+;; cropped but unpainted, since gradient ink is a background clipped to the
+;; letters (see `hg-gradient-text'). Measured on the two faces the
+;; framework ships, Plus Jakarta Sans asks for 1.24 of that box at worst and
+;; Lucida Sans for 1.16, so the tightest step here is 1.3, with room to
+;; spare rather than a hairline. For comparison, body copy is set at 1.5.
+(define heading-scale
+  '((text-4xl . hg-leading-display)
+    (text-3xl . hg-leading-display)
+    (text-2xl . hg-leading-title)
+    (text-xl . hg-leading-subtitle)))
+
+(define (heading-leading size)
+  "Return the leading class list the heading scale pairs with @var{size}.
+
+@var{size} is a class list rather than a single name, so only its first
+entry is looked up. A step the scale does not name -- a page reaching for
+one of its own -- is led by the tightest ratio in the scale, which is still
+looser than either shipped face needs, so a heading never loses ink by
+leaving the scale."
+  (list (or (assq-ref heading-scale (car size)) 'hg-leading-display)))
+
 (define* (h1 content
              #:key (weight '(font-bold))
              (color '(text-onyx-300 dark:text-stone-300))
              (family '(font-sans))
-             (size '(text-4xl)))
+             (size '(text-4xl))
+             (leading (heading-leading size)))
   "Create an HTML @code{<h1>} heading.
 
 @table @var
@@ -58,19 +93,25 @@ List of symbols representing text color CSS classes.
 List of symbols representing font family CSS classes.
 @item size
 List of symbols representing text sizing CSS classes.
+@item leading
+List of symbols representing the line-height, defaulting to the ratio the
+heading scale pairs with @var{size} (see @code{heading-leading}). A size
+the scale does not name is led by its tightest ratio, so the ink of a
+heading a page has resized for itself still fits its line box.
 @end table
 
 @example
 (h1 \"Main Page Title\" #:color '(text-onyx-700 dark:text-stone-100))
 @end example"
-  `((h1 (@ (class ,(mk-class (append color size weight family))))
+  `((h1 (@ (class ,(mk-class (append color size weight family leading))))
         ,content)))
 
 (define* (h2 content
              #:key (weight '(font-bold))
              (color '(text-onyx-300 dark:text-stone-300))
              (family '(font-sans))
-             (size '(text-3xl)))
+             (size '(text-3xl))
+             (leading (heading-leading size)))
   "Create an HTML @code{<h2>} heading.
 
 @table @var
@@ -84,19 +125,23 @@ List of symbols representing text color CSS classes.
 List of symbols representing font family CSS classes.
 @item size
 List of symbols representing text sizing CSS classes.
+@item leading
+List of symbols representing the line-height, defaulting to the ratio the
+heading scale pairs with @var{size}.
 @end table
 
 @example
 (h2 \"Section Subtitle\" #:weight '(font-semibold))
 @end example"
-  `((h2 (@ (class ,(mk-class (append color size weight family))))
+  `((h2 (@ (class ,(mk-class (append color size weight family leading))))
         ,content)))
 
 (define* (h3 content
              #:key (weight '(font-bold))
              (color '(text-onyx-300 dark:text-stone-300))
              (family '(font-sans))
-             (size '(text-2xl)))
+             (size '(text-2xl))
+             (leading (heading-leading size)))
   "Create an HTML @code{<h3>} heading.
 
 @table @var
@@ -110,19 +155,23 @@ List of symbols representing text color CSS classes.
 List of symbols representing font family CSS classes.
 @item size
 List of symbols representing text sizing CSS classes.
+@item leading
+List of symbols representing the line-height, defaulting to the ratio the
+heading scale pairs with @var{size}.
 @end table
 
 @example
 (h3 \"Subsection Heading\")
 @end example"
-  `((h3 (@ (class ,(mk-class (append color size weight family))))
+  `((h3 (@ (class ,(mk-class (append color size weight family leading))))
         ,content)))
 
 (define* (h4 content
              #:key (weight '(font-bold))
              (color '(text-onyx-300 dark:text-stone-300))
              (family '(font-sans))
-             (size '(text-xl)))
+             (size '(text-xl))
+             (leading (heading-leading size)))
   "Create an HTML @code{<h4>} heading.
 
 @table @var
@@ -136,12 +185,15 @@ List of symbols representing text color CSS classes.
 List of symbols representing font family CSS classes.
 @item size
 List of symbols representing text sizing CSS classes.
+@item leading
+List of symbols representing the line-height, defaulting to the ratio the
+heading scale pairs with @var{size}.
 @end table
 
 @example
 (h4 \"Minor Subsection Title\")
 @end example"
-  `((h4 (@ (class ,(mk-class (append color size weight family))))
+  `((h4 (@ (class ,(mk-class (append color size weight family leading))))
         ,content)))
 
 (define* (sub-h1 content
@@ -149,7 +201,8 @@ List of symbols representing text sizing CSS classes.
                  (color '(text-onyx-300 dark:text-stone-500))
                  (family '(font-sans))
                  (style '(italic))
-                 (size '(text-3xl)))
+                 (size '(text-3xl))
+                 (leading (heading-leading size)))
   "Create a lighter, styled secondary @code{<h1>} heading wrapper.
 
 @table @var
@@ -165,12 +218,15 @@ List of symbols representing font family CSS classes.
 List of symbols representing font style layout configuration options (e.g., italic).
 @item size
 List of symbols representing text sizing CSS classes.
+@item leading
+List of symbols representing the line-height, defaulting to the ratio the
+heading scale pairs with @var{size}.
 @end table
 
 @example
 (sub-h1 \"A deeper dive into the architecture\")
 @end example"
-  `((h1 (@ (class ,(mk-class (append color size weight style family))))
+  `((h1 (@ (class ,(mk-class (append color size weight style family leading))))
         ,content)))
 
 (define* (sub-h2 content
@@ -178,7 +234,8 @@ List of symbols representing text sizing CSS classes.
                  (style '(italic))
                  (color '(text-onyx-300 dark:text-stone-500))
                  (family '(font-sans))
-                 (size '(text-2xl)))
+                 (size '(text-2xl))
+                 (leading (heading-leading size)))
   "Create a lighter, styled secondary @code{<h2>} heading wrapper.
 
 @table @var
@@ -194,12 +251,15 @@ List of symbols representing text color CSS classes.
 List of symbols representing font family CSS classes.
 @item size
 List of symbols representing text sizing CSS classes.
+@item leading
+List of symbols representing the line-height, defaulting to the ratio the
+heading scale pairs with @var{size}.
 @end table
 
 @example
 (sub-h2 \"Contextual commentary block\")
 @end example"
-  `((h2 (@ (class ,(mk-class (append color size weight style family))))
+  `((h2 (@ (class ,(mk-class (append color size weight style family leading))))
         ,content)))
 
 (define* (sub-h3 content
@@ -207,7 +267,8 @@ List of symbols representing text sizing CSS classes.
                  (style '(italic))
                  (color '(text-onyx-300 dark:text-stone-500))
                  (family '(font-sans))
-                 (size '(text-xl)))
+                 (size '(text-xl))
+                 (leading (heading-leading size)))
   "Create a lighter, styled secondary @code{<h3>} heading wrapper.
 
 @table @var
@@ -223,12 +284,15 @@ List of symbols representing text color CSS classes.
 List of symbols representing font family CSS classes.
 @item size
 List of symbols representing text sizing CSS classes.
+@item leading
+List of symbols representing the line-height, defaulting to the ratio the
+heading scale pairs with @var{size}.
 @end table
 
 @example
 (sub-h3 \"Detailed breakdown notes\")
 @end example"
-  `((h3 (@ (class ,(mk-class (append color size weight style family))))
+  `((h3 (@ (class ,(mk-class (append color size weight style family leading))))
         ,content)))
 
 (define* (sub-h4 content
@@ -236,7 +300,8 @@ List of symbols representing text sizing CSS classes.
                  (style '(italic))
                  (color '(text-onyx-300 dark:text-stone-500))
                  (family '(font-sans))
-                 (size '(text-xl)))
+                 (size '(text-xl))
+                 (leading (heading-leading size)))
   "Create a lighter, styled secondary @code{<h4>} heading wrapper.
 
 @table @var
@@ -252,12 +317,15 @@ List of symbols representing text color CSS classes.
 List of symbols representing font family CSS classes.
 @item size
 List of symbols representing text sizing CSS classes.
+@item leading
+List of symbols representing the line-height, defaulting to the ratio the
+heading scale pairs with @var{size}.
 @end table
 
 @example
 (sub-h4 \"Supplemental metadata label\")
 @end example"
-  `((h4 (@ (class ,(mk-class (append color size weight style family))))
+  `((h4 (@ (class ,(mk-class (append color size weight style family leading))))
         ,content)))
 
 (define* (p content

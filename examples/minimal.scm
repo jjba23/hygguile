@@ -26,8 +26,9 @@
 ;;   maak example        (writes dist/example.html, next to olive.min.css)
 ;;   maak serve          (then open http://localhost:50054/example.html)
 ;;
-;; `maak build' recreates dist/ from scratch for the showcase, so run it
-;; before `maak example' if you want both pages served at once.
+;; `maak build' renders this page too, next to the showcase, and checks
+;; both against WCAG AA before it hands them over; `maak example' re-renders
+;; just this one.
 ;;
 ;; Two rules it demonstrates:
 ;;

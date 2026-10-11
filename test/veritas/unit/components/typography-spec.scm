@@ -18,7 +18,9 @@
 (define-module (veritas unit components typography-spec)
   #:use-module (veritas veritas)
   #:use-module (srfi srfi-1)
+  #:use-module (ice-9 regex)
   #:use-module (hygguile components typography)
+  #:use-module (hygguile embed css)
   #:export (spec))
 
 (define (attr-value node name)
@@ -38,6 +40,103 @@
     (and (string? classes)
          (string-contains classes token)
          #t)))
+
+;; ===== the heading type scale =====
+
+(define heading-scale-classes
+  '("hg-leading-display" "hg-leading-title" "hg-leading-subtitle"))
+
+;; Every heading the framework ships, with the step it occupies: the
+;; component's name, the node it renders, and the size and leading classes
+;; the scale pairs for that step.
+(define heading-levels
+  (list (list "h1" (h1 "Heading") "text-4xl" "hg-leading-display")
+        (list "h2" (h2 "Heading") "text-3xl" "hg-leading-display")
+        (list "h3" (h3 "Heading") "text-2xl" "hg-leading-title")
+        (list "h4" (h4 "Heading") "text-xl" "hg-leading-subtitle")
+        (list "sub-h1" (sub-h1 "Heading") "text-3xl" "hg-leading-display")
+        (list "sub-h2" (sub-h2 "Heading") "text-2xl" "hg-leading-title")
+        (list "sub-h3" (sub-h3 "Heading") "text-xl" "hg-leading-subtitle")
+        (list "sub-h4"
+              (sub-h4 "Heading")
+              "text-xl"
+              "hg-leading-subtitle")))
+
+(define (heading-facts entry)
+  "What a rendered heading says about its step of the scale."
+  (let ((el (car (cadr entry))))
+    (list (car entry)
+          (car el)
+          (class-has? el (caddr entry))
+          (class-has? el (cadddr entry))
+          ;; a heading set solid is the one thing the scale is there to
+          ;; prevent: its descenders would fall out of its own box
+          (class-has? el "leading-none"))))
+
+(define (stylesheet-text)
+  "The companion stylesheet, as it ships inside the library."
+  (car (filter string? (cdr (car (hygguile-extras-css))))))
+
+(define (leading-ratio css class)
+  "The line-height the stylesheet gives @var{class} as a plain class, or #f."
+  (let ((at (string-contains css (string-append "." class " {"))))
+    (and at
+         (let ((m (string-match "line-height:\\s*([0-9.]+)" css at)))
+           (and m (string->number (match:substring m 1)))))))
+
+(define heading-suite
+  (suite "Heading type scale"
+         (test "hygguile heading type scale"
+               (assert-equal #:name
+                             "every level is a size paired with its leading"
+                             #:got (map heading-facts heading-levels)
+                             #:expect
+                             '(("h1" h1 #t #t #f)
+                               ("h2" h2 #t #t #f)
+                               ("h3" h3 #t #t #f)
+                               ("h4" h4 #t #t #f)
+                               ("sub-h1" h1 #t #t #f)
+                               ("sub-h2" h2 #t #t #f)
+                               ("sub-h3" h3 #t #t #f)
+                               ("sub-h4" h4 #t #t #f)))
+               (assert-equal #:name
+                             "a heading resized by hand is led by the scale"
+                             #:got (let ((el (car (h1 "Heading"
+                                                     #:size
+                                                     '(text-6xl)))))
+                                     (list (class-has? el "text-6xl")
+                                           (class-has? el
+                                                       "hg-leading-display")))
+                             #:expect (list #t #t))
+               (assert-equal #:name
+                             "a leading given outright replaces the scale's"
+                             #:got (let ((el (car (h1 "Heading"
+                                                     #:leading
+                                                     '(leading-6)))))
+                                     (list (class-has? el "leading-6")
+                                           (any (lambda (class)
+                                                  (class-has? el class))
+                                                heading-scale-classes)))
+                             #:expect (list #t #f))
+               (assert-equal #:name
+                             "every ratio in the scale leaves room for the ink"
+                             #:got (map (lambda (class)
+                                          (let ((ratio (leading-ratio
+                                                        (stylesheet-text)
+                                                        class)))
+                                            (and ratio
+                                                 (> ratio 1.25))))
+                                        heading-scale-classes)
+                             #:expect (list #t #t #t))
+               (assert-equal #:name
+                             "and the scale loosens as the size shrinks"
+                             #:got (< (leading-ratio (stylesheet-text)
+                                                     "hg-leading-display")
+                                      (leading-ratio (stylesheet-text)
+                                                     "hg-leading-title")
+                                      (leading-ratio (stylesheet-text)
+                                                     "hg-leading-subtitle"))
+                             #:expect #t))))
 
 (define typography-suite
   (suite "Inline typography"
@@ -113,4 +212,5 @@
                              #:expect #t))))
 
 (define (spec)
-  (veritas-run typography-suite))
+  (veritas-run typography-suite)
+  (veritas-run heading-suite))

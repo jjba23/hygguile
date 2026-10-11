@@ -17,6 +17,8 @@
 
 (define-module (hygguile js)
   #:use-module (hygguile abstraction)
+  #:use-module (hygguile sxml)
+  #:use-module (hygguile components notification)
   #:export (show-notifications-from-url-js trigger-notification-function-js))
 
 (define* (trigger-notification-function-js #:key (title "")
@@ -72,27 +74,10 @@ The fallback typography class string applied to the notification's description f
                                                                               flex-wrap
                                                                               gap-10
                                                                               items-center)))
-                                         (notification-tray-container-classes (mk-class '
-                                                                               (max-w-full
-                                                                                animate-bounce
-                                                                                max-w-prose
-                                                                                rounded-xl
-                                                                                bg-stone-300/90
-                                                                                border-stone-500
-                                                                                dark:bg-onyx-700/75
-                                                                                border-2
-                                                                                dark:border-onyx-100
-                                                                                text-onyx-300
-                                                                                dark:text-stone-300
-                                                                                font-sans
-                                                                                py-6
-                                                                                px-4
-                                                                                flex
-                                                                                flex-col
-                                                                                gap-6))))
+                                         (card-classes '()))
   "Generate a client-side script block that handles rendering notifications from URL parameters.
 
-This macro sets up a DOM listener evaluating parameters matching @code{notify-title} and @code{notify-body} from the window URL properties. When populated, it generates the corresponding component subtree inside the layout tray wrapper designated by the element identifier @code{notification-tray}.
+This macro sets up a DOM listener evaluating parameters matching @code{notify-title} and @code{notify-body} from the window URL properties. When populated, it puts a @code{notification-card} into the layout tray wrapper designated by the element identifier @code{notification-tray}, fills its title and body with @code{textContent}, and clears the tray again after the notification's duration.
 
 @table @var
 @item header-classes
@@ -103,15 +88,22 @@ The client-side callback script evaluated whenever a dismiss interaction trigger
 A space-separated string containing structural component icon identifiers and layout options.
 @item title-container-classes
 A space-separated string containing CSS layout parameters handling the alignment properties of the text boundaries.
-@item notification-tray-container-classes
-A space-separated string containing global structural box presentation layouts applied directly onto the notification layout wrapper block.
+@item card-classes
+Extra classes for the notification's frosted card, appended to the panel's own.
 @end table
 
 @example
 (show-notifications-from-url-js #:header-classes \"text-lg font-bold\")
 @end example"
-  `((script ,(format #f
-              "
+  (let ((card (call-with-output-string (lambda (port)
+                                         (sxml->xml (notification-card
+                                                     #:header-classes header-classes
+                                                     #:close-icon-on-click close-icon-on-click
+                                                     #:close-icon-classes close-icon-classes
+                                                     #:title-container-classes title-container-classes
+                                                     #:card-classes card-classes)
+                                                    port)))))
+    `((script ,(format #f "
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     if(params.get('notify-body') == null && params.get('notify-title') == null){
@@ -121,17 +113,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const notificationBody = params.get('notify-body') ?? \"\"
     const notificationDurationMillis = params.get('notify-duration-millis') ?? 3000
     const notificationBodyFontFamily = params.get('notify-body-font-family') ?? 'font-sans'
-    const notification = `<div class=\"~a\">` +
-      `<div class=\"~a\"><h4 class=\"~a\">${notificationTitle}</h4><i onclick=\"~a\" class=\"~a\"></i></div>` +
-      `<p id=\"notification-body\">${notificationBody}</p>` + `</div>`
-    document.getElementById('notification-tray').innerHTML = notification
-    document.getElementById('notification-body').classList.toggle(notificationBodyFontFamily)
-
-    setTimeout(() => { document.getElementById('notification-tray').innerHTML = '' }, notificationDurationMillis);
+    const notificationTray = document.getElementById('notification-tray')
+    notificationTray.innerHTML = ~s
+    const notificationTitleNode = document.getElementById('notification-title')
+    const notificationBodyNode = document.getElementById('notification-body')
+    if(notificationTitleNode){
+        notificationTitleNode.textContent = notificationTitle
+    }
+    if(notificationBodyNode){
+        notificationBodyNode.textContent = notificationBody
+        notificationBodyNode.classList.toggle(notificationBodyFontFamily)
+    }
+    setTimeout(() => { notificationTray.innerHTML = '' }, notificationDurationMillis);
 })
 "
-              notification-tray-container-classes
-              title-container-classes
-              header-classes
-              close-icon-on-click
-              close-icon-classes))))
+                     card)))))

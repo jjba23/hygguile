@@ -93,8 +93,8 @@
 (define (example)
   "Render the onboarding example page to dist/example.html.
 
-Unlike `build', this leaves the rest of dist/ alone, so run it after
-`build' when you want to serve the example next to the showcase."
+`build' renders this page too, next to the showcase; reach for this one
+when you are working on the example and want to re-render just it."
   ($ '("mkdir -pv dist"))
   ($ '("cp -rfv resources/css/olive.min.css dist/olive.min.css"))
   (manifest-shell (list "guile -L ./src examples/minimal.scm")))
@@ -102,8 +102,9 @@ Unlike `build', this leaves the rest of dist/ alone, so run it after
 (define (example-server)
   "Serve the server-driven sortable table example on port 8095.
 
-The other half of the sorting contract: a real server that reads
-`?sort=&dir=' back and re-renders the rows. Run it from the project root
+The other half of the sorting contract: a real server that reads the
+table's two query parameters back and re-renders the rows. Run it from
+the project root
 so the example can find resources/css/olive.min.css."
   (manifest-shell (list "guile -L ./src examples/sortable-table.scm")))
 
@@ -121,11 +122,27 @@ so the example can find resources/css/olive.min.css."
   (kill-server)
   ($ (list (~ "darkhttpd ./dist --port ~a" http-port))))
 
-(define (build)
-  "Build production release of the project."
+(define (render-pages)
+  "Render every page of the site into dist/."
   (remkdir-p "dist")
   ($ '("cp -rfv resources/css/olive.min.css dist/olive.min.css"))
-  (manifest-shell (list "guile -L ./src showcase.scm")))
+  (manifest-shell (list "guile -L ./src showcase.scm"))
+  (manifest-shell (list "guile -L ./src examples/minimal.scm")))
+
+(define (contrast)
+  "Check every text pair on the built pages against WCAG AA, in every theme.
+
+Renders nothing: it reads dist/ as it is, opens each page in a headless
+Chrome or Chromium on $PATH ($CHROME_BIN points at one kept elsewhere),
+and exits non-zero as soon as a pair is below the contrast the audit asks
+of it. A shade that makes a sentence unreadable is a bug like any other,
+which is why `build' runs this."
+  (manifest-shell (list "guile ./scripts/contrast-gate.scm")))
+
+(define (build)
+  "Build production release of the project, and gate its contrast."
+  (render-pages)
+  (contrast))
 
 (define (test-build-and-serve)
   (test)

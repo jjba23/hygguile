@@ -17,7 +17,15 @@
 
 (define-module (hygguile components fly-out)
   #:use-module (hygguile abstraction)
+  #:use-module (hygguile components glass)
   #:export (fly-out fly-out-submenu fly-out-item))
+
+;; The dropdown hangs over the page it dropped out of, which is exactly the
+;; case for glass: the panel blurs and tints whatever it covers. It wears the
+;; panel's own tint, since a menu is a pane over the page rather than part of
+;; it, and takes the panel's frost while keeping its own shape.
+(define fly-out-tint
+  '(bg-stone-100/75 dark:bg-onyx-700/75))
 
 (define* (fly-out #:key (aria-label "Fly-out selection menu")
                   (nav-class '(py-4))
@@ -55,10 +63,6 @@ A list of sub-components or list items to nest within the top-level menu contain
                                           transition-colors
                                           duration-150))
                           (ul-class '(flyout-submenu z-10
-                                                     absolute
-                                                     bg-stone-100/75
-                                                     dark:bg-onyx-700/75
-                                                     backdrop-blur-md
                                                      rounded-xl
                                                      shadow-md
                                                      my-2
@@ -68,13 +72,23 @@ A list of sub-components or list items to nest within the top-level menu contain
                           (items '()))
   "Construct a fly-out sub-menu dropdown block.
 
+The dropdown is a frosted glass surface built by @code{glass-panel}: the
+frost (the translucent tint and the backdrop blur) is the panel's, so a
+dropdown hanging over the page shows the page through it. The menu keeps
+its own shape -- it is absolutely placed under its trigger, and the
+rounding, shadow and padding stay in @var{ul-class}. It is still the same
+@code{<ul>} with the @code{flyout-submenu} class and the @code{hidden}
+attribute that @code{fly-out.js} opens and closes, so nothing about the
+behaviour changes.
+
 @table @var
 @item li-class
 List of symbols representing CSS classes for the wrapper @code{<li>} component.
 @item button-class
 List of symbols representing CSS classes for the trigger @code{<button>} element.
 @item ul-class
-List of symbols representing CSS classes for the inner hidden dropdown @code{<ul>} list.
+List of symbols representing the dropdown's own shape and layout. A colour
+utility among them replaces the panel's tint.
 @item button-content
 S-expression content or fragments rendered inside the dropdown trigger button.
 @item items
@@ -91,9 +105,16 @@ A list of nested child items (typically @code{fly-out-item} items) belonging to 
                    (aria-expanded false)
                    (aria-controls submenu))
                 ,button-content)
-        (ul (@ (hidden "")
-               (class ,(mk-class ul-class)))
-            ,items))))
+        ,@(glass-panel items
+                      #:tag 'ul
+                      #:attributes '((hidden ""))
+                      #:tint fly-out-tint
+                      #:position '(absolute)
+                      #:rounding '()
+                      #:border '()
+                      #:shadow '()
+                      #:padding '()
+                      #:classes ul-class))))
 
 (define* (fly-out-item content
                        #:key (li-class '(px-4 py-4)))
