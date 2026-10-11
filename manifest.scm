@@ -32,6 +32,7 @@
              (gnu packages compression)
              (gnu packages texinfo)
              (gnu packages autotools)
+             (gnu packages chromium)
              (gnu packages web)
              ((guix licenses)
               #:prefix license:))
@@ -44,5 +45,6 @@
                           darkhttpd
                           guile-veritas
                           direvent
+                          ungoogled-chromium
                           watchexec
                           guile-documenta))
