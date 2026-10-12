@@ -19,6 +19,7 @@
   #:use-module (veritas veritas)
   #:use-module (ice-9 string-fun)
   #:use-module (hygguile components glass)
+  #:use-module (hygguile embed css)
   #:use-module (hygguile sxml)
   #:export (spec))
 
@@ -114,6 +115,11 @@
           (loop (+ hit
                    (string-length needle))
                 (1+ n)) n))))
+
+(define (extras-stylesheet)
+  "The framework's companion stylesheet, as it ships inside the library."
+  (car (filter string?
+               (cdr (car (hygguile-extras-css))))))
 
 (define (yellow-wash)
   (glass-wash '(bg-naples-yellow-500/75 w-96 h-96 left-4 top-4)
@@ -238,6 +244,33 @@
                                            (class-has? layer "rounded-3xl")))
                              #:expect (list #t #f))
                (assert-equal #:name
+                             "the layer the washes ride in names the clip that actually holds them"
+                             #:got (class-has? (clip-layer washed)
+                                               "hg-glass-layer")
+                             #:expect #t)
+               (assert-equal #:name
+                             "and the sheet clips that layer to a radius, the only clip a blur obeys"
+                             #:got (let ((css (extras-stylesheet)))
+                                     (list (contains? css
+                                                      (string-append
+                                                       ".hg-glass-layer {\n"
+                                                       "  clip-path: inset(0 round var(--hg-glass-clip, 1.28rem));"))
+                                           (contains? css
+                                                      "clip-path: inset(0 round var(--hg-glass-clip,")))
+                             #:expect (list #t #t))
+               (assert-equal #:name
+                             "every rounding the framework's own panes wear has a clip to match"
+                             #:got (map (lambda (token)
+                                          (contains? (extras-stylesheet)
+                                                     (string-append
+                                                      ".hg-glass-layer[class~=\""
+                                                      token
+                                                      "\"]")))
+                                        '("rounded-none" "rounded-xl"
+                                          "rounded-2xl" "rounded-3xl"
+                                          "rounded-4xl" "rounded-full"))
+                             #:expect (list #t #t #t #t #t #t))
+               (assert-equal #:name
                              "a plain panel clips nothing, so a child can escape"
                              #:got (class-has? (surface plain)
                                                "overflow-hidden")
@@ -315,6 +348,16 @@
                                                                   (gap-2)))
                                              "gap-2")
                              #:expect 1)
+               (assert-equal #:name
+                "the recipe's smaller steps are the stylesheet's, so a disc or a pill names its strength rather than writing one"
+                #:got (let ((sheet (extras-stylesheet)))
+                        (list (contains?
+                               sheet
+                               ".hg-frost-soft {\n  --hg-frost-blur: 3rem;")
+                              (contains?
+                               sheet
+                               ".hg-frost-pill {\n  --hg-frost-blur: 1rem;")))
+                #:expect (list #t #t))
                (assert-equal #:name
                 "asking to clip clips the content, not the frost"
                 #:got (let ((panel (glass-panel "CONTENT"

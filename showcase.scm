@@ -967,7 +967,8 @@
                                       rounded-2xs
                                       bg-stone-100/75
                                       dark:bg-onyx-900/75
-                                      backdrop-blur-2xs
+                                      hg-frost
+                                      hg-frost-pill
                                       px-2
                                       py-1
                                       text-sm
@@ -1208,7 +1209,8 @@ landmark."
                                                              px-3 py-1
                                                              bg-stone-100/50
                                                              dark:bg-onyx-900/50
-                                                             backdrop-blur-2xs
+                                                             hg-frost
+                                                             hg-frost-pill
                                                              border-2
                                                              border-stone-500/25
                                                              dark:border-onyx-100/25
@@ -1225,7 +1227,8 @@ landmark."
                                                              px-3 py-1
                                                              bg-stone-100/50
                                                              dark:bg-onyx-900/50
-                                                             backdrop-blur-2xs
+                                                             hg-frost
+                                                             hg-frost-pill
                                                              border-2
                                                              border-stone-500/25
                                                              dark:border-onyx-100/25
@@ -1242,7 +1245,8 @@ landmark."
                                                              px-3 py-1
                                                              bg-stone-100/50
                                                              dark:bg-onyx-900/50
-                                                             backdrop-blur-2xs
+                                                             hg-frost
+                                                             hg-frost-pill
                                                              border-2
                                                              border-stone-500/25
                                                              dark:border-onyx-100/25

@@ -267,6 +267,17 @@ for a panel that is often just a bit of background. Either way the drift
 stops for anyone who asks for less motion: @code{prefers-reduced-motion}
 turns the animation off in the stylesheet.
 
+The layer the discs ride in wears the panel's own rounding and clips, and
+that is still not enough for a blurred disc: a browser draws a filter's
+blur in the square box the blur reaches, so without a clip of its own the
+wash leaves a faint square of ink beside each rounded corner. The layer's
+class names that clip, and a clip has to name a radius, so it carries the
+framework's default rounding as its own default. A panel that rounds its
+glass differently says so in @code{--hg-glass-clip}, on the panel or on
+any ancestor of the layer. See @code{hygguile-extras.css} for the whole
+story, and for the measurements that leave an explicit clip as the only
+cure.
+
 A panel with no decorations has no layers, and then there is nothing to
 sit above: the content is the panel's own children and no layer is added.
 That is what lets this one component be a @code{<header>}, a @code{<ul>}
@@ -369,7 +380,11 @@ a panel can lay its contents out without reaching for the surface -- a
                           rounding
                           border
                           shadow))
-         (clip-classes (append '(absolute inset-0)
+         ;; the layer the washes ride in is rounded and clipping, and it
+         ;; also names its own clip: a blurred disc is painted in the
+         ;; square box its blur reaches, so the rounding alone would leave
+         ;; a faint square of wash beside each corner (see the sheet)
+         (clip-classes (append '(hg-glass-layer absolute inset-0)
                                rounding
                                '(overflow-hidden)))
          (content-classes* (append '(relative)

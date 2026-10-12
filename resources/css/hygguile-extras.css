@@ -467,6 +467,89 @@ body {
   }
 }
 
+/* ===== The layer the discs are painted in =====
+
+   A pane rounds the layer holding its washes and clips it, and neither the
+   rounding nor the clip stops a disc: a child with a `filter` is painted
+   with the blur that filter asks for, and the browser draws that blur into
+   the square box it reaches -- past the layer's rounded edge, into the
+   corner the radius curves away from. What is left on the page is a faint
+   square of wash beside each corner, a percent or two of ink: measured
+   against a mid-grey page, a corner square that should have held the
+   page's own 128 read 130. `overflow: clip`, `contain: paint`,
+   `isolation: isolate` and promoting the layer to one of its own all leave
+   it in place (each measured on its own); an explicit `clip-path` is what
+   clips it. And a clip has to name a radius -- it cannot inherit one the
+   way `border-radius: inherit` can.
+
+   So this class names it -- and names it off the very rounding the markup
+   gave the layer, since the layer wears the pane's own rounding classes.
+   The radius has to be restated as a length, so these rules restate
+   Olive's named ladder; they are the one place here that has to agree with
+   another sheet, and a spec pins the tokens the framework rounds its own
+   glass with to a rule apiece, so a rounding cannot lose its clip without
+   a test going red.
+   A radius given outright in `--hg-glass-clip' still wins, on the layer or
+   on any ancestor, which is what a caller rounding with one of Olive's
+   numeric steps (`rounded-24', say) reaches for, as does a pane whose
+   radius is not one of the named ones at all.
+
+   The default in each rule is `rounded-3xl', the rounding a pane wears
+   when a caller leaves `#:rounding' alone: a layer wearing something the
+   table below does not name still keeps its washes in. */
+
+.hg-glass-layer {
+  clip-path: inset(0 round var(--hg-glass-clip, 1.28rem));
+}
+
+.hg-glass-layer[class~="rounded-none"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0));
+}
+
+.hg-glass-layer[class~="rounded-2xs"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.16rem));
+}
+
+.hg-glass-layer[class~="rounded-xs"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.32rem));
+}
+
+.hg-glass-layer[class~="rounded-sm"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.48rem));
+}
+
+.hg-glass-layer[class~="rounded-md"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.64rem));
+}
+
+.hg-glass-layer[class~="rounded-lg"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.80rem));
+}
+
+.hg-glass-layer[class~="rounded-xl"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.96rem));
+}
+
+.hg-glass-layer[class~="rounded-2xl"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 1.12rem));
+}
+
+.hg-glass-layer[class~="rounded-3xl"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 1.28rem));
+}
+
+.hg-glass-layer[class~="rounded-4xl"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 1.44rem));
+}
+
+.hg-glass-layer[class~="rounded-5xl"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 1.60rem));
+}
+
+.hg-glass-layer[class~="rounded-full"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 9999px));
+}
+
 /* ===== Frost that survives a rounded corner =====
 
    A backdrop-filter asks the browser to blur and colour whatever sits
@@ -538,6 +621,17 @@ body {
 
 .hg-frost-soft {
   --hg-frost-blur: 3rem;
+}
+
+/* The smallest step, for the pills and labels a page frosts by hand: a
+   badge two rems tall is all blur at a pane's strength, and the label on a
+   colour swatch wants a hint of it and no more. Naming the step is what
+   keeps those pills on the same recipe as the panes -- the frost paints in
+   a rounded layer of its own, so the square patch of blur Olive's
+   `backdrop-blur-*' utilities leave at a rounded corner never appears. */
+
+.hg-frost-pill {
+  --hg-frost-blur: 1rem;
 }
 
 /* ===== The heading type scale =====
