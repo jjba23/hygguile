@@ -17,13 +17,17 @@
 
 (define-module (hygguile components card)
   #:use-module (hygguile abstraction)
+  #:use-module ((hygguile components icon)
+                #:prefix hyg:)
+  #:use-module (hygguile components typography)
   #:export (card card-header
                  card-body
                  card-footer
                  card-title
                  card-description
                  badge
-                 stat-card))
+                 stat-card
+                 expandable-card))
 
 (define* (card content
                #:key (card-classes '(bg-stone-300/75 dark:bg-onyx-700/75
@@ -218,6 +222,119 @@ A size keyword: @code{'sm}, @code{'md} or @code{'lg}.
                                           tracking-wide))))
     `((span (@ (class ,(mk-class badge-css)))
             ,content))))
+
+(define* (expandable-card content
+                          #:key (id #f)
+                          title
+                          icon
+                          (tag #f)
+                          (open #f)
+                          (wide? #f)
+                          (data '())
+                          (card-classes '(hg-expandable-card rounded-2xl
+                                          border-2
+                                          border-stone-500/25
+                                          dark:border-onyx-100/25
+                                          bg-stone-100/75
+                                          dark:bg-onyx-900/50
+                                          hg-frost
+                                          shadow-sm))
+                          (summary-classes '(hg-expandable-summary list-none
+                                             cursor-pointer
+                                             select-none
+                                             flex
+                                             flex-row
+                                             flex-wrap
+                                             items-center
+                                             gap-2
+                                             px-4
+                                             py-3
+                                             transition-colors
+                                             duration-150
+                                             focus-visible:outline-2
+                                             focus-visible:outline-offset-2
+                                             outline-onyx-500))
+                          (body-classes '(px-4 pb-4 flex flex-col gap-6)))
+  "Create a card that opens in place, its header doubling as the disclosure control.
+
+The card is a native @code{<details>}, so it opens and closes with no
+JavaScript at all, and @var{id} is placed on the @code{<summary>} rather
+than on the @code{<details>}: a link to that id then points *inside* the
+card, which is what makes a browser open it as it scrolls there, and the
+summary is the header a reader should land on.
+
+@table @var
+@item content
+The nodes revealed while the card is open.
+@item id
+An optional HTML identifier, placed on the summary, for a link to land on.
+@item title
+The card's title, rendered as a real heading inside the summary.
+@item icon
+An optional Phosphor icon name shown before the title, e.g. @code{'cards}.
+@item tag
+An optional short label shown as a badge beside the title, such as the
+category a card belongs to.
+@item open
+Whether the card starts open.
+@item wide?
+Whether the card spans the whole row of a grid it is placed in.
+@item data
+An association list of @code{data-*} attributes rendered on the
+@code{<details>}, named without the @code{data-} prefix. These are what a
+@code{sort-control} orders a tray of cards by, and a card carries as many as
+the orderings you intend to offer: @code{'((order . \"0\") (title . \"Cards\"))}.
+@item card-classes
+List of additional container CSS classes.
+@item summary-classes
+List of CSS classes for the header, which is the disclosure control.
+@item body-classes
+List of CSS classes for the layer holding @var{content}.
+@end table
+
+@example
+(expandable-card (p \"Cards group related content together.\")
+                 #:id \"cards\"
+                 #:title \"Cards\"
+                 #:icon 'cards
+                 #:tag \"Layout\"
+                 #:open #t
+                 #:data '((order . \"0\") (title . \"Cards\")))
+@end example"
+  (let ((attributes (map (lambda (pair)
+                           (list (string->symbol (format #f "data-~a"
+                                                         (car pair)))
+                                 (cdr pair))) data)))
+    `((details (@ ,@(attr-when open
+                               'open "")
+                  ,@attributes
+                  (class ,(mk-class (append card-classes
+                                            (if wide?
+                                                '(lg:col-span-2)
+                                                '())))))
+               (summary (@ ,@(attr-when id
+                                        'id id)
+                           (class ,(mk-class summary-classes)))
+                        ,@(render-if-nempty (lambda (name)
+                                              (list (hyg:icon #:type name
+                                                              #:icon-css '(text-xl
+                                                                           text-onyx-300
+                                                                           dark:text-stone-500))))
+                                            icon)
+                        ,(sub-h2 title)
+                        ,@(render-if-nempty (lambda (text)
+                                              (list (badge text
+                                                           #:size 'sm))) tag)
+                        (span (@ (class ,(mk-class '(hg-expandable-chevron
+                                                     ml-auto
+                                                     font-light
+                                                     text-xl
+                                                     text-onyx-300
+                                                     dark:text-stone-300
+                                                     transition-transform
+                                                     duration-200)))) "⌄"))
+               (div (@ (class ,(mk-class body-classes)))
+                    ,content)))))
 
 (define* (stat-card #:key value
                     label

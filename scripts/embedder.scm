@@ -64,8 +64,13 @@
 
 ;; files to embed
 (define js-files
-  '(carousel-button copy-pre-inner-text color-show fly-out remember-dark-theme
-                    toggle-dark-theme))
+  '(carousel-button code-sample
+                    copy-pre-inner-text
+                    color-show
+                    fly-out
+                    remember-dark-theme
+                    toggle-dark-theme
+                    tray))
 
 (define css-files
   '(fly-out hygguile-extras no-js))

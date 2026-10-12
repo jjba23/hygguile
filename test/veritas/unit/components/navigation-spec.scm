@@ -41,6 +41,17 @@
     (and m
          (match:substring m 1))))
 
+(define (count-html html text)
+  "How many times TEXT appears in the rendered HTML."
+  (let loop
+    ((from 0)
+     (n 0))
+    (let ((at (string-contains html text from)))
+      (if at
+          (loop (+ at
+                   (string-length text))
+                (+ n 1)) n))))
+
 (define (has-class? classes name)
   "True when a space-separated class string contains exactly NAME."
   (and (member name
@@ -139,7 +150,34 @@
                                                                        #:content
                                                                        "B")))
                                               'input)
-                             #:expect 2))))
+                             #:expect 2)
+               (assert-equal #:name "section-nav renders a <nav> element"
+                             #:got (caar (section-nav '((buttons . "Buttons"))))
+                             #:expect 'nav)
+               (assert-equal #:name
+                             "section-nav renders one list item per section"
+                             #:got (count-html (render (section-nav '((buttons . "Buttons")
+                                                                      (forms . "Forms")
+                                                                      (tables . "Tables"))))
+                                               "<li")
+                             #:expect 3)
+               (assert-equal #:name
+                "a section-nav link points at the section it names"
+                #:got (and (string-contains (render (section-nav '((buttons . "Buttons"))))
+                                            "href=\"#buttons\"") #t)
+                #:expect #t)
+               (assert-equal #:name
+                "a sticky section-nav sticks from the small breakpoint up"
+                #:got (and (string-contains (render (section-nav '((buttons . "Buttons"))))
+                                            "sm:sticky") #t)
+                #:expect #t)
+               (assert-equal #:name "a section-nav can be told not to stick"
+                             #:got (and (string-contains (render (section-nav '
+                                                                              ((buttons . "Buttons"))
+                                                                              #:sticky?
+                                                                              #f))
+                                                         "sm:sticky") #f)
+                             #:expect #f))))
 
 (define (spec)
   (veritas-run navigation-suite))

@@ -18,10 +18,17 @@
 (define-module (veritas unit components disclosure-spec)
   #:use-module (veritas veritas)
   #:use-module (hygguile components disclosure)
+  #:use-module (hygguile sxml)
   #:export (spec))
 
+(define (render node)
+  "Serialize an SXML fragment to an HTML string, as a page would be served."
+  (call-with-output-string (lambda (port)
+                             (sxml->xml node port))))
+
 (define (attr-value node name)
-  (let* ((root (car node))
+  (let* ((root (if (symbol? (car node)) node
+                   (car node)))
          (hit (assq name
                     (cdr (cadr root)))))
     (if (pair? hit)
@@ -58,7 +65,36 @@
                              #:got (attr-value (tooltip "Hover"
                                                         #:text "Hint")
                                                'data-hg-tooltip)
-                             #:expect "Hint"))))
+                             #:expect "Hint")
+               (assert-equal #:name
+                             "tooltip describes itself to assistive technology"
+                             #:got (attr-value (tooltip "Hover"
+                                                        #:text "Hint"
+                                                        #:id "t")
+                                               'aria-describedby)
+                             #:expect "t")
+               (assert-equal #:name
+                             "the description is a real text node, hidden from sight"
+                             #:got (let* ((node (car (tooltip "Hover"
+                                                            #:text "Hint"
+                                                            #:id "t")))
+                                          (hidden (car (cddr node))))
+                                     (list (car hidden)
+                                           (attr-value hidden
+                                                       'id)
+                                           (attr-value hidden
+                                                       'class)
+                                           (caddr hidden)))
+                             #:expect (list 'span
+                                            "t"
+                                            "sr-only"
+                                            "Hint"))
+               (assert-equal #:name
+                             "and the expansion is not drawn a second time on hover"
+                             #:got (attr-value (tooltip "Hover"
+                                                        #:text "Hint")
+                                               'title)
+                             #:expect #f))))
 
 (define (spec)
   (veritas-run disclosure-suite))

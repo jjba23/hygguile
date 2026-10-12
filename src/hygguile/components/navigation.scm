@@ -19,7 +19,12 @@
   #:use-module (hygguile abstraction)
   #:use-module (hygguile components glass)
   #:use-module (srfi srfi-1)
-  #:export (navbar nav-link breadcrumbs pagination tabs tab))
+  #:export (navbar nav-link
+                   breadcrumbs
+                   pagination
+                   tabs
+                   tab
+                   section-nav))
 
 ;; One shade deeper than the glass panel's own tint: the bar spans the whole
 ;; viewport, so it has to hold its own against whatever it scrolls over
@@ -137,6 +142,85 @@ List of symbols applied when the link is inactive.
           (class ,(mk-class (append classes
                                     (if active active-classes inactive-classes)))))
        ,content)))
+
+(define* (section-nav sections
+                      #:key (label "Page sections")
+                      (sticky? #t)
+                      (classes '(my-2 rounded-2xl
+                                      border-2
+                                      border-stone-500/25
+                                      dark:border-onyx-100/25
+                                      bg-stone-100/75
+                                      dark:bg-onyx-900/75
+                                      hg-frost
+                                      shadow-lg
+                                      px-3
+                                      py-3))
+                      (list-classes '(flex flex-row flex-wrap gap-2 list-none
+                                           p-0))
+                      (link-classes '(no-underline rounded-512
+                                                   px-3
+                                                   py-1
+                                                   text-sm
+                                                   font-medium
+                                                   bg-stone-100/50
+                                                   dark:bg-onyx-900/50
+                                                   border-2
+                                                   border-stone-500/25
+                                                   dark:border-onyx-100/25
+                                                   hover:bg-stone-100/90
+                                                   dark:hover:bg-onyx-900/75
+                                                   transition-colors
+                                                   duration-150))
+                      (active-classes '(bg-stone-300/90 dark:bg-onyx-700/90
+                                                        text-onyx-500
+                                                        dark:text-stone-100))
+                      (inactive-classes '(text-onyx-500 dark:text-stone-300)))
+  "Create a rail of links to the sections of one page.
+
+A page whose sections are stacked one under another is hard to move around
+in, and a table of contents that scrolls away is no help once a reader is
+past it. This rail is that list of links, frosted so it holds its own over
+whatever it passes, and sticky from the small breakpoint up: any section
+stays one tap away, and each link is an ordinary anchor, so it works with
+JavaScript disabled and can be bookmarked or shared.
+
+@table @var
+@item sections
+A list of @code{(id . label)} pairs, in the order the rail should show them. Each @var{id} is the identifier of the section it points at.
+@item label
+The accessible name of the rail, read out by assistive technology.
+@item sticky?
+Whether the rail follows the page from the small breakpoint up.
+@item classes
+List of base CSS classes for the @code{<nav>}.
+@item list-classes
+List of CSS classes for the wrapping @code{<ul>}.
+@item link-classes
+List of CSS classes for every link.
+@item active-classes
+List of CSS classes applied to the link of the current section.
+@item inactive-classes
+List of CSS classes applied to the other links.
+@end table
+
+@example
+(section-nav '((buttons . \"Buttons\") (forms . \"Forms\")))
+@end example"
+  `((nav (@ (aria-label ,label)
+            (class ,(mk-class (append classes
+                                      (if sticky?
+                                          '(sm:sticky top-2 z-20)
+                                          '())))))
+         (ul (@ (class ,(mk-class list-classes)))
+             ,@(map (lambda (section)
+                      `(li ,(nav-link (cdr section)
+                                      #:href (format #f "#~a"
+                                                     (car section))
+                                      #:classes link-classes
+                                      #:active-classes active-classes
+                                      #:inactive-classes inactive-classes)))
+                    sections)))))
 
 (define* (breadcrumbs #:key items
                       (separator "/")

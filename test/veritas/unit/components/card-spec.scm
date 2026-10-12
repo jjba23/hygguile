@@ -18,7 +18,17 @@
 (define-module (veritas unit components card-spec)
   #:use-module (veritas veritas)
   #:use-module (hygguile components card)
+  #:use-module (hygguile sxml)
   #:export (spec))
+
+(define (render node)
+  "Serialize an SXML fragment to an HTML string, as a page would be served."
+  (call-with-output-string (lambda (port)
+                             (sxml->xml node port))))
+
+(define (has-attribute? html text)
+  "True when the rendered HTML carries TEXT."
+  (and (string-contains html text) #t))
 
 (define card-suite
   (suite "Cards"
@@ -47,7 +57,43 @@
                (assert-equal #:name "stat-card renders a <div> element"
                              #:got (caar (stat-card #:value "1"
                                                     #:label "One"))
-                             #:expect 'div))))
+                             #:expect 'div)
+               (assert-equal #:name
+                             "expandable-card renders a <details> element"
+                             #:got (caar (expandable-card '()
+                                                          #:title "Cards"))
+                             #:expect 'details)
+               (assert-equal #:name "a closed expandable-card omits open"
+                             #:got (has-attribute? (render (expandable-card '()
+                                                            #:title "Cards"))
+                                                   "<details open")
+                             #:expect #f)
+               (assert-equal #:name "an open expandable-card carries open"
+                             #:got (has-attribute? (render (expandable-card '()
+                                                            #:title "Cards"
+                                                            #:open #t))
+                                                   "<details open")
+                             #:expect #t)
+               (assert-equal #:name
+                             "the expandable-card id lands on the summary"
+                             #:got (has-attribute? (render (expandable-card '()
+                                                            #:title "Cards"
+                                                            #:id "cards"))
+                                                   "<summary id=\"cards\"")
+                             #:expect #t)
+               (assert-equal #:name
+                             "expandable-card renders the data it was handed"
+                             #:got (has-attribute? (render (expandable-card '()
+                                                            #:title "Cards"
+                                                            #:data '((title . "Cards"))))
+                                                   "data-title=\"Cards\"")
+                             #:expect #t)
+               (assert-equal #:name "a wide expandable-card spans two columns"
+                             #:got (has-attribute? (render (expandable-card '()
+                                                            #:title "Cards"
+                                                            #:wide? #t))
+                                                   "lg:col-span-2")
+                             #:expect #t))))
 
 (define (spec)
   (veritas-run card-suite))

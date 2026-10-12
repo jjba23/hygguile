@@ -219,7 +219,7 @@ A complete, commented version of that page is ~examples/minimal.scm~, and ~maak 
 
 - ~src/hygguile/components/~ :: one module per family of components (~button~, ~input~, ~card~, ~navigation~, ...). Every procedure documents each key argument in its docstring, and those docstrings are what the API reference is generated from.
 - ~resources/css/hygguile-extras.css~ :: the components that need structure rather than a single utility: ~<progress>~, ~<details>~, the CSS-only tabs, the switch, the modal, the tooltip. Embedded into Scheme by ~maak embed~.
-- ~resources/js/~ :: the small enhancement scripts (theme memory, carousel paging, fly-out menus, notifications, copy buttons), embedded the same way.
+- ~resources/js/~ :: the small enhancement scripts (theme memory, carousel paging, fly-out menus, notifications, copy buttons, the tray controls, the code-specimen fold), embedded the same way.
 - ~olive.min.css~ :: the utility-class framework hygguile is built on. Ship it as its own cacheable file instead of inlining it.
 - ~showcase.scm~ :: the kitchen sink, and the best place to see a component in a realistic layout.
 
@@ -307,13 +307,16 @@ Everything below is re-exported by the single ~(hygguile hygguile)~ module, so o
 | module | exports | renders |
 |--------+---------+---------|
 | ~button~ | ~button~, ~icon-button~, ~submit-button~, ~danger-submit-button~, ~light-button~, ~mono-button~, ~ui-mode-button~ | ~<button>~, ~<input type="submit">~ |
-| ~typography~ | ~h1~--~h4~, ~sub-h1~--~sub-h4~, ~p~, ~em~, ~strong~, ~a~, ~mono~, ~pre~, ~code~, ~kbd~, ~samp~, ~var~, ~mark~, ~time~, ~abbr~, ~sup~, ~sub~ | the matching ~<h1>~...~<sub>~ inline and block elements |
+| ~typography~ | ~h1~--~h4~, ~sub-h1~--~sub-h4~, ~p~, ~em~, ~strong~, ~a~, ~mono~, ~pre~, ~code~, ~kbd~, ~samp~, ~var~, ~mark~, ~time~, ~abbr~, ~glossary-term~, ~sup~, ~sub~ | the matching ~<h1>~...~<sub>~ inline and block elements, plus a term that links to its documentation and spells itself out |
+| ~code~ | ~code-sample~, ~pretty-code~ | a documentation specimen: the component a form renders, beside that form as source a reader would write it, with a fold and a copy button |
+| ~color~ | ~color-swatch~ | a ~<button>~ tile that shows a palette colour and steps it through the variants of that colour when clicked |
 | ~container~ | ~with-footer~, ~footer~, ~hr~, ~row~, ~col~, ~dl~, ~dd~, ~dt~, ~noscript~ | ~<main>~ plus ~<footer>~, ~<hr>~, grid rows and columns, ~<dl>~/~<dt>~/~<dd>~, a ~<noscript>~ fallback |
-| ~card~ | ~card~, ~card-header~, ~card-body~, ~card-footer~, ~card-title~, ~card-description~, ~badge~, ~stat-card~ | ~<div>~/~<header>~/~<footer>~ surfaces, ~<h3>~ titles, a ~<span>~ badge, a key-figure block |
+| ~card~ | ~card~, ~card-header~, ~card-body~, ~card-footer~, ~card-title~, ~card-description~, ~badge~, ~stat-card~, ~expandable-card~ | ~<div>~/~<header>~/~<footer>~ surfaces, ~<h3>~ titles, a ~<span>~ badge, a key-figure block, a ~<details>~ card that opens in place |
 | ~glass~ | ~glass-panel~, ~glass-wash~ | the frosted surface every other component builds on: a ~<div>~ (or ~<header>~, or ~<ul>~) over a backdrop blur, with blurred colour washes behind it when you ask for them |
 | ~input~ | ~form~, ~input~, ~textarea~, ~checkbox~, ~radio~, ~switch~, ~range~, ~help-text~, ~form-error~ | ~<form>~ and the native controls, label bound to field, helper copy wired through ~aria-describedby~ |
 | ~feedback~ | ~alert~, ~progress~, ~spinner~, ~skeleton~ | an inline ~<div>~ alert with ~role~, a native ~<progress>~, loading placeholders |
-| ~navigation~ | ~navbar~, ~nav-link~, ~breadcrumbs~, ~pagination~, ~tabs~, ~tab~ | ~<header>~ bar, ~<a>~ links, ~<nav>~ breadcrumbs, page pills, a JavaScript-free tab set |
+| ~navigation~ | ~navbar~, ~nav-link~, ~breadcrumbs~, ~pagination~, ~tabs~, ~tab~, ~section-nav~ | ~<header>~ bar, ~<a>~ links, ~<nav>~ breadcrumbs, page pills, a JavaScript-free tab set, a sticky rail of links to the sections of one page |
+| ~tray~ | ~sort-control~, ~disclosure-controls~ | the controls that act on a whole tray of cards: buttons that put it in one of several orders, and the pair that opens or closes all of it |
 | ~disclosure~ | ~details~, ~summary~, ~accordion~, ~accordion-item~, ~modal~, ~tooltip~ | ~<details>~/~<summary>~, stacked disclosures, a CSS-only dialog and tooltip |
 | ~table~ | ~table~, ~caption~, ~thead~, ~tbody~, ~tfoot~, ~tr~, ~th~, ~td~, ~table-column~, ~sortable-table~, ~sort-href~, ~parse-sort~ | the whole ~<table>~ family, with a scrollable region for narrow screens, plus server-driven sorting |
 | ~media~ | ~img~, ~source~, ~picture~, ~figure~, ~figcaption~, ~avatar~, ~image-gallery~ | the ~<img>~/~<picture>~ family plus two common compositions |
@@ -378,6 +381,108 @@ Clicking the column the table is already ordered by reverses it; clicking any ot
 Accessibility is carried by the markup, not by a script: every sortable cell announces its state with ~aria-sort~ (~ascending~, ~descending~ or ~none~ for a column that can be sorted but is not), and the link's ~title~ says what a click would do. The arrow beside the label shows the order that column is in -- up or down -- and becomes a dimmed double arrow on the columns that are not ordering the table; it is decorative, so it is hidden from assistive technology and never part of the label. Sortable headers name their own ink, the page's link colours one per theme, because a bare ~<a>~ would fall back to the browser's default blue, which is off-palette and unreadable on a dark surface.
 
 ~examples/sortable-table.scm~ is the other half written out in full: a real Guile web server (~maak example-server~, then http://localhost:8095/) that renders the page, reads ~?hygguile-table-sort=&hygguile-table-dir=~ back with ~parse-sort~, sorts its rows with ~(srfi srfi-1)~'s ~sort~, and prints what it understood so the contract is visible rather than implied. Swap the in-memory list for a database and the only change is the ~order by~ clause.
+
+----------------
+
+* A tray of cards at once
+
+A grid of cards a reader takes in as a whole is a *tray*, and there are two things a reader asks of it: which order it is in, and whether all of it is open. Both are questions about the handful of cards already in the document, not about a data set behind it, so this one is answered in the browser -- unlike [[*Sorting a data table in the URL][the table above]], whose order is a fact only a server can produce. The tray stays whole without JavaScript: every card opens and closes on its own, and the controls only save a reader the clicking.
+
+The card is ~expandable-card~, a native ~<details>~ whose header is the disclosure control. Its ~#:id~ is placed on the ~<summary>~ rather than on the ~<details>~, so a link to that id points *inside* the card: the browser then opens the card as it scrolls to it, which is what makes a ~section-nav~ rail and a bookmark both land on the section rather than on a closed header.
+
+#+begin_src scheme
+(use-modules (hygguile hygguile))
+
+;; the tray: one card per section, each carrying the data its orders read
+(expandable-card (list (p "Cards group related content together."))
+                 #:id "cards"
+                 #:title "Cards"
+                 #:icon 'cards
+                 #:tag "Layout"        ; the chip beside the title
+                 #:open #t             ; and #:wide? for a card that needs
+                                       ; the whole row of the grid
+                 #:data '((order . "3") (title . "Cards")
+                          (category-rank . "1")))
+
+;; the controls: the orders a reader can ask for, and the pair that opens
+;; or closes every card at once
+(sort-control #:target "showcase-grid"          ; the tray's id
+              #:modes '((page . "Page order")   ; the order it opens in
+                        (title . "A-Z")
+                        (category-rank . "By category")))
+(disclosure-controls #:selector "details.hg-expandable-card")
+#+end_src
+
+Ordering is data, not code: a sort button names a mode, and each card answers with a ~data-<mode>~ attribute under that name. The ordering compares those values numerically when both of them are numbers -- so ~data-order="10"~ follows ~data-order="9"~ instead of sorting in front of it -- and alphabetically otherwise. It is a stable sort, so cards that compare equal keep the order they are already in: a rank groups the tray without disturbing what it sorts inside a group.
+
+A mode that no card carries at all is the page's own order -- the cards go back to the order they were written in. That is what a *Page order* button is, and it is why that button needs no attribute anywhere. The first mode of a group is the order the tray opens in, and while script is off the two controls do nothing at all, which is exactly what the page did before they existed.
+
+| component | what it puts on the page |
+|-----------+--------------------------|
+| ~expandable-card~ | a ~<details>~ card: icon, heading, optional chip, chevron, and the ~data-*~ an order reads |
+| ~sort-control~ | a group of buttons, each naming its mode, beside a ~data-hg-sort-target~ naming the container to reorder |
+| ~disclosure-controls~ | the *Expand all* / *Collapse all* pair, for any CSS selector rather than only for cards |
+| ~section-nav~ | the sticky rail of links to the sections of the page |
+
+All of it rides on ~tray-js~, one small script that ~(hygguile-recommended-resources)~ already includes: a page adds no JavaScript of its own, and the markup says everything the script needs to know. The showcase's own grid -- the page you are reading if you are on the demo -- is one of these trays.
+
+----------------
+
+* A specimen beside its own source
+
+A documentation page shows a component and the form that produced it, and the two must agree. So ~code-sample~ is given the *form*, not a copy of its output: it renders that form for the reader to see and prints the same form as source underneath, which makes the source and the specimen one expression rather than two copies that drift apart.
+
+The source is the printer's, not ~write~'s. A Scheme form written the short way comes back from ~write~ as ~(quote ...)~, which is what a machine reads, not what a person writes, and a keyword-heavy form left on one line runs off the screen. ~pretty-code~ -- the same printer ~code-sample~ uses, on its own when you want it -- spells quoted forms in shorthand, aligns the arguments of a form under its head, and wraps a form that would pass 72 columns onto the next line.
+
+#+begin_src scheme
+(use-modules (hygguile hygguile))
+
+;; the specimen: rendered, and shown as the source that rendered it
+(code-sample '(button "Save"
+                      #:on-click "save()"
+                      #:size '(text-sm)))
+
+;; the printer on its own, for a transcript or a changelog
+(pretty-code '(button "Save" #:size '(text-sm)))
+#+end_src
+
+The source is folded away until a reader asks for it, and the fold is the only script involved: the control carries ~aria-controls~ naming the panel and ~aria-expanded~ saying whether it is showing, and the panel carries the ~hidden~ attribute the component wrote. Without scripting the ~noscript~ stylesheet reveals every panel and hides the control as a ~.js-only~ element, so a reader who cannot fold the source still reads it -- a dead button would have been the alternative. The copy button beside the source is the framework's own: it copies the ~<pre>~ and raises a notification like any other copy in a hygguile page. Everything a page adds is the form above; ~code-sample-js~ comes with ~(hygguile-recommended-resources)~.
+
+The form is evaluated for display in an environment that holds both the caller's bindings and ~(hygguile hygguile)~, so a page writes its specimen once however it is served. Pass ~#:value~ to hand over an already-rendered fragment instead -- for a specimen that cannot be evaluated, or one you would rather not run. The block is set in the same mono face and close padding as any other ~pre~, since it is code on a page like the rest.
+
+----------------
+
+* Stepping through a palette
+
+A palette page shows one tile per colour, and a reader who wants to compare the shades of one of them has no way to ask. ~color-swatch~ therefore shows a colour *and* offers to show it again in the next variant: every click steps ~apple-green-500~ to ~apple-green-700~ and on through 100, 300, 500, 700, 900 and back, rewriting the class on the tile and relabelling it from the shade it now carries, so the tile always names the colour you are looking at.
+
+#+begin_src scheme
+(use-modules (hygguile hygguile))
+
+(color-swatch #:color 'apple-green-500)
+;; the label is the colour's own name; #:label replaces it
+(color-swatch #:color 'olive-500 #:label "Olive")
+#+end_src
+
+The tile is a real ~<button>~, so it is reachable by keyboard and announced as a control, and its accessible name says what a click does rather than only what the colour is called. The caption inside it carries a frost of its own -- ~hg-frost-pill~ -- because a swatch can be any lightness and a fixed white or black ink would be illegible on half of them. The step is ~color-show-js~, which ~(hygguile-recommended-resources)~ already includes; without scripting the tile is still a readable label on a colour, which is what it was before the script existed.
+
+----------------
+
+* Naming a technology in prose
+
+A page that talks about ~SXML~ and ~CSS~ wants the word to link to where it is documented, and an abbreviation to say what it stands for. ~glossary-term~ puts both on that one word: the link is an ordinary ~<a>~, the expansion is a ~tooltip~, and the tooltip *wraps* the link rather than sitting beside it, so there is no second word to keep in step.
+
+#+begin_src scheme
+(use-modules (hygguile hygguile))
+
+(glossary-term "SXML"
+               #:href "https://en.wikipedia.org/wiki/SXML"
+               #:note "Scheme XML: XML written as S-expressions")
+;; a term with only a note, or only a link, is that
+(glossary-term "DSL" #:note "domain-specific language")
+#+end_src
+
+The explanation is exposed twice, once for each reader it is for. A sighted reader hovers or tabs to the term and the CSS bubble reads ~data-hg-tooltip~. Assistive technology is given a real text node instead, which the trigger describes itself with through ~aria-describedby~, because generated content is not reliably part of the exposed accessibility tree -- a purely visual tooltip is not a name that a screen reader can be relied on to read. That text node is *visually hidden* (~sr-only~) rather than also drawn, so a hover still produces one bubble and one reading instead of two, and the component deliberately sets no ~title~ attribute: the browser's own bubble would appear next to the framework's and say the same thing twice.
 
 ----------------
 

@@ -22,69 +22,11 @@
              (ice-9 regex)
              (srfi srfi-13)
              (hygguile hygguile)
-             (hygguile sxml)
-             (uuid generate))
+             (hygguile sxml))
 
 ;;
 ;; ====== Showcase section ======
 ;;
-
-(define (as-example thunk)
-  (let* ((tt (with-output-to-string (lambda ()
-                                      (write thunk))))
-         (t (pretty-quote tt))
-         (uid (generate-string-uuid)))
-    ;; each specimen gets a soft, frosted card of its own, which makes the
-    ;; grid of examples read like a tray of parts instead of loose markup
-    `((div (@ (class ,(mk-class '(flex flex-col
-                                       gap-4
-                                       rounded-2xl
-                                       border-2
-                                       border-stone-500/25
-                                       dark:border-onyx-100/25
-                                       bg-stone-100/75
-                                       dark:bg-onyx-900/50
-                                       shadow-sm
-                                       p-4))))
-           (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
-                (div ,(eval-string tt))
-                (button (@ (aria-label "Show code for example")
-                           (class ,(mk-class '(font-light text-sm
-                                                          text-onyx-300
-                                                          dark:text-stone-300)))
-                           (onclick ,(format #f
-                                      "document.getElementById('~a-example').classList.toggle('hidden')"
-                                      uid)))
-                        ,(icon #:type 'dots-three
-                               #:icon-css '(text-xl cursor-pointer))))
-           (div (@ (id ,(format #f "~a-example" uid))
-                   (class ,(mk-class '(hidden flex flex-col gap-2))))
-                (pre (@ (id ,(format #f "~a-pre" uid))
-                        (class ,(mk-class '(text-onyx-500 dark:text-stone-300
-                                                          text-md
-                                                          bg-stone-300/75
-                                                          dark:bg-onyx-700/75
-                                                          rounded-lg
-                                                          shadow-md
-                                                          text-wrap
-                                                          py-4
-                                                          px-4
-                                                          font-mono
-                                                          leading-6
-                                                          overflow-x-scroll
-                                                          whitespace-pre-wrap))))
-                     ,t)
-                (div (@ (class ,(mk-class '(w-min))))
-                     ,(icon-button #:icon 'copy
-                                   #:content "copy"
-
-                                   #:on-click (format #f
-                                               "hygguileCopyPreInnerText('~a'); ~a"
-                                               uid
-                                               (trigger-notification-function-js
-                                                #:title "Copied to clipboard!"
-                                                #:body t
-                                                #:body-font-family "font-mono")))))))))
 
 (define trigger-notifications-section
   `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 justify-center
@@ -99,136 +41,127 @@
                               "The reason we notified you like this is to showcase the possibilities that hygguile offers for easy and convenient, good-looking notifications.")))))
 
 (define button-section
-  `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                              items-center items-center))))
-                  (span "🔳")
-                  ,(sub-h2 "Buttons"))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
-                  ,(as-example '(button "button"))
-                  ,(as-example '(submit-button "submit-button"))
-                  ,(as-example '(danger-submit-button "danger-submit-button")))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
-                  ,(as-example '(icon-button #:icon 'gear
-                                             #:content "gear"
-                                             #:background '(bg-jeans-blue-500)
-                                             #:hover-background '(hover:bg-jeans-blue-900)
-                                             #:color '(text-stone-300
-                                                       dark:text-stone-100)
-                                             #:size '(text-md)
-                                             #:icon-css '(text-stone-100
-                                                          dark:text-stone-100
-                                                          text-md)))
-                  ,(as-example '(icon-button #:icon 'user
-                                             #:content "user"
-                                             #:background '(bg-naples-yellow-500)
-                                             #:color '(text-onyx-500)
-                                             #:hover-background '(hover:bg-naples-yellow-700)
-                                             #:icon-css '(text-xl)))
-                  ,(as-example '(icon-button #:icon 'calendar
-                                             #:content "Book now"
-                                             #:weight '(font-light)
-                                             #:size '(text-md)
-                                             #:background '(bg-wine-500)
-                                             #:color '(text-papaya-whip-500)
-                                             #:hover-background '(hover:bg-wine-700)
-                                             #:icon-css '(text-xl)))
-                  ;; the fill is the dark end of the ramp so the near-white
-                  ;; label keeps its contrast on the rose swatch
-                  ,(as-example '(icon-button #:icon 'airplane-tilt
-                                             #:content "airplane-tilt"
-                                             #:background '(bg-china-rose-900)
-                                             #:weight '(font-medium)
-                                             #:color '(text-stone-300
-                                                       dark:text-stone-100)
-                                             #:icon-css '(text-stone-100
-                                                          dark:text-stone-100
-                                                          text-xl)
-                                             #:hover-background '(hover:bg-orange-900)))))))
+  `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
+              ,(code-sample '(button "button"))
+              ,(code-sample '(submit-button "submit-button"))
+              ,(code-sample '(danger-submit-button "danger-submit-button")))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6))))
+              ,(code-sample '(icon-button #:icon 'gear
+                                         #:content "gear"
+                                         #:background '(bg-jeans-blue-500)
+                                         #:hover-background '(hover:bg-jeans-blue-900)
+                                         #:color '(text-stone-300
+                                                   dark:text-stone-100)
+                                         #:size '(text-md)
+                                         #:icon-css '(text-stone-100
+                                                      dark:text-stone-100
+                                                      text-md)))
+              ,(code-sample '(icon-button #:icon 'user
+                                         #:content "user"
+                                         #:background '(bg-naples-yellow-500)
+                                         #:color '(text-onyx-500)
+                                         #:hover-background '(hover:bg-naples-yellow-700)
+                                         #:icon-css '(text-xl)))
+              ,(code-sample '(icon-button #:icon 'calendar
+                                         #:content "Book now"
+                                         #:weight '(font-light)
+                                         #:size '(text-md)
+                                         #:background '(bg-wine-500)
+                                         #:color '(text-papaya-whip-500)
+                                         #:hover-background '(hover:bg-wine-700)
+                                         #:icon-css '(text-xl)))
+              ;; the fill is the dark end of the ramp so the near-white
+              ;; label keeps its contrast on the rose swatch
+              ,(code-sample '(icon-button #:icon 'airplane-tilt
+                                         #:content "airplane-tilt"
+                                         #:background '(bg-china-rose-900)
+                                         #:weight '(font-medium)
+                                         #:color '(text-stone-300
+                                                   dark:text-stone-100)
+                                         #:icon-css '(text-stone-100
+                                                      dark:text-stone-100
+                                                      text-xl)
+                                         #:hover-background '(hover:bg-orange-900)))))))
 
 (define typography-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
-         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                          items-center items-center))))
-              ,(em "α"
-                   #:size '(text-xl))
-              ,(sub-h2 "Typography"))
          (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-8))))
               (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
-                       ,(as-example '(h1
+                       ,(code-sample '(h1
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(h1
+                       ,(code-sample '(h1
                                       "Sphinx of black quartz, judge my vow"
                                       #:weight '(font-light)))
-                       ,(as-example '(h2
+                       ,(code-sample '(h2
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(h3
+                       ,(code-sample '(h3
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(h4
+                       ,(code-sample '(h4
                                       "Sphinx of black quartz, judge my vow")))
               (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
-                       ,(as-example '(h1
+                       ,(code-sample '(h1
                                       "Sphinx of black quartz, judge my vow"
                                       #:family '(font-serif)))
-                       ,(as-example '(h1
+                       ,(code-sample '(h1
                                       "Sphinx of black quartz, judge my vow"
                                       #:family '(font-serif)
                                       #:weight '(font-light)))
-                       ,(as-example '(h2
+                       ,(code-sample '(h2
                                       "Sphinx of black quartz, judge my vow"
                                       #:family '(font-serif)))
-                       ,(as-example '(h3
+                       ,(code-sample '(h3
                                       "Sphinx of black quartz, judge my vow"
                                       #:family '(font-serif)))
-                       ,(as-example '(h4
+                       ,(code-sample '(h4
                                       "Sphinx of black quartz, judge my vow"
                                       #:family '(font-serif))))
               (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
-                       ,(as-example '(sub-h1
+                       ,(code-sample '(sub-h1
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(sub-h2
+                       ,(code-sample '(sub-h2
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(sub-h3
+                       ,(code-sample '(sub-h3
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(sub-h4
+                       ,(code-sample '(sub-h4
                                       "Sphinx of black quartz, judge my vow")))
 
               (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
-                       ,(as-example '(strong
+                       ,(code-sample '(strong
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(p "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(em
+                       ,(code-sample '(p "Sphinx of black quartz, judge my vow"))
+                       ,(code-sample '(em
                                       "Sphinx of black quartz, judge my vow")))
               (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
-                       ,(as-example '(p (list "Press "
+                       ,(code-sample '(p (list "Press "
                                               (kbd "Ctrl") " then "
                                               (kbd "l"))))
-                       ,(as-example '(p (list "The daemon answers: "
+                       ,(code-sample '(p (list "The daemon answers: "
                                               (samp
                                                "substitute: updating substitutes"))))
-                       ,(as-example '(p (list "Export "
+                       ,(code-sample '(p (list "Export "
                                               (var "GC_ROOT")
                                               " before you collect")))
-                       ,(as-example '(p (list "Paint to first byte improved "
+                       ,(code-sample '(p (list "Paint to first byte improved "
                                               (mark "again this week"))))
-                       ,(as-example '(p (list "Updated "
+                       ,(code-sample '(p (list "Updated "
                                               (time "11 October 2026"
                                                     #:datetime "2026-10-11")
                                               ".")))
-                       ,(as-example '(p (list "The "
+                       ,(code-sample '(p (list "The "
                                          (abbr "HTML"
                                                #:title
                                                "HyperText Markup Language")
                                          " arrives finished, on the server")))
-                       ,(as-example '(p (list "H"
+                       ,(code-sample '(p (list "H"
                                               (sub "2") "O, and E = mc"
                                               (sup "2")))))
               (section (@ (class ,(mk-class '(py-4 flex flex-col gap-4))))
-                       ,(as-example '(mono
+                       ,(code-sample '(mono
                                       "Sphinx of black quartz, judge my vow"))
-                       ,(as-example '(code
+                       ,(code-sample '(code
                                       "Sphinx of black quartz, judge my vow")))
-              ,(as-example '(pre "
+              ,(code-sample '(pre "
 ;;; A simple Guile Scheme HTTP server
 (use-modules (web server))
 
@@ -239,74 +172,69 @@
 (run-server my-handler)"))))))
 
 (define forms-section
-  `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                              items-center items-center))))
-                  (span "☑️")
-                  ,(sub-h2 "Forms"))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 w-full))))
-                  ,(as-example '(input #:label "Your name:"
-                                 #:name "full-name"
-                                 #:type 'name
-                                 #:autocomplete "name"
-                                 #:placeholder "Ada Lovelace"
-                                 #:help-text
-                                 "Browsers and password managers can fill this in."))
-                  ,(as-example '(textarea #:label "some textarea:"
-                                          #:name "textarea-1"
-                                          #:autocomplete "off"))
-                  ,(as-example '(select #:label "Language:"
-                                        #:name 'user-lang
-                                        #:options (list (optgroup #:label
-                                                                  "Americas"
-                                                                  #:options (list
-                                                                             (option
-                                                                              #:value 'en_US
-                                                                              #:content
-                                                                              "English (US)"
-                                                                              #:selected-value
-                                                                              "en_US")))
-                                                        (optgroup #:label
-                                                                  "Europe"
-                                                                  #:options (list
-                                                                             (glyph-option
-                                                                              #:value 'nl_NL
-                                                                              #:glyph
-                                                                              "🇳🇱"
-                                                                              #:content
-                                                                              "Nederlands"
-                                                                              #:selected-value
-                                                                              "en_US")
-                                                                             (glyph-option
-                                                                              #:value 'es_ES
-                                                                              #:glyph
-                                                                              "🇪🇸"
-                                                                              #:content
-                                                                              "Español"
-                                                                              #:selected-value
-                                                                              "en_US")))))))
-             (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-2))))
-                  ,(p
-                    "A select states its own selection: exactly one option carries the selected attribute, written from the value the server rendered. The rows here are built with symbols and compared with strings, which used to lose the selection between the two; an option whose value the menu does not have falls back to the first row a reader can actually pick, and rows grouped under an optgroup are still rows -- the headings are the browser's own, and the group a reader cannot choose never holds the selection."
-                    #:weight '(font-light)
-                    #:size '(text-md)))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6
-                                              items-center w-full))))
-                  ,(as-example '(checkbox #:label "I accept the terms"
-                                          #:name "terms"
-                                          #:required #t))
-                  ,(as-example '(radio #:label "Small"
-                                       #:name "size"
-                                       #:value "s"
-                                       #:checked #t))
-                  ,(as-example '(switch #:label "Notifications"
-                                        #:name "notify"
-                                        #:checked #t))
-                  ,(as-example '(range #:label "Volume"
-                                       #:name "volume"
-                                       #:min 0
-                                       #:max 11
-                                       #:value 7))))
+  `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 w-full))))
+              ,(code-sample '(input #:label "Your name:"
+                             #:name "full-name"
+                             #:type 'name
+                             #:autocomplete "name"
+                             #:placeholder "Ada Lovelace"
+                             #:help-text
+                             "Browsers and password managers can fill this in."))
+              ,(code-sample '(textarea #:label "some textarea:"
+                                      #:name "textarea-1"
+                                      #:autocomplete "off"))
+              ,(code-sample '(select #:label "Language:"
+                                    #:name 'user-lang
+                                    #:options (list (optgroup #:label
+                                                              "Americas"
+                                                              #:options (list (option
+                                                                               #:value 'en_US
+                                                                               #:content
+                                                                               "English (US)"
+                                                                               #:selected-value
+                                                                               "en_US")))
+                                                    (optgroup #:label "Europe"
+                                                              #:options (list (glyph-option
+                                                                               #:value 'nl_NL
+                                                                               #:glyph
+                                                                               "🇳🇱"
+                                                                               #:content
+                                                                               "Nederlands"
+                                                                               #:selected-value
+                                                                               "en_US")
+
+                                                                              
+                                                                              (glyph-option
+                                                                               #:value 'es_ES
+                                                                               #:glyph
+                                                                               "🇪🇸"
+                                                                               #:content
+                                                                               "Español"
+                                                                               #:selected-value
+                                                                               "en_US")))))))
+         (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-2))))
+              ,(p
+                "A select states its own selection: exactly one option carries the selected attribute, written from the value the server rendered. The rows here are built with symbols and compared with strings, which used to lose the selection between the two; an option whose value the menu does not have falls back to the first row a reader can actually pick, and rows grouped under an optgroup are still rows -- the headings are the browser's own, and the group a reader cannot choose never holds the selection."
+                #:weight '(font-light)
+                #:size '(text-md)))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6
+                                          items-center w-full))))
+              ,(code-sample '(checkbox #:label "I accept the terms"
+                                      #:name "terms"
+                                      #:required #t))
+              ,(code-sample '(radio #:label "Small"
+                                   #:name "size"
+                                   #:value "s"
+                                   #:checked #t))
+              ,(code-sample '(switch #:label "Notifications"
+                                    #:name "notify"
+                                    #:checked #t))
+              ,(code-sample '(range #:label "Volume"
+                                   #:name "volume"
+                                   #:min 0
+                                   #:max 11
+                                   #:value 7))))
     (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-4))))
          ,(p
            "A form is the wrapper for the most common case of all: the browser serialises the fields and reloads the page with the answers. The labels, the native validation and the submit button are all markup, so the form still works with JavaScript disabled."
@@ -315,7 +243,7 @@
            "The example posts nothing: this showcase is a static page, so it uses a harmless GET. A real signup would post to your own endpoint."
            #:weight '(font-light)
            #:size '(text-md)))
-    ,(as-example '(form (list (fieldset (list (input #:label "Your email:"
+    ,(code-sample '(form (list (fieldset (list (input #:label "Your email:"
                                                #:name "email"
                                                #:type 'email
                                                #:autocomplete "email"
@@ -345,195 +273,166 @@
                         #:submit "Subscribe"))))
 
 (define media-section
-  `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                              items-center))))
-                  (span "🖼️")
-                  ,(sub-h2 "Media"))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-8
-                                              items-start))))
-                  ,(figure (img #:src
-                            "https://jointhefreeworld.org/static-assets/hygguile/hygguile-2-small.png"
-                            #:alt "Hygguile logo"
-                            #:width 220
-                            #:height 130
-                            #:rounding '(rounded-2xl))
-                           #:caption "figure + img + figcaption"
-                           #:align 'center)
-                  ,(figure (picture #:sources (list (source #:type
-                                                     "image/webp"
-                                                     #:srcset
-                                                     "https://jointhefreeworld.org/static-assets/wikimusic/img/wikimusic.jpg"))
-                                    #:image (img #:src
-                                             "https://jointhefreeworld.org/static-assets/wikimusic/img/wikimusic.jpg"
-                                             #:alt "WikiMusic"
-                                             #:width 220
-                                             #:aspect-ratio 'square
-                                             #:fit 'cover))
-                           #:caption "picture with source + fallback img"
-                           #:align 'center)
-                  (div (@ (class ,(mk-class '(flex flex-col items-center gap-2))))
-                       ,(avatar #:initials "HG"
-                                #:size 'xl
-                                #:ring #t)
-                       ,(p "avatar with initials fallback"
-                           #:size '(text-sm)
-                           #:weight '(font-light))))
-             ,(image-gallery (list (img #:src
-                                    "https://jointhefreeworld.org/static-assets/byggsteg/logo-small.png"
-                                    #:alt "Byggsteg"
-                                    #:aspect-ratio 'square)
-                                   (img #:src
-                                    "https://jointhefreeworld.org/static-assets/lucidplan/img/logo-small.jpg"
-                                    #:alt "LucidPlan"
-                                    #:aspect-ratio 'square)
-                                   (img #:src
-                                    "https://jointhefreeworld.org/static-assets/sss/dall-e-3-thumb.png"
-                                    #:alt "Static Site Starter"
-                                    #:aspect-ratio 'square))
-                             #:columns 3))))
+  `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-8 items-start))))
+              ,(figure (img #:src
+                        "https://jointhefreeworld.org/static-assets/hygguile/hygguile-2-small.png"
+                        #:alt "Hygguile logo"
+                        #:width 220
+                        #:height 130
+                        #:rounding '(rounded-2xl))
+                       #:caption "figure + img + figcaption"
+                       #:align 'center)
+              ,(figure (picture #:sources (list (source #:type "image/webp"
+                                                 #:srcset
+                                                 "https://jointhefreeworld.org/static-assets/wikimusic/img/wikimusic.jpg"))
+                                #:image (img #:src
+                                         "https://jointhefreeworld.org/static-assets/wikimusic/img/wikimusic.jpg"
+                                         #:alt "WikiMusic"
+                                         #:width 220
+                                         #:aspect-ratio 'square
+                                         #:fit 'cover))
+                       #:caption "picture with source + fallback img"
+                       #:align 'center)
+              (div (@ (class ,(mk-class '(flex flex-col items-center gap-2))))
+                   ,(avatar #:initials "HG"
+                            #:size 'xl
+                            #:ring #t)
+                   ,(p "avatar with initials fallback"
+                       #:size '(text-sm)
+                       #:weight '(font-light))))
+         ,(image-gallery (list (img #:src
+                                "https://jointhefreeworld.org/static-assets/byggsteg/logo-small.png"
+                                #:alt "Byggsteg"
+                                #:aspect-ratio 'square)
+                               (img #:src
+                                "https://jointhefreeworld.org/static-assets/lucidplan/img/logo-small.jpg"
+                                #:alt "LucidPlan"
+                                #:aspect-ratio 'square)
+                               (img #:src
+                                "https://jointhefreeworld.org/static-assets/sss/dall-e-3-thumb.png"
+                                #:alt "Static Site Starter"
+                                #:aspect-ratio 'square))
+                         #:columns 3))))
 
 (define cards-section
-  `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                              items-center))))
-                  (span "🗂️")
-                  ,(sub-h2 "Cards, badges and stats"))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-8
-                                              items-start))))
-                  ,(card (list (card-header (list (card-title "Card title")
-                                                  (badge "New"
-                                                         #:variant 'success)))
-                               (card-body (list (card-description
-                                                 "Cards group related content with a header, a body and a footer.")
-                                                (stat-card #:value "1,204"
-                                                           #:label
-                                                           "Active users"
-                                                           #:trend "+12%")))
-                               (card-footer (list (button "Action"
-                                                          #:size '(text-sm)))))
-                         #:card-classes '(bg-stone-300/75 dark:bg-onyx-700/75
-                                          rounded-xl
-                                          shadow-md
-                                          border-2
-                                          border-stone-500/50
-                                          dark:border-onyx-100/50
-                                          overflow-hidden
-                                          my-4
-                                          flex
-                                          flex-col
-                                          w-full
-                                          max-w-100))
-                  (div (@ (class ,(mk-class '(flex flex-col gap-3))))
-                       (div (@ (class ,(mk-class '(flex flex-row flex-wrap
-                                                        gap-2))))
-                            ,(badge "neutral")
-                            ,(badge "info"
-                                    #:variant 'info)
-                            ,(badge "success"
-                                    #:variant 'success)
-                            ,(badge "warning"
-                                    #:variant 'warning)
-                            ,(badge "danger"
-                                    #:variant 'danger)))))))
+  `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-8 items-start))))
+              ,(card (list (card-header (list (card-title "Card title")
+                                              (badge "New"
+                                                     #:variant 'success)))
+                           (card-body (list (card-description
+                                             "Cards group related content with a header, a body and a footer.")
+                                            (stat-card #:value "1,204"
+                                                       #:label "Active users"
+                                                       #:trend "+12%")))
+                           (card-footer (list (button "Action"
+                                                      #:size '(text-sm)))))
+                     #:card-classes '(bg-stone-300/75 dark:bg-onyx-700/75
+                                                      rounded-xl
+                                                      shadow-md
+                                                      border-2
+                                                      border-stone-500/50
+                                                      dark:border-onyx-100/50
+                                                      overflow-hidden
+                                                      my-4
+                                                      flex
+                                                      flex-col
+                                                      w-full
+                                                      max-w-100))
+              (div (@ (class ,(mk-class '(flex flex-col gap-3))))
+                   (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
+                        ,(badge "neutral")
+                        ,(badge "info"
+                                #:variant 'info)
+                        ,(badge "success"
+                                #:variant 'success)
+                        ,(badge "warning"
+                                #:variant 'warning)
+                        ,(badge "danger"
+                                #:variant 'danger)))))))
 
 (define feedback-section
-  `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                              items-center))))
-                  (span "📣")
-                  ,(sub-h2 "Feedback"))
-             (div (@ (class ,(mk-class '(flex flex-col gap-4 max-w-prose))))
-                  ,(alert #:title "Information"
-                          #:body
-                          "Alerts carry a semantic color and an ARIA role."
-                          #:variant 'info)
-                  ,(alert #:title "Success"
-                          #:body "Your changes were saved."
-                          #:variant 'success)
-                  ,(alert #:title "Warning"
-                          #:body "This action is irreversible."
-                          #:variant 'warning)
-                  ,(alert #:title "Error"
-                          #:body "Something went wrong. Please retry."
-                          #:variant 'danger))
-             (div (@ (class ,(mk-class '(flex flex-col gap-3 w-full
-                                              max-w-prose))))
-                  ,(progress #:value 65
-                             #:label "Progress"
-                             #:show-value #t)
-                  ,(skeleton #:lines 2)
-                  (div (@ (class ,(mk-class '(flex flex-row items-center gap-4))))
-                       ,(spinner #:size 'lg
-                                 #:label "Loading")
-                       ,(p "spinner"
-                           #:weight '(font-light)))))))
+  `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
+         (div (@ (class ,(mk-class '(flex flex-col gap-4 max-w-prose))))
+              ,(alert #:title "Information"
+                      #:body "Alerts carry a semantic color and an ARIA role."
+                      #:variant 'info)
+              ,(alert #:title "Success"
+                      #:body "Your changes were saved."
+                      #:variant 'success)
+              ,(alert #:title "Warning"
+                      #:body "This action is irreversible."
+                      #:variant 'warning)
+              ,(alert #:title "Error"
+                      #:body "Something went wrong. Please retry."
+                      #:variant 'danger))
+         (div (@ (class ,(mk-class '(flex flex-col gap-3 w-full max-w-prose))))
+              ,(progress #:value 65
+                         #:label "Progress"
+                         #:show-value #t)
+              ,(skeleton #:lines 2)
+              (div (@ (class ,(mk-class '(flex flex-row items-center gap-4))))
+                   ,(spinner #:size 'lg
+                             #:label "Loading")
+                   ,(p "spinner"
+                       #:weight '(font-light)))))))
 
 (define navigation-section
-  `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                              items-center))))
-                  (span "🧭")
-                  ,(sub-h2 "Navigation"))
-             ,(breadcrumbs #:items (list (a "Home"
-                                            #:href "#")
-                                         (a "Library"
-                                            #:href "#")
-                                         (em "Components")))
-             ,(navbar (list (nav-link "Home"
-                                      #:href "#"
-                                      #:active #t)
-                            (nav-link "Docs"
-                                      #:href "#")
-                            (nav-link "About"
-                                      #:href "#"))
-                      #:brand "Hygguile"
-                      #:sticky #f)
-             ,(tabs #:id "showcase-tabs"
-                    #:tab-items (list (tab #:id "overview"
-                                           #:label "Overview"
-                                           #:content (list (p
-                                                            "Tabs are pure CSS: no JavaScript required.")))
-                                      (tab #:id "details"
-                                           #:label "Details"
-                                           #:content (list (p
-                                                            "Selecting a label reveals the matching panel.")))))
-             ,(pagination #:current 2
-                          #:total 4
-                          #:base-url "#page-"))))
+  `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
+         ,(breadcrumbs #:items (list (a "Home"
+                                        #:href "#")
+                                     (a "Library"
+                                        #:href "#")
+                                     (em "Components")))
+         ,(navbar (list (nav-link "Home"
+                                  #:href "#"
+                                  #:active #t)
+                        (nav-link "Docs"
+                                  #:href "#")
+                        (nav-link "About"
+                                  #:href "#"))
+                  #:brand "Hygguile"
+                  #:sticky #f)
+         ,(tabs #:id "showcase-tabs"
+                #:tab-items (list (tab #:id "overview"
+                                       #:label "Overview"
+                                       #:content (list (p
+                                                        "Tabs are pure CSS: no JavaScript required.")))
+                                  (tab #:id "details"
+                                       #:label "Details"
+                                       #:content (list (p
+                                                        "Selecting a label reveals the matching panel.")))))
+         ,(pagination #:current 2
+                      #:total 4
+                      #:base-url "#page-"))))
 
 (define disclosure-section
-  `((section (@ (class ,(mk-class '(flex flex-col gap-6))))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                              items-center))))
-                  (span "🧩")
-                  ,(sub-h2 "Disclosure"))
-             ,(accordion #:items (list (accordion-item #:summary
-                                        "Native details element"
-                                        #:content (list (p
-                                                         "Built on the browser's own disclosure widget.")))
-                                       (accordion-item #:summary
-                                                       "Zero JavaScript"
-                                                       #:content (list (p
-                                                                        "Accordions keep working with scripting disabled.")))))
-             (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6
-                                              items-center))))
-                  ,(a "Open a CSS-only modal"
-                      #:href "#showcase-modal")
-                  (div (@ (class ,(mk-class '(flex flex-row flex-wrap
-                                                   items-center gap-2))))
-                       ,(p "Hover or focus for a tooltip:"
-                           #:size '(text-sm)
-                           #:weight '(font-light))
-                       ,(tooltip (code "guix shell")
-                                 #:text
-                                 "Enter a reproducible development shell")))
-             ,(modal #:id "showcase-modal"
-                     #:title "CSS-only modal"
-                     #:content (list (p
-                                      "This dialog is revealed through the :target pseudo-class, so it opens and closes without any JavaScript. Follow the close link to dismiss it."))
-                     #:footer (list (a "Close"
-                                       #:href "#"))))))
+  `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
+         ,(accordion #:items (list (accordion-item #:summary
+                                                   "Native details element"
+                                                   #:content (list (p
+                                                                    "Built on the browser's own disclosure widget.")))
+                                   (accordion-item #:summary "Zero JavaScript"
+                                                   #:content (list (p
+                                                                    "Accordions keep working with scripting disabled.")))))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6
+                                          items-center))))
+              ,(a "Open a CSS-only modal"
+                  #:href "#showcase-modal")
+              (div (@ (class ,(mk-class '(flex flex-row flex-wrap items-center
+                                               gap-2))))
+                   ,(p "Hover or focus for a tooltip:"
+                       #:size '(text-sm)
+                       #:weight '(font-light))
+                   ,(tooltip (code "guix shell")
+                             #:text "Enter a reproducible development shell")))
+         ,(modal #:id "showcase-modal"
+                 #:title "CSS-only modal"
+                 #:content (list (p
+                                  "This dialog is revealed through the :target pseudo-class, so it opens and closes without any JavaScript. Follow the close link to dismiss it."))
+                 #:footer (list (a "Close"
+                                   #:href "#"))))))
 
 (define footer
   (footer `(,(em "Copyright &copy; Josep Bigorra &lt;jjbigorra@gmail.com&gt;"
@@ -565,10 +464,6 @@
 
 (define settings-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
-         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                          items-center))))
-              (span "⚙️")
-              ,(sub-h2 "Settings"))
          (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-3))))
               ,(p
                 "Two settings you can try right here: the theme, which is a class on the document remembered in local storage, and the notification tray, which is a plain list that slides in from the corner. Both are ordinary HTML and CSS with a little script on top, so nothing blocks the first paint."
@@ -580,10 +475,6 @@
 
 (define containers-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6 items-center))))
-         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                          items-center items-center))))
-              (span "📦")
-              ,(sub-h2 "Containers"))
          (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6
                                           items-center items-center))))
 
@@ -635,7 +526,7 @@
                                                        #:pace 18
                                                        #:distance '(1 -2.5)))
                             #:drift? #t))
-         ,(as-example '(glass-panel (list (h3 "Frosted, not opaque")
+         ,(code-sample '(glass-panel (list (h3 "Frosted, not opaque")
                                           (p
                                            "Any content can live behind the glass."))
                                     #:washes (list (glass-wash '(bg-naples-yellow-500/75
@@ -650,11 +541,7 @@
                                     #:drift? #t)))))
 
 (define dl-section
-  `((div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 items-center
-                                     items-center))))
-         (span "🗒️")
-         ,(sub-h2 "Detail lists"))
-    (div ,(dl (list (dt "foo:")
+  `((div ,(dl (list (dt "foo:")
                     (dd "bar")
                     (dt "abcdefghij:")
                     (dd "1234567890")
@@ -663,10 +550,6 @@
 
 (define tables-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
-         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                          items-center))))
-              (span "📊")
-              ,(sub-h2 "Data tables"))
          (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-4))))
               ,(p
                 "Tabular data deserves real table markup: columns are declared with &lt;th&gt; and an explicit scope, the rows live in &lt;tbody&gt;, and the totals sit in &lt;tfoot&gt;, so the header that describes a cell is never guessed by a screen reader."
@@ -734,7 +617,7 @@
                                               (td "€ 1 612.40"
                                                   #:numeric #t))))))
                  #:caption "Café takings, week of 5 October 2026")
-         ,(as-example '(table (list (thead (list (tr (list (th "Plan"
+         ,(code-sample '(table (list (thead (list (tr (list (th "Plan"
                                                                #:scope 'col)
                                                            (th "Price"
                                                                #:scope 'col
@@ -773,7 +656,7 @@
                      #:direction 'desc
                      #:params '(("region" . "europe") ("page" . "2"))
                      #:caption "Plans, sorted by seats")
-    ,(as-example '(sortable-table #:columns (list (table-column #:key 'plan
+    ,(code-sample '(sortable-table #:columns (list (table-column #:key 'plan
                                                                 #:label "Plan")
                                                   (table-column #:key 'seats
                                                                 #:label
@@ -831,8 +714,7 @@
                                         ,c))))
          (fragments (map render-img-with-figcaption imgs))
          (other-fragments (map render-other-content other-content)))
-    (list (sub-h2 "🎠 Carousels")
-          `(div (@ (class ,(mk-class '(flex flex-col gap-6))))
+    (list `(div (@ (class ,(mk-class '(flex flex-col gap-6))))
                 ,(carousel #:id 'other-carousel
                            #:item-width '(w-48 sm:w-64)
                            #:fragments other-fragments)
@@ -871,8 +753,7 @@
         ))
 
 (define (fly-out-section)
-  (list (sub-h2 "🦋 Fly-out section")
-        (fly-out #:items some-fly-out-items)))
+  (list (fly-out #:items some-fly-out-items)))
 
 (define (gradients-section)
   (let* ((specimen-class (mk-class '(flex items-end
@@ -905,11 +786,10 @@
          (label (lambda (text)
                   (list `(span (@ (class ,label-class))
                                ,text)))))
-    `(,(sub-h2 "🖌️ Gradients") (div (@ (class ,(mk-class '(max-w-prose flex
-                                                           flex-col gap-2 py-4))))
-                                    ,(p
-                                      "A gradient is a container whose background image you describe with colour steps and a direction. Stops accept any CSS colour, oklch with an alpha channel included, so a gradient can stay inside the same palette as the rest of the interface."
-                                      #:weight '(font-light)))
+    `((div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-2 py-4))))
+           ,(p
+             "A gradient is a container whose background image you describe with colour steps and a direction. Stops accept any CSS colour, oklch with an alpha channel included, so a gradient can stay inside the same palette as the rest of the interface."
+             #:weight '(font-light)))
       (div (@ (class ,(mk-class '(grid grid-cols-1 sm:grid-cols-2
                                        md:grid-cols-3 gap-4 my-2))))
            ,(linear-gradient (label "hygge morning")
@@ -964,7 +844,7 @@
            ,(p
              "Pass a list of stops and a direction and you have a panel; the same call is the slide behind a headline, or a hairline of colour (this page marks every section with one) — the container classes decide which."
              #:weight '(font-light)))
-      ,(as-example '(linear-gradient (p "hygge morning"
+      ,(code-sample '(linear-gradient (p "hygge morning"
                                         #:color '(text-onyx-500)
                                         #:weight '(font-bold))
                                      #:direction 'top
@@ -978,34 +858,6 @@
                                      #:steps '("oklch(1 0.0164 91.55 / 1)"
                                                "oklch(0.5777 0.4081 93.34 / 0.7)"))))))
 
-(define* (mk-color-show #:key color)
-  ;; the swatch keeps the palette colour on the tile itself, while the label
-  ;; sits on a frosted panel: a swatch can be any lightness, so a fixed
-  ;; white or black ink would be illegible on half of them
-  `((div (@ (onclick "cycleColorShow(this)")
-            (class ,(mk-class (append (list (string->symbol (format #f "bg-~a"
-                                                                    color)))
-                                      '(rounded-2xl shadow-md
-                                                    p-4
-                                                    cursor-pointer
-                                                    w-32
-                                                    h-32
-                                                    flex
-                                                    flex-col
-                                                    justify-end)))))
-         (span (@ (class ,(mk-class '(self-start rounded-2xs
-                                                 bg-stone-100/75
-                                                 dark:bg-onyx-900/75
-                                                 hg-frost
-                                                 hg-frost-pill
-                                                 px-2
-                                                 py-1
-                                                 text-sm
-                                                 font-medium
-                                                 text-onyx-500
-                                                 dark:text-stone-100))))
-               ,(format #f "~a" color)))))
-
 (define (custom-colors-section)
   (let* ((color-grid-class (mk-class '(flex flex-row
                                             flex-wrap
@@ -1013,156 +865,297 @@
                                             items-center
                                             items-center
                                             py-4))))
-    `(,(sub-h2 "🎨 Colors") (div (@ (class ,(mk-class '(py-4))))
-                                (div (@ (class ,(mk-class '(max-w-prose flex
-                                                            flex-col gap-2))))
-                                     ,(p
-                                       "Hygguile offers colors in the 100, 300, 500, 700 and 900 variants. Some of these colors are essential for the hygguile components, however not all of them are."
-                                       #:weight '(font-light)))
-                                (div (@ (class ,color-grid-class))
-                                     ,(map (lambda (x)
-                                             (mk-color-show #:color x))
-                                           '(apple-green-500 ash-gray-500
-                                             asparagus-500
-                                             beaver-500
-                                             bistre-500
-                                             black-bean-500
-                                             black-olive-500
-                                             buff-500
-                                             cadet-gray-500
-                                             cambridge-green-500
-                                             castleton-green-500
-                                             charcoal-500
-                                             china-rose-500
-                                             china-violet-500
-                                             claret-500
-                                             coffee-500
-                                             dark-purple-500
-                                             ferrari-red-500
-                                             floral-white-500
-                                             glaucous-500
-                                             iris-500
-                                             jeans-blue-500
-                                             lapis-lazuli-500
-                                             light-coral-500
-                                             mantis-500
-                                             melon-500
-                                             midnight-green-500
-                                             mikado-yellow-500
-                                             moonstone-500
-                                             naples-yellow-500
-                                             onyx-500
-                                             orange-500
-                                             pale-dogwood-500
-                                             papaya-whip-500
-                                             persia-pink-500
-                                             pomp-and-power-500
-                                             prussian-blue-500
-                                             raisin-black-500
-                                             redwood-500
-                                             russia-violet-500
-                                             sienna-500
-                                             spiced-terracotta-500
-                                             stone-500
-                                             tawny-500
-                                             tyrian-500
-                                             umber-500
-                                             van-dyke-500
-                                             white-smoke-500
-                                             wine-500
-                                             olive-500
-                                             dark-khaki-500)))))))
+    `((div (@ (class ,(mk-class '(py-4))))
+           (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-2))))
+                ,(p
+                  "Hygguile offers colors in the 100, 300, 500, 700 and 900 variants. Some of these colors are essential for the hygguile components, however not all of them are."
+                  #:weight '(font-light)))
+           (div (@ (class ,color-grid-class))
+                ,(map (lambda (x)
+                        (color-swatch #:color x))
+                      '(apple-green-500 ash-gray-500
+                                        asparagus-500
+                                        beaver-500
+                                        bistre-500
+                                        black-bean-500
+                                        black-olive-500
+                                        buff-500
+                                        cadet-gray-500
+                                        cambridge-green-500
+                                        castleton-green-500
+                                        charcoal-500
+                                        china-rose-500
+                                        china-violet-500
+                                        claret-500
+                                        coffee-500
+                                        dark-purple-500
+                                        ferrari-red-500
+                                        floral-white-500
+                                        glaucous-500
+                                        iris-500
+                                        jeans-blue-500
+                                        lapis-lazuli-500
+                                        light-coral-500
+                                        mantis-500
+                                        melon-500
+                                        midnight-green-500
+                                        mikado-yellow-500
+                                        moonstone-500
+                                        naples-yellow-500
+                                        onyx-500
+                                        orange-500
+                                        pale-dogwood-500
+                                        papaya-whip-500
+                                        persia-pink-500
+                                        pomp-and-power-500
+                                        prussian-blue-500
+                                        raisin-black-500
+                                        redwood-500
+                                        russia-violet-500
+                                        sienna-500
+                                        spiced-terracotta-500
+                                        stone-500
+                                        tawny-500
+                                        tyrian-500
+                                        umber-500
+                                        van-dyke-500
+                                        white-smoke-500
+                                        wine-500
+                                        olive-500
+                                        dark-khaki-500)))))))
 
 ;; ====== Showcase scaffolding ======
 
-(define (anchored id content)
-  "Wrap a showcase block in a @code{<section>} element carrying an @code{id}, so
-the table of contents can link to it and assistive technology gets a real
-landmark."
-  `((section (@ (id ,id)
-                (class ,(mk-class '(flex flex-col gap-2))))
-             ,content)))
+;; The page is a grid of component cards, and this is its spine: each entry is
+;; the id a link can jump to, the title and Phosphor icon that head the card,
+;; the shelf the section belongs on -- which the card shows as a chip and the
+;; sort control reads -- and whether the card needs the whole row, since a
+;; table, the carousel and the gradient tray are all wider than half of one.
+;; The block itself is a thunk, so a card is built only when the page asks for
+;; it.
+(define showcase-entries
+  (list (list 'settings
+              "Settings"
+              "Application"
+              'gear-six
+              #t
+              (lambda ()
+                settings-section))
+        (list 'gradients
+              "Gradients"
+              "Foundations"
+              'paint-brush
+              #t
+              (lambda ()
+                (gradients-section)))
+        (list 'carousel
+              "Carousel"
+              "Media"
+              'images
+              #t
+              (lambda ()
+                carousel-section))
+        (list 'cards
+              "Cards"
+              "Layout"
+              'cards
+              #f
+              (lambda ()
+                cards-section))
+        (list 'colors
+              "Colors"
+              "Foundations"
+              'palette
+              #f
+              (lambda ()
+                (custom-colors-section)))
+        (list 'buttons
+              "Buttons"
+              "Controls"
+              'cursor-click
+              #f
+              (lambda ()
+                button-section))
+        (list 'typography
+              "Typography"
+              "Foundations"
+              'text-aa
+              #f
+              (lambda ()
+                typography-section))
+        (list 'media
+              "Media"
+              "Media"
+              'image
+              #t
+              (lambda ()
+                media-section))
+        (list 'forms
+              "Forms"
+              "Controls"
+              'check-square
+              #t
+              (lambda ()
+                forms-section))
+        (list 'tables
+              "Data tables"
+              "Data"
+              'table
+              #t
+              (lambda ()
+                tables-section))
+        (list 'feedback
+              "Feedback"
+              "Application"
+              'megaphone
+              #f
+              (lambda ()
+                feedback-section))
+        (list 'navigation
+              "Navigation"
+              "Navigation"
+              'compass
+              #f
+              (lambda ()
+                navigation-section))
+        (list 'disclosure
+              "Disclosure"
+              "Controls"
+              'caret-double-down
+              #f
+              (lambda ()
+                disclosure-section))
+        (list 'fly-out
+              "Fly-out"
+              "Navigation"
+              'butterfly
+              #f
+              (lambda ()
+                (fly-out-section)))
+        (list 'containers
+              "Containers"
+              "Layout"
+              'package
+              #t
+              (lambda ()
+                containers-section))
+        (list 'detail-lists
+              "Detail lists"
+              "Data"
+              'list-dashes
+              #f
+              (lambda ()
+                dl-section))
+        (list 'why-ssr
+              "Why server-side rendering?"
+              "Overview"
+              'book-open-text
+              #f
+              (lambda ()
+                ssr-section))))
 
-;; a thin sweep of the palette that separates two showcase sections; the
-;; sections are already their own landmarks with their own headings, so the
-;; rule is decoration: a soft warm-to-cool line instead of a flat one
-(define gradient-rule
-  (linear-gradient '()
-                   #:container-class (mk-class '(h-1 w-full my-8 rounded-512
-                                                     opacity-25))
-                   #:direction 'right
-                   #:steps '("oklch(0.7404 0.1399 91.55 / 1)"
-                             "oklch(0.6609 0.0708 213.97 / 1)"
-                             "oklch(0.4929 0.161 279.98 / 1)")))
+;; The shelves the sections are grouped into, in the order the page should
+;; introduce them when a reader asks for the grouped view. A category is
+;; metadata rather than a heading: it rides along on the card as a chip, and
+;; its position here is the rank the `By category' sort compares.
+(define showcase-categories
+  '("Foundations" "Layout"
+    "Controls"
+    "Data"
+    "Media"
+    "Navigation"
+    "Application"
+    "Overview"))
 
-;; the page reads as a tour: try the theme, watch the palette move through
-;; the gradients and the carousel, wander through the components, and only
-;; at the end sit down with the long argument for rendering on the server
-(define toc-entries
-  '(("settings" . "Settings") ("gradients" . "Gradients")
-    ("carousel" . "Carousel")
-    ("cards" . "Cards")
-    ("colors" . "Colors")
-    ("buttons" . "Buttons")
-    ("typography" . "Typography")
-    ("media" . "Media")
-    ("forms" . "Forms")
-    ("tables" . "Data tables")
-    ("feedback" . "Feedback")
-    ("navigation" . "Navigation")
-    ("disclosure" . "Disclosure")
-    ("fly-out" . "Fly-out")
-    ("containers" . "Containers")
-    ("detail-lists" . "Detail lists")
-    ("why-ssr" . "Why server-side rendering?")))
+(define (category-rank category)
+  "Where @var{category} sits among the shelves above."
+  (let loop
+    ((rest showcase-categories)
+     (rank 0))
+    (cond
+      ((null? rest)
+       rank)
+      ((string=? category
+                 (car rest))
+       rank)
+      (else (loop (cdr rest)
+                  (+ rank 1))))))
 
-(define (toc-link entry)
-  (a (cdr entry)
-     #:href (format #f "#~a"
-                    (car entry))
-     #:size '(text-sm)
-     #:weight '(font-medium)
-     #:extra-classes '(no-underline rounded-512
-                                    px-3
-                                    py-1
-                                    bg-stone-100/50
-                                    dark:bg-onyx-900/50
-                                    border-2
-                                    border-stone-500/25
-                                    dark:border-onyx-100/25
-                                    hover:bg-stone-100/90
-                                    dark:hover:bg-onyx-900/75
-                                    transition-colors
-                                    duration-150)))
+;; One card of the grid. The card itself -- a native <details> with an icon, a
+;; heading, a chip and a chevron -- is the framework's `expandable-card'; what
+;; is the showcase's own is the data it hands over: the place the entry stands
+;; in the page's narrative, the title the `A-Z' order reads, and the shelf,
+;; with the rank the `By category' order reads. The chip shows the shelf's
+;; name while the ordering uses its rank, so the grouping is the one the page
+;; means rather than the one the alphabet would pick.
+(define (showcase-card entry order)
+  (match entry
+    ((card-id card-title card-category card-icon card-wide? card-body)
+     (expandable-card (card-body)
+                      #:id (format #f "~a" card-id)
+                      #:title card-title
+                      #:icon card-icon
+                      #:tag card-category
+                      #:wide? card-wide?
+                      ;; the whole tray opens on the first paint: the
+                      ;; showcase is meant to be read, and `Collapse all'
+                      ;; above the grid folds it again for a reader who would
+                      ;; rather scan headers
+                      #:open #t
+                      #:data (list (cons 'order
+                                         (format #f "~a" order))
+                                   (cons 'title card-title)
+                                   (cons 'category card-category)
+                                   (cons 'category-rank
+                                         (format #f "~a"
+                                                 (category-rank card-category))))))))
 
-;; a frosted rail of pills that follows the page from the small
-;; breakpoint up, so any section is one tap away
+;; the rail of section links, built from the same entries as the grid: any
+;; section is one tap away, and the rail follows the page from the small
+;; breakpoint up
 (define showcase-toc
-  `((nav (@ (aria-label "Page sections")
-            (class ,(mk-class '(my-2 rounded-2xl
-                                     border-2
-                                     border-stone-500/25
-                                     dark:border-onyx-100/25
-                                     bg-stone-100/75
-                                     dark:bg-onyx-900/75
-                                     hg-frost
-                                     shadow-lg
-                                     px-3
-                                     py-3
-                                     sm:sticky
-                                     top-2
-                                     z-20))))
-         (ul (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2 list-none
-                                         p-0))))
-             ,@(map (lambda (entry)
-                      `(li ,(toc-link entry))) toc-entries)))))
+  (section-nav (map (lambda (entry)
+                      (cons (car entry)
+                            (cadr entry))) showcase-entries)))
+
+;; the grid itself: two columns once the viewport is wide enough, one on a
+;; phone, with the widest cards -- the tables, the carousel, the gradients --
+;; spanning both, so a section is never squeezed into a column it cannot fill.
+;; Its id is the tray the sort control reorders.
+(define (showcase-grid)
+  `((div (@ (id "showcase-grid")
+            (class ,(mk-class '(grid grid-cols-1 lg:grid-cols-2 gap-6
+                                     items-start my-6))))
+         ,@(let loop
+             ((entries showcase-entries)
+              (order 0))
+             (if (null? entries)
+                 '()
+                 (cons (showcase-card (car entries) order)
+                       (loop (cdr entries)
+                             (+ order 1))))))))
+
+;; The two controls above the grid, both the framework's own: the orders a
+;; reader can put the tray in, and the pair that opens or folds all of it. The
+;; first mode is the order the page opens in, so `Page order' needs no
+;; attribute on any card -- a mode nothing carries is the order the page wrote
+;; -- while `By category' reads the rank each card carries beside the shelf it
+;; shows.
+(define showcase-controls
+  `((div (@ (class ,(mk-class '(flex flex-row
+                                     flex-wrap
+                                     items-center
+                                     justify-between
+                                     gap-2
+                                     my-4))))
+         ,(sort-control #:target "showcase-grid"
+                        #:modes '(("page" . "Page order") ("title" . "A-Z")
+                                  ("category-rank" . "By category"))
+                        #:aria-label "Order the sections")
+         ,(disclosure-controls #:selector "details.hg-expandable-card"))))
 
 (define ssr-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
-         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
-                                          items-center))))
-              (span "🧭")
-              ,(sub-h2 "Why server-side rendering?"))
          (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-4))))
               ,(p
                 "Hygguile renders complete HTML on the server. The browser receives a finished document — headings, links, labels and controls included — and a little JavaScript enhances it afterwards."
@@ -1195,28 +1188,52 @@ landmark."
               ,(p
                 "Single-page applications earn their complexity when you genuinely need offline support or a deeply interactive workspace. Even then it is a spectrum rather than a binary: ship mostly-static HTML and add interactivity only where it repays its cost. That is exactly how Hygguile is built — a document first, with small islands of behaviour."
                 #:weight '(font-light))
-              (pre (@ (class ,(mk-class '(text-onyx-500 dark:text-stone-300
-                                                        text-md
-                                                        bg-stone-300/75
-                                                        dark:bg-onyx-700/75
-                                                        rounded-lg
-                                                        shadow-md
-                                                        py-4
-                                                        px-4
-                                                        font-mono
-                                                        leading-6
-                                                        overflow-x-scroll
-                                                        whitespace-pre-wrap))))
-               ";; A page is a pure function of its data
+              ,(pre ";; A page is a pure function of its data
 (define (page request)
   `((h1 \"Posts\")
     (ul ,@(map render-post (posts-for request)))))
 
 ;; Render it once, on the server, and send text to the browser")))))
 
+;; ====== Naming a technology ======
+
+;; Where a technology the hero names is documented, and what an abbreviation
+;; stands for. Both lists live here so the prose writes a term once: the
+;; sentence says "CSS", and the link and the expansion follow from that name
+;; rather than from a second copy of it that has to be kept in step by hand.
+(define technology-docs
+  '(("Guile Scheme" . "https://www.gnu.org/software/guile/")
+    ("S-expressions" . "https://en.wikipedia.org/wiki/S-expression")
+    ("SXML" . "https://en.wikipedia.org/wiki/SXML")
+    ("Olive CSS" . "https://codeberg.org/jjba23/olive-css")
+    ("Tailwind" . "https://tailwindcss.com/")
+    ("CSS" . "https://developer.mozilla.org/en-US/docs/Web/CSS")
+    ("HTML" . "https://developer.mozilla.org/en-US/docs/Web/HTML")
+    ("JavaScript" . "https://developer.mozilla.org/en-US/docs/Web/JavaScript")))
+
+(define technology-expansions
+  '(("SXML" . "Scheme XML: XML written as S-expressions")
+    ("CSS" . "Cascading Style Sheets")
+    ("HTML" . "HyperText Markup Language")
+    ("DSL" . "domain-specific language")
+    ("S-expressions" . "symbolic expressions")))
+
+;; A technology as the hero names it. The framework's `glossary-term' renders
+;; the word, its link and -- for an abbreviation -- the tooltip that spells it
+;; out; the two tables below are the page's own content, the only part of a
+;; glossary that is not the framework's.
+(define (tech term)
+  (glossary-term term
+                 #:href (assoc-ref technology-docs term)
+                 #:note (assoc-ref technology-expansions term)))
+
 (define (showcase-body)
-  (with-footer #:main `((div (@ (class ,(mk-class '(py-8 px-4 sm:px-6
-                                                         max-w-256 mx-auto))))
+  (with-footer #:main `((div (@ (class ,(mk-class '(pt-16 sm:pt-24
+                                                          pb-8
+                                                          px-4
+                                                          sm:px-6
+                                                          max-w-256
+                                                          mx-auto))))
                              ;; a glass hero: soft, out-of-focus colour washes
                              ;; behind frosted glass, the macOS wallpaper trick
                              ;; done with plain Olive utilities -- the same panel
@@ -1300,15 +1317,35 @@ landmark."
                                                           duration-150)))
                                  (div (@ (class ,(mk-class '(max-w-prose flex
                                                              flex-col gap-5))))
-                                      ,(p
-                                        "Hygguile is an opinionated, batteries-included UI framework written in Guile Scheme. It gives you a small, expressive DSL for building cozy and professional interfaces from S-expressions, SXML and modern CSS."
-                                        #:weight '(font-light))
-                                      ,(p
-                                        "It is built on Olive CSS: a utility-class framework whose syntax will feel familiar to anyone who has used Tailwind, but which is plain CSS rather than JavaScript."
-                                        #:weight '(font-light))
-                                      ,(p
-                                        "Every component renders to real HTML on the server and is enhanced in the browser only where that helps. Pages stay fast, accessible, and fully usable without JavaScript."
-                                        #:weight '(font-light))
+                                      ,(p (list
+                                           "Hygguile is an opinionated, batteries-included UI framework written in "
+                                           (tech "Guile Scheme")
+                                           ". It gives you a small, expressive "
+                                           (tech "DSL")
+                                           " for building cozy and professional interfaces from "
+                                           (tech "S-expressions")
+                                           ", "
+                                           (tech "SXML")
+                                           " and modern "
+                                           (tech "CSS")
+                                           ".")
+                                          #:weight '(font-light))
+                                      ,(p (list "It is built on "
+                                           (tech "Olive CSS")
+                                           ": a utility-class framework whose syntax will feel familiar to anyone who has used "
+                                           (tech "Tailwind")
+                                           ", but which is plain "
+                                           (tech "CSS")
+                                           " rather than "
+                                           (tech "JavaScript")
+                                           ".")
+                                          #:weight '(font-light))
+                                      ,(p (list
+                                           "Every component renders to real "
+                                           (tech "HTML")
+                                           " on the server and is enhanced in the browser only where that helps. Pages stay fast, accessible, and fully usable without "
+                                           (tech "JavaScript") ".")
+                                          #:weight '(font-light))
                                       ,(noscript (alert #:title
                                                   "JavaScript is disabled"
                                                   #:body
@@ -1354,43 +1391,8 @@ landmark."
                                                                    "oklch(0.4929 0.161 279.98 / 1)"
                                                                    "oklch(0.6609 0.0708 213.97 / 1)")))
                              ,showcase-toc
-                             ,gradient-rule
-                             ,(anchored "settings" settings-section)
-                             ,gradient-rule
-                             ,(anchored "gradients"
-                                        (gradients-section))
-                             ,gradient-rule
-                             ,(anchored "carousel" carousel-section)
-                             ,gradient-rule
-                             ,(anchored "cards" cards-section)
-                             ,gradient-rule
-                             ,(anchored "colors"
-                                        (custom-colors-section))
-                             ,gradient-rule
-                             ,(anchored "buttons" button-section)
-                             ,gradient-rule
-                             ,(anchored "typography" typography-section)
-                             ,gradient-rule
-                             ,(anchored "media" media-section)
-                             ,gradient-rule
-                             ,(anchored "forms" forms-section)
-                             ,gradient-rule
-                             ,(anchored "tables" tables-section)
-                             ,gradient-rule
-                             ,(anchored "feedback" feedback-section)
-                             ,gradient-rule
-                             ,(anchored "navigation" navigation-section)
-                             ,gradient-rule
-                             ,(anchored "disclosure" disclosure-section)
-                             ,gradient-rule
-                             ,(anchored "fly-out"
-                                        (fly-out-section))
-                             ,gradient-rule
-                             ,(anchored "containers" containers-section)
-                             ,gradient-rule
-                             ,(anchored "detail-lists" dl-section)
-                             ,gradient-rule
-                             ,(anchored "why-ssr" ssr-section)))
+                             ,showcase-controls
+                             ,(showcase-grid)))
                #:footer footer))
 
 (define* (html-template #:key title body)

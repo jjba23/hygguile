@@ -17,6 +17,7 @@
 
 (define-module (hygguile components disclosure)
   #:use-module (hygguile abstraction)
+  #:use-module (uuid generate)
   #:export (details summary accordion accordion-item modal tooltip))
 
 (define* (summary content
@@ -199,19 +200,26 @@ The accessible label for the close control. Defaults to @code{\"Close\"}.
 
 (define* (tooltip content
                   #:key text
+                  (id #f)
                   (position 'top)
                   (classes '()))
   "Attach an accessible, JavaScript-free tooltip to inline content.
 
 The tooltip is shown on both hover and keyboard focus through CSS, and its
-text is exposed through the @code{data-hg-tooltip} attribute used by the
-generated @code{::after} pseudo-element.
+text is exposed twice, each copy for the reader it is for. Sighted hover is
+served by the @code{data-hg-tooltip} attribute the generated @code{::after}
+bubble reads; assistive technology is served by a real text node the trigger
+describes itself with, because generated content is not reliably part of the
+exposed accessibility tree. The text node is visually hidden rather than
+also drawn, so a hover still produces one bubble and one reading, not two.
 
 @table @var
 @item content
 The trigger content the tooltip is attached to.
 @item text
 The tooltip text.
+@item id
+A stable HTML identifier for the hidden description, or @code{#f} for a generated one. Give one when the page has to name it.
 @item position
 Where the tooltip appears: @code{'top} (default), @code{'bottom}, @code{'left} or @code{'right}.
 @item classes
@@ -221,10 +229,17 @@ List of additional utility CSS classes.
 @example
 (tooltip (code \"CARGO_HOME\") #:text \"Where Cargo stores downloaded crates\")
 @end example"
-  (let ((position-class (string->symbol (format #f "hg-tooltip-~a" position))))
+  (let* ((position-class (string->symbol (format #f "hg-tooltip-~a" position)))
+         (description-id (if id
+                             (format #f "~a" id)
+                             (generate-string-uuid))))
     `((span (@ (tabindex "0")
                (data-hg-tooltip ,text)
+               (aria-describedby ,description-id)
                (class ,(mk-class (append classes
                                          (list position-class)
                                          '(hg-tooltip)))))
+            (span (@ (id ,description-id)
+                     (class ,(mk-class '(sr-only))))
+                  ,text)
             ,content))))

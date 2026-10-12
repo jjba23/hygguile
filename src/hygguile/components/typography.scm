@@ -17,6 +17,7 @@
 
 (define-module (hygguile components typography)
   #:use-module (hygguile abstraction)
+  #:use-module (hygguile components disclosure)
   #:export (h1 h2
                h3
                h4
@@ -37,6 +38,7 @@
                mark
                time
                abbr
+               glossary-term
                sup
                sub))
 
@@ -530,7 +532,7 @@ List of configuration framework tokens defining a fixed-width layout style.
                (rounding '(rounded-lg))
                (shadow '(shadow-md))
                (padding-y '(py-1))
-               (padding-x '(px-4))
+               (padding-x '(px-2))
                (code-classes '(font-mono)))
   "Create an inline HTML @code{<code>} fragment.
 
@@ -572,7 +574,8 @@ List of font typography rules enforcing monospaced code metrics.
           ,content)))
 
 (define* (pre content
-              #:key (weight '(font-medium))
+              #:key (id #f)
+              (weight '(font-medium))
               (color '(text-onyx-500 dark:text-stone-300))
               (size '(text-md))
               (background '(bg-stone-300/75 dark:bg-onyx-700/75))
@@ -581,8 +584,8 @@ List of font typography rules enforcing monospaced code metrics.
               (width '(w-full max-w-full min-w-0))
               (leading '(leading-6))
               (text-wrap '())
-              (padding-y '(py-4 sm:py-6))
-              (padding-x '(px-4 sm:px-8))
+              (padding-y '(py-2 sm:py-3))
+              (padding-x '(px-3 sm:px-4))
               (pre-classes '(font-mono overflow-x-auto whitespace-pre-wrap)))
   "Create an HTML preformatted multi-line source code container block (@code{<pre>}).
 
@@ -613,12 +616,16 @@ List of symbols processing top/bottom container padding margins.
 List of symbols processing side outer margin boundaries padding options.
 @item pre-classes
 List of structural code scrolling mechanisms and whitespace behaviors.
+@item id
+An optional HTML identifier, or @code{#f} for a @code{<pre>} nothing has to name.
 @end table
 
 @example
 (pre \"(define (hello)\\n  (display \\\"Hi\\\"))\")
 @end example"
-  `((pre (@ (class ,(mk-class (append color
+  `((pre (@ ,@(attr-when id
+                         'id id)
+           (class ,(mk-class (append color
                                       leading
                                       background
                                       pre-classes
@@ -946,3 +953,45 @@ List of additional typography utility classes.
 @end example"
   `((sub (@ (class ,(mk-class (append color sub-classes size weight vertical))))
          ,content)))
+
+(define* (glossary-term term
+                        #:key (href #f)
+                        (note #f)
+                        (position 'top)
+                        (classes '()))
+  "Create an inline term that may link to its documentation and may spell itself out.
+
+A page's prose names a technology once and this puts the two other things
+that name implies on that same word: where the term is documented, and, for
+an abbreviation, what it stands for. The note is a @code{tooltip}, so it
+appears on hover and on keyboard focus alike, and it wraps the link rather
+than sitting beside it -- one word carries both, the reader who has never
+met the abbreviation learns what it stands for without leaving the page, and
+the reader who wants the manual follows that same word.
+
+@table @var
+@item term
+The word as the prose writes it.
+@item href
+Where the term is documented, or @code{#f} for a term that is only text.
+@item note
+What the term stands for, or @code{#f} for a term with nothing to spell out.
+@item position
+Where the note appears: @code{'top} (default), @code{'bottom}, @code{'left} or @code{'right}.
+@item classes
+List of additional utility CSS classes for the note.
+@end table
+
+@example
+(glossary-term \"SXML\"
+               #:href \"https://en.wikipedia.org/wiki/SXML\"
+               #:note \"Scheme XML: XML written as S-expressions\")
+@end example"
+  (let ((word (if href
+                  (a term
+                     #:href href) term)))
+    (if note
+        (tooltip word
+                 #:text note
+                 #:position position
+                 #:classes classes) word)))

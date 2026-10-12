@@ -17,6 +17,9 @@
 
 (define-module (hygguile hygguile)
   #:use-module (hygguile abstraction)
+  #:use-module (hygguile components tray)
+  #:use-module (hygguile components code)
+  #:use-module (hygguile components color)
   #:use-module (hygguile js)
   #:use-module (hygguile embed js)
   #:use-module (hygguile embed css)
@@ -56,15 +59,20 @@
                  carousel-button-js
                  checkbox
                  code
+                 code-sample
+                 code-sample-js
                  col
+                 color-swatch
                  copy-pre-inner-text-js
                  custom-fonts
                  details
+                 disclosure-controls
                  danger-submit-button
                  dd
                  dl
                  dt
                  em
+                 expandable-card
                  fieldset
                  figure
                  figcaption
@@ -79,6 +87,7 @@
                  get-short-commit-sha
                  glass-panel
                  glass-wash
+                 glossary-term
                  glyph-option
                  h1
                  h2
@@ -113,6 +122,7 @@
                  phosphor-icons
                  picture
                  pre
+                 pretty-code
                  pretty-quote
                  progress
                  radio
@@ -122,11 +132,13 @@
                  render-if-nestring
                  row
                  samp
+                 section-nav
                  select
                  show-notifications-from-url-js
                  skeleton
                  sort-href
                  sortable-table
+                 sort-control
                  source
                  spinner
                  stat-card
@@ -153,6 +165,7 @@
                  time
                  toggle-dark-theme-js
                  tooltip
+                 tray-js
                  tr
                  trigger-notification-function-js
                  ui-mode-button
@@ -183,7 +196,9 @@ An S-expression block managing custom font loading configurations, defaulting to
         (carousel-button-js)
         (remember-dark-theme-js)
         (color-show-js)
-        (fly-out-js)))
+        (fly-out-js)
+        (code-sample-js)
+        (tray-js)))
 
 (define doctype-html
   "<!DOCTYPE html>")

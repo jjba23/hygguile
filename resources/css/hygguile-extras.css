@@ -702,6 +702,71 @@ h2.hg-gradient-text {
                                     oklch(0.7439 0.1301 288.16 / 1));
 }
 
+/* ===== Expandable cards =====
+
+   An expandable card is a native <details>, so it opens and hides with no
+   script at all. The only structural help it asks for here is to drop the
+   browser's own summary marker -- the chevron in the summary is the
+   affordance, and it turns as the card opens -- and, because a card is also
+   what a section rail links to, to keep a header a link jumped to clear of
+   that rail. */
+
+.hg-expandable-summary {
+  list-style: none;
+  /* deep enough for a card header to clear a sticky section rail above it */
+  scroll-margin-top: 7rem;
+}
+
+.hg-expandable-summary::-webkit-details-marker {
+  display: none;
+}
+
+details[open] > .hg-expandable-summary .hg-expandable-chevron {
+  transform: rotate(180deg);
+}
+
+/* ===== Showcase sort control =====
+
+   Three buttons offer to reorder the tray, and the chosen one is the one the
+   page's script has marked `aria-pressed="true"'. Olive tints every button
+   with a mid surface -- legible, but all three of them the same shape and
+   shade -- and a control that says which order you are reading has to be
+   unmistakable at a glance, so the pressed one is filled from the opposite
+   end of the ramp instead: the near-black of the ink in a light theme, the
+   near-white of a card in a dark theme, each carrying the ink that surface is
+   already known to carry. The fill is only the darkest or lightest step of
+   the palette the page is already built from; the contrast of every pair
+   below is the framework's own, and the gate checks it. */
+
+.hg-sort-button[aria-pressed="true"] {
+  background-color: oklch(0.3588 0.0044 247.95 / 1);
+  color: oklch(0.987 0.0013 286.37);
+  border-color: oklch(0.987 0.0013 286.37 / 0.4);
+}
+
+[data-theme="dark"] .hg-sort-button[aria-pressed="true"] {
+  background-color: oklch(0.947 0.0013 286.37 / 1);
+  color: oklch(0.3588 0.0044 247.95);
+  border-color: oklch(0.3588 0.0044 247.95 / 0.4);
+}
+
+/* ===== Code samples =====
+
+   The panel that holds a specimen's source folds away until it is asked for,
+   and the `hidden' attribute is what folds it. The attribute is enough on its
+   own for an element with no display utility -- the browser's own rule hides
+   it -- but a panel lays itself out with `flex', and an author rule outbids
+   the user agent's `[hidden]' however low it sits in the cascade, which would
+   leave every specimen's source open on every page. So the fold is stated
+   here as the framework's own rule, at the strength it has to be stated at.
+
+   With scripting off the noscript stylesheet reveals the panel instead and
+   hides the control, so a reader who cannot fold the source still reads it. */
+
+.hg-code-sample-panel[hidden] {
+  display: none !important;
+}
+
 /* ===== Respect reduced-motion preferences ===== */
 
 @media (prefers-reduced-motion: reduce) {

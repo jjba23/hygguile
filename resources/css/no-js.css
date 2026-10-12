@@ -41,6 +41,13 @@
   display: block !important;
 }
 
+/* A code sample: the fold that hides the source needs scripting, and the
+   control that would lift it is a .js-only element, so without scripting
+   every specimen simply shows its own source rather than a dead button. */
+.hg-code-sample-panel[hidden] {
+  display: flex !important;
+}
+
 .flyout-submenu {
   position: static !important;
   box-shadow: none !important;

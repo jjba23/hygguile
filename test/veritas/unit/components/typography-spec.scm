@@ -144,6 +144,19 @@
 (define typography-suite
   (suite "Inline typography"
          (test "hygguile inline typography"
+               (assert-equal #:name
+                             "inline code is set in a mono face with close padding"
+                             #:got (let ((el (car (code "guix shell"))))
+                                     (list (class-has? el "font-mono")
+                                           (class-has? el "px-2")))
+                             #:expect (list #t #t))
+               (assert-equal #:name
+                             "a code block is set in a mono face with close padding"
+                             #:got (let ((el (car (pre "(display 1)"))))
+                                     (list (class-has? el "font-mono")
+                                           (class-has? el "px-3")
+                                           (class-has? el "py-2")))
+                             #:expect (list #t #t #t))
                (assert-equal #:name "kbd renders a <kbd> element"
                              #:got (caar (kbd "Ctrl"))
                              #:expect 'kbd)
@@ -210,6 +223,65 @@
                              #:got (class-has? (car (sub "2")) "align-sub")
                              #:expect #t))))
 
+(define (tag-inside? node tag)
+  "True when a TAG element is rendered somewhere inside NODE."
+  (cond
+    ((not (pair? node)) #f)
+    ((eq? tag (car node)) #t)
+    (else (any (lambda (child)
+                 (tag-inside? child tag)) node))))
+
+(define glossary-suite
+  (suite "Glossary terms"
+         (test "hygguile glossary terms"
+               (assert-equal #:name
+                             "a term with nothing to say is the bare word"
+                             #:got (glossary-term "hygge")
+                             #:expect "hygge")
+               (assert-equal #:name "a documented term is an <a>"
+                             #:got (caar (glossary-term "SXML"
+                                                       #:href
+                                                       "https://en.wikipedia.org/wiki/SXML"))
+                             #:expect 'a)
+               (assert-equal #:name "and it links where it says it does"
+                             #:got (attr-value (car (glossary-term
+                                                     "SXML"
+                                                     #:href
+                                                     "https://en.wikipedia.org/wiki/SXML"))
+                                               'href)
+                             #:expect "https://en.wikipedia.org/wiki/SXML")
+               (assert-equal #:name
+                             "a term with a note is wrapped in a tooltip"
+                             #:got (attr-value (car (glossary-term
+                                                     "SXML"
+                                                     #:note
+                                                     "Scheme XML"))
+                                               'data-hg-tooltip)
+                             #:expect "Scheme XML")
+               (assert-equal #:name
+                             "the tooltip wraps the link, so one word carries both"
+                             #:got (let ((word (glossary-term
+                                                "SXML"
+                                                #:href
+                                                "https://en.wikipedia.org/wiki/SXML"
+                                                #:note
+                                                "Scheme XML")))
+                                     (list (caar word)
+                                           (tag-inside? (car word)
+                                                        'a)))
+                             #:expect (list 'span
+                                            #t))
+               (assert-equal #:name "a note places itself where it is asked"
+                             #:got (class-has? (car (glossary-term
+                                                     "SXML"
+                                                     #:note
+                                                     "Scheme XML"
+                                                     #:position
+                                                     'bottom))
+                                               "hg-tooltip-bottom")
+                             #:expect #t))))
+
 (define (spec)
   (veritas-run typography-suite)
-  (veritas-run heading-suite))
+  (veritas-run heading-suite)
+  (veritas-run glossary-suite))
