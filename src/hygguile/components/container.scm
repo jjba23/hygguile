@@ -69,7 +69,8 @@ S-expression representing the footer layout.
   `((div (@ (class ,(mk-class '(flex flex-col justify-between min-h-screen))))
          ;; a real <main> landmark so assistive technology can jump
          ;; straight to the page content
-         (main (@ (class ,(mk-class '(flex-1)))) ,main)
+         (main (@ (class ,(mk-class '(flex-1))))
+               ,main)
          ,footer)))
 
 (define* (hr #:key (margin '(my-8 mx-4))
@@ -220,9 +221,7 @@ List of base vertical flex layout CSS classes.
          ,content)))
 
 (define* (dl content
-             #:key (dl-classes '(flex flex-col gap-1
-                                        my-4
-                                        max-w-prose)))
+             #:key (dl-classes '(flex flex-col gap-1 my-4 max-w-prose)))
   "Create an HTML description list (@code{<dl>}) element.
 
 Terms and descriptions are stacked in a single column with a little
@@ -284,11 +283,12 @@ List of symbols for text sizing CSS classes.
         ,content)))
 
 (define* (dd content
-             #:key (dd-classes '(pl-4 ml-2 mb-1
-                                 border-l-2
-                                 border-stone-700
-                                 dark:border-onyx-100
-                                 leading-6))
+             #:key (dd-classes '(pl-4 ml-2
+                                      mb-1
+                                      border-l-2
+                                      border-stone-700
+                                      dark:border-onyx-100
+                                      leading-6))
              (weight '(font-light))
              (family '(font-sans))
              (color '(text-onyx-300 dark:text-stone-300))

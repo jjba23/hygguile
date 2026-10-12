@@ -35,27 +35,25 @@
   '(bg-stone-300/90 dark:bg-onyx-700/75))
 
 (define notification-card-classes
-  '(max-w-full
-    max-w-prose
-    text-onyx-300
-    dark:text-stone-300
-    font-sans
-    flex
-    flex-col
-    gap-4))
+  '(max-w-full max-w-prose
+               text-onyx-300
+               dark:text-stone-300
+               font-sans
+               flex
+               flex-col
+               gap-4))
 
 (define* (notification-card #:key (header-classes (mk-class '(text-xl
                                                               text-onyx-500
                                                               dark:text-stone-300)))
-                            (close-icon-on-click "document.getElementById('notification-tray').innerHTML = ''")
-                            (close-icon-classes (mk-class '(ph
-                                                            ph-x
+                            (close-icon-on-click
+                             "document.getElementById('notification-tray').innerHTML = ''")
+                            (close-icon-classes (mk-class '(ph ph-x
                                                             text-onyx-500
                                                             cursor-pointer
                                                             dark:text-stone-300
                                                             text-xl)))
-                            (title-container-classes (mk-class '(flex
-                                                                 flex-row
+                            (title-container-classes (mk-class '(flex flex-row
                                                                  justify-between
                                                                  flex-wrap
                                                                  gap-10
@@ -104,12 +102,10 @@ Extra classes for the card itself, appended to the panel's own.
                                   (class ,header-classes)) "")
                            (i (@ (onclick ,close-icon-on-click)
                                  (class ,close-icon-classes))))
-                      `(p (@ (id "notification-body")) ""))
+                     `(p (@ (id "notification-body")) ""))
                #:tint notification-card-tint
                #:rounding '(rounded-xl)
-               #:border '(border-2
-                          border-stone-500/25
-                          dark:border-onyx-100/25)
+               #:border '(border-2 border-stone-500/25 dark:border-onyx-100/25)
                #:shadow '()
                #:padding '(py-5 px-5)
                #:classes (append notification-card-classes card-classes)))

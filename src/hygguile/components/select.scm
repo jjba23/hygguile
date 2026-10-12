@@ -33,14 +33,15 @@ A string is already that text; a symbol or a number is written the way the
 serializer would write it, so a value and a @code{selected-value} given in
 different shapes still name the same option."
   (cond
-    ((string? value) value)
-    ((symbol? value) (symbol->string value))
+    ((string? value)
+     value)
+    ((symbol? value)
+     (symbol->string value))
     (else (format #f "~a" value))))
 
 (define (control-value= one two)
   "True when @var{one} and @var{two} name the same control value."
-  (and one
-       two
+  (and one two
        (string=? (control-value one)
                  (control-value two))))
 
@@ -49,8 +50,10 @@ different shapes still name the same option."
   (and (pair? node)
        (pair? (cdr node))
        (pair? (cadr node))
-       (eq? (car (cadr node)) '@)
-       (pair? (assq name (cdr (cadr node))))
+       (eq? (car (cadr node))
+            '@)
+       (pair? (assq name
+                    (cdr (cadr node))))
        #t))
 
 (define* (option #:key value
@@ -127,7 +130,8 @@ A boolean disabling every row of the group at once.
           #:options (list (glyph-option #:value \"nl\" #:glyph \"🇳🇱\" #:content \"Nederlands\")
                           (glyph-option #:value \"es\" #:glyph \"🇪🇸\" #:content \"Español\")))
 @end example"
-  `((optgroup (@ ,@(attr-when label 'label label)
+  `((optgroup (@ ,@(attr-when label
+                              'label label)
                  ,@(if disabled
                        '((disabled ""))
                        '()))
@@ -170,9 +174,9 @@ A boolean marking the option as not choosable.
           #:selected-value selected-value
           #:disabled disabled
           #:family family
-          #:content (format #f "~a ~a"
-                            glyph
-                            (if content content (control-value value)))))
+          #:content (format #f "~a ~a" glyph
+                            (if content content
+                                (control-value value)))))
 
 ;; Every dropdown states its selection. A menu whose rows all say nothing
 ;; is drawn by the browser with its own fallback -- the first row that is
@@ -183,13 +187,15 @@ A boolean marking the option as not choosable.
   "True when @var{entry} is one option of a menu."
   (and (pair? entry)
        (pair? (car entry))
-       (eq? (car (car entry)) 'option)))
+       (eq? (car (car entry))
+            'option)))
 
 (define (optgroup-entry? entry)
   "True when @var{entry} is one group of options standing in a menu."
   (and (pair? entry)
        (pair? (car entry))
-       (eq? (car (car entry)) 'optgroup)))
+       (eq? (car (car entry))
+            'optgroup)))
 
 (define (group-rows entry)
   "The rows of a group, in the order they are written."
@@ -198,26 +204,33 @@ A boolean marking the option as not choosable.
 (define (choosable-option? entry)
   "True when @var{entry} is an option a reader can pick."
   (and (option-entry? entry)
-       (not (attribute? (car entry) 'disabled))))
+       (not (attribute? (car entry)
+                        'disabled))))
 
 (define (selected-entry? entry)
   "True when @var{entry} states a selection, its own or a group's."
   (cond
-    ((option-entry? entry) (attribute? (car entry) 'selected))
-    ((optgroup-entry? entry) (any selected-entry? (group-rows entry)))
+    ((option-entry? entry)
+     (attribute? (car entry)
+                 'selected))
+    ((optgroup-entry? entry)
+     (any selected-entry?
+          (group-rows entry)))
     (else #f)))
 
 (define (mark-selected entry)
   "Return @var{entry} with its option marked selected."
   (let ((node (car entry)))
     (list (cons* 'option
-                 (cons '@ (append (cdr (cadr node))
-                                  '((selected ""))))
+                 (cons '@
+                       (append (cdr (cadr node))
+                               '((selected ""))))
                  (cddr node)))))
 
 (define (mark-group entry rows)
   "Return @var{entry}, a group, over its own rows."
-  (list (cons* 'optgroup (cadr (car entry)) rows)))
+  (list (cons* 'optgroup
+               (cadr (car entry)) rows)))
 
 (define (mark-first-choosable entries blocked?)
   "Return @code{(@var{marked} . @var{entries})} with the first choosable
@@ -229,22 +242,33 @@ menu whose rows are grouped still states the row at the top. Nothing is
 marked inside a disabled group, and the rows of such a group are left
 exactly as they were."
   (if (null? entries)
-      (cons #f '())
+      (cons #f
+            '())
       (let ((entry (car entries)))
         (cond
-          ((and (not blocked?) (choosable-option? entry))
-           (cons #t (cons (mark-selected entry) (cdr entries))))
-          ((and (not blocked?) (optgroup-entry? entry))
-           (let ((inside (mark-first-choosable
-                          (group-rows entry)
-                          (attribute? (car entry) 'disabled))))
+          ((and (not blocked?)
+                (choosable-option? entry))
+           (cons #t
+                 (cons (mark-selected entry)
+                       (cdr entries))))
+          ((and (not blocked?)
+                (optgroup-entry? entry))
+           (let ((inside (mark-first-choosable (group-rows entry)
+                                               (attribute? (car entry)
+                                                           'disabled))))
              (if (car inside)
-                 (cons #t (cons (mark-group entry (cdr inside))
-                                (cdr entries)))
+                 (cons #t
+                       (cons (mark-group entry
+                                         (cdr inside))
+                             (cdr entries)))
                  (let ((rest (mark-first-choosable (cdr entries) blocked?)))
-                   (cons (car rest) (cons entry (cdr rest)))))))
+                   (cons (car rest)
+                         (cons entry
+                               (cdr rest)))))))
           (else (let ((rest (mark-first-choosable (cdr entries) blocked?)))
-                  (cons (car rest) (cons entry (cdr rest)))))))))
+                  (cons (car rest)
+                        (cons entry
+                              (cdr rest)))))))))
 
 (define (state-selection options)
   "Return @var{options} with one row marked selected.
@@ -254,8 +278,7 @@ the page has said which row it is showing. When none does, the first row
 that can be chosen is marked, which is the row the browser would have
 shown anyway. A menu that is empty, or whose rows are all disabled, is
 left as it is."
-  (if (any selected-entry? options)
-      options
+  (if (any selected-entry? options) options
       (cdr (mark-first-choosable options #f))))
 
 (define* (select #:key options
@@ -269,27 +292,27 @@ left as it is."
                  (disabled #f)
                  (family '(font-sans))
                  (select-classes '(w-full max-w-full
-                                        px-3 py-2
-                                        border-2
-                                        border-stone-700
-                                        dark:border-onyx-100
-                                        bg-stone-300/75
-                                        text-onyx-500
-                                        dark:bg-onyx-700
-                                        dark:text-stone-300
-                                        text-md
-                                        rounded-xl
-                                        shadow-md
-                                        cursor-pointer
-                                        transition-colors
-                                        duration-150
-                                        focus-visible:outline-2
-                                        focus-visible:outline-offset-2
-                                        outline-onyx-500))
+                                          px-3
+                                          py-2
+                                          border-2
+                                          border-stone-700
+                                          dark:border-onyx-100
+                                          bg-stone-300/75
+                                          text-onyx-500
+                                          dark:bg-onyx-700
+                                          dark:text-stone-300
+                                          text-md
+                                          rounded-xl
+                                          shadow-md
+                                          cursor-pointer
+                                          transition-colors
+                                          duration-150
+                                          focus-visible:outline-2
+                                          focus-visible:outline-offset-2
+                                          outline-onyx-500))
                  (label-css '(text-lg font-light text-onyx-100
                                       dark:text-stone-300 font-sans py-2))
-                 (select-flex-css '(my-2 flex flex-col gap-2 w-full
-                                         sm:w-fit)))
+                 (select-flex-css '(my-2 flex flex-col gap-2 w-full sm:w-fit)))
   "Construct a dropdown list interactive selection menu wrapper.
 
 The menu fills its container on phones and, from the small breakpoint up,
@@ -355,10 +378,13 @@ List of symbols regulating structure container box margins and gaps.
         #:on-change \"console.log('Changed!')\")
 @end example"
   (let* ((field-id (if id id name))
-         (error-id (and field-id (format #f "~a-error" field-id)))
-         (help-id (and field-id (format #f "~a-help" field-id)))
+         (error-id (and field-id
+                        (format #f "~a-error" field-id)))
+         (help-id (and field-id
+                       (format #f "~a-help" field-id)))
          (described-by (cond
-                         ((and help-text error) (format #f "~a ~a" help-id error-id))
+                         ((and help-text error)
+                          (format #f "~a ~a" help-id error-id))
                          (error error-id)
                          (help-text help-id)
                          (else #f)))
@@ -366,17 +392,23 @@ List of symbols regulating structure container box margins and gaps.
     `((div (@ (class ,(mk-class select-flex-css)))
            ,@(if label
                  `((label (@ (class ,(mk-class label-css))
-                             ,@(attr-when field-id 'for field-id))
+                             ,@(attr-when field-id
+                                          'for field-id))
                           ,label))
                  '())
-           (select (@ ,@(attr-when name 'name name)
-                      ,@(attr-when field-id 'id field-id)
-                      ,@(attr-when on-change 'onchange on-change)
-                      ,@(attr-when described-by 'aria-describedby described-by)
+           (select (@ ,@(attr-when name
+                                   'name name)
+                      ,@(attr-when field-id
+                                   'id field-id)
+                      ,@(attr-when on-change
+                                   'onchange on-change)
+                      ,@(attr-when described-by
+                                   'aria-describedby described-by)
                       ,@(if (or required error)
                             '((aria-required "true"))
                             '())
-                      ,@(attr-when error 'aria-invalid "true")
+                      ,@(attr-when error
+                                   'aria-invalid "true")
                       ,@(if required
                             '((required ""))
                             '())
@@ -391,8 +423,8 @@ List of symbols regulating structure container box margins and gaps.
                  `((p (@ (id ,error-id)
                          (role alert)
                          (class ,(mk-class '(text-sm font-medium
-                                                     text-redwood-700
-                                                     dark:text-light-coral-100))))
+                                             text-redwood-700
+                                             dark:text-light-coral-100))))
                       ,error))
                  '())
            ,@(if help-text

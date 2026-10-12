@@ -46,96 +46,118 @@
 ;; ===== the page body =====
 
 (define (page-main)
-  (list
-   (h1 "A minimal hygguile page")
+  (list (h1 "A minimal hygguile page")
 
-   (p (list "Server-rendered, accessible, and " (strong "readable")
-            " in both themes. Press " (kbd "Ctrl") " " (kbd "l") " in a real "
-            "browser, or follow "
-            (a "this link" #:href "https://codeberg.org/jjba23/hygguile")
-            "."))
-   (p (list "Rendered " (time "11 October 2026" #:datetime "2026-10-11")
-            " by hygguile."))
+        (p (list "Server-rendered, accessible, and "
+                 (strong "readable")
+                 " in both themes. Press "
+                 (kbd "Ctrl")
+                 " "
+                 (kbd "l")
+                 " in a real "
+                 "browser, or follow "
+                 (a "this link"
+                    #:href "https://codeberg.org/jjba23/hygguile")
+                 "."))
+        (p (list "Rendered "
+                 (time "11 October 2026"
+                       #:datetime "2026-10-11") " by hygguile."))
 
-   ;; ---- cards and stats ----
-   `(div (@ (class ,(mk-class '(grid sm:grid-cols-2 gap-4 my-6))))
-         ,(card (list (card-header (h3 "Active users" #:size '(text-lg)))
-                      (card-body (list
-                                  (stat-card #:value "1,204"
-                                             #:label "Active users"
-                                             #:trend "+12%"
-                                             #:trend-variant 'success)
-                                  (badge "new" #:variant 'info))))))
+        ;; ---- cards and stats ----
+        `(div (@ (class ,(mk-class '(grid sm:grid-cols-2 gap-4 my-6))))
+              ,(card (list (card-header (h3 "Active users"
+                                            #:size '(text-lg)))
+                           (card-body (list (stat-card #:value "1,204"
+                                                       #:label "Active users"
+                                                       #:trend "+12%"
+                                                       #:trend-variant 'success)
+                                            (badge "new"
+                                                   #:variant 'info))))))
 
-   ;; ---- feedback ----
-   (alert #:title "Heads up"
-          #:body "Your session expires in ten minutes."
-          #:variant 'warning)
-   (progress #:value 72 #:show-value #t)
+        ;; ---- feedback ----
+        (alert #:title "Heads up"
+               #:body "Your session expires in ten minutes."
+               #:variant 'warning)
+        (progress #:value 72
+                  #:show-value #t)
 
-   ;; ---- a native form: labels bound to fields, browser validation, none
-   ;; of it needing a line of client-side code ----
-   (form (list (input #:label "Your email:"
-                      #:name "email"
-                      #:type 'email
-                      #:autocomplete "email"
-                      #:required #t)
-               (input #:label "Password:"
-                      #:name "password"
-                      #:type 'password
-                      #:autocomplete "current-password"
-                      #:help-text "At least twelve characters."
-                      #:required #t))
-         #:action "/subscribe"
-         #:submit "Subscribe")
+        ;; ---- a native form: labels bound to fields, browser validation, none
+        ;; of it needing a line of client-side code ----
+        (form (list (input #:label "Your email:"
+                           #:name "email"
+                           #:type 'email
+                           #:autocomplete "email"
+                           #:required #t)
+                    (input #:label "Password:"
+                           #:name "password"
+                           #:type 'password
+                           #:autocomplete "current-password"
+                           #:help-text "At least twelve characters."
+                           #:required #t))
+              #:action "/subscribe"
+              #:submit "Subscribe")
 
-   ;; ---- tabular data, with the caption assistive technology reads out ----
-   (table (list (thead (list (tr (list (th "Plan" #:scope 'col)
-                                      (th "Seats" #:scope 'col #:numeric #t)))))
-                (tbody (list (tr (list (td "Cozy")
-                                       (td "3" #:numeric #t)))))
-                (tfoot (list (tr (list (th "Total" #:scope 'row)
-                                       (td "3" #:numeric #t))))))
-          #:caption "Plans")
+        ;; ---- tabular data, with the caption assistive technology reads out ----
+        (table (list (thead (list (tr (list (th "Plan"
+                                                #:scope 'col)
+                                            (th "Seats"
+                                                #:scope 'col
+                                                #:numeric #t)))))
+                     (tbody (list (tr (list (td "Cozy")
+                                            (td "3"
+                                                #:numeric #t)))))
+                     (tfoot (list (tr (list (th "Total"
+                                                #:scope 'row)
+                                            (td "3"
+                                                #:numeric #t))))))
+               #:caption "Plans")
 
-   ;; ---- a disclosure that is just <details> and <summary> ----
-   (details (p "Plain <details> and <summary>, straight from the browser.")
-            #:summary "Why so much native HTML?")
+        ;; ---- a disclosure that is just <details> and <summary> ----
+        (details (p
+                  "Plain <details> and <summary>, straight from the browser.")
+                 #:summary "Why so much native HTML?")
 
-   ;; ---- page navigation ----
-   (pagination #:current 2 #:total 4 #:base-url "?page=")))
+        ;; ---- page navigation ----
+        (pagination #:current 2
+                    #:total 4
+                    #:base-url "?page=")))
 
 (define (page-body)
-  `((navbar ,(list (nav-link "Home" #:href "#" #:active #t)
-                   (nav-link "Docs" #:href "#docs")
-                   (nav-link "About" #:href "#about"))
+  `((navbar ,(list (nav-link "Home"
+                             #:href "#"
+                             #:active #t)
+                   (nav-link "Docs"
+                             #:href "#docs")
+                   (nav-link "About"
+                             #:href "#about"))
             #:brand "hygguile")
     ;; with-footer wraps a page in a real <main> landmark plus a <footer>
-    ,(with-footer
-      #:main (page-main)
-      #:footer (footer (list (p "hygguile is free software, LGPL-3.0-or-later."))))))
+    ,(with-footer #:main (page-main)
+                  #:footer (footer (list (p
+                                          "hygguile is free software, LGPL-3.0-or-later."))))))
 
 ;; ===== the page shell =====
 
 (define* (html-template #:key title body)
-  `(,doctype-html
-    (html (@ (lang en))
-          (head (title ,title)
-                ,(hygguile-recommended-meta)
-                ,(hygguile-recommended-resources)
-                ;; serving olive.min.css as a cacheable file beats inlining
-                ;; a few hundred kilobytes into every response
-                (link (@ (rel stylesheet) (href "olive.min.css"))))
-          (body (@ (class ,(mk-class '(bg-stone-100 dark:bg-onyx-900
-                                                 font-sans))))
-                ,notification-tray
-                ,@body))))
+  `(,doctype-html (html (@ (lang en))
+                        (head (title ,title)
+                              ,(hygguile-recommended-meta)
+                              ,(hygguile-recommended-resources)
+                              ;; serving olive.min.css as a cacheable file beats inlining
+                              ;; a few hundred kilobytes into every response
+                              (link (@ (rel stylesheet)
+                                       (href "olive.min.css"))))
+                        (body (@ (class ,(mk-class '(bg-stone-100
+                                                     dark:bg-onyx-900
+                                                     font-sans))))
+                              ,notification-tray
+                              ,@body))))
 
 (define (example)
-  (with-output-to-string
-    (lambda ()
-      (sxml->xml (html-template #:title "hygguile minimal example"
-                                #:body (page-body))))))
+  (with-output-to-string (lambda ()
+                           (sxml->xml (html-template #:title
+                                       "hygguile minimal example"
+                                       #:body (page-body))))))
 
 ;; ===== run =====
 
@@ -143,4 +165,6 @@
   (lambda ()
     (display (example))))
 
-(display "\n>>= wrote dist/example.html (serve it with: maak serve)\n")
+(display "
+>>= wrote dist/example.html (serve it with: maak serve)
+")

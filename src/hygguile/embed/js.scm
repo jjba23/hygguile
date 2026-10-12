@@ -15,19 +15,361 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
+(define-module (hygguile embed js)
+  #:declarative? #t
+  #:export (carousel-button-js copy-pre-inner-text-js color-show-js fly-out-js
+                               remember-dark-theme-js toggle-dark-theme-js))
 
-(define-module (hygguile embed js) 
- #:declarative? #t 
- #:export (carousel-button-js copy-pre-inner-text-js color-show-js fly-out-js remember-dark-theme-js toggle-dark-theme-js))
+(define-public (carousel-button-js)
+  '((script (@ (type "text/javascript")
+               (defer ""))
+     "/*
+  hygguile - cozy and professional user-interfaces for everyone
 
-(define-public (carousel-button-js) (quote ((script (@ (type "text/javascript") (defer "")) "/*\n  hygguile - cozy and professional user-interfaces for everyone\n\n  Copyright © Josep Bigorra <jjbigorra@gmail.com>\n\n  hygguile is free software: you can redistribute it and/or modify\n  it under the terms of the Lesser GNU General Public License as published\n  by the Free Software Foundation, either version 3 of the License, or\n  (at your option) any later version.\n\n  hygguile is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  Lesser GNU General Public License for more details.\n\n  You should have received a copy of the Lesser GNU General Public License\n  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.\n*/\n\nconst carouselItems = (list) => Array.from(list.querySelectorAll('.carousel-list-item'))\n\nconst carouselCentres = (list, items) => {\n  const listCentre = list.getBoundingClientRect().left + list.clientWidth / 2\n  const centres = items.map((item) => {\n    const rect = item.getBoundingClientRect()\n    return rect.left + rect.width / 2\n  })\n  const nearest = centres.reduce((best, itemCentre, index) => {\n    if (Math.abs(itemCentre - listCentre) < Math.abs(centres[best] - listCentre)) {\n      return index\n    }\n    return best\n  }, 0)\n  return { listCentre, centres, nearest }\n}\n\n// a real function declaration, so the inline onclick attributes emitted by\n// the component always find it on the global scope\nfunction handleCarouselClick(direction, id) {\n  const list = document.getElementById(id)\n  if (!list) {\n    return\n  }\n  const items = carouselItems(list)\n  if (!items.length) {\n    return\n  }\n  // the items are centred snap points, so page one item at a time by\n  // measuring where each one actually sits instead of guessing a step;\n  // this keeps the gap between items (which changes at the responsive\n  // breakpoints) and any width difference honest\n  const { listCentre, centres, nearest } = carouselCentres(list, items)\n  const step = direction === 'previous' ? -1 : 1\n  const target = Math.min(Math.max(nearest + step, 0), items.length - 1)\n  list.scrollBy({ left: centres[target] - listCentre, behavior: 'smooth' })\n}\n"))))
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
 
-(define-public (copy-pre-inner-text-js) (quote ((script (@ (type "text/javascript") (defer "")) "/*\n  hygguile - cozy and professional user-interfaces for everyone\n\n  Copyright © Josep Bigorra <jjbigorra@gmail.com>\n\n  hygguile is free software: you can redistribute it and/or modify\n  it under the terms of the Lesser GNU General Public License as published by\n  the Free Software Foundation, either version 3 of the License, or\n  (at your option) any later version.\n\n  hygguile is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  Lesser GNU General Public License for more details.\n\n  You should have received a copy of the Lesser GNU General Public License\n  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.\n*/\n\nfunction hygguileCopyPreInnerText(elementId) {\n  const id = elementId + '-pre'\n  console.log('copying inner text of element: ' + id)\n\n  var el = document.getElementById(id)\n\n  navigator.clipboard.writeText(el.innerText)\n\n  console.log(el.innerText)\n}\n"))))
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published
+  by the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-(define-public (color-show-js) (quote ((script (@ (type "text/javascript") (defer "")) "/*\n  hygguile - cozy and professional user-interfaces for everyone\n\n  Copyright © Josep Bigorra <jjbigorra@gmail.com>\n\n  hygguile is free software: you can redistribute it and/or modify\n  it under the terms of the Lesser GNU General Public License as published by\n  the Free Software Foundation, either version 3 of the License, or\n  (at your option) any later version.\n\n  hygguile is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  Lesser GNU General Public License for more details.\n\n  You should have received a copy of the Lesser GNU General Public License\n  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.\n*/\n\nfunction cycleBgClass(currentClass) {\n  const parts = currentClass.split('-')\n  const currentNumber = parseInt(parts.toReversed()[0], 10)\n  const nextNumber = currentNumber >= 900 ? 100 : currentNumber + 200\n  const startParts = parts.slice(0, parts.length - 1).join(\"-\")\n\n  return `${startParts}-${nextNumber}`\n}\n\nfunction cycleColorShow(el) {\n  const currentClass = [...el.classList].find(cls => cls.startsWith('bg-'))\n  const newClass = cycleBgClass(currentClass)\n  el.classList.toggle(currentClass)\n  el.classList.toggle(newClass)\n  el.children[0].innerText = newClass.replace(\"bg-\", \"\")\n}\n"))))
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
 
-(define-public (fly-out-js) (quote ((script (@ (type "text/javascript") (defer "")) "/*\n  hygguile - cozy and professional user-interfaces for everyone\n\n  Copyright © Josep Bigorra <jjbigorra@gmail.com>\n\n  hygguile is free software: you can redistribute it and/or modify\n  it under the terms of the Lesser GNU General Public License as published by\n  the Free Software Foundation, either version 3 of the License, or\n  (at your option) any later version.\n\n  hygguile is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  Lesser GNU General Public License for more details.\n\n  You should have received a copy of the Lesser GNU General Public License\n  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.\n*/\n\nconst closeMenu = (button, menu) => {\n  button.setAttribute('aria-expanded', 'false')\n  menu.hidden = true\n}\n\nconst openMenu = (button, menu) => {\n  button.setAttribute('aria-expanded', 'true')\n  menu.hidden = false\n}\n\nconst closeAllOpenMenus = () => {\n  const menuContainers = document.querySelectorAll('.flyout-menu-container')\n  menuContainers.forEach(menuContainer => {\n    const menuButton = menuContainer.querySelector('.flyout-submenu-button')\n    if (menuButton) {\n      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'\n      if (isExpanded) {\n        menuButton.click()\n      }\n    }\n  })\n}\n\nconst HOVER_DELAY = 2000\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  const menuContainers = document.querySelectorAll('.flyout-menu-container')\n\n  menuContainers.forEach(menuContainer => {\n    let hoverTimer\n    menuContainer.addEventListener('mouseenter', () => {\n      hoverTimer = setTimeout(() => {\n        const menuButton = menuContainer.querySelector('.flyout-submenu-button')\n        if (menuButton) {\n          const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'\n\n          if (!isExpanded) {\n            closeAllOpenMenus()\n            menuButton.click()\n          }\n        }\n      }, HOVER_DELAY)\n    })\n\n    menuContainer.addEventListener('mouseleave', () => {\n      clearTimeout(hoverTimer)\n    })\n  })\n\n  menuContainers.forEach(menuContainer => {\n    const menuButton = menuContainer.querySelector('.flyout-submenu-button')\n    const dropdownMenu = menuContainer.querySelector('.flyout-submenu')\n\n    if (!menuButton || !dropdownMenu) {\n      return\n    }\n\n    const menuItems = dropdownMenu.querySelectorAll('a[href], button:not([disabled])')\n    const firstMenuItem = menuItems[0]\n    const lastMenuItem = menuItems[menuItems.length - 1]\n\n    menuButton.addEventListener('click', (event) => {\n      event.preventDefault()\n      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'\n      if (isExpanded) {\n        closeMenu(menuButton, dropdownMenu)\n      } else {\n        closeAllOpenMenus()\n        openMenu(menuButton, dropdownMenu)\n      }\n    })\n\n    menuButton.addEventListener('keydown', (event) => {\n      if (event.key === 'ArrowDown') {\n        event.preventDefault()\n        openMenu(menuButton, dropdownMenu)\n        if (firstMenuItem) {\n          firstMenuItem.focus()\n        }\n      } else if (event.key === 'Escape') {\n        closeMenu(menuButton, dropdownMenu)\n        menuButton.focus()\n      }\n    })\n\n    dropdownMenu.addEventListener('keydown', (event) => {\n      const { key } = event\n      const activeElement = document.activeElement\n\n      if (key === 'Escape') {\n        closeMenu(menuButton, dropdownMenu)\n        menuButton.focus()\n        return\n      }\n\n      if (key === 'ArrowUp') {\n        event.preventDefault()\n        if (activeElement === firstMenuItem) {\n          lastMenuItem.focus()\n        } else {\n          const currentIndex = Array.from(menuItems).indexOf(activeElement)\n          if (currentIndex > 0) {\n            menuItems[currentIndex - 1].focus()\n          }\n        }\n      } else if (key === 'ArrowDown') {\n        event.preventDefault()\n        if (activeElement === lastMenuItem) {\n          firstMenuItem.focus()\n        } else {\n          const currentIndex = Array.from(menuItems).indexOf(activeElement)\n          if (currentIndex < menuItems.length - 1) {\n            menuItems[currentIndex + 1].focus()\n          }\n        }\n      }\n    })\n  })\n})\n"))))
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
-(define-public (remember-dark-theme-js) (quote ((script (@ (type "text/javascript") (defer "")) "/*\n  hygguile - cozy and professional user-interfaces for everyone\n\n  Copyright © Josep Bigorra <jjbigorra@gmail.com>\n\n  hygguile is free software: you can redistribute it and/or modify\n  it under the terms of the Lesser GNU General Public License as published by\n  the Free Software Foundation, either version 3 of the License, or\n  (at your option) any later version.\n\n  hygguile is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  Lesser GNU General Public License for more details.\n\n  You should have received a copy of the Lesser GNU General Public License\n  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.\n*/\n\ndocument.addEventListener('DOMContentLoaded', () => {\n  const themePreference = localStorage.getItem('data-theme')\n  if (themePreference === 'dark') {\n    document.documentElement.setAttribute('data-theme', 'dark')\n  } else if (themePreference === 'light') {\n    document.documentElement.setAttribute('data-theme', 'light')\n  }\n})\n"))))
+const carouselItems = (list) => Array.from(list.querySelectorAll('.carousel-list-item'))
 
-(define-public (toggle-dark-theme-js) (quote ((script (@ (type "text/javascript") (defer "")) "/*\n  hygguile - cozy and professional user-interfaces for everyone\n\n  Copyright © Josep Bigorra <jjbigorra@gmail.com>\n\n  hygguile is free software: you can redistribute it and/or modify\n  it under the terms of the Lesser GNU General Public License as published by\n  the Free Software Foundation, either version 3 of the License, or\n  (at your option) any later version.\n\n  hygguile is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  Lesser GNU General Public License for more details.\n\n  You should have received a copy of the Lesser GNU General Public License\n  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.\n*/\n\nfunction hygguileSaveDarkThemePreference(preference) {\n  document.documentElement.setAttribute('data-theme', preference)\n  localStorage.setItem('data-theme', preference)\n}\n\nfunction hygguileToggleDarkTheme() {\n  const currentTheme = document.documentElement.getAttribute('data-theme')\n  if (currentTheme == null) {\n    //\n    // by default set dark since hygguile has a light theme by default\n    //\n    hygguileSaveDarkThemePreference('dark')\n  } else {\n    if (currentTheme == 'dark') {\n      hygguileSaveDarkThemePreference('light')\n    } else {\n      hygguileSaveDarkThemePreference('dark')\n    }\n  }\n}\n"))))
+const carouselCentres = (list, items) => {
+  const listCentre = list.getBoundingClientRect().left + list.clientWidth / 2
+  const centres = items.map((item) => {
+    const rect = item.getBoundingClientRect()
+    return rect.left + rect.width / 2
+  })
+  const nearest = centres.reduce((best, itemCentre, index) => {
+    if (Math.abs(itemCentre - listCentre) < Math.abs(centres[best] - listCentre)) {
+      return index
+    }
+    return best
+  }, 0)
+  return { listCentre, centres, nearest }
+}
+
+// a real function declaration, so the inline onclick attributes emitted by
+// the component always find it on the global scope
+function handleCarouselClick(direction, id) {
+  const list = document.getElementById(id)
+  if (!list) {
+    return
+  }
+  const items = carouselItems(list)
+  if (!items.length) {
+    return
+  }
+  // the items are centred snap points, so page one item at a time by
+  // measuring where each one actually sits instead of guessing a step;
+  // this keeps the gap between items (which changes at the responsive
+  // breakpoints) and any width difference honest
+  const { listCentre, centres, nearest } = carouselCentres(list, items)
+  const step = direction === 'previous' ? -1 : 1
+  const target = Math.min(Math.max(nearest + step, 0), items.length - 1)
+  list.scrollBy({ left: centres[target] - listCentre, behavior: 'smooth' })
+}
+")))
+
+(define-public (copy-pre-inner-text-js)
+  '((script (@ (type "text/javascript")
+               (defer ""))
+     "/*
+  hygguile - cozy and professional user-interfaces for everyone
+
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+function hygguileCopyPreInnerText(elementId) {
+  const id = elementId + '-pre'
+  console.log('copying inner text of element: ' + id)
+
+  var el = document.getElementById(id)
+
+  navigator.clipboard.writeText(el.innerText)
+
+  console.log(el.innerText)
+}
+")))
+
+(define-public (color-show-js)
+  '((script (@ (type "text/javascript")
+               (defer ""))
+     "/*
+  hygguile - cozy and professional user-interfaces for everyone
+
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+function cycleBgClass(currentClass) {
+  const parts = currentClass.split('-')
+  const currentNumber = parseInt(parts.toReversed()[0], 10)
+  const nextNumber = currentNumber >= 900 ? 100 : currentNumber + 200
+  const startParts = parts.slice(0, parts.length - 1).join(\"-\")
+
+  return `${startParts}-${nextNumber}`
+}
+
+function cycleColorShow(el) {
+  const currentClass = [...el.classList].find(cls => cls.startsWith('bg-'))
+  const newClass = cycleBgClass(currentClass)
+  el.classList.toggle(currentClass)
+  el.classList.toggle(newClass)
+  el.children[0].innerText = newClass.replace(\"bg-\", \"\")
+}
+")))
+
+(define-public (fly-out-js)
+  '((script (@ (type "text/javascript")
+               (defer ""))
+     "/*
+  hygguile - cozy and professional user-interfaces for everyone
+
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+const closeMenu = (button, menu) => {
+  button.setAttribute('aria-expanded', 'false')
+  menu.hidden = true
+}
+
+const openMenu = (button, menu) => {
+  button.setAttribute('aria-expanded', 'true')
+  menu.hidden = false
+}
+
+const closeAllOpenMenus = () => {
+  const menuContainers = document.querySelectorAll('.flyout-menu-container')
+  menuContainers.forEach(menuContainer => {
+    const menuButton = menuContainer.querySelector('.flyout-submenu-button')
+    if (menuButton) {
+      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
+      if (isExpanded) {
+        menuButton.click()
+      }
+    }
+  })
+}
+
+const HOVER_DELAY = 2000
+
+document.addEventListener('DOMContentLoaded', () => {
+  const menuContainers = document.querySelectorAll('.flyout-menu-container')
+
+  menuContainers.forEach(menuContainer => {
+    let hoverTimer
+    menuContainer.addEventListener('mouseenter', () => {
+      hoverTimer = setTimeout(() => {
+        const menuButton = menuContainer.querySelector('.flyout-submenu-button')
+        if (menuButton) {
+          const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
+
+          if (!isExpanded) {
+            closeAllOpenMenus()
+            menuButton.click()
+          }
+        }
+      }, HOVER_DELAY)
+    })
+
+    menuContainer.addEventListener('mouseleave', () => {
+      clearTimeout(hoverTimer)
+    })
+  })
+
+  menuContainers.forEach(menuContainer => {
+    const menuButton = menuContainer.querySelector('.flyout-submenu-button')
+    const dropdownMenu = menuContainer.querySelector('.flyout-submenu')
+
+    if (!menuButton || !dropdownMenu) {
+      return
+    }
+
+    const menuItems = dropdownMenu.querySelectorAll('a[href], button:not([disabled])')
+    const firstMenuItem = menuItems[0]
+    const lastMenuItem = menuItems[menuItems.length - 1]
+
+    menuButton.addEventListener('click', (event) => {
+      event.preventDefault()
+      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true'
+      if (isExpanded) {
+        closeMenu(menuButton, dropdownMenu)
+      } else {
+        closeAllOpenMenus()
+        openMenu(menuButton, dropdownMenu)
+      }
+    })
+
+    menuButton.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowDown') {
+        event.preventDefault()
+        openMenu(menuButton, dropdownMenu)
+        if (firstMenuItem) {
+          firstMenuItem.focus()
+        }
+      } else if (event.key === 'Escape') {
+        closeMenu(menuButton, dropdownMenu)
+        menuButton.focus()
+      }
+    })
+
+    dropdownMenu.addEventListener('keydown', (event) => {
+      const { key } = event
+      const activeElement = document.activeElement
+
+      if (key === 'Escape') {
+        closeMenu(menuButton, dropdownMenu)
+        menuButton.focus()
+        return
+      }
+
+      if (key === 'ArrowUp') {
+        event.preventDefault()
+        if (activeElement === firstMenuItem) {
+          lastMenuItem.focus()
+        } else {
+          const currentIndex = Array.from(menuItems).indexOf(activeElement)
+          if (currentIndex > 0) {
+            menuItems[currentIndex - 1].focus()
+          }
+        }
+      } else if (key === 'ArrowDown') {
+        event.preventDefault()
+        if (activeElement === lastMenuItem) {
+          firstMenuItem.focus()
+        } else {
+          const currentIndex = Array.from(menuItems).indexOf(activeElement)
+          if (currentIndex < menuItems.length - 1) {
+            menuItems[currentIndex + 1].focus()
+          }
+        }
+      }
+    })
+  })
+})
+")))
+
+(define-public (remember-dark-theme-js)
+  '((script (@ (type "text/javascript")
+               (defer ""))
+     "/*
+  hygguile - cozy and professional user-interfaces for everyone
+
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+document.addEventListener('DOMContentLoaded', () => {
+  const themePreference = localStorage.getItem('data-theme')
+  if (themePreference === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark')
+  } else if (themePreference === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light')
+  }
+})
+")))
+
+(define-public (toggle-dark-theme-js)
+  '((script (@ (type "text/javascript")
+               (defer ""))
+     "/*
+  hygguile - cozy and professional user-interfaces for everyone
+
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+function hygguileSaveDarkThemePreference(preference) {
+  document.documentElement.setAttribute('data-theme', preference)
+  localStorage.setItem('data-theme', preference)
+}
+
+function hygguileToggleDarkTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme')
+  if (currentTheme == null) {
+    //
+    // by default set dark since hygguile has a light theme by default
+    //
+    hygguileSaveDarkThemePreference('dark')
+  } else {
+    if (currentTheme == 'dark') {
+      hygguileSaveDarkThemePreference('light')
+    } else {
+      hygguileSaveDarkThemePreference('dark')
+    }
+  }
+}
+")))

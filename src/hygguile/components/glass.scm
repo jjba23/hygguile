@@ -98,7 +98,8 @@ A strength is a number of rems or any CSS length, so @code{3} and
 @code{\"3rem\"} both mean three rems. It reaches the browser as
 @code{--hg-frost-blur}, the property the frosted layer reads, behind which
 the stylesheet's own 4rem sits as the default."
-  (list (cons '--hg-frost-blur (glass-length frost))))
+  (list (cons '--hg-frost-blur
+              (glass-length frost))))
 
 (define (glass-surface-attributes attributes declarations)
   "Return @var{attributes} with @var{declarations} added to their style.
@@ -108,17 +109,17 @@ style of its own -- a colour, a size -- keeps it: the declarations are
 appended to that style rather than replacing it. A panel with nothing to
 declare is handed back its attributes untouched, and carries no @code{style}
 attribute at all."
-  (if (null? declarations)
-      attributes
+  (if (null? declarations) attributes
       (let ((style (mk-style declarations))
             (hit (assq 'style attributes)))
         (if hit
             (map (lambda (attribute)
                    (if (eq? attribute hit)
-                       (list 'style (string-append (cadr hit) "; " style))
-                       attribute))
+                       (list 'style
+                             (string-append (cadr hit) "; " style)) attribute))
                  attributes)
-            (append attributes (list (list 'style style)))))))
+            (append attributes
+                    (list (list 'style style)))))))
 
 (define* (glass-wash classes
                      #:key (delay #f)
@@ -181,8 +182,7 @@ disc travels as far as the stylesheet's default.
          (distance (glass-wash-ref wash
                                    'distance))
          (x (if (pair? distance)
-                (car distance)
-                distance))
+                (car distance) distance))
          (y (and (pair? distance)
                  (cadr distance)))
          (style (append (if delay
@@ -384,31 +384,29 @@ a panel can lay its contents out without reaching for the surface -- a
          ;; also names its own clip: a blurred disc is painted in the
          ;; square box its blur reaches, so the rounding alone would leave
          ;; a faint square of wash beside each corner (see the sheet)
-         (clip-classes (append '(hg-glass-layer absolute inset-0)
-                               rounding
+         (clip-classes (append '(hg-glass-layer absolute inset-0) rounding
                                '(overflow-hidden)))
          (content-classes* (append '(relative)
                                    (if clip?
-                                       (append rounding '(overflow-hidden))
-                                       '())
-                                   content-classes)))
+                                       (append rounding
+                                               '(overflow-hidden))
+                                       '()) content-classes)))
     `((,tag (@ ,@(glass-surface-attributes attributes declarations)
                (class ,(mk-class (override-classes (append surface padding)
                                                    classes))))
-            ,@(if layers
-                  (list `(div (@ (class ,(mk-class clip-classes)))
-                              ,@(map (lambda (wash)
-                                       (render-glass-wash wash
-                                                          #:drift? drift?)) washes)
-                              ,@(if accent
-                                    (list accent)
-                                    '())))
-                  '())
-            ,@(if (or layers clip?)
-                  (list `(div (@ (class ,(mk-class content-classes*)))
-                              ,content))
-                  ;; a panel with no layer takes its contents directly, and a
-                  ;; single node is as good a content as a list of them
-                  (if (list? content)
-                      content
-                      (list content)))))))
+       ,@(if layers
+             (list `(div (@ (class ,(mk-class clip-classes)))
+                         ,@(map (lambda (wash)
+                                  (render-glass-wash wash
+                                                     #:drift? drift?)) washes)
+                         ,@(if accent
+                               (list accent)
+                               '())))
+             '())
+       ,@(if (or layers clip?)
+             (list `(div (@ (class ,(mk-class content-classes*)))
+                         ,content))
+             ;; a panel with no layer takes its contents directly, and a
+             ;; single node is as good a content as a list of them
+             (if (list? content) content
+                 (list content)))))))

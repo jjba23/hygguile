@@ -38,8 +38,7 @@ above the 4.5:1 contrast ratio of WCAG AA."
                                   dark:text-mantis-100)
            'check-circle))
     ((eq? 'warning variant)
-     (cons '(border-naples-yellow-500 bg-naples-yellow-500/25
-                                      text-coffee-900
+     (cons '(border-naples-yellow-500 bg-naples-yellow-500/25 text-coffee-900
                                       dark:text-naples-yellow-100)
            'warning))
     ((eq? 'danger variant)

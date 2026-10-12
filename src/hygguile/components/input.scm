@@ -19,15 +19,15 @@
   #:use-module (hygguile abstraction)
   #:use-module (hygguile components button)
   #:export (form input
-                  textarea
-                  checkbox
-                  radio
-                  switch
-                  range
-                  fieldset
-                  legend
-                  help-text
-                  form-error))
+                 textarea
+                 checkbox
+                 radio
+                 switch
+                 range
+                 fieldset
+                 legend
+                 help-text
+                 form-error))
 
 (define* (input #:key label
                 name
@@ -192,8 +192,8 @@ List of symbols regulating structure container box margins and gaps.
                  `((p (@ (id ,error-id)
                          (role alert)
                          (class ,(mk-class '(text-sm font-medium
-                                                     text-redwood-700
-                                                     dark:text-light-coral-100))))
+                                             text-redwood-700
+                                             dark:text-light-coral-100))))
                       ,error))
                  '())
            ,@(if help-text
@@ -334,8 +334,8 @@ List of symbols managing outer wrapper responsive card flex constraints.
                  `((p (@ (id ,error-id)
                          (role alert)
                          (class ,(mk-class '(text-sm font-medium
-                                                     text-redwood-700
-                                                     dark:text-light-coral-100))))
+                                             text-redwood-700
+                                             dark:text-light-coral-100))))
                       ,error))
                  '())
            ,@(if help-text
@@ -495,34 +495,32 @@ List of symbols representing the form layout CSS classes.
 @end example"
   `((form (@ ,@(attr-when action
                           'action action)
-            (method ,(if (symbol? method)
-                         (symbol->string method)
-                         method))
-            ,@(attr-when enctype
-                         'enctype
-                         (if (symbol? enctype)
-                             (symbol->string enctype)
-                             enctype))
-            ,@(attr-when target
-                         'target target)
-            ,@(attr-when id
-                         'id id)
-            ,@(attr-when name
-                         'name name)
-            ,@(attr-when autocomplete
-                         'autocomplete autocomplete)
-            ,@(attr-when aria-label
-                         'aria-label aria-label)
-            ,@(if novalidate
-                  '((novalidate ""))
-                  '())
-            (class ,(mk-class form-classes)))
-           ,@content
-           ,@(if submit
-                 ;; submit-button returns a single bare element, so wrap
-                 ;; it before splicing it into the form's children
-                 (list (submit-button submit))
-                 '()))))
+             (method ,(if (symbol? method)
+                          (symbol->string method) method))
+             ,@(attr-when enctype
+                          'enctype
+                          (if (symbol? enctype)
+                              (symbol->string enctype) enctype))
+             ,@(attr-when target
+                          'target target)
+             ,@(attr-when id
+                          'id id)
+             ,@(attr-when name
+                          'name name)
+             ,@(attr-when autocomplete
+                          'autocomplete autocomplete)
+             ,@(attr-when aria-label
+                          'aria-label aria-label)
+             ,@(if novalidate
+                   '((novalidate ""))
+                   '())
+             (class ,(mk-class form-classes)))
+          ,@content
+          ,@(if submit
+                ;; submit-button returns a single bare element, so wrap
+                ;; it before splicing it into the form's children
+                (list (submit-button submit))
+                '()))))
 
 (define* (checkbox #:key label
                    name

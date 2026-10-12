@@ -30,7 +30,8 @@
 (define* (submenu #:optional (ul-class #f))
   "A submenu with two items, wearing UL-CLASS of its own when given one."
   (fly-out-submenu #:button-content (list "Menu")
-                   #:items (list (fly-out-item "One") (fly-out-item "Two"))
+                   #:items (list (fly-out-item "One")
+                                 (fly-out-item "Two"))
                    #:ul-class (or ul-class
                                   '(flyout-submenu z-10
                                                    rounded-xl
@@ -53,13 +54,14 @@
 (define (classes-of html)
   "The dropdown's class list in HTML, or #f."
   (let ((m (string-match "<ul[^>]*class=\"([^\"]*)\"" html)))
-    (and m (match:substring m 1))))
+    (and m
+         (match:substring m 1))))
 
 (define (has-class? classes name)
   "True when a space-separated class string contains exactly NAME."
   (and classes
-       (member name (string-split classes #\space))
-       #t))
+       (member name
+               (string-split classes #\space)) #t))
 
 (define (contains? text needle)
   "True when NEEDLE appears in TEXT."
@@ -91,22 +93,19 @@
                              #:expect 'ul)
                (assert-equal #:name
                              "it is still hidden until the script opens it"
-                             #:got (contains? dropdown-html
-                                    "<ul hidden=\"\"")
+                             #:got (contains? dropdown-html "<ul hidden=\"\"")
                              #:expect #t)
                (assert-equal #:name
-                             "and still carries the class the script looks for"
-                             #:got (has-class? (classes-of dropdown-html)
-                                               "flyout-submenu")
-                             #:expect #t)
+                "and still carries the class the script looks for"
+                #:got (has-class? (classes-of dropdown-html) "flyout-submenu")
+                #:expect #t)
                (assert-equal #:name "the dropdown is glass"
                              #:got (frosted? dropdown-html)
                              #:expect (list #t #t #t))
                (assert-equal #:name
-                             "it is placed under its trigger, not in the flow"
-                             #:got (has-class? (classes-of dropdown-html)
-                                               "absolute")
-                             #:expect #t)
+                "it is placed under its trigger, not in the flow"
+                #:got (has-class? (classes-of dropdown-html) "absolute")
+                #:expect #t)
                (assert-equal #:name "and keeps the shape it always had"
                              #:got (let ((classes (classes-of dropdown-html)))
                                      (list (has-class? classes "rounded-xl")
@@ -115,9 +114,13 @@
                                            (has-class? classes "py-1")
                                            (has-class? classes "z-10")
                                            (has-class? classes "my-2")))
-                             #:expect (list #t #t #t #t #t #t))
-               (assert-equal #:name
-                             "it does not wear the panel's own dress"
+                             #:expect (list #t
+                                            #t
+                                            #t
+                                            #t
+                                            #t
+                                            #t))
+               (assert-equal #:name "it does not wear the panel's own dress"
                              #:got (let ((classes (classes-of dropdown-html)))
                                      (list (has-class? classes "rounded-3xl")
                                            (has-class? classes "border-2")
@@ -128,12 +131,11 @@
                              "a menu item is a direct child of the list"
                              #:got (count-of dropdown-html "<div")
                              #:expect 0)
-               (assert-equal #:name
-                             "a caller's classes do not cost the frost"
+               (assert-equal #:name "a caller's classes do not cost the frost"
                              #:got (append (frosted? custom-html)
-                                           (list (has-class?
-                                                  (classes-of custom-html)
-                                                  "my-dropdown")))
+                                           (list (has-class? (classes-of
+                                                              custom-html)
+                                                             "my-dropdown")))
                              #:expect (list #t #t #t #t))
                (assert-equal #:name
                              "the trigger still announces what it controls"
@@ -141,7 +143,7 @@
                                      (list (contains? html "aria-haspopup")
                                            (contains? html "aria-expanded")
                                            (contains? html
-                                                      "aria-controls=\"submenu\"")))
+                                            "aria-controls=\"submenu\"")))
                              #:expect (list #t #t #t)))))
 
 (define (spec)

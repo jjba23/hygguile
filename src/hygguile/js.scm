@@ -97,13 +97,18 @@ Extra classes for the notification's frosted card, appended to the panel's own.
 @end example"
   (let ((card (call-with-output-string (lambda (port)
                                          (sxml->xml (notification-card
-                                                     #:header-classes header-classes
-                                                     #:close-icon-on-click close-icon-on-click
-                                                     #:close-icon-classes close-icon-classes
-                                                     #:title-container-classes title-container-classes
-                                                     #:card-classes card-classes)
-                                                    port)))))
-    `((script ,(format #f "
+                                                     #:header-classes
+                                                     header-classes
+                                                     #:close-icon-on-click
+                                                     close-icon-on-click
+                                                     #:close-icon-classes
+                                                     close-icon-classes
+                                                     #:title-container-classes
+                                                     title-container-classes
+                                                     #:card-classes
+                                                     card-classes) port)))))
+    `((script ,(format #f
+                "
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     if(params.get('notify-body') == null && params.get('notify-title') == null){
@@ -127,4 +132,4 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => { notificationTray.innerHTML = '' }, notificationDurationMillis);
 })
 "
-                     card)))))
+                card)))))

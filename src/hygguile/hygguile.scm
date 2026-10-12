@@ -37,7 +37,8 @@
   #:use-module (hygguile components carousel)
   #:use-module (hygguile components glass)
   #:use-module (hygguile css)
-  #:re-export (a abbr accordion
+  #:re-export (a abbr
+                 accordion
                  accordion-item
                  alert
                  avatar

@@ -15,13 +15,821 @@
 ;; You should have received a copy of the Lesser GNU General Public License
 ;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
+(define-module (hygguile embed css)
+  #:declarative? #t
+  #:export (fly-out-css hygguile-extras-css no-js-css))
 
-(define-module (hygguile embed css) 
- #:declarative? #t 
- #:export (fly-out-css hygguile-extras-css no-js-css))
+(define-public (fly-out-css)
+  '((style (@ (type "text/css"))
+     "/*
+  hygguile - cozy and professional user-interfaces for everyone
 
-(define-public (fly-out-css) (quote ((style (@ (type "text/css")) "/*\n  hygguile - cozy and professional user-interfaces for everyone\n\n  Copyright © Josep Bigorra <jjbigorra@gmail.com>\n\n  hygguile is free software: you can redistribute it and/or modify\n  it under the terms of the Lesser GNU General Public License as published by\n  the Free Software Foundation, either version 3 of the License, or\n  (at your option) any later version.\n\n  hygguile is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  Lesser GNU General Public License for more details.\n\n  You should have received a copy of the Lesser GNU General Public License\n  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.\n*/\n                                     \n/* Flyout menu / dropdown */\n.flyout-submenu-button[aria-expanded=\"true\"]::after {\n  content: \"↑\";\n  padding-left: 0.8em;\n}\n\n.flyout-submenu-button[aria-expanded=\"false\"]::after {\n  content: \"↓\";\n  padding-left: 0.8em;\n}\n\n.flyout-submenu[hidden] {\n  display: none;\n}\n"))))
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
 
-(define-public (hygguile-extras-css) (quote ((style (@ (type "text/css")) "/*\n  hygguile - cozy and professional user-interfaces for everyone\n\n  Copyright © Josep Bigorra <jjbigorra@gmail.com>\n\n  hygguile is free software: you can redistribute it and/or modify\n  it under the terms of the Lesser GNU General Public License as published by\n  the Free Software Foundation, either version 3 of the License, or\n  (at your option) any later version.\n\n  hygguile is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  Lesser GNU General Public License for more details.\n\n  You should have received a copy of the Lesser GNU General Public License\n  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.\n*/\n\n/*\n  Companion stylesheet for hygguile.\n\n  Olive CSS intentionally only ships utility classes. A handful of\n  components need a little structural CSS that cannot be expressed with\n  single utilities (the styling of native <progress> and <details>, the\n  CSS-only tabs, switch, modal and tooltip widgets). Everything here is\n  plain, dependency-free CSS and works without JavaScript.\n\n  Wherever Olive already provides the feature we lean on its utilities\n  instead of reimplementing it: screen-reader-only text uses `sr-only`,\n  loading animations use `animate-spin` and `animate-pulse`, and focus\n  rings use the `focus-visible:outline-*` variants.\n*/\n\n/* ===== A couple of missing intrinsic-size utilities ===== */\n\n.h-auto {\n  height: auto;\n}\n\n.w-auto {\n  width: auto;\n}\n\n/* ===== Spinner =====\n\n   Only the ring visual lives here; the rotation is Olive's\n   `animate-spin` utility, applied by the component itself. */\n\n.hg-spinner {\n  border-radius: 50%;\n  border: 0.25rem solid rgba(120, 113, 108, 0.35);\n  border-top-color: #57534e;\n}\n\n[data-theme=\"dark\"] .hg-spinner {\n  border-color: rgba(214, 211, 209, 0.25);\n  border-top-color: #d6d3d1;\n}\n\n/* ===== A readable default ink =====\n\n   Components carry their own colour classes, but text a page does not\n   decorate must still be readable, and Olive ships no base ink of its own.\n   Both rules land before olive.min.css in the document, so a `text-*`\n   utility anywhere in the markup still wins over them. */\n\nbody {\n  color: #1c1917;\n}\n\n[data-theme=\"dark\"] body {\n  color: #ededee;\n}\n\n/* ===== Native progress bar ===== */\n\n.hg-progress {\n  width: 100%;\n  height: 1rem;\n  border: 0;\n  border-radius: 81.92rem;\n  overflow: hidden;\n  appearance: none;\n  -webkit-appearance: none;\n  background: rgba(120, 113, 108, 0.25);\n}\n\n.hg-progress::-webkit-progress-bar {\n  background: rgba(120, 113, 108, 0.25);\n  border-radius: 81.92rem;\n}\n\n.hg-progress::-webkit-progress-value {\n  background: #57534e;\n  border-radius: 81.92rem;\n}\n\n.hg-progress::-moz-progress-bar {\n  background: #57534e;\n  border-radius: 81.92rem;\n}\n\n[data-theme=\"dark\"] .hg-progress,\n[data-theme=\"dark\"] .hg-progress::-webkit-progress-bar {\n  background: rgba(214, 211, 209, 0.2);\n}\n\n[data-theme=\"dark\"] .hg-progress::-webkit-progress-value,\n[data-theme=\"dark\"] .hg-progress::-moz-progress-bar {\n  background: #d6d3d1;\n}\n\n/* ===== CSS-only tabs (no JavaScript) ===== */\n\n.hg-tabs {\n  display: flex;\n  flex-direction: column;\n}\n\n.hg-tab-input {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border: 0;\n}\n\n.hg-tab-labels {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  gap: 0.25rem;\n  border-bottom: 2px solid rgba(120, 113, 108, 0.35);\n}\n\n.hg-tab-label {\n  cursor: pointer;\n  padding: 0.5rem 1rem;\n  border-radius: 0.75rem 0.75rem 0 0;\n  font-weight: 500;\n  /* 7.4:1 on the panel, not the 4.6:1 of a lighter grey: an unselected\n     label is still text and still has to be read */\n  color: #57534e;\n  transition: color 0.15s ease, background-color 0.15s ease;\n}\n\n[data-theme=\"dark\"] .hg-tab-label {\n  color: #d6d3d1;\n}\n\n.hg-tab-panels {\n  padding-top: 1rem;\n}\n\n.hg-tab-panel {\n  display: none;\n}\n\n/* active label highlight */\n.hg-tabs:has(> .hg-tab-input:nth-of-type(1):checked) > .hg-tab-labels > .hg-tab-label:nth-child(1),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(2):checked) > .hg-tab-labels > .hg-tab-label:nth-child(2),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(3):checked) > .hg-tab-labels > .hg-tab-label:nth-child(3),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(4):checked) > .hg-tab-labels > .hg-tab-label:nth-child(4),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(5):checked) > .hg-tab-labels > .hg-tab-label:nth-child(5),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(6):checked) > .hg-tab-labels > .hg-tab-label:nth-child(6),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(7):checked) > .hg-tab-labels > .hg-tab-label:nth-child(7),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(8):checked) > .hg-tab-labels > .hg-tab-label:nth-child(8) {\n  background: rgba(120, 113, 108, 0.25);\n  color: #1c1917;\n}\n\n[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(1):checked) > .hg-tab-labels > .hg-tab-label:nth-child(1),\n[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(2):checked) > .hg-tab-labels > .hg-tab-label:nth-child(2),\n[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(3):checked) > .hg-tab-labels > .hg-tab-label:nth-child(3),\n[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(4):checked) > .hg-tab-labels > .hg-tab-label:nth-child(4),\n[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(5):checked) > .hg-tab-labels > .hg-tab-label:nth-child(5),\n[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(6):checked) > .hg-tab-labels > .hg-tab-label:nth-child(6),\n[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(7):checked) > .hg-tab-labels > .hg-tab-label:nth-child(7),\n[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(8):checked) > .hg-tab-labels > .hg-tab-label:nth-child(8) {\n  background: rgba(214, 211, 209, 0.2);\n  color: #f5f5f4;\n}\n\n/* active panel */\n.hg-tabs:has(> .hg-tab-input:nth-of-type(1):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(1),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(2):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(2),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(3):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(3),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(4):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(4),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(5):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(5),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(6):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(6),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(7):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(7),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(8):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(8) {\n  display: block;\n}\n\n/* keyboard focus */\n.hg-tabs:has(> .hg-tab-input:nth-of-type(1):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(1),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(2):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(2),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(3):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(3),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(4):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(4),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(5):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(5),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(6):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(6),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(7):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(7),\n.hg-tabs:has(> .hg-tab-input:nth-of-type(8):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(8) {\n  outline: 2px solid currentColor;\n  outline-offset: 2px;\n}\n\n/* ===== Switch backed by a native checkbox ===== */\n\n.hg-switch-input {\n  position: absolute;\n  width: 1px;\n  height: 1px;\n  padding: 0;\n  margin: -1px;\n  overflow: hidden;\n  clip: rect(0, 0, 0, 0);\n  white-space: nowrap;\n  border: 0;\n}\n\n.hg-switch {\n  position: relative;\n  display: inline-block;\n  flex: none;\n  width: 2.75rem;\n  height: 1.5rem;\n  border-radius: 81.92rem;\n  background: #a8a29e;\n  cursor: pointer;\n  transition: background 0.2s ease;\n}\n\n.hg-switch::after {\n  content: \"\";\n  position: absolute;\n  top: 0.125rem;\n  left: 0.125rem;\n  width: 1.25rem;\n  height: 1.25rem;\n  border-radius: 81.92rem;\n  background: #ffffff;\n  transition: transform 0.2s ease;\n}\n\n.hg-switch-input:checked ~ .hg-switch {\n  background: #57534e;\n}\n\n[data-theme=\"dark\"] .hg-switch-input:checked ~ .hg-switch {\n  background: #d6d3d1;\n}\n\n.hg-switch-input:checked ~ .hg-switch::after {\n  transform: translateX(1.25rem);\n}\n\n.hg-switch-input:focus-visible ~ .hg-switch {\n  outline: 2px solid currentColor;\n  outline-offset: 2px;\n}\n\n/* ===== CSS-only modal via :target ===== */\n\n.hg-modal {\n  display: none;\n}\n\n.hg-modal:target {\n  display: grid;\n  place-items: center;\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 64;\n}\n\n.hg-modal-backdrop {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(12, 10, 9, 0.6);\n}\n\n.hg-modal-content {\n  position: relative;\n  z-index: 1;\n  width: 90%;\n  max-width: 34rem;\n  margin: 1rem;\n  padding: 1.25rem;\n  border-radius: 1rem;\n  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.35);\n  background: #f5f5f4;\n  color: #1c1917;\n}\n\n[data-theme=\"dark\"] .hg-modal-content {\n  background: #262626;\n  color: #f5f5f4;\n}\n\n.hg-modal-header {\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  justify-content: space-between;\n  gap: 1rem;\n  margin-bottom: 0.75rem;\n}\n\n.hg-modal-close {\n  text-decoration: none;\n  font-size: 1.5rem;\n  line-height: 1;\n  color: inherit;\n}\n\n.hg-modal-body {\n  display: flex;\n  flex-direction: column;\n  gap: 0.5rem;\n}\n\n.hg-modal-footer {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n  flex-wrap: wrap;\n  gap: 0.5rem;\n  margin-top: 1rem;\n}\n\n/* ===== CSS-only tooltips ===== */\n\n.hg-tooltip {\n  position: relative;\n  display: inline-flex;\n  align-items: center;\n}\n\n.hg-tooltip::after {\n  content: attr(data-hg-tooltip);\n  /* Hidden really means hidden: an absolutely positioned bubble still\n     occupies layout space, so a tooltip near the right edge would widen\n     the page and leave a phone layout that can be panned sideways.\n     `display: none` removes the box entirely, which is how the modal and\n     the fly-out menu already hide themselves. */\n  display: none;\n  position: absolute;\n  z-index: 64;\n  width: max-content;\n  max-width: 16rem;\n  padding: 0.35rem 0.6rem;\n  border-radius: 0.6rem;\n  background: #1c1917;\n  color: #f5f5f4;\n  font-size: 0.8rem;\n  line-height: 1.25;\n  pointer-events: none;\n}\n\n.hg-tooltip:hover::after,\n.hg-tooltip:focus-visible::after {\n  display: block;\n  /* display cannot be transitioned, so the fade-in is an animation */\n  animation: hg-tooltip-in 0.15s ease;\n}\n\n@keyframes hg-tooltip-in {\n  from {\n    opacity: 0;\n  }\n  to {\n    opacity: 1;\n  }\n}\n\n.hg-tooltip-top::after {\n  bottom: 100%;\n  left: 50%;\n  transform: translate(-50%, -0.4rem);\n}\n\n.hg-tooltip-bottom::after {\n  top: 100%;\n  left: 50%;\n  transform: translate(-50%, 0.4rem);\n}\n\n.hg-tooltip-left::after {\n  right: 100%;\n  top: 50%;\n  transform: translate(-0.4rem, -50%);\n}\n\n.hg-tooltip-right::after {\n  left: 100%;\n  top: 50%;\n  transform: translate(0.4rem, -50%);\n}\n\n/* On a narrow viewport a wide bubble cannot always be centred on its\n   trigger without leaving the screen, so the vertical variants are\n   capped in width and aligned to the trigger's end edge instead. In\n   left-to-right writing, overflow to the left never makes a page pan\n   sideways, while overflow to the right does. */\n\n@media (max-width: 40rem) {\n  .hg-tooltip-top::after,\n  .hg-tooltip-bottom::after {\n    left: auto;\n    right: 0;\n    max-width: calc(100vw - 3rem);\n  }\n\n  .hg-tooltip-top::after {\n    transform: translate(0, -0.4rem);\n  }\n\n  .hg-tooltip-bottom::after {\n    transform: translate(0, 0.4rem);\n  }\n}\n\n/* ===== Drifting colour washes =====\n\n   The wallpaper trick: a few oversized, heavily blurred discs of colour\n   behind a frosted panel. `.hg-blob` only adds the slow drift, so the\n   size, position, colour and blur stay in the markup where Olive already\n   expresses them (`blur-3xl`, `w-96`, `bg-naples-yellow-500/50`, ...).\n   Stagger the discs with an inline `animation-delay` so they never move\n   in lockstep.\n\n   How fast a disc drifts and how far it travels are the page's business,\n   not this sheet's: `glass-wash` writes `--hg-blob-duration`, `--hg-blob-x`\n   and `--hg-blob-y` as inline custom properties -- and an inline\n   `animation-delay` to stagger the discs -- so the values below are only\n   the defaults for a wash that says nothing. A keyframe resolves its\n   `var()`s per element, so one panel can breathe for a minute while the\n   next crosses its own corner in a couple of rems. */\n\n.hg-blob {\n  animation: hg-blob-drift var(--hg-blob-duration, 26s) ease-in-out infinite alternate;\n}\n\n@keyframes hg-blob-drift {\n  from {\n    transform: translate3d(0, 0, 0) scale(1);\n  }\n\n  to {\n    transform: translate3d(var(--hg-blob-x, 1.5rem),\n                           var(--hg-blob-y, -1.25rem),\n                           0)\n               scale(var(--hg-blob-scale, 1.08));\n  }\n}\n\n/* ===== The layer the discs are painted in =====\n\n   A pane rounds the layer holding its washes and clips it, and neither the\n   rounding nor the clip stops a disc: a child with a `filter` is painted\n   with the blur that filter asks for, and the browser draws that blur into\n   the square box it reaches -- past the layer's rounded edge, into the\n   corner the radius curves away from. What is left on the page is a faint\n   square of wash beside each corner, a percent or two of ink: measured\n   against a mid-grey page, a corner square that should have held the\n   page's own 128 read 130. `overflow: clip`, `contain: paint`,\n   `isolation: isolate` and promoting the layer to one of its own all leave\n   it in place (each measured on its own); an explicit `clip-path` is what\n   clips it. And a clip has to name a radius -- it cannot inherit one the\n   way `border-radius: inherit` can.\n\n   So this class names it -- and names it off the very rounding the markup\n   gave the layer, since the layer wears the pane's own rounding classes.\n   The radius has to be restated as a length, so these rules restate\n   Olive's named ladder; they are the one place here that has to agree with\n   another sheet, and a spec pins the tokens the framework rounds its own\n   glass with to a rule apiece, so a rounding cannot lose its clip without\n   a test going red.\n   A radius given outright in `--hg-glass-clip' still wins, on the layer or\n   on any ancestor, which is what a caller rounding with one of Olive's\n   numeric steps (`rounded-24', say) reaches for, as does a pane whose\n   radius is not one of the named ones at all.\n\n   The default in each rule is `rounded-3xl', the rounding a pane wears\n   when a caller leaves `#:rounding' alone: a layer wearing something the\n   table below does not name still keeps its washes in. */\n\n.hg-glass-layer {\n  clip-path: inset(0 round var(--hg-glass-clip, 1.28rem));\n}\n\n.hg-glass-layer[class~=\"rounded-none\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 0));\n}\n\n.hg-glass-layer[class~=\"rounded-2xs\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 0.16rem));\n}\n\n.hg-glass-layer[class~=\"rounded-xs\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 0.32rem));\n}\n\n.hg-glass-layer[class~=\"rounded-sm\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 0.48rem));\n}\n\n.hg-glass-layer[class~=\"rounded-md\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 0.64rem));\n}\n\n.hg-glass-layer[class~=\"rounded-lg\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 0.80rem));\n}\n\n.hg-glass-layer[class~=\"rounded-xl\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 0.96rem));\n}\n\n.hg-glass-layer[class~=\"rounded-2xl\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 1.12rem));\n}\n\n.hg-glass-layer[class~=\"rounded-3xl\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 1.28rem));\n}\n\n.hg-glass-layer[class~=\"rounded-4xl\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 1.44rem));\n}\n\n.hg-glass-layer[class~=\"rounded-5xl\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 1.60rem));\n}\n\n.hg-glass-layer[class~=\"rounded-full\"] {\n  clip-path: inset(0 round var(--hg-glass-clip, 9999px));\n}\n\n/* ===== Frost that survives a rounded corner =====\n\n   A backdrop-filter asks the browser to blur and colour whatever sits\n   behind a pane. Chromium paints that filtered backdrop in the pane's\n   square border box and ignores its `border-radius`, so a rounded pane\n   leaks a square patch of frost wherever its radius curves away from the\n   corner (Chromium issue 41212594, still open). A radius on that element\n   does not stop it, and a `clip-path` on it does not either. The one\n   thing that does is clipping the frosted box itself: an element that\n   carries `overflow: hidden` alongside its radius gets its frost rounded\n   off, because the browser then has a shape to clip the filtered backdrop\n   to.\n\n   The frost therefore lives one level in, on the pane's own `::before`:\n   a layer that rounds itself to the pane's radius with `border-radius:\n   inherit` -- so it follows whatever radius the markup or a caller gave\n   the pane -- clips itself, and carries the blur. Being a decoration\n   rather than a container, it leaves the pane's own children painted\n   above it and free to escape, which is what a bar holding a dropdown\n   needs.\n\n   How strong the frost is stays a knob: `--hg-frost-blur` is the blur\n   radius, 4rem unless something says otherwise (the same value Olive's\n   `backdrop-blur-md` utility sets). A custom property cannot be a utility\n   class on a pseudo-element, so it is the one setting that is passed as a\n   declaration rather than a class: `glass-panel' writes it from Scheme\n   for the panes it builds (`#:frost'), markup this sheet frosts by hand\n   passes the declaration itself, and a pane with neither reaches for\n   `hg-frost-soft' below instead.\n\n   `position: relative` gives the layer something to be absolute against\n   even when a pane places itself with layout classes alone. A pane that\n   sets a position utility of its own takes over, since olive.min.css is\n   inlined after this sheet.\n\n   `z-index: 0' on the pane and `-1' on the layer are what keep the frost\n   *under* the pane's content. An absolutely placed layer paints above\n   in-flow text and blocks, so a frosted pane whose content was never\n   wrapped in a layer of its own -- a dropdown's list is one -- would\n   otherwise have its contents blurred away behind the frost. A negative\n   stack level puts the layer in the first step of the pane's stacking\n   order instead, right after the pane's own background and border, which\n   is where the frost belongs. The pane was a stacking context anyway\n   while it carried the blur itself, so nothing about the order of what\n   is *outside* the pane changes, and the layer's own corner can no\n   longer paint over the pane's hairline. */\n\n.hg-frost {\n  position: relative;\n  z-index: 0;\n}\n\n.hg-frost::before {\n  content: \"\";\n  position: absolute;\n  z-index: -1;\n  inset: 0;\n  border-radius: inherit;\n  overflow: hidden;\n  -webkit-backdrop-filter: blur(var(--hg-frost-blur, 4rem));\n  backdrop-filter: blur(var(--hg-frost-blur, 4rem));\n}\n\n/* A gentler frost, for the small panes the framework frosts with a class\n   rather than a declaration: the carousel's arrow discs, a couple of rems\n   across, would be all blur at a panel's strength. Olive's blur ladder\n   cannot reach a pseudo-element, so this sheet names the one step below\n   the default that something actually wears. */\n\n.hg-frost-soft {\n  --hg-frost-blur: 3rem;\n}\n\n/* The smallest step, for the pills and labels a page frosts by hand: a\n   badge two rems tall is all blur at a pane's strength, and the label on a\n   colour swatch wants a hint of it and no more. Naming the step is what\n   keeps those pills on the same recipe as the panes -- the frost paints in\n   a rounded layer of its own, so the square patch of blur Olive's\n   `backdrop-blur-*' utilities leave at a rounded corner never appears. */\n\n.hg-frost-pill {\n  --hg-frost-blur: 1rem;\n}\n\n/* ===== The heading type scale =====\n\n   Heading line-heights are ratios rather than lengths, because a heading is\n   sized by a utility the page may move up or down the scale at will: a\n   length would have to be re-picked whenever the font-size changed, and a\n   ratio follows on its own. The steps loosen as the size shrinks (1.3 for\n   the display sizes, 1.35 for a section title, 1.4 for the smaller\n   headings), which is the usual shape of a type scale, and every one of\n   them is loose enough that a line's glyphs -- descenders, accents, the lot\n   -- stay inside the box the line occupies.\n\n   That is a requirement, not a preference. Gradient ink is a background\n   clipped to the letters, so it can only paint where the heading's own box\n   reaches: a `g` whose descender falls below it is not cropped but drawn\n   transparent. The ratios here are measured against the two faces the\n   framework ships, of which Plus Jakarta Sans asks for the most room at\n   1.24 of the line box at worst; 1.3 is that with margin to spare. Body\n   copy sits looser still, at 1.5. */\n\n.hg-leading-display {\n  line-height: 1.3;\n}\n\n.hg-leading-title {\n  line-height: 1.35;\n}\n\n.hg-leading-subtitle {\n  line-height: 1.4;\n}\n\n/* ===== Gradient text =====\n\n   One gradient per theme, since a deep sweep that sings on the light\n   background turns to mud on the dark one.\n\n   The compound `h1.`/`h2.` selectors are deliberate: Olive's text-colour\n   utilities are single classes, and this sheet is inlined before\n   olive.min.css, so a bare `.hg-gradient-text` would lose the cascade\n   and the heading would keep its solid colour.\n\n   Nothing here has to widen the box the ink is painted in, and that is the\n   heading scale's doing rather than this rule's: every heading it matches\n   carries a leaded line-height from `hg-leading-*' above, so the descenders\n   of a `g` sit inside the heading's own box and have gradient to paint.\n   A page that overrides the leading with a tighter one -- `leading-none' or\n   a `leading-*' of its own, which lands after this sheet -- takes the clip\n   back into its own hands. */\n\nh1.hg-gradient-text,\nh2.hg-gradient-text {\n  background-image: linear-gradient(100deg,\n                                    oklch(0.7404 0.1399 91.55 / 1),\n                                    oklch(0.6183 0.1557 45.26 / 1) 45%,\n                                    oklch(0.4929 0.161 279.98 / 1));\n  background-clip: text;\n  -webkit-background-clip: text;\n  color: transparent;\n}\n\n[data-theme=\"dark\"] h1.hg-gradient-text,\n[data-theme=\"dark\"] h2.hg-gradient-text {\n  background-image: linear-gradient(100deg,\n                                    oklch(0.8855 0.1307 92.19 / 1),\n                                    oklch(0.7404 0.1656 39.8 / 1) 45%,\n                                    oklch(0.7439 0.1301 288.16 / 1));\n}\n\n/* ===== Respect reduced-motion preferences ===== */\n\n@media (prefers-reduced-motion: reduce) {\n  .hg-switch,\n  .hg-switch::after,\n  .hg-tooltip::after,\n  .hg-tab-label,\n  .hg-blob {\n    transition: none;\n    animation: none;\n  }\n}\n"))))
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
 
-(define-public (no-js-css) (quote ((style (@ (type "text/css")) "/*\n  hygguile - cozy and professional user-interfaces for everyone\n\n  Copyright © Josep Bigorra <jjbigorra@gmail.com>\n\n  hygguile is free software: you can redistribute it and/or modify\n  it under the terms of the Lesser GNU General Public License as published by\n  the Free Software Foundation, either version 3 of the License, or\n  (at your option) any later version.\n\n  hygguile is distributed in the hope that it will be useful,\n  but WITHOUT ANY WARRANTY; without even the implied warranty of\n  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n  Lesser GNU General Public License for more details.\n\n  You should have received a copy of the Lesser GNU General Public License\n  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.\n*/\n\n/*\n  Progressive-enhancement rules that only apply when scripting is\n  disabled, because hygguile loads this file inside a <noscript> element\n  (see hygguile-recommended-resources).\n\n  The contract is simple:\n\n  - Anything that only works with JavaScript carries the .js-only class\n    and is hidden here.\n  - Components that can be made to work without JavaScript (the fly-out\n    submenus, the carousel) are progressively revealed instead of being\n    hidden.\n*/\n\n/* Interactive controls that depend on JavaScript do nothing without it. */\n.js-only {\n  display: none !important;\n}\n\n/* Fly-out menus: reveal every submenu and drop the meaningless arrow. */\n.flyout-submenu[hidden] {\n  display: block !important;\n}\n\n.flyout-submenu {\n  position: static !important;\n  box-shadow: none !important;\n  background: transparent !important;\n  padding-left: 1rem !important;\n}\n\n.flyout-submenu-button::after {\n  content: \"\" !important;\n  padding-left: 0 !important;\n}\n"))))
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
+                                     
+/* Flyout menu / dropdown */
+.flyout-submenu-button[aria-expanded=\"true\"]::after {
+  content: \"↑\";
+  padding-left: 0.8em;
+}
+
+.flyout-submenu-button[aria-expanded=\"false\"]::after {
+  content: \"↓\";
+  padding-left: 0.8em;
+}
+
+.flyout-submenu[hidden] {
+  display: none;
+}
+")))
+
+(define-public (hygguile-extras-css)
+  '((style (@ (type "text/css"))
+     "/*
+  hygguile - cozy and professional user-interfaces for everyone
+
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*
+  Companion stylesheet for hygguile.
+
+  Olive CSS intentionally only ships utility classes. A handful of
+  components need a little structural CSS that cannot be expressed with
+  single utilities (the styling of native <progress> and <details>, the
+  CSS-only tabs, switch, modal and tooltip widgets). Everything here is
+  plain, dependency-free CSS and works without JavaScript.
+
+  Wherever Olive already provides the feature we lean on its utilities
+  instead of reimplementing it: screen-reader-only text uses `sr-only`,
+  loading animations use `animate-spin` and `animate-pulse`, and focus
+  rings use the `focus-visible:outline-*` variants.
+*/
+
+/* ===== A couple of missing intrinsic-size utilities ===== */
+
+.h-auto {
+  height: auto;
+}
+
+.w-auto {
+  width: auto;
+}
+
+/* ===== Spinner =====
+
+   Only the ring visual lives here; the rotation is Olive's
+   `animate-spin` utility, applied by the component itself. */
+
+.hg-spinner {
+  border-radius: 50%;
+  border: 0.25rem solid rgba(120, 113, 108, 0.35);
+  border-top-color: #57534e;
+}
+
+[data-theme=\"dark\"] .hg-spinner {
+  border-color: rgba(214, 211, 209, 0.25);
+  border-top-color: #d6d3d1;
+}
+
+/* ===== A readable default ink =====
+
+   Components carry their own colour classes, but text a page does not
+   decorate must still be readable, and Olive ships no base ink of its own.
+   Both rules land before olive.min.css in the document, so a `text-*`
+   utility anywhere in the markup still wins over them. */
+
+body {
+  color: #1c1917;
+}
+
+[data-theme=\"dark\"] body {
+  color: #ededee;
+}
+
+/* ===== Native progress bar ===== */
+
+.hg-progress {
+  width: 100%;
+  height: 1rem;
+  border: 0;
+  border-radius: 81.92rem;
+  overflow: hidden;
+  appearance: none;
+  -webkit-appearance: none;
+  background: rgba(120, 113, 108, 0.25);
+}
+
+.hg-progress::-webkit-progress-bar {
+  background: rgba(120, 113, 108, 0.25);
+  border-radius: 81.92rem;
+}
+
+.hg-progress::-webkit-progress-value {
+  background: #57534e;
+  border-radius: 81.92rem;
+}
+
+.hg-progress::-moz-progress-bar {
+  background: #57534e;
+  border-radius: 81.92rem;
+}
+
+[data-theme=\"dark\"] .hg-progress,
+[data-theme=\"dark\"] .hg-progress::-webkit-progress-bar {
+  background: rgba(214, 211, 209, 0.2);
+}
+
+[data-theme=\"dark\"] .hg-progress::-webkit-progress-value,
+[data-theme=\"dark\"] .hg-progress::-moz-progress-bar {
+  background: #d6d3d1;
+}
+
+/* ===== CSS-only tabs (no JavaScript) ===== */
+
+.hg-tabs {
+  display: flex;
+  flex-direction: column;
+}
+
+.hg-tab-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hg-tab-labels {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  border-bottom: 2px solid rgba(120, 113, 108, 0.35);
+}
+
+.hg-tab-label {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem 0.75rem 0 0;
+  font-weight: 500;
+  /* 7.4:1 on the panel, not the 4.6:1 of a lighter grey: an unselected
+     label is still text and still has to be read */
+  color: #57534e;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+[data-theme=\"dark\"] .hg-tab-label {
+  color: #d6d3d1;
+}
+
+.hg-tab-panels {
+  padding-top: 1rem;
+}
+
+.hg-tab-panel {
+  display: none;
+}
+
+/* active label highlight */
+.hg-tabs:has(> .hg-tab-input:nth-of-type(1):checked) > .hg-tab-labels > .hg-tab-label:nth-child(1),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(2):checked) > .hg-tab-labels > .hg-tab-label:nth-child(2),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(3):checked) > .hg-tab-labels > .hg-tab-label:nth-child(3),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(4):checked) > .hg-tab-labels > .hg-tab-label:nth-child(4),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(5):checked) > .hg-tab-labels > .hg-tab-label:nth-child(5),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(6):checked) > .hg-tab-labels > .hg-tab-label:nth-child(6),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(7):checked) > .hg-tab-labels > .hg-tab-label:nth-child(7),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(8):checked) > .hg-tab-labels > .hg-tab-label:nth-child(8) {
+  background: rgba(120, 113, 108, 0.25);
+  color: #1c1917;
+}
+
+[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(1):checked) > .hg-tab-labels > .hg-tab-label:nth-child(1),
+[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(2):checked) > .hg-tab-labels > .hg-tab-label:nth-child(2),
+[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(3):checked) > .hg-tab-labels > .hg-tab-label:nth-child(3),
+[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(4):checked) > .hg-tab-labels > .hg-tab-label:nth-child(4),
+[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(5):checked) > .hg-tab-labels > .hg-tab-label:nth-child(5),
+[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(6):checked) > .hg-tab-labels > .hg-tab-label:nth-child(6),
+[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(7):checked) > .hg-tab-labels > .hg-tab-label:nth-child(7),
+[data-theme=\"dark\"] .hg-tabs:has(> .hg-tab-input:nth-of-type(8):checked) > .hg-tab-labels > .hg-tab-label:nth-child(8) {
+  background: rgba(214, 211, 209, 0.2);
+  color: #f5f5f4;
+}
+
+/* active panel */
+.hg-tabs:has(> .hg-tab-input:nth-of-type(1):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(1),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(2):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(2),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(3):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(3),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(4):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(4),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(5):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(5),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(6):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(6),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(7):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(7),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(8):checked) > .hg-tab-panels > .hg-tab-panel:nth-child(8) {
+  display: block;
+}
+
+/* keyboard focus */
+.hg-tabs:has(> .hg-tab-input:nth-of-type(1):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(1),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(2):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(2),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(3):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(3),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(4):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(4),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(5):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(5),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(6):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(6),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(7):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(7),
+.hg-tabs:has(> .hg-tab-input:nth-of-type(8):focus-visible) > .hg-tab-labels > .hg-tab-label:nth-child(8) {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ===== Switch backed by a native checkbox ===== */
+
+.hg-switch-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hg-switch {
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: 2.75rem;
+  height: 1.5rem;
+  border-radius: 81.92rem;
+  background: #a8a29e;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.hg-switch::after {
+  content: \"\";
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 81.92rem;
+  background: #ffffff;
+  transition: transform 0.2s ease;
+}
+
+.hg-switch-input:checked ~ .hg-switch {
+  background: #57534e;
+}
+
+[data-theme=\"dark\"] .hg-switch-input:checked ~ .hg-switch {
+  background: #d6d3d1;
+}
+
+.hg-switch-input:checked ~ .hg-switch::after {
+  transform: translateX(1.25rem);
+}
+
+.hg-switch-input:focus-visible ~ .hg-switch {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ===== CSS-only modal via :target ===== */
+
+.hg-modal {
+  display: none;
+}
+
+.hg-modal:target {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 64;
+}
+
+.hg-modal-backdrop {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(12, 10, 9, 0.6);
+}
+
+.hg-modal-content {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 34rem;
+  margin: 1rem;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.35);
+  background: #f5f5f4;
+  color: #1c1917;
+}
+
+[data-theme=\"dark\"] .hg-modal-content {
+  background: #262626;
+  color: #f5f5f4;
+}
+
+.hg-modal-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.hg-modal-close {
+  text-decoration: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: inherit;
+}
+
+.hg-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.hg-modal-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* ===== CSS-only tooltips ===== */
+
+.hg-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.hg-tooltip::after {
+  content: attr(data-hg-tooltip);
+  /* Hidden really means hidden: an absolutely positioned bubble still
+     occupies layout space, so a tooltip near the right edge would widen
+     the page and leave a phone layout that can be panned sideways.
+     `display: none` removes the box entirely, which is how the modal and
+     the fly-out menu already hide themselves. */
+  display: none;
+  position: absolute;
+  z-index: 64;
+  width: max-content;
+  max-width: 16rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.6rem;
+  background: #1c1917;
+  color: #f5f5f4;
+  font-size: 0.8rem;
+  line-height: 1.25;
+  pointer-events: none;
+}
+
+.hg-tooltip:hover::after,
+.hg-tooltip:focus-visible::after {
+  display: block;
+  /* display cannot be transitioned, so the fade-in is an animation */
+  animation: hg-tooltip-in 0.15s ease;
+}
+
+@keyframes hg-tooltip-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.hg-tooltip-top::after {
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -0.4rem);
+}
+
+.hg-tooltip-bottom::after {
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0.4rem);
+}
+
+.hg-tooltip-left::after {
+  right: 100%;
+  top: 50%;
+  transform: translate(-0.4rem, -50%);
+}
+
+.hg-tooltip-right::after {
+  left: 100%;
+  top: 50%;
+  transform: translate(0.4rem, -50%);
+}
+
+/* On a narrow viewport a wide bubble cannot always be centred on its
+   trigger without leaving the screen, so the vertical variants are
+   capped in width and aligned to the trigger's end edge instead. In
+   left-to-right writing, overflow to the left never makes a page pan
+   sideways, while overflow to the right does. */
+
+@media (max-width: 40rem) {
+  .hg-tooltip-top::after,
+  .hg-tooltip-bottom::after {
+    left: auto;
+    right: 0;
+    max-width: calc(100vw - 3rem);
+  }
+
+  .hg-tooltip-top::after {
+    transform: translate(0, -0.4rem);
+  }
+
+  .hg-tooltip-bottom::after {
+    transform: translate(0, 0.4rem);
+  }
+}
+
+/* ===== Drifting colour washes =====
+
+   The wallpaper trick: a few oversized, heavily blurred discs of colour
+   behind a frosted panel. `.hg-blob` only adds the slow drift, so the
+   size, position, colour and blur stay in the markup where Olive already
+   expresses them (`blur-3xl`, `w-96`, `bg-naples-yellow-500/50`, ...).
+   Stagger the discs with an inline `animation-delay` so they never move
+   in lockstep.
+
+   How fast a disc drifts and how far it travels are the page's business,
+   not this sheet's: `glass-wash` writes `--hg-blob-duration`, `--hg-blob-x`
+   and `--hg-blob-y` as inline custom properties -- and an inline
+   `animation-delay` to stagger the discs -- so the values below are only
+   the defaults for a wash that says nothing. A keyframe resolves its
+   `var()`s per element, so one panel can breathe for a minute while the
+   next crosses its own corner in a couple of rems. */
+
+.hg-blob {
+  animation: hg-blob-drift var(--hg-blob-duration, 26s) ease-in-out infinite alternate;
+}
+
+@keyframes hg-blob-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  to {
+    transform: translate3d(var(--hg-blob-x, 1.5rem),
+                           var(--hg-blob-y, -1.25rem),
+                           0)
+               scale(var(--hg-blob-scale, 1.08));
+  }
+}
+
+/* ===== The layer the discs are painted in =====
+
+   A pane rounds the layer holding its washes and clips it, and neither the
+   rounding nor the clip stops a disc: a child with a `filter` is painted
+   with the blur that filter asks for, and the browser draws that blur into
+   the square box it reaches -- past the layer's rounded edge, into the
+   corner the radius curves away from. What is left on the page is a faint
+   square of wash beside each corner, a percent or two of ink: measured
+   against a mid-grey page, a corner square that should have held the
+   page's own 128 read 130. `overflow: clip`, `contain: paint`,
+   `isolation: isolate` and promoting the layer to one of its own all leave
+   it in place (each measured on its own); an explicit `clip-path` is what
+   clips it. And a clip has to name a radius -- it cannot inherit one the
+   way `border-radius: inherit` can.
+
+   So this class names it -- and names it off the very rounding the markup
+   gave the layer, since the layer wears the pane's own rounding classes.
+   The radius has to be restated as a length, so these rules restate
+   Olive's named ladder; they are the one place here that has to agree with
+   another sheet, and a spec pins the tokens the framework rounds its own
+   glass with to a rule apiece, so a rounding cannot lose its clip without
+   a test going red.
+   A radius given outright in `--hg-glass-clip' still wins, on the layer or
+   on any ancestor, which is what a caller rounding with one of Olive's
+   numeric steps (`rounded-24', say) reaches for, as does a pane whose
+   radius is not one of the named ones at all.
+
+   The default in each rule is `rounded-3xl', the rounding a pane wears
+   when a caller leaves `#:rounding' alone: a layer wearing something the
+   table below does not name still keeps its washes in. */
+
+.hg-glass-layer {
+  clip-path: inset(0 round var(--hg-glass-clip, 1.28rem));
+}
+
+.hg-glass-layer[class~=\"rounded-none\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0));
+}
+
+.hg-glass-layer[class~=\"rounded-2xs\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.16rem));
+}
+
+.hg-glass-layer[class~=\"rounded-xs\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.32rem));
+}
+
+.hg-glass-layer[class~=\"rounded-sm\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.48rem));
+}
+
+.hg-glass-layer[class~=\"rounded-md\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.64rem));
+}
+
+.hg-glass-layer[class~=\"rounded-lg\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.80rem));
+}
+
+.hg-glass-layer[class~=\"rounded-xl\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 0.96rem));
+}
+
+.hg-glass-layer[class~=\"rounded-2xl\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 1.12rem));
+}
+
+.hg-glass-layer[class~=\"rounded-3xl\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 1.28rem));
+}
+
+.hg-glass-layer[class~=\"rounded-4xl\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 1.44rem));
+}
+
+.hg-glass-layer[class~=\"rounded-5xl\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 1.60rem));
+}
+
+.hg-glass-layer[class~=\"rounded-full\"] {
+  clip-path: inset(0 round var(--hg-glass-clip, 9999px));
+}
+
+/* ===== Frost that survives a rounded corner =====
+
+   A backdrop-filter asks the browser to blur and colour whatever sits
+   behind a pane. Chromium paints that filtered backdrop in the pane's
+   square border box and ignores its `border-radius`, so a rounded pane
+   leaks a square patch of frost wherever its radius curves away from the
+   corner (Chromium issue 41212594, still open). A radius on that element
+   does not stop it, and a `clip-path` on it does not either. The one
+   thing that does is clipping the frosted box itself: an element that
+   carries `overflow: hidden` alongside its radius gets its frost rounded
+   off, because the browser then has a shape to clip the filtered backdrop
+   to.
+
+   The frost therefore lives one level in, on the pane's own `::before`:
+   a layer that rounds itself to the pane's radius with `border-radius:
+   inherit` -- so it follows whatever radius the markup or a caller gave
+   the pane -- clips itself, and carries the blur. Being a decoration
+   rather than a container, it leaves the pane's own children painted
+   above it and free to escape, which is what a bar holding a dropdown
+   needs.
+
+   How strong the frost is stays a knob: `--hg-frost-blur` is the blur
+   radius, 4rem unless something says otherwise (the same value Olive's
+   `backdrop-blur-md` utility sets). A custom property cannot be a utility
+   class on a pseudo-element, so it is the one setting that is passed as a
+   declaration rather than a class: `glass-panel' writes it from Scheme
+   for the panes it builds (`#:frost'), markup this sheet frosts by hand
+   passes the declaration itself, and a pane with neither reaches for
+   `hg-frost-soft' below instead.
+
+   `position: relative` gives the layer something to be absolute against
+   even when a pane places itself with layout classes alone. A pane that
+   sets a position utility of its own takes over, since olive.min.css is
+   inlined after this sheet.
+
+   `z-index: 0' on the pane and `-1' on the layer are what keep the frost
+   *under* the pane's content. An absolutely placed layer paints above
+   in-flow text and blocks, so a frosted pane whose content was never
+   wrapped in a layer of its own -- a dropdown's list is one -- would
+   otherwise have its contents blurred away behind the frost. A negative
+   stack level puts the layer in the first step of the pane's stacking
+   order instead, right after the pane's own background and border, which
+   is where the frost belongs. The pane was a stacking context anyway
+   while it carried the blur itself, so nothing about the order of what
+   is *outside* the pane changes, and the layer's own corner can no
+   longer paint over the pane's hairline. */
+
+.hg-frost {
+  position: relative;
+  z-index: 0;
+}
+
+.hg-frost::before {
+  content: \"\";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(var(--hg-frost-blur, 4rem));
+  backdrop-filter: blur(var(--hg-frost-blur, 4rem));
+}
+
+/* A gentler frost, for the small panes the framework frosts with a class
+   rather than a declaration: the carousel's arrow discs, a couple of rems
+   across, would be all blur at a panel's strength. Olive's blur ladder
+   cannot reach a pseudo-element, so this sheet names the one step below
+   the default that something actually wears. */
+
+.hg-frost-soft {
+  --hg-frost-blur: 3rem;
+}
+
+/* The smallest step, for the pills and labels a page frosts by hand: a
+   badge two rems tall is all blur at a pane's strength, and the label on a
+   colour swatch wants a hint of it and no more. Naming the step is what
+   keeps those pills on the same recipe as the panes -- the frost paints in
+   a rounded layer of its own, so the square patch of blur Olive's
+   `backdrop-blur-*' utilities leave at a rounded corner never appears. */
+
+.hg-frost-pill {
+  --hg-frost-blur: 1rem;
+}
+
+/* ===== The heading type scale =====
+
+   Heading line-heights are ratios rather than lengths, because a heading is
+   sized by a utility the page may move up or down the scale at will: a
+   length would have to be re-picked whenever the font-size changed, and a
+   ratio follows on its own. The steps loosen as the size shrinks (1.3 for
+   the display sizes, 1.35 for a section title, 1.4 for the smaller
+   headings), which is the usual shape of a type scale, and every one of
+   them is loose enough that a line's glyphs -- descenders, accents, the lot
+   -- stay inside the box the line occupies.
+
+   That is a requirement, not a preference. Gradient ink is a background
+   clipped to the letters, so it can only paint where the heading's own box
+   reaches: a `g` whose descender falls below it is not cropped but drawn
+   transparent. The ratios here are measured against the two faces the
+   framework ships, of which Plus Jakarta Sans asks for the most room at
+   1.24 of the line box at worst; 1.3 is that with margin to spare. Body
+   copy sits looser still, at 1.5. */
+
+.hg-leading-display {
+  line-height: 1.3;
+}
+
+.hg-leading-title {
+  line-height: 1.35;
+}
+
+.hg-leading-subtitle {
+  line-height: 1.4;
+}
+
+/* ===== Gradient text =====
+
+   One gradient per theme, since a deep sweep that sings on the light
+   background turns to mud on the dark one.
+
+   The compound `h1.`/`h2.` selectors are deliberate: Olive's text-colour
+   utilities are single classes, and this sheet is inlined before
+   olive.min.css, so a bare `.hg-gradient-text` would lose the cascade
+   and the heading would keep its solid colour.
+
+   Nothing here has to widen the box the ink is painted in, and that is the
+   heading scale's doing rather than this rule's: every heading it matches
+   carries a leaded line-height from `hg-leading-*' above, so the descenders
+   of a `g` sit inside the heading's own box and have gradient to paint.
+   A page that overrides the leading with a tighter one -- `leading-none' or
+   a `leading-*' of its own, which lands after this sheet -- takes the clip
+   back into its own hands. */
+
+h1.hg-gradient-text,
+h2.hg-gradient-text {
+  background-image: linear-gradient(100deg,
+                                    oklch(0.7404 0.1399 91.55 / 1),
+                                    oklch(0.6183 0.1557 45.26 / 1) 45%,
+                                    oklch(0.4929 0.161 279.98 / 1));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+[data-theme=\"dark\"] h1.hg-gradient-text,
+[data-theme=\"dark\"] h2.hg-gradient-text {
+  background-image: linear-gradient(100deg,
+                                    oklch(0.8855 0.1307 92.19 / 1),
+                                    oklch(0.7404 0.1656 39.8 / 1) 45%,
+                                    oklch(0.7439 0.1301 288.16 / 1));
+}
+
+/* ===== Respect reduced-motion preferences ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  .hg-switch,
+  .hg-switch::after,
+  .hg-tooltip::after,
+  .hg-tab-label,
+  .hg-blob {
+    transition: none;
+    animation: none;
+  }
+}
+")))
+
+(define-public (no-js-css)
+  '((style (@ (type "text/css"))
+     "/*
+  hygguile - cozy and professional user-interfaces for everyone
+
+  Copyright © Josep Bigorra <jjbigorra@gmail.com>
+
+  hygguile is free software: you can redistribute it and/or modify
+  it under the terms of the Lesser GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  hygguile is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  Lesser GNU General Public License for more details.
+
+  You should have received a copy of the Lesser GNU General Public License
+  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
+*/
+
+/*
+  Progressive-enhancement rules that only apply when scripting is
+  disabled, because hygguile loads this file inside a <noscript> element
+  (see hygguile-recommended-resources).
+
+  The contract is simple:
+
+  - Anything that only works with JavaScript carries the .js-only class
+    and is hidden here.
+  - Components that can be made to work without JavaScript (the fly-out
+    submenus, the carousel) are progressively revealed instead of being
+    hidden.
+*/
+
+/* Interactive controls that depend on JavaScript do nothing without it. */
+.js-only {
+  display: none !important;
+}
+
+/* Fly-out menus: reveal every submenu and drop the meaningless arrow. */
+.flyout-submenu[hidden] {
+  display: block !important;
+}
+
+.flyout-submenu {
+  position: static !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  padding-left: 1rem !important;
+}
+
+.flyout-submenu-button::after {
+  content: \"\" !important;
+  padding-left: 0 !important;
+}
+")))

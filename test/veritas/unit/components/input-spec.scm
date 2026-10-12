@@ -47,8 +47,9 @@
           (eq? tag
                (car node)))
      node)
-    ((list? node) (any (lambda (child)
-                         (find-node child tag)) node))
+    ((list? node)
+     (any (lambda (child)
+            (find-node child tag)) node))
     (else #f)))
 
 (define input-suite
@@ -128,48 +129,47 @@
                              #:expect "post")
                (assert-equal #:name "form forwards its action"
                              #:got (attr-value (car (form '()
-                                                         #:action
-                                                         "/subscribe"))
+                                                          #:action
+                                                          "/subscribe"))
                                                'action)
                              #:expect "/subscribe")
                (assert-equal #:name "form supports a get method for searches"
                              #:got (attr-value (car (form '()
-                                                         #:method 'get))
+                                                          #:method 'get))
                                                'method)
                              #:expect "get")
                (assert-equal #:name "form renders an enctype for file uploads"
-                             #:got (attr-value (car (form '() #:enctype
-                                                         'multipart/form-data))
+                             #:got (attr-value (car (form '()
+                                                          #:enctype 'multipart/form-data))
                                                'enctype)
                              #:expect "multipart/form-data")
                (assert-equal #:name
-                             "form uses native validation unless told otherwise"
-                             #:got (attr-value (car (form '()))
-                                               'novalidate)
-                             #:expect #f)
+                "form uses native validation unless told otherwise"
+                #:got (attr-value (car (form '()))
+                                  'novalidate)
+                #:expect #f)
                (assert-equal #:name "form can switch off native validation"
                              #:got (attr-value (car (form '()
-                                                         #:novalidate #t))
+                                                          #:novalidate #t))
                                                'novalidate)
                              #:expect "")
                (assert-equal #:name "form carries its fields"
                              #:got (car (find-node (form (list (input #:label
-                                                                    "Email"
-                                                                    #:name
-                                                                    "email")))
-                                                  'input))
+                                                                      "Email"
+                                                                      #:name
+                                                                      "email")))
+                                                   'input))
                              #:expect 'input)
                (assert-equal #:name "form appends a submit button when asked"
                              #:got (car (find-node (form '()
-                                                         #:submit
-                                                         "Subscribe")
-                                                  'button))
+                                                         #:submit "Subscribe")
+                                                   'button))
                              #:expect 'button)
                (assert-equal #:name "the appended submit button is labelled"
                              #:got (caddr (find-node (form '()
                                                            #:submit
                                                            "Subscribe")
-                                                    'button))
+                                                     'button))
                              #:expect "Subscribe"))))
 
 (define (spec)

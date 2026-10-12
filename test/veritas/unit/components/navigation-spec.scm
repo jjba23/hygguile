@@ -32,21 +32,25 @@
 
 (define (render node)
   "Serialize an SXML fragment to an HTML string, as a page would be served."
-  (call-with-output-string (lambda (port) (sxml->xml node port))))
+  (call-with-output-string (lambda (port)
+                             (sxml->xml node port))))
 
 (define (active-link-classes html)
   "The class string of the pagination link marked aria-current in rendered HTML."
   (let ((m (string-match "aria-current=\"page\" class=\"([^\"]*)\"" html)))
-    (and m (match:substring m 1))))
+    (and m
+         (match:substring m 1))))
 
 (define (has-class? classes name)
   "True when a space-separated class string contains exactly NAME."
-  (and (member name (string-split classes #\space)) #t))
+  (and (member name
+               (string-split classes #\space)) #t))
 
 (define (count-colour-utilities classes prefix)
   "Count classes of the shape PREFIX-ramp-shade in a space-separated class string."
   (let ((pattern (format #f "^~a[a-z][a-z-]*-[0-9]{2,3}(/[0-9.]+)?$" prefix)))
-    (length (filter (lambda (c) (string-match pattern c))
+    (length (filter (lambda (c)
+                      (string-match pattern c))
                     (string-split classes #\space)))))
 
 (define navigation-suite
@@ -72,35 +76,41 @@
                                              #:content "body"))
                              #:expect "a")
                (assert-equal #:name
-                             "the current pagination link carries one light-theme text colour"
-                             #:got (count-colour-utilities
-                                    (active-link-classes
-                                     (render (pagination #:current 2
-                                                         #:total 3)))
-                                    "text-")
-                             #:expect 1)
+                "the current pagination link carries one light-theme text colour"
+                #:got (count-colour-utilities (active-link-classes (render (pagination
+                                                                            #:current
+                                                                            2
+                                                                            #:total
+                                                                            3)))
+                                              "text-")
+                #:expect 1)
                (assert-equal #:name
-                             "the current pagination link carries one dark-theme text colour"
-                             #:got (count-colour-utilities
-                                    (active-link-classes
-                                     (render (pagination #:current 2
-                                                         #:total 3)))
-                                    "dark:text-")
-                             #:expect 1)
+                "the current pagination link carries one dark-theme text colour"
+                #:got (count-colour-utilities (active-link-classes (render (pagination
+                                                                            #:current
+                                                                            2
+                                                                            #:total
+                                                                            3)))
+                                              "dark:text-")
+                #:expect 1)
                (assert-equal #:name
-                             "the current pagination link keeps its border width"
-                             #:got (has-class? (active-link-classes
-                                                (render (pagination #:current 2
-                                                                    #:total 3)))
-                                               "border-2")
-                             #:expect #t)
+                "the current pagination link keeps its border width"
+                #:got (has-class? (active-link-classes (render (pagination
+                                                                           #:current
+                                                                           2
+                                                                           #:total
+                                                                           3)))
+                                  "border-2")
+                #:expect #t)
                (assert-equal #:name
-                             "the base dark-theme ink does not leak into the current link"
-                             #:got (has-class? (active-link-classes
-                                                (render (pagination #:current 2
-                                                                    #:total 3)))
-                                               "dark:text-stone-300")
-                             #:expect #f)
+                "the base dark-theme ink does not leak into the current link"
+                #:got (has-class? (active-link-classes (render (pagination
+                                                                           #:current
+                                                                           2
+                                                                           #:total
+                                                                           3)))
+                                  "dark:text-stone-300")
+                #:expect #f)
                (assert-equal #:name "tabs renders a <div> wrapper"
                              #:got (caar (tabs #:tab-items (list (tab #:id "a"
                                                                       #:label

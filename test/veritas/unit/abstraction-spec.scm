@@ -44,38 +44,38 @@
 
          (test "override-classes"
                (assert-equal #:name
-                             "a later colour utility replaces the earlier one"
-                             #:got (override-classes
-                                    '(text-onyx-300 dark:text-stone-300)
-                                    '(text-stone-100 dark:text-onyx-900))
-                             #:expect '(text-stone-100 dark:text-onyx-900))
+                "a later colour utility replaces the earlier one"
+                #:got (override-classes '(text-onyx-300 dark:text-stone-300)
+                                        '(text-stone-100 dark:text-onyx-900))
+                #:expect '(text-stone-100 dark:text-onyx-900))
                (assert-equal #:name
-                             "a font-size utility is not mistaken for a colour"
-                             #:got (override-classes '(text-sm text-onyx-300)
-                                                     '(text-stone-100))
-                             #:expect '(text-sm text-stone-100))
+                "a font-size utility is not mistaken for a colour"
+                #:got (override-classes '(text-sm text-onyx-300)
+                                        '(text-stone-100))
+                #:expect '(text-sm text-stone-100))
                (assert-equal #:name
-                             "variants are part of the identity, so themes do not collide"
-                             #:got (override-classes '(dark:text-stone-300)
-                                                     '(text-stone-100))
-                             #:expect '(dark:text-stone-300 text-stone-100))
+                "variants are part of the identity, so themes do not collide"
+                #:got (override-classes '(dark:text-stone-300)
+                                        '(text-stone-100))
+                #:expect '(dark:text-stone-300 text-stone-100))
                (assert-equal #:name
                              "border widths survive a border-colour override"
-                             #:got (override-classes
-                                    '(border-2 border-stone-500/25)
-                                    '(border-onyx-300))
+                             #:got (override-classes '(border-2
+                                                       border-stone-500/25)
+                                                     '(border-onyx-300))
                              #:expect '(border-2 border-onyx-300))
                (assert-equal #:name
-                             "an empty override list leaves the base list untouched"
-                             #:got (override-classes '(text-onyx-300) '())
-                             #:expect '(text-onyx-300))
+                "an empty override list leaves the base list untouched"
+                #:got (override-classes '(text-onyx-300)
+                                        '())
+                #:expect '(text-onyx-300))
                (assert-equal #:name
-                             "the merged class list carries a single text colour"
-                             #:got (mk-class
-                                    (override-classes
-                                     '(text-onyx-300 dark:text-stone-300)
-                                     '(text-stone-100 dark:text-onyx-900)))
-                             #:expect "dark:text-onyx-900 text-stone-100"))
+                "the merged class list carries a single text colour"
+                #:got (mk-class (override-classes '(text-onyx-300
+                                                    dark:text-stone-300)
+                                                  '(text-stone-100
+                                                    dark:text-onyx-900)))
+                #:expect "dark:text-onyx-900 text-stone-100"))
 
          (test "render-if"
                (assert-equal #:name "render-if-nestring with valid string"

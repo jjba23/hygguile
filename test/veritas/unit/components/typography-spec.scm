@@ -38,8 +38,7 @@
   (let ((classes (attr-value node
                              'class)))
     (and (string? classes)
-         (string-contains classes token)
-         #t)))
+         (string-contains classes token) #t)))
 
 ;; ===== the heading type scale =====
 
@@ -50,39 +49,49 @@
 ;; component's name, the node it renders, and the size and leading classes
 ;; the scale pairs for that step.
 (define heading-levels
-  (list (list "h1" (h1 "Heading") "text-4xl" "hg-leading-display")
-        (list "h2" (h2 "Heading") "text-3xl" "hg-leading-display")
-        (list "h3" (h3 "Heading") "text-2xl" "hg-leading-title")
-        (list "h4" (h4 "Heading") "text-xl" "hg-leading-subtitle")
-        (list "sub-h1" (sub-h1 "Heading") "text-3xl" "hg-leading-display")
-        (list "sub-h2" (sub-h2 "Heading") "text-2xl" "hg-leading-title")
-        (list "sub-h3" (sub-h3 "Heading") "text-xl" "hg-leading-subtitle")
+  (list (list "h1"
+              (h1 "Heading") "text-4xl" "hg-leading-display")
+        (list "h2"
+              (h2 "Heading") "text-3xl" "hg-leading-display")
+        (list "h3"
+              (h3 "Heading") "text-2xl" "hg-leading-title")
+        (list "h4"
+              (h4 "Heading") "text-xl" "hg-leading-subtitle")
+        (list "sub-h1"
+              (sub-h1 "Heading") "text-3xl" "hg-leading-display")
+        (list "sub-h2"
+              (sub-h2 "Heading") "text-2xl" "hg-leading-title")
+        (list "sub-h3"
+              (sub-h3 "Heading") "text-xl" "hg-leading-subtitle")
         (list "sub-h4"
-              (sub-h4 "Heading")
-              "text-xl"
-              "hg-leading-subtitle")))
+              (sub-h4 "Heading") "text-xl" "hg-leading-subtitle")))
 
 (define (heading-facts entry)
   "What a rendered heading says about its step of the scale."
   (let ((el (car (cadr entry))))
     (list (car entry)
           (car el)
-          (class-has? el (caddr entry))
-          (class-has? el (cadddr entry))
+          (class-has? el
+                      (caddr entry))
+          (class-has? el
+                      (cadddr entry))
           ;; a heading set solid is the one thing the scale is there to
           ;; prevent: its descenders would fall out of its own box
           (class-has? el "leading-none"))))
 
 (define (stylesheet-text)
   "The companion stylesheet, as it ships inside the library."
-  (car (filter string? (cdr (car (hygguile-extras-css))))))
+  (car (filter string?
+               (cdr (car (hygguile-extras-css))))))
 
 (define (leading-ratio css class)
   "The line-height the stylesheet gives @var{class} as a plain class, or #f."
-  (let ((at (string-contains css (string-append "." class " {"))))
+  (let ((at (string-contains css
+                             (string-append "." class " {"))))
     (and at
          (let ((m (string-match "line-height:\\s*([0-9.]+)" css at)))
-           (and m (string->number (match:substring m 1)))))))
+           (and m
+                (string->number (match:substring m 1)))))))
 
 (define heading-suite
   (suite "Heading type scale"
@@ -90,44 +99,38 @@
                (assert-equal #:name
                              "every level is a size paired with its leading"
                              #:got (map heading-facts heading-levels)
-                             #:expect
-                             '(("h1" h1 #t #t #f)
-                               ("h2" h2 #t #t #f)
-                               ("h3" h3 #t #t #f)
-                               ("h4" h4 #t #t #f)
-                               ("sub-h1" h1 #t #t #f)
-                               ("sub-h2" h2 #t #t #f)
-                               ("sub-h3" h3 #t #t #f)
-                               ("sub-h4" h4 #t #t #f)))
+                             #:expect '(("h1" h1 #t #t #f)
+                                        ("h2" h2 #t #t #f)
+                                        ("h3" h3 #t #t #f)
+                                        ("h4" h4 #t #t #f)
+                                        ("sub-h1" h1 #t #t #f)
+                                        ("sub-h2" h2 #t #t #f)
+                                        ("sub-h3" h3 #t #t #f)
+                                        ("sub-h4" h4 #t #t #f)))
                (assert-equal #:name
                              "a heading resized by hand is led by the scale"
                              #:got (let ((el (car (h1 "Heading"
-                                                     #:size
-                                                     '(text-6xl)))))
+                                                      #:size '(text-6xl)))))
                                      (list (class-has? el "text-6xl")
-                                           (class-has? el
-                                                       "hg-leading-display")))
+                                           (class-has? el "hg-leading-display")))
                              #:expect (list #t #t))
                (assert-equal #:name
                              "a leading given outright replaces the scale's"
                              #:got (let ((el (car (h1 "Heading"
-                                                     #:leading
-                                                     '(leading-6)))))
+                                                      #:leading '(leading-6)))))
                                      (list (class-has? el "leading-6")
                                            (any (lambda (class)
                                                   (class-has? el class))
                                                 heading-scale-classes)))
                              #:expect (list #t #f))
                (assert-equal #:name
-                             "every ratio in the scale leaves room for the ink"
-                             #:got (map (lambda (class)
-                                          (let ((ratio (leading-ratio
-                                                        (stylesheet-text)
-                                                        class)))
-                                            (and ratio
-                                                 (> ratio 1.25))))
-                                        heading-scale-classes)
-                             #:expect (list #t #t #t))
+                "every ratio in the scale leaves room for the ink"
+                #:got (map (lambda (class)
+                             (let ((ratio (leading-ratio (stylesheet-text)
+                                                         class)))
+                               (and ratio
+                                    (> ratio 1.25)))) heading-scale-classes)
+                #:expect (list #t #t #t))
                (assert-equal #:name
                              "and the scale loosens as the size shrinks"
                              #:got (< (leading-ratio (stylesheet-text)
@@ -145,8 +148,7 @@
                              #:got (caar (kbd "Ctrl"))
                              #:expect 'kbd)
                (assert-equal #:name "kbd is set in a monospace face"
-                             #:got (class-has? (car (kbd "Ctrl"))
-                                               "font-mono")
+                             #:got (class-has? (car (kbd "Ctrl")) "font-mono")
                              #:expect #t)
                (assert-equal #:name "samp renders a <samp> element"
                              #:got (caar (samp "Build succeeded."))
@@ -155,8 +157,7 @@
                              #:got (caar (var "username"))
                              #:expect 'var)
                (assert-equal #:name "var is italicised"
-                             #:got (class-has? (car (var "username"))
-                                               "italic")
+                             #:got (class-has? (car (var "username")) "italic")
                              #:expect #t)
                (assert-equal #:name "mark renders a <mark> element"
                              #:got (caar (mark "today"))
@@ -175,10 +176,10 @@
                                                'datetime)
                              #:expect "2026-10-11")
                (assert-equal #:name
-                             "time reuses an ISO string as its datetime value"
-                             #:got (attr-value (car (time "2026-10-11"))
-                                               'datetime)
-                             #:expect "2026-10-11")
+                "time reuses an ISO string as its datetime value"
+                #:got (attr-value (car (time "2026-10-11"))
+                                  'datetime)
+                #:expect "2026-10-11")
                (assert-equal #:name "time omits datetime when it has none"
                              #:got (attr-value (car (time (sup "1")))
                                                'datetime)
@@ -188,8 +189,8 @@
                              #:expect 'abbr)
                (assert-equal #:name "abbr carries the expansion as a title"
                              #:got (attr-value (car (abbr "HTTP"
-                                                          #:title
-                                                          "HyperText Transfer Protocol"))
+                                                     #:title
+                                                     "HyperText Transfer Protocol"))
                                                'title)
                              #:expect "HyperText Transfer Protocol")
                (assert-equal #:name "abbr omits the title when none is given"
@@ -200,15 +201,13 @@
                              #:got (caar (sup "2"))
                              #:expect 'sup)
                (assert-equal #:name "sup raises the text"
-                             #:got (class-has? (car (sup "2"))
-                                               "align-super")
+                             #:got (class-has? (car (sup "2")) "align-super")
                              #:expect #t)
                (assert-equal #:name "sub renders a <sub> element"
                              #:got (caar (sub "2"))
                              #:expect 'sub)
                (assert-equal #:name "sub lowers the text"
-                             #:got (class-has? (car (sub "2"))
-                                               "align-sub")
+                             #:got (class-has? (car (sub "2")) "align-sub")
                              #:expect #t))))
 
 (define (spec)

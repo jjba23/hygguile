@@ -20,8 +20,12 @@
   #:export (carousel))
 
 (define* (carousel #:key (id #f)
-                   (carousel-list-css '(flex gap-4 sm:gap-8 md:gap-24
-                                             p-4 sm:p-8 md:p-12
+                   (carousel-list-css '(flex gap-4
+                                             sm:gap-8
+                                             md:gap-24
+                                             p-4
+                                             sm:p-8
+                                             md:p-12
                                              list-none
                                              overflow-x-scroll
                                              scroll-smooth

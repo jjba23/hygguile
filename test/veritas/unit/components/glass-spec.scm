@@ -68,9 +68,10 @@
   (let loop
     ((nodes (decorations panel)))
     (cond
-      ((null? nodes) #f)
-      ((contains? (class-of (car nodes))
-                  "hg-accent") (car nodes))
+      ((null? nodes)
+       #f)
+      ((contains? (class-of (car nodes)) "hg-accent")
+       (car nodes))
       (else (loop (cdr nodes))))))
 
 (define (class-of node)
@@ -176,37 +177,36 @@
                                                "dark:bg-onyx-900/75")
                              #:expect #t)
                (assert-equal #:name "what is behind the glass is blurred"
-                             #:got (class-has? (surface plain)
-                                               "hg-frost")
+                             #:got (class-has? (surface plain) "hg-frost")
                              #:expect #t)
                (assert-equal #:name
                 "the frost is a layer, not a backdrop filter on the surface: browsers paint that squarely"
                 #:got (class-has? (surface plain) "backdrop-blur")
                 #:expect #f)
                (assert-equal #:name
-                             "the frost's strength is the stylesheet's until a panel says otherwise"
-                             #:got (list (attr-value (surface plain) 'style)
-                                         (contains? (render plain)
-                                                    "--hg-frost-blur"))
-                             #:expect (list #f #f))
+                "the frost's strength is the stylesheet's until a panel says otherwise"
+                #:got (list (attr-value (surface plain)
+                                        'style)
+                            (contains? (render plain) "--hg-frost-blur"))
+                #:expect (list #f #f))
                (assert-equal #:name
-                             "a panel can say how strong its frost is, in rems"
-                             #:got (let ((panel (glass-panel "Hi"
-                                                            #:frost 3)))
-                                     (list (attr-value (surface panel) 'style)
-                                           (count-of (render panel)
-                                                     "style=")))
-                             #:expect (list "--hg-frost-blur: 3rem" 1))
+                "a panel can say how strong its frost is, in rems"
+                #:got (let ((panel (glass-panel "Hi"
+                                                #:frost 3)))
+                        (list (attr-value (surface panel)
+                                          'style)
+                              (count-of (render panel) "style=")))
+                #:expect (list "--hg-frost-blur: 3rem" 1))
                (assert-equal #:name
-                             "and in any CSS length, beside a style the caller brought"
-                             #:got (let ((panel (glass-panel "Hi"
-                                                            #:frost "2.5rem"
-                                                            #:attributes '((style "color: red")))))
-                                     (list (attr-value (surface panel) 'style)
-                                           (count-of (render panel)
-                                                     "style=")))
-                             #:expect
-                             (list "color: red; --hg-frost-blur: 2.5rem" 1))
+                "and in any CSS length, beside a style the caller brought"
+                #:got (let ((panel (glass-panel "Hi"
+                                                #:frost "2.5rem"
+                                                #:attributes '((style
+                                                                "color: red")))))
+                        (list (attr-value (surface panel)
+                                          'style)
+                              (count-of (render panel) "style=")))
+                #:expect (list "color: red; --hg-frost-blur: 2.5rem" 1))
                (assert-equal #:name
                              "the surface is bordered, rounded and raised"
                              #:got (list (class-has? (surface plain)
@@ -225,13 +225,13 @@
                                         "overflow-hidden"))
                 #:expect (list #f #f #f))
                (assert-equal #:name
-                             "the washes are clipped in a rounded layer of their own"
-                             #:got (let ((layer (clip-layer washed)))
-                                     (list (class-has? layer "overflow-hidden")
-                                           (class-has? layer "rounded-3xl")
-                                           (class-has? layer "absolute")
-                                           (class-has? layer "inset-0")))
-                             #:expect (list #t #t #t #t))
+                "the washes are clipped in a rounded layer of their own"
+                #:got (let ((layer (clip-layer washed)))
+                        (list (class-has? layer "overflow-hidden")
+                              (class-has? layer "rounded-3xl")
+                              (class-has? layer "absolute")
+                              (class-has? layer "inset-0")))
+                #:expect (list #t #t #t #t))
                (assert-equal #:name
                              "and that layer wears the caller's rounding"
                              #:got (let ((layer (clip-layer (glass-panel "Hi"
@@ -244,37 +244,37 @@
                                            (class-has? layer "rounded-3xl")))
                              #:expect (list #t #f))
                (assert-equal #:name
-                             "the layer the washes ride in names the clip that actually holds them"
-                             #:got (class-has? (clip-layer washed)
-                                               "hg-glass-layer")
-                             #:expect #t)
+                "the layer the washes ride in names the clip that actually holds them"
+                #:got (class-has? (clip-layer washed) "hg-glass-layer")
+                #:expect #t)
                (assert-equal #:name
-                             "and the sheet clips that layer to a radius, the only clip a blur obeys"
-                             #:got (let ((css (extras-stylesheet)))
-                                     (list (contains? css
-                                                      (string-append
-                                                       ".hg-glass-layer {\n"
-                                                       "  clip-path: inset(0 round var(--hg-glass-clip, 1.28rem));"))
-                                           (contains? css
-                                                      "clip-path: inset(0 round var(--hg-glass-clip,")))
-                             #:expect (list #t #t))
+                "and the sheet clips that layer to a radius, the only clip a blur obeys"
+                #:got (let ((css (extras-stylesheet)))
+                        (list (contains? css
+                                         (string-append ".hg-glass-layer {\n"
+                                          "  clip-path: inset(0 round var(--hg-glass-clip, 1.28rem));"))
+                              (contains? css
+                               "clip-path: inset(0 round var(--hg-glass-clip,")))
+                #:expect (list #t #t))
                (assert-equal #:name
-                             "every rounding the framework's own panes wear has a clip to match"
-                             #:got (map (lambda (token)
-                                          (contains? (extras-stylesheet)
-                                                     (string-append
-                                                      ".hg-glass-layer[class~=\""
-                                                      token
-                                                      "\"]")))
-                                        '("rounded-none" "rounded-xl"
-                                          "rounded-2xl" "rounded-3xl"
-                                          "rounded-4xl" "rounded-full"))
-                             #:expect (list #t #t #t #t #t #t))
+                "every rounding the framework's own panes wear has a clip to match"
+                #:got (map (lambda (token)
+                             (contains? (extras-stylesheet)
+                                        (string-append
+                                         ".hg-glass-layer[class~=\"" token
+                                         "\"]")))
+                           '("rounded-none" "rounded-xl" "rounded-2xl"
+                             "rounded-3xl" "rounded-4xl" "rounded-full"))
+                #:expect (list #t
+                               #t
+                               #t
+                               #t
+                               #t
+                               #t))
                (assert-equal #:name
-                             "a plain panel clips nothing, so a child can escape"
-                             #:got (class-has? (surface plain)
-                                               "overflow-hidden")
-                             #:expect #f)
+                "a plain panel clips nothing, so a child can escape"
+                #:got (class-has? (surface plain) "overflow-hidden")
+                #:expect #f)
                (assert-equal #:name
                              "the padding defaults to a comfortable one"
                              #:got (list (class-has? (surface plain) "p-6")
@@ -309,13 +309,13 @@
                 #:got (let ((layer (content-layer still-panel)))
                         (list (class-has? layer "relative")
                               (class-has? layer "overflow-hidden")
-                              (equal? (cddr layer) '("CONTENT"))))
+                              (equal? (cddr layer)
+                                      '("CONTENT"))))
                 #:expect (list #t #f #t))
                (assert-equal #:name
                 "a washed panel keeps its washes in with their layer, not by clipping its content"
                 #:got (let ((panel still-panel))
-                        (list (class-has? (clip-layer panel)
-                                          "overflow-hidden")
+                        (list (class-has? (clip-layer panel) "overflow-hidden")
                               (class-has? (content-layer panel)
                                           "overflow-hidden")))
                 #:expect (list #t #f))
@@ -327,15 +327,16 @@
                                                        "CONTENT"))
                              #:expect #t)
                (assert-equal #:name
-                             "a panel with nothing to sit above adds no layer"
-                             #:got (count-of (render plain) "<div")
-                             #:expect 1)
+                "a panel with nothing to sit above adds no layer"
+                #:got (count-of (render plain) "<div")
+                #:expect 1)
                (assert-equal #:name "content-classes are added to that layer"
-                             #:got (let ((layer (content-layer (glass-panel "CONTENT"
-                                                                            #:washes (list
-                                                                                      (yellow-wash))
-                                                                            #:content-classes '
-                                                                            (flex gap-2)))))
+                             #:got (let ((layer (content-layer (glass-panel
+                                                                "CONTENT"
+                                                                #:washes (list
+                                                                          (yellow-wash))
+                                                                #:content-classes '
+                                                                (flex gap-2)))))
                                      (list (class-has? layer "flex")
                                            (class-has? layer "gap-2")
                                            (class-has? layer "relative")))
@@ -351,12 +352,10 @@
                (assert-equal #:name
                 "the recipe's smaller steps are the stylesheet's, so a disc or a pill names its strength rather than writing one"
                 #:got (let ((sheet (extras-stylesheet)))
-                        (list (contains?
-                               sheet
-                               ".hg-frost-soft {\n  --hg-frost-blur: 3rem;")
-                              (contains?
-                               sheet
-                               ".hg-frost-pill {\n  --hg-frost-blur: 1rem;")))
+                        (list (contains? sheet ".hg-frost-soft {
+  --hg-frost-blur: 3rem;")
+                              (contains? sheet ".hg-frost-pill {
+  --hg-frost-blur: 1rem;")))
                 #:expect (list #t #t))
                (assert-equal #:name
                 "asking to clip clips the content, not the frost"
@@ -364,8 +363,7 @@
                                                 #:clip? #t)))
                         (list (class-has? (content-layer panel)
                                           "overflow-hidden")
-                              (class-has? (content-layer panel)
-                                          "rounded-3xl")
+                              (class-has? (content-layer panel) "rounded-3xl")
                               (class-has? (surface panel) "overflow-hidden")))
                 #:expect (list #t #t #f))
                (assert-equal #:name
@@ -429,18 +427,16 @@
                                               "--hg-blob-duration: 40s")
                              #:expect #t)
                (assert-equal #:name
-                             "pace takes a CSS time string just as a delay does"
-                             #:got (contains? (render (glass-panel "Hi"
-                                                                   #:washes (list
-                                                                             (glass-wash '
-                                                                              (w-96
-                                                                               h-96)
-                                                                              #:pace
-                                                                              "1.5m"))))
-                                              "--hg-blob-duration: 1.5m")
-                             #:expect #t)
-               (assert-equal #:name
-                             "pace and delay ride on one disc together"
+                "pace takes a CSS time string just as a delay does"
+                #:got (contains? (render (glass-panel "Hi"
+                                                      #:washes (list (glass-wash '
+                                                                      (w-96
+                                                                       h-96)
+                                                                      #:pace
+                                                                      "1.5m"))))
+                                 "--hg-blob-duration: 1.5m")
+                #:expect #t)
+               (assert-equal #:name "pace and delay ride on one disc together"
                              #:got (contains? (render (glass-panel "Hi"
                                                                    #:washes (list
                                                                              (glass-wash '
@@ -451,8 +447,9 @@
                                                                               #:pace
                                                                               18
                                                                               #:distance '
-                                                                              (2 -1)))))
-                                              "style=\"animation-delay: -3s; --hg-blob-duration: 18s; --hg-blob-x: 2rem; --hg-blob-y: -1rem\"")
+                                                                              (2
+                                                                               -1)))))
+                                    "style=\"animation-delay: -3s; --hg-blob-duration: 18s; --hg-blob-x: 2rem; --hg-blob-y: -1rem\"")
                              #:expect #t)
                (assert-equal #:name
                 "a distance is two custom properties, in rems by default"
@@ -476,15 +473,15 @@
                               (contains? html "--hg-blob-y")))
                 #:expect (list #t #f))
                (assert-equal #:name
-                             "a wash that asks for nothing carries no style at all"
-                             #:got (contains? (render (glass-panel "Hi"
-                                                                   #:washes (list
-                                                                             (glass-wash '
-                                                                              (w-96
-                                                                               h-96)))))
-                                              "style=")
-                             #:expect #f)
-               (assert-equal #:name "a delay can be given as a CSS time string instead"
+                "a wash that asks for nothing carries no style at all"
+                #:got (contains? (render (glass-panel "Hi"
+                                                      #:washes (list (glass-wash '
+                                                                      (w-96
+                                                                       h-96)))))
+                                 "style=")
+                #:expect #f)
+               (assert-equal #:name
+                "a delay can be given as a CSS time string instead"
                 #:got (contains? (render (glass-panel "Hi"
                                                       #:washes (list (glass-wash '
                                                                       (w-96
@@ -520,9 +517,9 @@
                         (list (eq? (accent-of panel)
                                    (car (decorations panel)))
                               (caar (accent-of panel))
-                              (class-has? (clip-layer panel)
-                                          "overflow-hidden")))
-                #:expect (list #t 'div #t))
+                              (class-has? (clip-layer panel) "overflow-hidden")))
+                #:expect (list #t
+                               'div #t))
                (assert-equal #:name "without one, no extra node is drawn"
                              #:got (contains? (render plain) "hg-accent")
                              #:expect #f)
@@ -543,43 +540,46 @@
                              #:got (caar (glass-panel '()
                                                       #:tag 'header))
                              #:expect 'header)
-               (assert-equal #:name
-                             "the surface can carry extra attributes"
+               (assert-equal #:name "the surface can carry extra attributes"
                              #:got (contains? (render (glass-panel "Hi"
-                                                                   #:attributes '((hidden
-                                                                                   ""))))
+                                                                   #:attributes '
+                                                                   ((hidden ""))))
                                               "<div hidden=\"\"")
                              #:expect #t)
                (assert-equal #:name
-                             "a surface can place itself, and stop being relative"
+                "a surface can place itself, and stop being relative"
+                #:got (let ((root (surface (glass-panel "Hi"
+                                                        #:position '(sticky
+                                                                     top-0)))))
+                        (list (class-has? root "sticky")
+                              (class-has? root "top-0")
+                              (class-has? root "relative")))
+                #:expect (list #t #t #f))
+               (assert-equal #:name
+                "the tint, rounding, border and shadow can be the caller's"
+                #:got (let ((root (surface bar-panel)))
+                        (list (class-has? root "bg-stone-300/75")
+                              (class-has? root "dark:bg-onyx-700/75")
+                              (class-has? root "bg-stone-100/75")
+                              (class-has? root "rounded-3xl")
+                              (class-has? root "border-2")
+                              (class-has? root "shadow-lg")
+                              (class-has? root "p-6")))
+                #:expect (list #t
+                               #t
+                               #f
+                               #f
+                               #f
+                               #f
+                               #f))
+               (assert-equal #:name
+                "the frost is never the caller's: it is what glass is"
+                #:got (class-has? (surface bar-panel) "hg-frost")
+                #:expect #t)
+               (assert-equal #:name "a surface that must not clip can say so"
                              #:got (let ((root (surface (glass-panel "Hi"
-                                                                     #:position '
-                                                                     (sticky
-                                                                      top-0)))))
-                                     (list (class-has? root "sticky")
-                                           (class-has? root "top-0")
-                                           (class-has? root "relative")))
-                             #:expect (list #t #t #f))
-               (assert-equal #:name
-                             "the tint, rounding, border and shadow can be the caller's"
-                             #:got (let ((root (surface bar-panel)))
-                                     (list (class-has? root "bg-stone-300/75")
-                                           (class-has? root "dark:bg-onyx-700/75")
-                                           (class-has? root "bg-stone-100/75")
-                                           (class-has? root "rounded-3xl")
-                                           (class-has? root "border-2")
-                                           (class-has? root "shadow-lg")
-                                           (class-has? root "p-6")))
-                             #:expect (list #t #t #f #f #f #f #f))
-               (assert-equal #:name
-                             "the frost is never the caller's: it is what glass is"
-                             #:got (class-has? (surface bar-panel)
-                                               "hg-frost")
-                             #:expect #t)
-               (assert-equal #:name
-                             "a surface that must not clip can say so"
-                             #:got (let ((root (surface (glass-panel "Hi"
-                                                                     #:clip? #t))))
+                                                                     #:clip?
+                                                                     #t))))
                                      (list (class-has? root "overflow-hidden")
                                            (class-has? root "relative")))
                              #:expect (list #f #t)))))

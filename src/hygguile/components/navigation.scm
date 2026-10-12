@@ -72,9 +72,9 @@ among them replaces the panel's tint, so a bar can recolour its own glass.
                                        ,brand))
                            '())
                        (list `(nav (@ (class ,(mk-class '(flex flex-row
-                                                              flex-wrap
-                                                              items-center
-                                                              gap-4))))
+                                                               flex-wrap
+                                                               items-center
+                                                               gap-4))))
                                    ,content)))
                #:tag 'header
                #:tint navbar-tint
@@ -323,10 +323,17 @@ List of symbols representing the wrapper CSS classes.
                        (tab #:id \"b\" #:label \"B\" #:content (list (p \"B\")))))
 @end example"
   (let* ((group (if id id
-                    (symbol->string (gensym "hg-tabs"))))         (selected-id (if selected selected (car (car tab-items))))
-         (field-id (lambda (t) (format #f "~a-~a" group (car t))))
-         (label-id (lambda (t) (format #f "~a-label" (field-id t)))))
-    `((div (@ (class ,(mk-class (append tabs-class '(hg-tabs)))))
+                    (symbol->string (gensym "hg-tabs"))))
+         (selected-id (if selected selected
+                          (car (car tab-items))))
+         (field-id (lambda (t)
+                     (format #f "~a-~a" group
+                             (car t))))
+         (label-id (lambda (t)
+                     (format #f "~a-label"
+                             (field-id t)))))
+    `((div (@ (class ,(mk-class (append tabs-class
+                                        '(hg-tabs)))))
            ,@(map (lambda (t)
                     `(input (@ (type "radio")
                                (name ,group)
@@ -334,8 +341,7 @@ List of symbols representing the wrapper CSS classes.
                                ,@(if (equal? (car t) selected-id)
                                      '((checked ""))
                                      '())
-                               (class "hg-tab-input"))))
-                  tab-items)
+                               (class "hg-tab-input")))) tab-items)
            (div (@ (class "hg-tab-labels")
                    (role "tablist"))
                 ,@(map (lambda (t)
@@ -344,18 +350,16 @@ List of symbols representing the wrapper CSS classes.
                                     (role "tab")
                                     (aria-selected ,(if (equal? (car t)
                                                                 selected-id)
-                                                        "true"
-                                                        "false"))
+                                                        "true" "false"))
                                     (aria-controls ,(format #f "~a-panel"
                                                             (field-id t)))
                                     (class "hg-tab-label"))
-                                 ,(cadr t)))
-                       tab-items))
+                                 ,(cadr t))) tab-items))
            (div (@ (class "hg-tab-panels"))
                 ,@(map (lambda (t)
-                         `(div (@ (id ,(format #f "~a-panel" (field-id t)))
+                         `(div (@ (id ,(format #f "~a-panel"
+                                               (field-id t)))
                                   (role "tabpanel")
                                   (aria-labelledby ,(label-id t))
                                   (class "hg-tab-panel"))
-                               ,(caddr t)))
-                       tab-items))))))
+                               ,(caddr t))) tab-items))))))

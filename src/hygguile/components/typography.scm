@@ -59,8 +59,7 @@
 ;; Lucida Sans for 1.16, so the tightest step here is 1.3, with room to
 ;; spare rather than a hairline. For comparison, body copy is set at 1.5.
 (define heading-scale
-  '((text-4xl . hg-leading-display)
-    (text-3xl . hg-leading-display)
+  '((text-4xl . hg-leading-display) (text-3xl . hg-leading-display)
     (text-2xl . hg-leading-title)
     (text-xl . hg-leading-subtitle)))
 
@@ -72,7 +71,9 @@ entry is looked up. A step the scale does not name -- a page reaching for
 one of its own -- is led by the tightest ratio in the scale, which is still
 looser than either shipped face needs, so a heading never loses ink by
 leaving the scale."
-  (list (or (assq-ref heading-scale (car size)) 'hg-leading-display)))
+  (list (or (assq-ref heading-scale
+                      (car size))
+            'hg-leading-display)))
 
 (define* (h1 content
              #:key (weight '(font-bold))
@@ -226,7 +227,12 @@ heading scale pairs with @var{size}.
 @example
 (sub-h1 \"A deeper dive into the architecture\")
 @end example"
-  `((h1 (@ (class ,(mk-class (append color size weight style family leading))))
+  `((h1 (@ (class ,(mk-class (append color
+                                     size
+                                     weight
+                                     style
+                                     family
+                                     leading))))
         ,content)))
 
 (define* (sub-h2 content
@@ -259,7 +265,12 @@ heading scale pairs with @var{size}.
 @example
 (sub-h2 \"Contextual commentary block\")
 @end example"
-  `((h2 (@ (class ,(mk-class (append color size weight style family leading))))
+  `((h2 (@ (class ,(mk-class (append color
+                                     size
+                                     weight
+                                     style
+                                     family
+                                     leading))))
         ,content)))
 
 (define* (sub-h3 content
@@ -292,7 +303,12 @@ heading scale pairs with @var{size}.
 @example
 (sub-h3 \"Detailed breakdown notes\")
 @end example"
-  `((h3 (@ (class ,(mk-class (append color size weight style family leading))))
+  `((h3 (@ (class ,(mk-class (append color
+                                     size
+                                     weight
+                                     style
+                                     family
+                                     leading))))
         ,content)))
 
 (define* (sub-h4 content
@@ -325,7 +341,12 @@ heading scale pairs with @var{size}.
 @example
 (sub-h4 \"Supplemental metadata label\")
 @end example"
-  `((h4 (@ (class ,(mk-class (append color size weight style family leading))))
+  `((h4 (@ (class ,(mk-class (append color
+                                     size
+                                     weight
+                                     style
+                                     family
+                                     leading))))
         ,content)))
 
 (define* (p content
@@ -665,7 +686,7 @@ List of structural typography rules for keyboard keys.
                                       padding-y
                                       padding-x
                                       rounding))))
-          ,content)))
+         ,content)))
 
 (define* (samp content
                #:key (weight '(font-medium))
@@ -730,11 +751,11 @@ List of additional typography utility classes.
 (var \"username\")
 @end example"
   `((var (@ (class ,(mk-class (append color
-                                     var-classes
-                                     size
-                                     weight
-                                     style
-                                     family))))
+                                      var-classes
+                                      size
+                                      weight
+                                      style
+                                      family))))
          ,content)))
 
 (define* (mark content
@@ -773,12 +794,12 @@ List of additional typography utility classes.
 (mark \"today\")
 @end example"
   `((mark (@ (class ,(mk-class (append color
-                                      background
-                                      mark-classes
-                                      size
-                                      weight
-                                      padding-x
-                                      rounding))))
+                                       background
+                                       mark-classes
+                                       size
+                                       weight
+                                       padding-x
+                                       rounding))))
           ,content)))
 
 (define* (time content
@@ -815,14 +836,12 @@ List of typography rules, such as tabular figures for aligned dates.
 @end example"
   (let ((machine-value (cond
                          (datetime datetime)
-                         ((string? content) content)
+                         ((string? content)
+                          content)
                          (else #f))))
     `((time (@ ,@(attr-when machine-value
                             'datetime machine-value)
-              (class ,(mk-class (append color
-                                        time-classes
-                                        size
-                                        weight))))
+               (class ,(mk-class (append color time-classes size weight))))
             ,content))))
 
 (define* (abbr content
@@ -859,11 +878,8 @@ List of additional typography utility classes.
 @end example"
   `((abbr (@ ,@(attr-when title
                           'title title)
-            (class ,(mk-class (append color
-                                      abbr-classes
-                                      decoration
-                                      size
-                                      weight))))
+             (class ,(mk-class (append color abbr-classes decoration size
+                                       weight))))
           ,content)))
 
 (define* (sup content
@@ -897,11 +913,7 @@ List of additional typography utility classes.
 @example
 (p (list \"Copyright\" (sup \"©\")))
 @end example"
-  `((sup (@ (class ,(mk-class (append color
-                                     sup-classes
-                                     size
-                                     weight
-                                     vertical))))
+  `((sup (@ (class ,(mk-class (append color sup-classes size weight vertical))))
          ,content)))
 
 (define* (sub content
@@ -932,9 +944,5 @@ List of additional typography utility classes.
 @example
 (p (list \"H\" (sub \"2\") \"O\"))
 @end example"
-  `((sub (@ (class ,(mk-class (append color
-                                     sub-classes
-                                     size
-                                     weight
-                                     vertical))))
+  `((sub (@ (class ,(mk-class (append color sub-classes size weight vertical))))
          ,content)))

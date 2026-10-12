@@ -115,15 +115,16 @@ A class name, as a symbol or a string.
 (colour-utility-key 'dark:text-onyx-900)
 ;; => \"dark|text\"
 @end example"
-  (let* ((name (if (symbol? class) (symbol->string class) class))
+  (let* ((name (if (symbol? class)
+                   (symbol->string class) class))
          (parts (string-split name #\:))
          (variant (string-join (drop-right parts 1) ":"))
          (utility (last parts))
          (m (string-match "^([a-z]+)-[a-z][a-z-]*-[0-9]{2,3}(/[0-9.]+)?$"
                           utility)))
     (if m
-        (format #f "~a|~a" variant (match:substring m 1))
-        #f)))
+        (format #f "~a|~a" variant
+                (match:substring m 1)) #f)))
 
 (define* (override-classes base overrides)
   "Return @var{base} with every colour utility that @var{overrides} also sets removed, then @var{overrides} appended.
@@ -152,13 +153,11 @@ The class list that wins.
                   '(text-stone-100 dark:text-onyx-900))
 ;; => (text-stone-100 dark:text-onyx-900)
 @end example"
-  (let ((keys (delete-duplicates
-               (filter-map colour-utility-key overrides))))
+  (let ((keys (delete-duplicates (filter-map colour-utility-key overrides))))
     (append (filter (lambda (c)
                       (let ((k (colour-utility-key c)))
-                        (not (and k (member k keys)))))
-                    base)
-            overrides)))
+                        (not (and k
+                                  (member k keys))))) base) overrides)))
 
 (define* (render-if-nestring expr x)
   "Evaluate and return the result of @var{expr} with @var{x} if @var{x} is a non-empty string.

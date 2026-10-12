@@ -106,15 +106,15 @@ A list of nested child items (typically @code{fly-out-item} items) belonging to 
                    (aria-controls submenu))
                 ,button-content)
         ,@(glass-panel items
-                      #:tag 'ul
-                      #:attributes '((hidden ""))
-                      #:tint fly-out-tint
-                      #:position '(absolute)
-                      #:rounding '()
-                      #:border '()
-                      #:shadow '()
-                      #:padding '()
-                      #:classes ul-class))))
+                       #:tag 'ul
+                       #:attributes '((hidden ""))
+                       #:tint fly-out-tint
+                       #:position '(absolute)
+                       #:rounding '()
+                       #:border '()
+                       #:shadow '()
+                       #:padding '()
+                       #:classes ul-class))))
 
 (define* (fly-out-item content
                        #:key (li-class '(px-4 py-4)))
