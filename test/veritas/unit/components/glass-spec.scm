@@ -271,12 +271,21 @@
                              "with no washes there is nothing decorative"
                              #:got (count-of (render plain) "aria-hidden")
                              #:expect 0)
-               (assert-equal #:name "the content sits in a layer above the washes"
-                             #:got (let ((layer (content-layer still-panel)))
-                                     (list (class-has? layer "relative")
-                                           (class-has? layer "overflow-hidden")
-                                           (equal? (cddr layer) '("CONTENT"))))
-                             #:expect (list #t #t #t))
+               (assert-equal #:name
+                "the content sits in a layer above the washes, and that layer is not a clip"
+                #:got (let ((layer (content-layer still-panel)))
+                        (list (class-has? layer "relative")
+                              (class-has? layer "overflow-hidden")
+                              (equal? (cddr layer) '("CONTENT"))))
+                #:expect (list #t #f #t))
+               (assert-equal #:name
+                "a washed panel keeps its washes in with their layer, not by clipping its content"
+                #:got (let ((panel still-panel))
+                        (list (class-has? (clip-layer panel)
+                                          "overflow-hidden")
+                              (class-has? (content-layer panel)
+                                          "overflow-hidden")))
+                #:expect (list #t #f))
                (assert-equal #:name
                              "and above the clip layer rather than inside it"
                              #:got (< (string-contains (render still-panel)

@@ -245,9 +245,16 @@ meant to let out of its own corner. The layer therefore paints the frost,
 clips itself to the surface's own radius, and leaves the surface free.
 
 The surface never clips. The decorations (the washes and the @var{accent})
-are wrapped in their own rounded clip layer, and the content is clipped by
-the layer that holds it. Both of those layers are plain elements, which
-browsers clip to their radius reliably.
+are wrapped in their own rounded clip layer, which is what keeps those
+oversized discs inside the glass, and that layer is a plain element, which
+browsers clip to its radius reliably.
+
+The layer that holds the content does not clip unless the panel asks it to
+with @var{clip?}, and that default is deliberate. That layer's edge falls
+exactly on the content's own edge -- the surface's padding is on the
+surface -- so a clip there shaves whatever sits flush with it by a device
+pixel: the left arc of a line's first glyph, the stroke of a table's first
+cell. Clipping is a knob a panel reaches for, not a tax every panel pays.
 
 The washes are the wallpaper trick: a few oversized, heavily blurred discs
 of colour thrown across the panel, each described by @code{glass-wash}.
@@ -260,13 +267,13 @@ for a panel that is often just a bit of background. Either way the drift
 stops for anyone who asks for less motion: @code{prefers-reduced-motion}
 turns the animation off in the stylesheet.
 
-A panel with nothing to clip has no layers, and then there is nothing to
-sit above or hide: the content is the panel's own children and no layer is
-added. That is what lets this one component be a @code{<header>}, a
-@code{<ul>} or a @code{<div>} without leaving an extra element inside,
-which a @code{<ul>} may not legally hold. A panel that does have 
-decorations, or that asks to clip, gets its decorations in a rounded
-@code{<div>} of their own and its content in a second one.
+A panel with no decorations has no layers, and then there is nothing to
+sit above: the content is the panel's own children and no layer is added.
+That is what lets this one component be a @code{<header>}, a @code{<ul>}
+or a @code{<div>} without leaving an extra element inside, which a
+@code{<ul>} may not legally hold. A panel that does have decorations gets
+its decorations in a rounded @code{<div>} of their own and its content in
+a second one.
 
 @table @var
 @item content
@@ -312,12 +319,13 @@ List of symbols representing the shadow, or the empty list for none.
 Defaults to @code{(shadow-lg)}.
 @item clip?
 Whether the panel hides its content's overflow, in the layer holding the
-content. Defaults to false, and a panel with washes or an accent clips
-regardless, since the washes are oversized and something has to keep them
-inside the glass. A surface that must let a child escape -- a bar holding a
-dropdown -- therefore stays open. The surface itself never carries
-@code{overflow-hidden}, so a panel is always free to let a dropdown out of
-its own corner.
+content. Defaults to false: the washes are oversized but it is the layer
+they are painted in that keeps them inside the glass, so the content layer
+has no work to do unless a panel hands it some. Leaving it open is what
+keeps a line's first glyph whole -- that layer's edge is the content's own
+edge -- and it keeps a surface free to let a child escape, a bar holding a
+dropdown being the case worth naming. The surface itself never carries
+@code{overflow-hidden}, whichever way @var{clip?} is set.
 @item padding
 List of symbols representing the padding classes. Defaults to
 @code{(p-6 sm:p-8)}.
@@ -348,7 +356,6 @@ a panel can lay its contents out without reaching for the surface -- a
 @end example"
   (let* ((layers (or (pair? washes)
                      (and accent #t)))
-         (clipped (or clip? layers))
          ;; a frost strength is a declaration rather than a class, since it
          ;; is read on the panel's own layer (see the docstring)
          (declarations (if frost
@@ -366,7 +373,7 @@ a panel can lay its contents out without reaching for the surface -- a
                                rounding
                                '(overflow-hidden)))
          (content-classes* (append '(relative)
-                                   (if clipped
+                                   (if clip?
                                        (append rounding '(overflow-hidden))
                                        '())
                                    content-classes)))
@@ -382,7 +389,7 @@ a panel can lay its contents out without reaching for the surface -- a
                                     (list accent)
                                     '())))
                   '())
-            ,@(if (or layers clipped)
+            ,@(if (or layers clip?)
                   (list `(div (@ (class ,(mk-class content-classes*)))
                               ,content))
                   ;; a panel with no layer takes its contents directly, and a

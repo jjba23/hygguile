@@ -594,7 +594,7 @@
          (sub-h3 "Glass panels")
          (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-4))))
               ,(p
-                "A glass panel is a surface you can see through: a translucent tint over a backdrop blur, clipping whatever it is given, so what sits behind the panel is softened rather than hidden. The washes are the wallpaper trick -- a few oversized, blurred discs of colour thrown across the glass -- and they are optional, as is their drift."
+                "A glass panel is a surface you can see through: a translucent tint over a backdrop blur, so what sits behind the panel is softened rather than hidden. Nothing in it is cut short by default -- a panel decides that with #:clip? -- and the ink of a line flush with the glass stays whole. The washes are the wallpaper trick -- a few oversized, blurred discs of colour thrown across the glass -- and they are optional, as is their drift."
                 #:weight '(font-light)))
          (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-6
                                           items-start))))
@@ -852,10 +852,17 @@
                                      min-h-32
                                      p-3
                                      rounded-2xl
-                                     border-2
-                                     border-stone-500/25
-                                     dark:border-onyx-100/25
-                                     shadow-lg)))
+                                     ;; a specimen draws its own edge
+                                     ;; rather than wearing the panel's: a
+                                     ;; two-pixel stone hairline over a
+                                     ;; saturated gradient reads as a grey
+                                     ;; band, so it is a one-pixel line of
+                                     ;; the gradient's own light or dark
+                                     ;; and a lighter shadow instead
+                                     border
+                                     border-onyx-900/10
+                                     dark:border-stone-100/10
+                                     shadow-md)))
          ;; the label is frosted, which is the whole point: a gradient
          ;; under glass is the look people mean by "macOS"
          (label-class (mk-class '(rounded-512
