@@ -443,6 +443,7 @@ The washes are optional, and so is their drift. Each one is described by ~glass-
                 ;; crossing takes, and how far the disc travels in it
                 (glass-wash '(bg-jeans-blue-500/50 w-96 h-96 right-24 bottom-4)
                             #:delay -22 #:pace 40 #:distance '(3 -2)))
+ #:frost 3                        ; the frost's own strength, in rems
  #:drift? #t)                     ; without it the discs simply stand still
 #+end_src
 
@@ -450,9 +451,11 @@ Left as it is a panel is still, which is the calmer default for something that i
 
 How fast a disc moves and how far it travels are the page's to choose, from Scheme: ~#:pace~ is one crossing (~40~ seconds, or any CSS time such as ~"1.5m"~), ~#:distance~ is a pair of lengths -- horizontally then vertically, in rems unless you write ~"2.5rem"~ -- and a disc that says neither drifts at the stylesheet's own default. Both reach the browser as inline custom properties (~--hg-blob-duration~, ~--hg-blob-x~, ~--hg-blob-y~) that the one ~.hg-blob~ rule reads, so a page never needs a second stylesheet or a new class to change the mood of its own glass.
 
-The surface the tint and the blur live on deliberately does not clip. A ~rounded-3xl~ together with ~overflow-hidden~ on the very element carrying a backdrop blur is what paints a square edge out of a round corner in some browsers, so the decorations are clipped in a rounded layer of their own and the content in the layer that holds it: two plain elements, which are clipped to their radius reliably, over a surface whose own rounding is then never fighting the backdrop filter. A panel with nothing to clip has no layers at all and hands its text straight to its own tag, which is how the same component is also a ~<header>~ and a ~<ul>~.
+The frost is not a backdrop filter on the surface itself. A browser paints a filtered backdrop in the element's square box and ignores its radius, which leaves a square patch of frost at every rounded corner, and neither a radius nor a clip path on that element cures it. The ~hg-frost~ class therefore paints the frost one level in, in a layer the surface owns that rounds itself to the surface's radius and clips itself, so the surface keeps its shape and stays free of ~overflow-hidden~: the decorations are clipped in a rounded layer of their own and the content in the layer that holds it, and a panel with nothing to clip has no layers at all and hands its text straight to its own tag, which is how the same component is also a ~<header>~ and a ~<ul>~.
 
-Every frosted surface in Hygguile is that one component. The notification tray's card asks for the pane with the tray's own tint; the fly-out submenu asks for it with ~#:tag 'ul~ and keeps its own shape -- absolutely placed under its trigger, rounded and shadowed by the classes it passes in -- and the navigation bar asks for it with ~#:tag 'header~, its own ~(sticky top-0)~ placement, and no clipping, because a bar has to let the menu it dropped out of escape. None of them spells out a frost utility of its own: the ~bg-...~ tint and ~backdrop-blur-md~ belong to ~glass-panel~, so the glass has one definition, one set of knobs and one spec, and a change to how it looks lands everywhere at once.
+The strength of that frost is the panel's to choose too: ~#:frost~ takes a number of rems or any CSS length (~3~, ~"2rem"~), reaches the browser as the ~--hg-frost-blur~ property the layer reads, and leaves the stylesheet's own 4rem -- what Olive's ~backdrop-blur-md~ would set -- standing when a panel says nothing. A panel that says nothing carries no ~style~ attribute at all.
+
+Every frosted surface in Hygguile is that one component. The notification tray's card asks for the pane with the tray's own tint; the fly-out submenu asks for it with ~#:tag 'ul~ and keeps its own shape -- absolutely placed under its trigger, rounded and shadowed by the classes it passes in -- and the navigation bar asks for it with ~#:tag 'header~, its own ~(sticky top-0)~ placement, and no clipping, because a bar has to let the menu it dropped out of escape. None of them spells out a frost of its own: the ~bg-...~ tint and the ~hg-frost~ layer belong to ~glass-panel~, so the glass has one definition, one set of knobs and one spec, and a change to how it looks lands everywhere at once.
 
 ----------------
 

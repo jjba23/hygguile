@@ -24,8 +24,18 @@
 ;; behind the pane arrives coloured and blurred through it. This is the one
 ;; line every frosted surface in the framework has in common -- the navbar,
 ;; a fly-out menu and a notification all reach it through `glass-panel'.
+;;
+;; The class is the framework's own rather than an Olive blur utility,
+;; because the frost cannot be a backdrop-filter on the pane itself:
+;; browsers paint a filtered backdrop in the pane's square box and ignore
+;; its radius, which leaves a square patch of frost at every rounded
+;; corner, and neither a radius nor a clip path on that element cures it.
+;; `hg-frost' paints the frost one level in, in a layer of the pane's own
+;; that rounds itself to the pane's radius and clips itself, so the pane
+;; keeps its shape, keeps letting a child escape, and still frosts what is
+;; behind it. See `hygguile-extras.css' for the whole story.
 (define glass-frost-classes
-  '(backdrop-blur-md))
+  '(hg-frost))
 
 ;; The dress a pane wears unless it says otherwise: a tint, a deep
 ;; rounding, the border that draws the edge of the glass, and the shadow
@@ -80,6 +90,35 @@ A distance is a number of rems or any CSS length, so a caller who writes
     ((symbol? value)
      (symbol->string value))
     (else (format #f "~a" value))))
+
+(define (glass-frost-declaration frost)
+  "Return the one CSS declaration a frost strength is written as.
+
+A strength is a number of rems or any CSS length, so @code{3} and
+@code{\"3rem\"} both mean three rems. It reaches the browser as
+@code{--hg-frost-blur}, the property the frosted layer reads, behind which
+the stylesheet's own 4rem sits as the default."
+  (list (cons '--hg-frost-blur (glass-length frost))))
+
+(define (glass-surface-attributes attributes declarations)
+  "Return @var{attributes} with @var{declarations} added to their style.
+
+The surface's attributes belong to the caller, so a panel that brought a
+style of its own -- a colour, a size -- keeps it: the declarations are
+appended to that style rather than replacing it. A panel with nothing to
+declare is handed back its attributes untouched, and carries no @code{style}
+attribute at all."
+  (if (null? declarations)
+      attributes
+      (let ((style (mk-style declarations))
+            (hit (assq 'style attributes)))
+        (if hit
+            (map (lambda (attribute)
+                   (if (eq? attribute hit)
+                       (list 'style (string-append (cadr hit) "; " style))
+                       attribute))
+                 attributes)
+            (append attributes (list (list 'style style)))))))
 
 (define* (glass-wash classes
                      #:key (delay #f)
@@ -178,6 +217,7 @@ disc travels as far as the stylesheet's default.
                       (tag 'div)
                       (attributes '())
                       (position '(relative))
+                      (frost #f)
                       (tint glass-default-tint)
                       (rounding glass-default-rounding)
                       (border glass-default-border)
@@ -188,18 +228,26 @@ disc travels as far as the stylesheet's default.
                       (content-classes '()))
   "Create a frosted glass surface, with colour washes behind it if you want them.
 
-The frost is the panel's own translucent tint plus @code{backdrop-blur-md}:
-whatever sits behind the panel arrives blurred and coloured through it, so
-the panel reads as a pane of glass rather than an opaque card.
+The frost is the panel's own translucent tint plus @code{hg-frost}, the
+framework's rounded frost layer (see @file{hygguile-extras.css}): whatever
+sits behind the panel arrives blurred and coloured through it, so the
+panel reads as a pane of glass rather than an opaque card. How strong the
+frost is is the panel's to say with @var{frost}, or a page's in markup the
+component did not build: it is written as @code{--hg-frost-blur}, and four
+rems stand until something says otherwise.
 
-What the surface does not do is clip. A rounded @code{overflow-hidden} on
-the very element that carries the backdrop blur is what makes some
-browsers paint the blurred backdrop -- and the hairline border over it --
-with a square corner, a square edge leaking out of a round container. The
-clipping therefore lives one level in: the decorations (the washes and the
-@var{accent}) are wrapped in their own rounded clip layer, and the content
-is clipped by the layer that holds it. Both of those layers are plain
-elements, which browsers clip to their radius reliably.
+The frost is not a @code{backdrop-filter} on the surface itself, and that
+is the point of the layer. A browser paints a filtered backdrop in the
+element's square box and ignores its radius, which leaves a square patch
+of frost at every rounded corner; neither the radius nor a clip path on
+that element stops it, and clipping the surface would trap whatever it is
+meant to let out of its own corner. The layer therefore paints the frost,
+clips itself to the surface's own radius, and leaves the surface free.
+
+The surface never clips. The decorations (the washes and the @var{accent})
+are wrapped in their own rounded clip layer, and the content is clipped by
+the layer that holds it. Both of those layers are plain elements, which
+browsers clip to their radius reliably.
 
 The washes are the wallpaper trick: a few oversized, heavily blurred discs
 of colour thrown across the panel, each described by @code{glass-wash}.
@@ -243,6 +291,13 @@ List of symbols saying how the surface is placed. Defaults to
 against. A surface pinned some other way -- @code{(sticky top-0)} for a bar
 -- passes its own, or the empty list to place itself with the layout
 classes alone.
+@item frost
+How strong the frost is: a number of rems, or any CSS length as a string.
+Defaults to @code{#f}, which declares nothing and leaves the strength to
+the stylesheet's own 4rem -- the value Olive's @code{backdrop-blur-md}
+would set. A pane that wants a gentler or heavier glass than the
+framework's own passes its own, and carries no @code{style} attribute at
+all when it does not.
 @item tint
 List of symbols representing the frosted tint. Defaults to
 @code{(bg-stone-100/75 dark:bg-onyx-900/75)}.
@@ -281,6 +336,7 @@ a panel can lay its contents out without reaching for the surface -- a
              #:washes (list (glass-wash '(bg-naples-yellow-500/75
                                           w-96 h-96 left-4 top-4)
                                         #:delay -6))
+             #:frost 3
              #:drift? #t)
 
 (glass-panel (list (nav-link \"Home\" #:href \"/\"))
@@ -293,6 +349,11 @@ a panel can lay its contents out without reaching for the surface -- a
   (let* ((layers (or (pair? washes)
                      (and accent #t)))
          (clipped (or clip? layers))
+         ;; a frost strength is a declaration rather than a class, since it
+         ;; is read on the panel's own layer (see the docstring)
+         (declarations (if frost
+                           (glass-frost-declaration frost)
+                           '()))
          ;; the frost, the silhouette and the shadow all stay on the
          ;; surface; the clipping is somebody else's job (see the docstring)
          (surface (append position
@@ -309,7 +370,7 @@ a panel can lay its contents out without reaching for the surface -- a
                                        (append rounding '(overflow-hidden))
                                        '())
                                    content-classes)))
-    `((,tag (@ ,@attributes
+    `((,tag (@ ,@(glass-surface-attributes attributes declarations)
                (class ,(mk-class (override-classes (append surface padding)
                                                    classes))))
             ,@(if layers

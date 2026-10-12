@@ -467,6 +467,79 @@ body {
   }
 }
 
+/* ===== Frost that survives a rounded corner =====
+
+   A backdrop-filter asks the browser to blur and colour whatever sits
+   behind a pane. Chromium paints that filtered backdrop in the pane's
+   square border box and ignores its `border-radius`, so a rounded pane
+   leaks a square patch of frost wherever its radius curves away from the
+   corner (Chromium issue 41212594, still open). A radius on that element
+   does not stop it, and a `clip-path` on it does not either. The one
+   thing that does is clipping the frosted box itself: an element that
+   carries `overflow: hidden` alongside its radius gets its frost rounded
+   off, because the browser then has a shape to clip the filtered backdrop
+   to.
+
+   The frost therefore lives one level in, on the pane's own `::before`:
+   a layer that rounds itself to the pane's radius with `border-radius:
+   inherit` -- so it follows whatever radius the markup or a caller gave
+   the pane -- clips itself, and carries the blur. Being a decoration
+   rather than a container, it leaves the pane's own children painted
+   above it and free to escape, which is what a bar holding a dropdown
+   needs.
+
+   How strong the frost is stays a knob: `--hg-frost-blur` is the blur
+   radius, 4rem unless something says otherwise (the same value Olive's
+   `backdrop-blur-md` utility sets). A custom property cannot be a utility
+   class on a pseudo-element, so it is the one setting that is passed as a
+   declaration rather than a class: `glass-panel' writes it from Scheme
+   for the panes it builds (`#:frost'), markup this sheet frosts by hand
+   passes the declaration itself, and a pane with neither reaches for
+   `hg-frost-soft' below instead.
+
+   `position: relative` gives the layer something to be absolute against
+   even when a pane places itself with layout classes alone. A pane that
+   sets a position utility of its own takes over, since olive.min.css is
+   inlined after this sheet.
+
+   `z-index: 0' on the pane and `-1' on the layer are what keep the frost
+   *under* the pane's content. An absolutely placed layer paints above
+   in-flow text and blocks, so a frosted pane whose content was never
+   wrapped in a layer of its own -- a dropdown's list is one -- would
+   otherwise have its contents blurred away behind the frost. A negative
+   stack level puts the layer in the first step of the pane's stacking
+   order instead, right after the pane's own background and border, which
+   is where the frost belongs. The pane was a stacking context anyway
+   while it carried the blur itself, so nothing about the order of what
+   is *outside* the pane changes, and the layer's own corner can no
+   longer paint over the pane's hairline. */
+
+.hg-frost {
+  position: relative;
+  z-index: 0;
+}
+
+.hg-frost::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  -webkit-backdrop-filter: blur(var(--hg-frost-blur, 4rem));
+  backdrop-filter: blur(var(--hg-frost-blur, 4rem));
+}
+
+/* A gentler frost, for the small panes the framework frosts with a class
+   rather than a declaration: the carousel's arrow discs, a couple of rems
+   across, would be all blur at a panel's strength. Olive's blur ladder
+   cannot reach a pseudo-element, so this sheet names the one step below
+   the default that something actually wears. */
+
+.hg-frost-soft {
+  --hg-frost-blur: 3rem;
+}
+
 /* ===== The heading type scale =====
 
    Heading line-heights are ratios rather than lengths, because a heading is

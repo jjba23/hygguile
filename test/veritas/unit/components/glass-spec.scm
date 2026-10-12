@@ -171,8 +171,36 @@
                              #:expect #t)
                (assert-equal #:name "what is behind the glass is blurred"
                              #:got (class-has? (surface plain)
-                                               "backdrop-blur-md")
+                                               "hg-frost")
                              #:expect #t)
+               (assert-equal #:name
+                "the frost is a layer, not a backdrop filter on the surface: browsers paint that squarely"
+                #:got (class-has? (surface plain) "backdrop-blur")
+                #:expect #f)
+               (assert-equal #:name
+                             "the frost's strength is the stylesheet's until a panel says otherwise"
+                             #:got (list (attr-value (surface plain) 'style)
+                                         (contains? (render plain)
+                                                    "--hg-frost-blur"))
+                             #:expect (list #f #f))
+               (assert-equal #:name
+                             "a panel can say how strong its frost is, in rems"
+                             #:got (let ((panel (glass-panel "Hi"
+                                                            #:frost 3)))
+                                     (list (attr-value (surface panel) 'style)
+                                           (count-of (render panel)
+                                                     "style=")))
+                             #:expect (list "--hg-frost-blur: 3rem" 1))
+               (assert-equal #:name
+                             "and in any CSS length, beside a style the caller brought"
+                             #:got (let ((panel (glass-panel "Hi"
+                                                            #:frost "2.5rem"
+                                                            #:attributes '((style "color: red")))))
+                                     (list (attr-value (surface panel) 'style)
+                                           (count-of (render panel)
+                                                     "style=")))
+                             #:expect
+                             (list "color: red; --hg-frost-blur: 2.5rem" 1))
                (assert-equal #:name
                              "the surface is bordered, rounded and raised"
                              #:got (list (class-has? (surface plain)
@@ -183,7 +211,7 @@
                                                      "shadow-lg"))
                              #:expect (list #t #t #t))
                (assert-equal #:name
-                "the surface itself never clips: a rounded clip over the frost is what paints a square corner"
+                "the surface itself never clips: a child is always free to leave its corner"
                 #:got (list (class-has? (surface washed) "overflow-hidden")
                             (class-has? (surface plain) "overflow-hidden")
                             (class-has? (surface (glass-panel "Hi"
@@ -494,7 +522,7 @@
                (assert-equal #:name
                              "the frost is never the caller's: it is what glass is"
                              #:got (class-has? (surface bar-panel)
-                                               "backdrop-blur-md")
+                                               "hg-frost")
                              #:expect #t)
                (assert-equal #:name
                              "a surface that must not clip can say so"

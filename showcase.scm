@@ -861,7 +861,7 @@
          (label-class (mk-class '(rounded-512
                                   bg-stone-100/75
                                   dark:bg-onyx-900/75
-                                  backdrop-blur-md
+                                  hg-frost
                                   shadow-md
                                   px-3
                                   py-1
@@ -1111,7 +1111,7 @@ landmark."
                                 dark:border-onyx-100/25
                                 bg-stone-100/75
                                 dark:bg-onyx-900/75
-                                backdrop-blur-md
+                                hg-frost
                                 shadow-lg
                                 px-3
                                 py-3

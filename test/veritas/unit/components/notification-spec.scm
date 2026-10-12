@@ -76,7 +76,7 @@
                                                    (render notification-tray))))
                                      (list (car (car notification-tray))
                                            (has-class? classes
-                                                       "backdrop-blur-md")
+                                                       "hg-frost")
                                            (has-class? classes
                                                        "bg-stone-100/75")))
                              #:expect (list 'div #f #f))
@@ -92,7 +92,7 @@
                              #:expect (list 'status 'polite "true"))
                (assert-equal #:name "the card is glass"
                              #:got (let ((classes (classes-of card-html)))
-                                     (list (has-class? classes "backdrop-blur-md")
+                                     (list (has-class? classes "hg-frost")
                                            (has-class? classes "bg-stone-300/90")
                                            (has-class?
                                             classes
@@ -160,7 +160,7 @@
                              #:expect (list #t #t 0))
                (assert-equal #:name
                              "the card the script puts there is the panel's"
-                             #:got (list (contains? script "backdrop-blur-md")
+                             #:got (list (contains? script "hg-frost")
                                          (contains? script
                                                     "getElementById('notification-title')")
                                          (contains?

@@ -79,7 +79,7 @@
 (define (frosted? html)
   "The three classes that make the dropdown in HTML a frosted surface."
   (let ((classes (classes-of html)))
-    (list (has-class? classes "backdrop-blur-md")
+    (list (has-class? classes "hg-frost")
           (has-class? classes "bg-stone-100/75")
           (has-class? classes "dark:bg-onyx-700/75"))))
 

@@ -44,7 +44,11 @@
                    ;; the arrows are glass discs: compact on a phone, where
                    ;; every pixel of the track counts, and roomy from the
                    ;; small breakpoint up; they are vertically centred with
-                   ;; translate, not an offset
+                   ;; translate, not an offset. Their frost is the
+                   ;; framework's own `hg-frost' layer, so a disc standing
+                   ;; over a slide has no square corner behind it, and at
+                   ;; `hg-frost-soft' because a disc this small wants the
+                   ;; gentler blur
                    (carousel-button-css '(absolute top-1/2
                                           -translate-y-1/2
                                           flex
@@ -58,7 +62,8 @@
                                           leading-none
                                           bg-stone-100/50
                                           dark:bg-onyx-900/50
-                                          backdrop-blur-sm
+                                          hg-frost
+                                          hg-frost-soft
                                           hover:bg-stone-100/75
                                           dark:hover:bg-onyx-900/75
                                           hover:scale-105
@@ -88,7 +93,8 @@ Items are centred on a scroll-snap track that pans with a swipe, and the
 previous/next arrows page exactly one item at a time using the live gap
 between items. The arrows themselves are frosted glass discs: compact on
 phones, where the track needs every pixel it can get, and larger from the
-small breakpoint up.
+small breakpoint up. A disc wears the framework's own frost layer, at the
+gentle end of its strength, so the glass is round where the disc is round.
 
 @table @var
 @item id
