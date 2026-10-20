@@ -1050,7 +1050,7 @@ The repository is driven by [[https://codeberg.org/jjba23/maak][maak]]. ~maak --
 The version is written by hand in one place: ~hygguile-version~ in [[file:src/hygguile/version.scm][src/hygguile/version.scm]], which is what a page prints in its own footer and what ~maak version~ prints in a terminal:
 
 #+begin_example
-hygguile 2.7.1
+hygguile 2.7.2
 License: LGPL-3.0-or-later
 Homepage: https://hygguile.jointhefreeworld.org
 #+end_example
