@@ -320,7 +320,7 @@ Extra attributes, as pairs of name and value.
 @end table
 
 @example
-(center (list (h1 \"Sign in\") (form ...)) #:max-width '(max-w-md) #:axis 'both)
+(center (list (h1 \"Sign in\") (form ...)) #:max-width '(max-w-128) #:axis 'both)
 @end example"
   `((,tag (@ ,@attributes
              (class ,(mk-class (append '(mx-auto w-full)

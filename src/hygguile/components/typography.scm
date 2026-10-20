@@ -530,8 +530,13 @@ List of configuration framework tokens defining a fixed-width layout style.
                (size '(text-md))
                (background '(bg-stone-300/75 dark:bg-onyx-700/75))
                (rounding '(rounded-lg))
-               (shadow '(shadow-md))
-               (padding-y '(py-1))
+               (shadow '(shadow-sm))
+               ;; no vertical padding: an inline element's padding does not
+               ;; grow its line box, so a padded pill paints over the line
+               ;; above it in running prose. Olive has no half step between
+               ;; `py-0' and `py-1', and the fragment is a tinted run of text
+               ;; first, a pill second.
+               (padding-y '(py-0))
                (padding-x '(px-2))
                (code-classes '(font-mono)))
   "Create an inline HTML @code{<code>} fragment.

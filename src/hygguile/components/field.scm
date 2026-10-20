@@ -603,7 +603,11 @@ Classes for the input itself.
               #:classes classes
               #:control
               (lambda (w)
-                (let* ((input `(input (@ ,@(field-control-attributes w)
+                (let* ((input-classes (append input-css
+                                              (if stepper?
+                                                  '(max-w-32)
+                                                  '())))
+                       (input `(input (@ ,@(field-control-attributes w)
                                          (type "number")
                                          (inputmode "numeric")
                                          ,@(attr-when value
@@ -619,7 +623,7 @@ Classes for the input itself.
                                          ,@(if disabled
                                                '((disabled ""))
                                                '())
-                                         (class ,(mk-class input-css)))))
+                                         (class ,(mk-class input-classes)))))
                        (unit-mark `(span (@ (aria-hidden "true")
                                             (class ,(mk-class '(text-sm
                                                                 font-light
@@ -929,7 +933,7 @@ Classes for the fieldset.
                          (if help-text
                              `((aria-describedby ,help-id))
                              '())))
-                  (legend (@ (class ,(mk-class (append label-classes))))
+                  (legend (@ (class ,(mk-class (append label-classes '(pb-1 mb-2)))))
                           ,label
                           ,@(if required
                                 (list `(span (@ (aria-hidden "true")
@@ -938,7 +942,8 @@ Classes for the fieldset.
                                              " *"))
                                 '()))
                   (div (@ (class ,(mk-class '(grid grid-cols-1
-                                                    sm:grid-cols-2 gap-4))))
+                                                    sm:grid-cols-2 gap-4
+                                                    mt-2))))
                        ,(date-field #:label start-label
                                     #:name (format #f "~a-start" base)
                                     #:value start

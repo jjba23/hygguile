@@ -430,6 +430,7 @@ Extra classes for the item.
 (define* (dropdown-menu #:key label
                         items
                         (position 'bottom-start)
+                        (open? #f)
                         (classes '()))
   "Create a dropdown menu that opens without JavaScript.
 
@@ -447,6 +448,10 @@ A list of @code{dropdown-item} nodes.
 @item position
 @code{'bottom-start} (default), @code{'bottom-end}, @code{'top-start} or
 @code{'top-end}.
+@item open?
+Whether the menu starts open. Defaults to false; a menu on a page normally
+opens when its summary is clicked, but a demo or a menu that should draw
+attention can start expanded.
 @item classes
 Extra classes for the menu wrapper.
 @end table
@@ -459,6 +464,7 @@ Extra classes for the menu wrapper.
   `((details (@ (class ,(mk-class (append '(hg-dropdown relative
                                                       inline-block)
                                         classes)))
+                ,@(if open? '((open "")) '())
                 (data-hg-dropdown ""))
              (summary (@ (class ,(mk-class '(hg-dropdown-trigger
                                              inline-flex items-center gap-2

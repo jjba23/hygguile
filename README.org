@@ -1,42 +1,255 @@
 #+title: Hygguile
+#+subtitle: Cozy, accessible, server-rendered user interfaces from S-expressions
 #+author: Josep Bigorra
 #+email: jjbigorra@gmail.com
 #+options: toc:nil
 #+language: en
 
+[[https://jointhefreeworld.org/ggg/dist/hygguile.svg]] [[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]] [[https://img.shields.io/badge/Guile-3.0%2B-4e5d94.svg]] [[https://img.shields.io/badge/Guix-package-6f4e9c.svg]]
+[[https://jointhefreeworld.org/ggg/dist/license-lgpl3+.svg]] [[https://jointhefreeworld.org/ggg/dist/license-fdl13+.svg]]
 
-[[https://jointhefreeworld.org/ggg/dist/hygguile.svg]] [[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]]
-[[https://jointhefreeworld.org/ggg/dist/license-lgpl3+.svg]]    [[https://jointhefreeworld.org/ggg/dist/license-fdl13+.svg]]
+#+begin_quote
+*Cozy and professional user-interfaces for everyone.*
+#+end_quote
 
-/Cozy and professional user-interfaces for everyone/
+Hygguile is a **batteries-included UI framework for Guile Scheme**. You write pages as S-expressions (SXML); Hygguile renders complete, accessible HTML on the server and enhances it in the browser only where that helps. It is built on [[https://codeberg.org/jjba23/olive-css][Olive CSS]] and ships the components, design tokens, styles and small progressive-enhancement scripts you need to build a real interface.
 
-Hygguile is an opinionated, batteries-included UI framework written in Guile Scheme, that allows you to create cozy web user-interfaces, by defining an expressive domain-specific language (DSL), and by leveraging the power of S-expressions, SXML and modern CSS.
+**If you want server-rendered web UIs in Guile Scheme -- HTML that works without JavaScript and looks good out of the box -- Hygguile is for you.**
 
-Hygguile is built on top of [[https://codeberg.org/jjba23/olive-css][Olive CSS]] the utility-class vanilla CSS framework powered by Lisp.
+New here? Jump to [[*Quickstart][Quickstart]], browse the [[https://hygguile.jointhefreeworld.org/][showcase]], or [[https://codeberg.org/jjba23/hygguile/issues][open an issue]] with a question. There are no silly questions, and every contribution -- a typo fix, a bug report, a component idea -- is welcome.
 
-Hygguile aims to provide reusable, professional-looking and accessible web components, whose names resemble the HTML counterparts, thus easing the learning curve, and reducing the cognitive load.
+#+attr_html: :width 100%
+#+caption: The same page in light and dark mode: a server-rendered hero, a native form, and data/feedback components.
+[[./assets/readme/hygguile-demo.gif]]
 
-Hygguile renders every component to real HTML on the server and enhances it in the browser only where that helps. Pages stay fast, accessible, and fully usable without JavaScript, following the web's original request/response model rather than a client-side rendering one.
+* Features
 
+- **An expressive DSL.** Components are ordinary Scheme procedures named after the HTML they produce: ~(input #:label "Email" #:name "email")~, ~(table ...)~, ~(details ...)~.
+- **Server-side rendering by default.** No hydration, no client-side router, no framework bundle before the first pixel.
+- **Accessible, native HTML.** Real ~<label for>~, ~<caption>~, ~<th scope>~, ~<details>~, focus management and a WCAG AA contrast gate.
+- **Batteries included.** Layout primitives, form fields and a FormField abstraction, overlays, navigation, data display, loading/empty/error states, tokens, dark mode and density modes.
+- **Olive CSS underneath.** Utility classes you can read, plus a small companion stylesheet for the pieces that need structure.
+- **Works without JavaScript.** Links navigate, forms submit, disclosures open, drawers and palettes open from the URL; scripts only make things nicer.
+
+* Contents
+
+- [[*Features][Features]]
+- [[*Why Hygguile?][Why Hygguile?]]
+- [[*Quickstart][Quickstart]]
+- [[*Installation][Installation]]
+- [[*How components look like?][How components look]]
+- [[*Configuration][Configuration]]
+- [[*Component index][Component index]]
+- [[*Feature completeness][Feature completeness]]
+- [[*Guides][Guides]]
+- [[*Theming, dark mode and contrast][Theming, dark mode and contrast]]
+- [[*Development and contributing][Development and contributing]]
+- [[*Community and project][Community and project]]
+- [[*Design notes][Design notes]]
+- [[*License][License]]
+
+* Why Hygguile?
+
+Hygguile is opinionated, but not in the way that hides the web from you. It is opinionated about **cozy, professional defaults**: readable type, generous spacing, honest semantics, and a colour system that stays legible in both themes. It is *not* opinionated about your application: there is no client-side state to adopt, no build step that must agree with the server, and no second source of truth.
+
+The project is also a statement about server rendering. Most software we ship -- content sites, forms, dashboards, admin panels -- does not need a client-side application framework. It needs a document that arrives finished, a form that submits, and links that navigate. Hygguile is built for that shape: **a document first, with small islands of behaviour**.
+
+#+begin_quote
 /hygge + guile = hygguile/
+#+end_quote
 
-This project is licensed under the Lesser GNU General Public License v3 or later.
+** Project status
 
-You can find a showcase of the Hygguile library here:
+Hygguile is actively developed and used in real projects, but it is still a young framework: minor releases may refine a key argument, rename a component or improve the markup a component emits. Pin a commit in production if you need absolute stability, and read the commit log before upgrading. Bug reports and compatibility notes are always welcome -- they are how the API gets calmer.
 
-https://hygguile.jointhefreeworld.org/
+** Who is it for?
 
-You can find hygguile's technical Guile Scheme API documentation here:
+- Guile Scheme developers who want to build web interfaces without leaving the language.
+- Guix users who value reproducible tooling and readable source.
+- Teams building server-rendered applications, forms, dashboards, documentation sites and admin panels.
+- Anyone who wants accessible HTML that still works when JavaScript does not.
 
-https://jointhefreeworld.org/api-docs/hygguile/API.html
+** A longer look
 
-If you like my work, please support me by [[https://bmc.link/jjbigorra][buying me a cup of coffee ☕]] so I can continue with a lot of motivation.
+The [[https://hygguile.jointhefreeworld.org/][showcase]] is the kitchen sink: every component in a realistic layout, with the source beside the specimen. The [[https://jointhefreeworld.org/api-docs/hygguile/API.html][API reference]] documents every procedure and every key argument.
 
-------------
-
+#+attr_html: :width 100%
 [[https://jointhefreeworld.org/static-assets/hygguile/screen-2026-07-21-20-55-35.png]]
 
---------
+#+attr_html: :width 100%
+[[https://jointhefreeworld.org/static-assets/hygguile/screen-2026-07-21-20-55-49.png]]
+
+* Quickstart
+
+The short path from nothing to a page you can open in a browser. Only the install step prefers Guix; any Guile 3.0 with Hygguile on ~GUILE_LOAD_PATH~ works the same way.
+
+** The 60-second version
+
+#+begin_src sh
+git clone https://codeberg.org/jjba23/hygguile.git
+cd hygguile
+mkdir -p dist
+guix shell -m manifest.scm -- guile -L ./src examples/minimal.scm
+cp resources/css/olive.min.css dist/olive.min.css
+python3 -m http.server --directory dist 8000
+# then open http://localhost:8000/example.html
+#+end_src
+
+If you already have ~maak~ installed, the same thing is:
+
+#+begin_src sh
+maak example
+maak serve
+#+end_src
+
+** 1. Put Hygguile in your environment
+
+#+begin_src scheme
+;; manifest.scm, next to your project
+(use-modules (gnu packages guile)
+             (gnu packages guile-xyz))
+(specifications->manifest (list "guile" "guile-hygguile"))
+#+end_src
+
+#+begin_src sh
+guix shell -m manifest.scm
+#+end_src
+
+** 2. Write one page
+
+Components are ordinary Scheme procedures that return SXML, so a page is data and ~sxml->xml~ turns it into the HTML you serve:
+
+#+begin_src scheme
+(use-modules (hygguile hygguile)   ; every component, re-exported
+             (hygguile sxml))      ; sxml->xml
+
+(define page
+  `(,doctype-html
+    (html (@ (lang en))
+          (head (title "Hello")
+                ,(hygguile-recommended-meta)
+                ,(hygguile-recommended-resources)
+                (link (@ (rel stylesheet) (href "olive.min.css"))))
+          (body (@ (class ,(mk-class '(bg-stone-100 dark:bg-onyx-900
+                                                 font-sans))))
+                ;; components are evaluated, not written out: each `,' below
+                ;; calls one and splices the SXML it returns
+                ,(h1 "Hello, hygguile")
+                ,(p (list "Press " (kbd "Ctrl") " " (kbd "l") "."))
+                ,(input #:label "Your email:" #:name "email" #:type 'email)
+                ,(submit-button "Save")))))
+
+(call-with-output-file "index.html"
+  (lambda (port)
+    (sxml->xml page port)))
+#+end_src
+
+That last point is the one newcomers trip over. Inside a quasiquote, ~(h1 "Hi")~ is a *literal SXML node* called ~h1~ and ~,(h1 "Hi")~ is a *call to the component*. The first only looks right when the tag name happens to match: ~(input #:label "Email")~ written without the comma is emitted as an ~<input>~ element with your key arguments as its children, and ~(p (list "a" "b"))~ inside a quasiquote becomes a ~<list>~ tag. When in doubt, build the body with ~list~ and let every component be an ordinary call, the way ~examples/minimal.scm~ does.
+
+Serve that directory with any static file server (~python3 -m http.server~, ~darkhttpd~, ...) and open the page. Two things have to be true first:
+
+- ~olive.min.css~ has to sit next to the page; copy it from ~resources/css/~ (or link the one you built yourself).
+- ~(hygguile-recommended-resources)~ has to be in the ~head~. That is what loads the companion stylesheet and the few progressive-enhancement scripts. ~(hygguile-recommended-meta)~ is the viewport and charset pair.
+
+A complete, commented version of that page is ~examples/minimal.scm~, and ~maak example~ renders it to ~dist/example.html~.
+
+** 3. Where things are
+
+- ~src/hygguile/components/~ :: one module per family of components (~button~, ~input~, ~card~, ~navigation~, ...). Every procedure documents each key argument in its docstring, and those docstrings are what the API reference is generated from.
+- ~resources/css/hygguile-extras.css~ :: the components that need structure rather than a single utility: ~<progress>~, ~<details>~, the CSS-only tabs, the switch, the modal, the tooltip. Embedded into Scheme by ~maak embed~.
+- ~resources/js/~ :: the small enhancement scripts (theme memory, carousel paging, fly-out menus, notifications, copy buttons, the tray controls, the code-specimen fold), embedded the same way.
+- ~olive.min.css~ :: the utility-class framework hygguile is built on. Ship it as its own cacheable file instead of inlining it.
+- ~showcase.scm~ :: the kitchen sink, and the best place to see a component in a realistic layout. The page itself lives in the ~showcase/~ modules beside it: one file per shelf (~foundations~, ~layout~, ~controls~, ~data~, ~media~, ~navigation~, ~application~, ~overview~), with ~entries.scm~ holding the spine and ~page.scm~ the hero and the tray.
+
+** 4. Where to look next
+
+- The component index below says what each module exports.
+- The API reference documents every procedure and every key argument: https://jointhefreeworld.org/api-docs/hygguile/API.html (or generate it locally with ~maak docs~).
+- ~showcase.scm~, the modules under ~showcase/~ and ~examples/minimal.scm~ are working pages you can read end to end.
+
+-------
+
+* Installation
+
+Hygguile is packaged for Guix as ~guile-hygguile~. Guix is the recommended way to install it and the most reproducible way to work on it.
+
+** Requirements
+
+- **Guile 3.0 or newer.** The project is developed and tested with Guile 3.0.11.
+- **~guile-uuid~.** Hygguile uses UUIDs for generated element ids; the Guix package and the project manifest provide it.
+- **~olive.min.css~.** Ship it next to your page, or serve your own optimized Olive build. Hygguile does not inline it.
+- **A static file server.** Any server works: ~darkhttpd~, ~python3 -m http.server~, Caddy, nginx, ...
+- **Optional, for development:** ~maak~, ~watchexec~, a Chrome/Chromium binary for the contrast gate, and ~guix~ for the reproducible environment.
+
+** Install with Guix
+
+Hygguile is packaged via the Guix package manager, as ~guile-hygguile~. It is recommended that you use Guix to work on your Guile Scheme projects, and install hygguile this way (in your manifest.scm for example).
+
+This library provides custom JavaScript and CSS embedded into Lisp, thus usable via Scheme code and SXML easily (use the auto-embedded modules) or at your choice by manually loading the files via the web from the ~resources~ dir.
+
+You can take a look at the ~showcase.scm~ entry script and the ~showcase/~ modules behind it; together they include some facilities and advanced techniques to load these things.
+
+In summary hygguile provides everything for you, from JavaScript, to CSS, but it's all modular and flexible, so you are in charge of loading what you like.
+
+It's all free for you to change or modify though, the functions are also customizable with key arguments, check the ~hygguile css~ and ~js~ modules too.
+
+It's REQUIRED to load ~olive.min.css~ in your preferred manner, and by preference your custom optimized build of it, in SXML it can look like this:
+#+begin_src scheme
+(link (@ (rel stylesheet) (href "olive.min.css")))
+#+end_src
+
+This is preferable to embedding it directly in a ~<style>~ block due to its size, and because we can then efficiently cache this file on the server side. It will also speed up the load times.
+
+
+The recommended snippet in your SXML ~head~
+#+begin_src scheme
+,(hygguile-recommended-meta)
+;; equivalent to loading:
+;;   (meta (@ (name viewport)(content "width=device-width, initial-scale=1.0")))
+;;   (meta (@ (charset "UTF-8")))
+
+,(hygguile-recommended-resources)
+;; equivalent to loading:
+;;   carousel-button-js
+;;   remember-dark-theme-js
+;;   fly-out-js
+;;   and more.....
+#+end_src
+
+See the ~maak.scm~ for more details and common tasks.
+
+** Use from source
+
+Alternatively, you can install it by downloading the source code files and adding them to your ~GUILE_LOAD_PATH~ or even better, use a Guix shell ~manifest.scm~ and add the package with something like this:
+
+#+begin_src scheme
+(define-public guile-hygguile
+  (package
+    (name "guile-hygguile")
+    (version "x.x.x")
+    (source
+     (origin
+       (method git-fetch)
+       (uri (git-reference
+             (url "https://codeberg.org/jjba23/hygguile.git")
+             (commit (string-append "v" version))))
+       (file-name (git-file-name name version))
+       (sha256
+        (base32 "<dependent on version>"))))
+    (build-system guile-build-system)
+    (native-inputs (list guile-uuid guile-3.0))
+    (arguments
+     (list
+      #:source-directory "src"))
+    (home-page "https://codeberg.org/jjba23/hygguile")
+    (synopsis "Web UI component library for Guile Scheme projects")
+    (description
+     "......")
+    (license license:lgpl3+)))
+#+end_src
+
+
+----------------
 
 * How components look like?
 
@@ -141,164 +354,57 @@ The floor of 1.3 is not a matter of taste. A leaded line sits in a box of the li
 
 The drift respects ~prefers-reduced-motion: reduce~, which the companion stylesheet handles for you. And one serialization rule worth knowing: an element without children is written as an explicit open/close pair (~<div></div>~), never as the XML shorthand ~<div />~, because hygguile's output is served as ~text/html~, where that shorthand is read as an open tag and silently swallows the rest of the document. Only HTML void elements (~<img>~, ~<input>~, ~<hr>~, ...) are written as a lone tag.
 
---------
+* Configuration
 
-[[https://jointhefreeworld.org/static-assets/hygguile/screen-2026-07-21-20-55-49.png]]
+Hygguile is configured from Scheme, not from a separate configuration file. The main knobs are:
 
--------
+** Document head
 
-* Licensing
-
-hygguile and all of its source code are free software, licensed under the GNU Lesser General Public License v3 (or newer at your convenience).
-
-https://www.gnu.org/licenses/lgpl-3.0.html
-
-The showcase site, documentation and examples, including this document, which are provided with hygguile, are all licensed under the GNU Free Documentation License v1.3 (or newer at your convenience).
-
-https://www.gnu.org/licenses/fdl-1.3.html
-
----------
-
-
-* Quickstart
-
-The short path from nothing to a page you can open in a browser. Only the install step prefers Guix; any Guile 3.0 with hygguile on ~GUILE_LOAD_PATH~ works the same way.
-
-** 1. Put hygguile in your environment
+Put ~(hygguile-recommended-meta)~ and ~(hygguile-recommended-resources)~ in the ~<head>~. The first adds the viewport and charset; the second loads the design tokens, the companion stylesheet, the fonts, the icon set and the enhancement scripts. Load ~olive.min.css~ as a cacheable file of your own.
 
 #+begin_src scheme
-;; manifest.scm, next to your project
-(use-modules (gnu packages guile)
-             (gnu packages guile-xyz))
-(specifications->manifest (list "guile" "guile-hygguile"))
+(head (title "My page")
+      ,(hygguile-recommended-meta)
+      ,(hygguile-recommended-resources)
+      (link (@ (rel stylesheet) (href "olive.min.css"))))
 #+end_src
 
-#+begin_src sh
-guix shell -m manifest.scm
-#+end_src
+Both procedures take key arguments when you need to change the defaults, for example a custom font list, a different Phosphor stylesheet, or a preconnect set. See ~(hygguile css)~.
 
-** 2. Write one page
+** Themes
 
-Components are ordinary Scheme procedures that return SXML, so a page is data and ~sxml->xml~ turns it into the HTML you serve:
+The theme is one attribute on the root element: ~<html data-theme="dark">~. The remembered-dark-theme script toggles it and stores the choice in ~localStorage~. Every component names an ink for both themes; you do not maintain a second palette.
 
 #+begin_src scheme
-(use-modules (hygguile hygguile)   ; every component, re-exported
-             (hygguile sxml))      ; sxml->xml
-
-(define page
-  `(,doctype-html
-    (html (@ (lang en))
-          (head (title "Hello")
-                ,(hygguile-recommended-meta)
-                ,(hygguile-recommended-resources)
-                (link (@ (rel stylesheet) (href "olive.min.css"))))
-          (body (@ (class ,(mk-class '(bg-stone-100 dark:bg-onyx-900
-                                                 font-sans))))
-                ;; components are evaluated, not written out: each `,' below
-                ;; calls one and splices the SXML it returns
-                ,(h1 "Hello, hygguile")
-                ,(p (list "Press " (kbd "Ctrl") " " (kbd "l") "."))
-                ,(input #:label "Your email:" #:name "email" #:type 'email)
-                ,(submit-button "Save")))))
-
-(call-with-output-file "index.html"
-  (lambda (port)
-    (sxml->xml page port)))
+(html (@ (lang en) (data-theme "dark")) ...)
 #+end_src
 
-That last point is the one newcomers trip over. Inside a quasiquote, ~(h1 "Hi")~ is a *literal SXML node* called ~h1~ and ~,(h1 "Hi")~ is a *call to the component*. The first only looks right when the tag name happens to match: ~(input #:label "Email")~ written without the comma is emitted as an ~<input>~ element with your key arguments as its children, and ~(p (list "a" "b"))~ inside a quasiquote becomes a ~<list>~ tag. When in doubt, build the body with ~list~ and let every component be an ordinary call, the way ~examples/minimal.scm~ does.
+** Design tokens
 
-Serve that directory with any static file server (~python3 -m http.server~, ~darkhttpd~, ...) and open the page. Two things have to be true first:
+Spacing, radius, elevation, motion, layer order and semantic colours are published as CSS custom properties by ~design-tokens-css~. Override a token once, in your own stylesheet, and every component that reads it follows. ~token-value~ and ~token-declarations~ expose the same values to Scheme.
 
-- ~olive.min.css~ has to sit next to the page; copy it from ~resources/css/~ (or link the one you built yourself).
-- ~(hygguile-recommended-resources)~ has to be in the ~head~. That is what loads the companion stylesheet and the few progressive-enhancement scripts. ~(hygguile-recommended-meta)~ is the viewport and charset pair.
+** Density and direction
 
-A complete, commented version of that page is ~examples/minimal.scm~, and ~maak example~ renders it to ~dist/example.html~.
+~data-density="compact"~ (or the ~density-toggle~ control) tightens data-heavy surfaces without shrinking the type scale. ~locale~, ~dir~ and logical properties handle right-to-left documents; ~bdi~ and ~bdo~ handle inline runs.
 
-** 3. Where things are
+** Components
 
-- ~src/hygguile/components/~ :: one module per family of components (~button~, ~input~, ~card~, ~navigation~, ...). Every procedure documents each key argument in its docstring, and those docstrings are what the API reference is generated from.
-- ~resources/css/hygguile-extras.css~ :: the components that need structure rather than a single utility: ~<progress>~, ~<details>~, the CSS-only tabs, the switch, the modal, the tooltip. Embedded into Scheme by ~maak embed~.
-- ~resources/js/~ :: the small enhancement scripts (theme memory, carousel paging, fly-out menus, notifications, copy buttons, the tray controls, the code-specimen fold), embedded the same way.
-- ~olive.min.css~ :: the utility-class framework hygguile is built on. Ship it as its own cacheable file instead of inlining it.
-- ~showcase.scm~ :: the kitchen sink, and the best place to see a component in a realistic layout.
-
-** 4. Where to look next
-
-- The component index below says what each module exports.
-- The API reference documents every procedure and every key argument: https://jointhefreeworld.org/api-docs/hygguile/API.html (or generate it locally with ~maak docs~).
-- ~showcase.scm~ and ~examples/minimal.scm~ are working pages you can read end to end.
-
--------
+Every component is configured with key arguments and, where it matters, with class lists. The component index below is the map; each procedure docstring documents its keys; the showcase shows the layouts.
 
 
-* Installing and Using
+** Common key arguments
 
-hygguile is packaged via the Guix package manager, as ~guile-hygguile~. It is recommended that you use Guix to work on your Guile Scheme projects, and install hygguile this way (in your manifest.scm for example).
+Most components share a small vocabulary, so learning one teaches many:
 
-This library provides custom JavaScript and CSS embedded into Lisp, thus usable via Scheme code and SXML easily (use the auto-embedded modules) or at your choice by manually loading the files via the web from the ~resources~ dir.
+- ~#:classes~ and family-specific class keys (~#:input-css~, ~#:label-css~, ~#:card-classes~, ...) append your own utility classes.
+- ~#:id~ and ~#:name~ give the DOM a stable handle; form components derive the label ~for~ and description ids from them.
+- ~#:variant~ picks a semantic treatment on alerts, badges, chips, toasts, timelines and buttons.
+- ~#:size~ and ~#:weight~ pick from the type and component scales without leaving the DSL.
+- ~#:loading~ and ~#:loading-label~ give buttons a busy state; ~#:disabled~, ~#:required~ and ~#:readonly~ map to native attributes.
+- ~#:label~, ~#:help-text~, ~#:error~ and ~#:required~ are the field-shell keys that wire a control to its label, hint and error.
 
-You can take a look at the ~showcase.scm~ file which includes some facilities and advanced techniques to load these things.
+When a component needs something the keys do not cover, pass utility classes rather than writing a second stylesheet; when the markup needs to differ, compose the native element yourself. The DSL is a set of ordinary procedures, not a closed widget set.
 
-In summary hygguile provides everything for you, from JavaScript, to CSS, but it's all modular and flexible, so you are in charge of loading what you like.
-
-It's all free for you to change or modify though, the functions are also customizable with key arguments, check the ~hygguile css~ and ~js~ modules too.
-
-It's REQUIRED to load ~olive.min.css~ in your preferred manner, and by preference your custom optimized build of it, in SXML it can look like this:
-#+begin_src scheme
-(link (@ (rel stylesheet) (href "olive.min.css")))
-#+end_src
-
-This is preferable to embedding it directly in a ~<style>~ block due to its size, and because we can then efficiently cache this file on the server side. It will also speed up the load times.
-
-
-The recommended snippet in your SXML ~head~
-#+begin_src scheme
-,(hygguile-recommended-meta)
-;; equivalent to loading:
-;;   (meta (@ (name viewport)(content "width=device-width, initial-scale=1.0")))
-;;   (meta (@ (charset "UTF-8")))
-
-,(hygguile-recommended-resources)
-;; equivalent to loading:
-;;   carousel-button-js
-;;   remember-dark-theme-js
-;;   fly-out-js
-;;   and more.....
-#+end_src
-
-See the ~maak.scm~ for more details and common tasks.
-
-Alternatively, you can install it by downloading the source code files and adding them to your ~GUILE_LOAD_PATH~ or even better, use a Guix shell ~manifest.scm~ and add the package with something like this:
-
-#+begin_src scheme
-(define-public guile-hygguile
-  (package
-    (name "guile-hygguile")
-    (version "x.x.x")
-    (source
-     (origin
-       (method git-fetch)
-       (uri (git-reference
-             (url "https://codeberg.org/jjba23/hygguile.git")
-             (commit (string-append "v" version))))
-       (file-name (git-file-name name version))
-       (sha256
-        (base32 "<dependent on version>"))))
-    (build-system guile-build-system)
-    (native-inputs (list guile-uuid guile-3.0))
-    (arguments
-     (list
-      #:source-directory "src"))
-    (home-page "https://codeberg.org/jjba23/hygguile")
-    (synopsis "Web UI component library for Guile Scheme projects")
-    (description
-     "......")
-    (license license:lgpl3+)))
-#+end_src
-
-
-----------------
 
 * Component index
 
@@ -393,7 +499,12 @@ that implement it, and the sections after it say how the harder rows work.
 | density modes | ~data-density~ and ~density-toggle~, with compact table, field and sidebar spacing |
 | stories, visual regression and a11y tests | the showcase is the storybook, ~maak test~ is the unit/a11y-shape suite, and ~maak contrast~ is the visual readability gate |
 
-* Design tokens
+* Guides
+
+These guides go deeper on the parts that are easy to get wrong: tokens, form wiring, overlays and positioning, loading/empty/error states, motion, RTL/density, server-driven sorting, trays, specimens, palettes, glossary terms, native dropdown state, frosted glass, notifications and naming.
+
+
+** Design tokens
 
 A utility-class framework already names most of a design system: ~p-4~,
 ~rounded-xl~, ~shadow-md~. What it does not do is let a component be written
@@ -427,7 +538,7 @@ The reduced-motion block in the generated stylesheet sets every motion token
 to zero, so a component that animates with
 ~var(--hg-motion-base, 200ms)~ stops moving for a reader who asked it to.
 
-* The form field abstraction
+** The form field abstraction
 
 Every control on a form asks the same four questions: what is this called,
 how is it described, is it wrong, and is it required. Answered per control,
@@ -477,7 +588,7 @@ reproduce the shell: ~text-field~, ~search-field~, ~number-field~,
               #:selected '("s"))
 #+end_src
 
-* Overlays, and where they sit
+** Overlays, and where they sit
 
 The framework answers "which of us is on top" with the layer scale in the
 tokens module, and "where do I sit" with the browser's own machinery
@@ -519,7 +630,7 @@ filtering -- and never gate whether an overlay can open.
 The link that opens a drawer or palette is a normal anchor:
 ~(a "Filters" #:href "#filters")~, and a link to ~"#"~ closes it.
 
-* Loading, empty and error states
+** Loading, empty and error states
 
 A data component has four shapes, and a toolkit that only ships the happy
 one leaves every page to invent the other three. The feedback module ships
@@ -550,7 +661,7 @@ all four:
 table skeleton, ~#:error~ renders the error state (with ~#:retry~ when the
 page can offer one), and ~#:empty~ replaces the default empty row.
 
-* Motion primitives
+** Motion primitives
 
 Motion is decoration, so it is named and it is tokenised. ~fade-in~ and
 ~slide-in~ wrap content in an effect class; ~collapse~ is a native
@@ -565,7 +676,7 @@ off, and the disclosure still opens instantly.
                                                       #:name "pattern")))
 #+end_src
 
-* RTL, i18n and density
+** RTL, i18n and density
 
 The components and the stylesheet use logical properties (~inset-inline-*~,
 ~margin-block-*~, ~border-start-*~), so a right-to-left document mirrors
@@ -589,7 +700,7 @@ without changing the type scale, so a compact table is still readable.
 
 ----------------
 
-* Sorting a data table in the URL
+** Sorting a data table in the URL
 
 Which order a table is in is a question for the server, and the query string is where the answer travels. A sortable header cell is therefore an ordinary link -- ~?hygguile-table-sort=<key>&hygguile-table-dir=<asc|desc>~ -- and clicking it is a plain navigation: the table sorts with JavaScript disabled, a reload reproduces the order, and the URL can be bookmarked, shared or pasted into a colleague's browser and land on the same view. No client-side sort of a handful of rendered rows pretends to be the whole data set, and no invisible state has to be kept in sync with it.
 
@@ -643,7 +754,7 @@ Accessibility is carried by the markup, not by a script: every sortable cell ann
 
 ----------------
 
-* A tray of cards at once
+** A tray of cards at once
 
 A grid of cards a reader takes in as a whole is a *tray*, and there are two things a reader asks of it: which order it is in, and whether all of it is open. Both are questions about the handful of cards already in the document, not about a data set behind it, so this one is answered in the browser -- unlike [[*Sorting a data table in the URL][the table above]], whose order is a fact only a server can produce. The tray stays whole without JavaScript: every card opens and closes on its own, and the controls only save a reader the clicking.
 
@@ -687,7 +798,7 @@ All of it rides on ~tray-js~, one small script that ~(hygguile-recommended-resou
 
 ----------------
 
-* A specimen beside its own source
+** A specimen beside its own source
 
 A documentation page shows a component and the form that produced it, and the two must agree. So ~code-sample~ is given the *form*, not a copy of its output: it renders that form for the reader to see and prints the same form as source underneath, which makes the source and the specimen one expression rather than two copies that drift apart.
 
@@ -711,7 +822,7 @@ The form is evaluated for display in an environment that holds both the caller's
 
 ----------------
 
-* Stepping through a palette
+** Stepping through a palette
 
 A palette page shows one tile per colour, and a reader who wants to compare the shades of one of them has no way to ask. ~color-swatch~ therefore shows a colour *and* offers to show it again in the next variant: every click steps ~apple-green-500~ to ~apple-green-700~ and on through 100, 300, 500, 700, 900 and back, rewriting the class on the tile and relabelling it from the shade it now carries, so the tile always names the colour you are looking at.
 
@@ -727,7 +838,7 @@ The tile is a real ~<button>~, so it is reachable by keyboard and announced as a
 
 ----------------
 
-* Naming a technology in prose
+** Naming a technology in prose
 
 A page that talks about ~SXML~ and ~CSS~ wants the word to link to where it is documented, and an abbreviation to say what it stands for. ~glossary-term~ puts both on that one word: the link is an ordinary ~<a>~, the expansion is a ~tooltip~, and the tooltip *wraps* the link rather than sitting beside it, so there is no second word to keep in step.
 
@@ -745,7 +856,7 @@ The explanation is exposed twice, once for each reader it is for. A sighted read
 
 ----------------
 
-* Which option a dropdown is showing
+** Which option a dropdown is showing
 
 A dropdown's state is markup like any other: exactly one ~<option>~ carries the ~selected~ attribute, and the page rendering it says which row it is showing. That matters more than it looks. A menu whose rows say nothing is drawn by the browser with its own fallback -- the first row a reader can pick -- so a page that leaves the attribute out cannot be read back as the state the reader is looking at, and a form submitted without touching the field sends a value the server never chose.
 
@@ -789,7 +900,7 @@ The heading is the browser's own -- a native dropdown draws it and indents the r
 
 ----------------
 
-* Frosted glass panels
+** Frosted glass panels
 
 A glass panel is a surface you can see through: a translucent tint over a backdrop blur, so whatever sits behind the panel arrives softened rather than hidden. Nothing about it clips by default -- not the surface, and not the layer that holds the content, whose edge falls exactly on the content's own and would otherwise shave the ink flush with it -- so a panel only hides its overflow when it asks to with ~#:clip?~. ~glass-panel~ renders a plain ~<div>~ and nothing else, which is what lets it sit behind a hero, around a sidebar, or over a table.
 
@@ -824,6 +935,34 @@ The washes have the same escape to close, one layer in: a blurred disc is painte
 Every frosted surface in Hygguile is that one component. The notification tray's card asks for the pane with the tray's own tint; the fly-out submenu asks for it with ~#:tag 'ul~ and keeps its own shape -- absolutely placed under its trigger, rounded and shadowed by the classes it passes in -- and the navigation bar asks for it with ~#:tag 'header~, its own ~(sticky top-0)~ placement, and no clipping, because a bar has to let the menu it dropped out of escape. None of them spells out a frost of its own: the ~bg-...~ tint and the ~hg-frost~ layer belong to ~glass-panel~, so the glass has one definition, one set of knobs and one spec, and a change to how it looks lands everywhere at once.
 
 ----------------
+
+** Notification system
+
+Hygguile provides a notification system that can easily be used from within your web applications, by using URL parameters.
+
+It basically works with the query params:
+- ~notify-title~ required string representing the notification title
+- ~notify-body~ optional string representing the notification body/message
+- ~notify-duration-millis~ optional integer representing the milliseconds to show the notification
+- ~notify-body-font-family~ optional symbol choice between font-sans and font-mono
+
+The card that appears in the tray is a ~glass-panel~, the same frosted pane as every other surface in the framework. ~notification-card~ renders it server-side, with an empty title and body already in place for the script to fill, and ~show-notifications-from-url-js~ writes the parameters into those nodes with ~textContent~: a query string is data, so anything that looks like markup is shown as the characters it is instead of becoming an element. The tray stays the polite ~role="status"~ region it always was, which is why the notification is announced without interrupting the reader.
+
+The card is deliberately quiet: it appears and then holds still, with no bounce or pulse, and its silhouette is the same hairline border and modest padding as any other pane rather than a hard outline. A notification is information, and motion at the edge of the eye competes with the page the reader was already on.
+
+-----------------
+
+** Naming convention and conflict
+
+You can always choose to import hygguile using a prefix to avoid name clashes if they happen.
+
+#+begin_src scheme
+(use-modules
+  ((hygguile hygguile) #:prefix hyg:))
+#+end_src
+
+
+-------
 
 * Theming, dark mode and contrast
 
@@ -878,7 +1017,7 @@ Run it once per theme (~data-theme~ on ~<html>~), and give the transitions a mom
 
 The gate, ~maak contrast~, takes that walk for you. It renders nothing itself: it opens both built pages in a headless Chrome or Chromium, walks each one through every theme, and exits non-zero the moment a pair is below AA. Each page is stilled first, with a stylesheet that turns transitions and animations off, because a colour graded mid-fade is a colour no reader ever sees. ~maak build~ runs it, which is what makes readability a gate instead of a habit; both pages and both themes take about two seconds. It finds the browser on ~$PATH~, or wherever ~CHROME_BIN~ points.
 
-The showcase currently passes with 341 text elements checked in each theme and zero below AA, and the minimal example with 41 and zero. The sortable-table example server passes with 29 and zero, but it is rendered by ~maak example-server~ rather than by ~build~, so the gate does not reach it yet. The three pairs worth remembering from the last pass over it:
+The showcase currently passes with 514 text elements checked in each theme and zero below AA, and the minimal example with 41 and zero. The sortable-table example server passes with 29 and zero, but it is rendered by ~maak example-server~ rather than by ~build~, so the gate does not reach it yet. The three pairs worth remembering from the last pass over it:
 
 | pair | before | after |
 |------+--------+-------|
@@ -888,7 +1027,7 @@ The showcase currently passes with 341 text elements checked in each theme and z
 
 ----------------
 
-* Development tasks
+* Development and contributing
 
 The repository is driven by [[https://codeberg.org/jjba23/maak][maak]]. ~maak --list~ prints the tasks; the ones worth knowing:
 
@@ -906,9 +1045,50 @@ The repository is driven by [[https://codeberg.org/jjba23/maak][maak]]. ~maak --
 | ~maak validate~ | ~fmt~, ~compile~ and ~test~ in one go |
 | ~maak dev~ (alias ~maak hr~) | watches the tree and re-runs test, build and docs on every change |
 
+** README assets
+
+The animated demo at the top of this document is generated from the same components a reader uses. ~scripts/readme-demo.scm~ renders each of the three small pages in both themes (~dist/demo-hero-light.html~, ~dist/demo-hero-dark.html~, and so on); screenshot each at 1280x800 and combine the six frames into ~assets/readme/hygguile-demo.gif~. The static fallbacks are ~assets/readme/hygguile-light.png~ and ~assets/readme/hygguile-dark.png~.
+
 ----------------
 
-* Projects that use Hygguile
+** Contributing
+
+Contributions are warmly welcome -- code, documentation, bug reports, design feedback and questions are all valuable. Hygguile is a small, friendly project; you do not need to be a Scheme expert to help.
+
+** Ways to help
+
+- **Report a bug.** Open an issue on [[https://codeberg.org/jjba23/hygguile/issues][Codeberg]] with a small reproducer: the component call, the expected output and the actual output.
+- **Improve the docs.** If a docstring, a guide or a showcase section confused you, that is a bug. Send a patch.
+- **Add or refine a component.** Start with an issue describing the use case; keep the markup native and the JavaScript optional.
+- **Improve accessibility.** Contrast, focus order, labels, roles and keyboard behaviour are first-class concerns here.
+- **Share a project that uses Hygguile.** Real usage is the best documentation.
+
+** Before you send a patch
+
+#+begin_src sh
+maak validate   # format, compile and test
+maak test       # unit suite (component SXML shapes, helpers, serializer)
+maak build      # render showcase + example, then run the WCAG contrast gate
+maak docs       # regenerate the API reference
+#+end_src
+
+- Run ~maak fmt~ before committing; the project is formatted with ~guix style~.
+- Add or update a unit spec in ~test/veritas/unit/~ when you change a component.
+- If you touch CSS or JavaScript, run ~maak embed~ so the Scheme-embedded copies stay in step.
+- Keep docstrings in Texinfo: escape literal ~@~ as ~@@~ inside examples.
+- For a large change, open an issue first so we can agree on the shape.
+
+** Good first contributions
+
+- Add a missing usage example to a docstring.
+- Improve the empty/error copy of a component.
+- Add a contrast pair or a keyboard case to the tests.
+- Port a small component to the showcase.
+- Translate the README or the showcase into another language.
+
+* Community and project
+
+** Projects that use Hygguile
 
 - WikiMusic :: https://codeberg.org/jjba23/wikimusic
 - LucidPlan :: https://codeberg.org/jjba23/lucidplan
@@ -929,17 +1109,7 @@ You may use these font files under principles of fair use or for local developme
 
 -------
 
-* Code of conduct
-
-This project adheres to the jointhefreeworld code of conduct. Find it here:
-
-https://jointhefreeworld.org/blog/articles/personal/jointhefreeworld-code-of-conduct/index.html
-
-In summary, we foster an inclusive, respectful, and cooperative environment for all contributors and users of this free software project. Inspired by the ideals of the GNU Project, we strive to uphold freedom, equality, and community as guiding principles. We believe that collaboration in a community of mutual respect is essential to creating excellent free software.
-
--------
-
-* Hygguile Project
+** Hygguile Project
 
 Contributing to free software is a uniquely beautiful act because it embodies principles of generosity, collaboration, and empowerment.
 
@@ -950,75 +1120,59 @@ Find here the Backlog and Kanban boards for hygguile: https://lucidplan.jointhef
 
 ---------------
 
-* Notification system
+** Code of conduct
 
-Hygguile provides a notification system that can easily be used from within your web applications, by using URL parameters.
+This project adheres to the jointhefreeworld code of conduct. Find it here:
 
-It basically works with the query params:
-- ~notify-title~ required string representing the notification title
-- ~notify-body~ optional string representing the notification body/message
-- ~notify-duration-millis~ optional integer representing the milliseconds to show the notification
-- ~notify-body-font-family~ optional symbol choice between font-sans and font-mono
+https://jointhefreeworld.org/blog/articles/personal/jointhefreeworld-code-of-conduct/index.html
 
-The card that appears in the tray is a ~glass-panel~, the same frosted pane as every other surface in the framework. ~notification-card~ renders it server-side, with an empty title and body already in place for the script to fill, and ~show-notifications-from-url-js~ writes the parameters into those nodes with ~textContent~: a query string is data, so anything that looks like markup is shown as the characters it is instead of becoming an element. The tray stays the polite ~role="status"~ region it always was, which is why the notification is announced without interrupting the reader.
-
-The card is deliberately quiet: it appears and then holds still, with no bounce or pulse, and its silhouette is the same hairline border and modest padding as any other pane rather than a hard outline. A notification is information, and motion at the edge of the eye competes with the page the reader was already on.
-
------------------
-
-* Naming convention and conflict
-
-You can always choose to import hygguile using a prefix to avoid name clashes if they happen.
-
-#+begin_src scheme
-(use-modules
-  ((hygguile hygguile) #:prefix hyg:))
-#+end_src
-
+In summary, we foster an inclusive, respectful, and cooperative environment for all contributors and users of this free software project. Inspired by the ideals of the GNU Project, we strive to uphold freedom, equality, and community as guiding principles. We believe that collaboration in a community of mutual respect is essential to creating excellent free software.
 
 -------
 
-* On Server-Side Rendering: Why render on the server?
+* Design notes
+
+** On server-side rendering: why render on the server?
 
 Hygguile renders complete HTML on the server. The browser receives a finished document and a little JavaScript enhances it afterwards. That "old school" approach is worth defending even in the age of single-page applications, because for the kind of software most of us ship -- content sites, forms, dashboards, admin panels -- it keeps the fast path fast and the simple path simple.
 
 The showcase page makes the same case, in the same order, at https://hygguile.jointhefreeworld.org/#why-ssr
 
-** The first paint is not gated on a framework
+*** The first paint is not gated on a framework
 
 The HTML arrives ready to render. There is no bundle to download, parse and execute before the first pixel, so pages feel immediate even on slow connections and modest hardware. The cost of your interface is paid once, on the server, and shared by every visitor, instead of being paid again on each device that opens the page.
 
-** There is no hydration step to get out of sync
+*** There is no hydration step to get out of sync
 
 The server produces the final tree. Nothing is re-rendered on the client merely to attach behaviour, so there is no hydration pass that can disagree with the markup, and no flash of a not-yet-interactive page.
 
-** It works when JavaScript does not
+*** It works when JavaScript does not
 
 Links navigate and forms submit. ~<details>~, CSS-only tabs, the modal and tooltips keep working with scripting disabled; the theme toggle, carousel arrows and live notifications step in only when they can. Progressive enhancement is not a slogan here, it is the default: Hygguile ships components that degrade to ordinary, usable HTML.
 
-** One source of truth
+*** One source of truth
 
 State lives in the database and in the URL, not in a second client-side store. There is no model to duplicate, no cache to invalidate, and no class of stale-UI bugs caused by the two drifting apart. A page is a pure function of its request.
 
-** Cacheable, cheap and small
+*** Cacheable, cheap and small
 
 Because a page is a function of its request, responses are easy to cache, compress and proxy. Payloads stay small -- mostly text, styled by one stylesheet the browser already holds -- which matters most to the users on the worst connections.
 
-** Accessible and discoverable by default
+*** Accessible and discoverable by default
 
 Real headings, landmarks, labels and form controls are present in the first byte. Screen readers and crawlers never have to wait on a client-side rendering race, and the page is useful the moment it is parsed.
 
-** A smaller, calmer stack
+*** A smaller, calmer stack
 
 No client router, no global store, no build step that has to agree with the server. The mental model is the one the web began with: ask for a URL, receive a document, follow a link.
 
-** When is an SPA the right call?
+*** When is an SPA the right call?
 
 Single-page applications earn their complexity when you genuinely need offline support or a deeply interactive workspace. Even then it is a spectrum rather than a binary: you can ship mostly-static HTML and add interactivity only where it repays its cost. Hygguile is built exactly that way -- a document first, with small islands of behaviour.
 
 -------
 
-* On Reproducibility: Why GNU Guix?
+** On reproducibility: why GNU Guix?
 
 A build should never fail because "it worked on my machine." Reliable software development requires explicit, bit-for-bit reproducibility and a functional approach to package management and system deployment.
 
@@ -1033,3 +1187,11 @@ A build should never fail because "it worked on my machine." Reliable software d
 - *Time Travel:* Rebuild the exact system state from any point in git history using ~guix time-machine~.
 - *Atomic Operations:* Instantly upgrade or roll back environments without leaving orphaned dependencies or broken states.
 - *Unified Tooling:* One tool manages development shells, isolated containers, package builds, and full system configurations.
+
+* License
+
+Hygguile and all of its source code are free software, licensed under the **GNU Lesser General Public License v3.0 or later** (LGPL-3.0-or-later). See [[https://www.gnu.org/licenses/lgpl-3.0.html][the license text]].
+
+The showcase site, documentation and examples -- including this document -- are licensed under the **GNU Free Documentation License v1.3 or later** (FDL-1.3-or-later). See [[https://www.gnu.org/licenses/fdl-1.3.html][the license text]].
+
+If Hygguile helps you build something, consider [[https://bmc.link/jjbigorra][buying me a cup of coffee ☕]] so the project can keep moving. More importantly: build something cozy, and tell me about it.

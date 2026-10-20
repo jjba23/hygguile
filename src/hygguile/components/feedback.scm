@@ -268,8 +268,8 @@ List of additional utility CSS classes.
                                         '(flex flex-col gap-2 my-2 w-full)))))
            ,@(map (lambda (n)
                     `(div (@ (class ,(mk-class (append '(animate-pulse
-                                                         bg-stone-500/25
-                                                         dark:bg-onyx-500/25
+                                                         bg-stone-900/75
+                                                         dark:bg-onyx-100/75
                                                          w-full)
                                                        height-classes
                                                        rounded-classes))))))
@@ -527,7 +527,7 @@ Extra classes for the card.
                                     dark:border-onyx-100/25)
                  #:shadow '(shadow-lg)
                  #:padding '(py-4 px-4)
-                 #:classes (append '(hg-toast w-full max-w-sm
+                 #:classes (append '(hg-toast w-full max-w-100
                                               pointer-events-auto
                                               flex flex-row
                                               items-start
@@ -727,7 +727,11 @@ Extra classes for the wrapper.
 ;; ===== Skeletons, per component =====
 
 (define skeleton-block-classes
-  '(animate-pulse bg-stone-500/25 dark:bg-onyx-500/25 rounded-xl))
+  ;; A placeholder has to be seen to be believed. Olive's `stone-*' ramp runs
+  ;; the other way round from its name -- `stone-500' is a near-white -- so the
+  ;; darkest step of the ramp is what reads as a bar on a light card, and the
+  ;; lightest step of the dark ramp on a dark one.
+  '(animate-pulse bg-stone-900/75 dark:bg-onyx-100/75 rounded-xl))
 
 (define* (skeleton-heading #:key (width '(w-1/2)) (classes '()))
   "A placeholder for a heading line.
@@ -885,8 +889,8 @@ Extra classes.
                                                                 overflow-hidden)
                                              classes))))
                 (div (@ (class ,(mk-class '(flex flex-row gap-4 p-3
-                                                   bg-stone-500/25
-                                                   dark:bg-onyx-500/25))))
+                                                   bg-stone-900/75
+                                                   dark:bg-onyx-100/75))))
                      ,@header-cells)
                 ,@body-rows))))
 

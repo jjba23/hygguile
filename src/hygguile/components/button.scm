@@ -31,6 +31,18 @@
                    light-button
                    mono-button))
 
+(define default-button-extra-classes
+  '(py-2 px-4
+         max-w-prose
+         cursor-pointer
+         select-none
+         transition-colors
+         duration-200
+         ease-in-out
+         focus-visible:outline-2
+         focus-visible:outline-offset-2
+         outline-onyx-500))
+
 (define* (button content
                  #:key (id "")
                  (type 'button)
@@ -50,16 +62,7 @@
                  (family '(font-sans))
                  (weight '(font-medium))
                  (rounding '(rounded-2xl))
-                 (extra-classes '(py-2 px-4
-                                       max-w-prose
-                                       cursor-pointer
-                                       select-none
-                                       transition-colors
-                                       duration-200
-                                       ease-in-out
-                                       focus-visible:outline-2
-                                       focus-visible:outline-offset-2
-                                       outline-onyx-500)))
+                 (extra-classes default-button-extra-classes))
   "Create a standard HTML button element.
 
 @table @var
@@ -428,7 +431,7 @@ List of symbols applied to the inner layout wrapper surrounding the icon and con
                          (type 'button)
                          (id "")
                          (on-click "")
-                         (extra-classes '()))
+                         (extra-classes default-button-extra-classes))
   "The one main action of a page or form.
 
 @table @var
@@ -469,7 +472,7 @@ Extra layout classes.
                            (type 'button)
                            (id "")
                            (on-click "")
-                           (extra-classes '()))
+                           (extra-classes default-button-extra-classes))
   "A supporting action beside a primary one.
 
 @table @var
@@ -510,7 +513,7 @@ Extra layout classes.
                        (type 'button)
                        (id "")
                        (on-click "")
-                       (extra-classes '()))
+                       (extra-classes default-button-extra-classes))
   "A quiet action that only shows its surface on hover or focus.
 
 @table @var
@@ -552,7 +555,7 @@ Extra layout classes.
                         (type 'button)
                         (id "")
                         (on-click "")
-                        (extra-classes '()))
+                        (extra-classes default-button-extra-classes))
   "A destructive action: the colour is a warning, and the label says what it does.
 
 @table @var
@@ -601,7 +604,7 @@ Extra layout classes.
                            (border-color '(border-stone-700
                                            dark:border-onyx-300))
                            (icon-css '(text-xl))
-                           (extra-classes '()))
+                           (extra-classes default-button-extra-classes))
   "An icon button with no visible text, named for assistive technology.
 
 The label is not decoration: an icon-only control has no accessible name

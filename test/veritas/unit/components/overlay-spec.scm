@@ -80,6 +80,12 @@
                (assert-equal #:name "dropdown item can be a danger action"
                              #:got (has? (render (dropdown-item "Delete" #:danger? #t))
                                          "text-redwood-700")
+                             #:expect #t)
+               (assert-equal #:name "a dropdown can start open"
+                             #:got (has? (render (dropdown-menu #:label "A"
+                                                                  #:open? #t
+                                                                  #:items '()))
+                                         "open")
                              #:expect #t))
          (test "command palette"
                (assert-equal #:name "command palette is a dialog"

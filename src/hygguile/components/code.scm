@@ -282,11 +282,12 @@ List of CSS classes for the fold control.
                 (div ,specimen)
                 (button (@ (type "button")
                            (aria-label ,label)
+                           (title ,label)
                            (aria-controls ,panel-id)
                            (aria-expanded "false")
                            (class ,(mk-class toggle-classes))
                            (onclick "hygguileToggleCodeSample(this)"))
-                        ,(icon #:type 'dots-three
+                        ,(icon #:type 'code
                                #:icon-css '(text-xl cursor-pointer))))
            (div (@ (id ,panel-id)
                    (hidden "")

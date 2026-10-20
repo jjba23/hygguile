@@ -126,7 +126,9 @@ so the example can find resources/css/olive.min.css."
   "Render every page of the site into dist/."
   (remkdir-p "dist")
   ($ '("cp -rfv resources/css/olive.min.css dist/olive.min.css"))
-  (manifest-shell (list "guile -L ./src showcase.scm"))
+  ;; the showcase's sections live in (showcase ...) modules beside its entry
+  ;; script, so the repository root joins the load path
+  (manifest-shell (list "guile -L ./src -L . showcase.scm"))
   (manifest-shell (list "guile -L ./src examples/minimal.scm")))
 
 (define (contrast)
