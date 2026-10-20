@@ -20,6 +20,11 @@
   #:use-module ((hygguile components icon)
                 #:prefix hyg:)
   #:export (button icon-button
+                   icon-only-button
+                   primary-button
+                   secondary-button
+                   ghost-button
+                   danger-button
                    submit-button
                    danger-submit-button
                    ui-mode-button
@@ -31,6 +36,8 @@
                  (type 'button)
                  (hidden #f)
                  (on-click "")
+                 (loading #f)
+                 (loading-label "Loading")
                  (background '(bg-stone-500/90 dark:bg-onyx-500/90))
                  (hover-background '(hover:bg-stone-900/90
                                      dark:hover:bg-onyx-900))
@@ -66,6 +73,11 @@ A symbol representing the HTML button type (e.g., @code{'button}, @code{'submit}
 A boolean indicating whether the button should be hidden.
 @item on-click
 A JavaScript handler string triggered on click events.
+@item loading
+A boolean putting the button in its loading state: a spinner appears, the
+control is disabled, and @code{aria-busy} says why.
+@item loading-label
+The spoken label of the loading state. Defaults to @code{\"Loading\"}.
 @item background
 List of symbols for background CSS classes.
 @item hover-background
@@ -94,27 +106,46 @@ List of utility formatting layout classes.
 
 @example
 (button \"Click Me\" #:id \"btn-primary\" #:on-click \"alert('Hello!')\")
+(button \"Saving\" #:loading #t)
 @end example"
-  (let ((button-css (append extra-classes
-                            color
-                            background
-                            hover-background
-                            border-color
-                            rounding
-                            shadow
-                            border-size
-                            size
-                            active
-                            family
-                            weight)))
+  (let* ((button-css (append extra-classes
+                             color
+                             background
+                             hover-background
+                             border-color
+                             rounding
+                             shadow
+                             border-size
+                             size
+                             active
+                             family
+                             weight
+                             (if loading
+                                 '(cursor-wait opacity-80)
+                                 '())))
+         (spinner `(span (@ (class ,(mk-class '(hg-spinner
+                                                animate-spin
+                                                inline-block
+                                                w-4
+                                                h-4
+                                                mr-2)))
+                            (aria-hidden "true"))))
+         (busy-label `(span (@ (class "sr-only")) ,loading-label))
+         (children (if loading
+                       (list spinner busy-label content)
+                       content)))
     `(button (@ (type ,(symbol->string type))
                 (id ,id)
                 (class ,(mk-class button-css))
-                ,(if hidden
-                     '(hidden "")
-                     '(visible ""))
+                ,@(if hidden
+                      '((hidden ""))
+                      '((visible "")))
+                ,@(if loading
+                      '((disabled "")
+                        (aria-busy "true"))
+                      '())
                 (onclick ,on-click))
-             ,content)))
+             ,children)))
 
 (define* (icon-button #:key (id "")
                       icon
@@ -381,3 +412,268 @@ List of symbols applied to the inner layout wrapper surrounding the icon and con
                    ,(hyg:icon #:type icon
                               #:icon-css icon-css)
                    (span ,content))))))
+
+;; ===== Button variants =====
+;;
+;; A page asks for a button by the role it plays, not by its colours: there is
+;; one main action, a handful of secondary ones, some that are only a hint of
+;; a surface until hovered, and the destructive one that has to look like
+;; what it does. Each variant below is that decision, named, with the inks
+;; chosen so the label clears WCAG AA in both themes -- the fill is the dark
+;; end of a ramp with near-white type, or the light end with dark type.
+
+(define* (primary-button content
+                         #:key (loading #f)
+                         (loading-label "Loading")
+                         (type 'button)
+                         (id "")
+                         (on-click "")
+                         (extra-classes '()))
+  "The one main action of a page or form.
+
+@table @var
+@item content
+The button's label or nodes.
+@item loading
+A boolean putting the button in its loading state.
+@item loading-label
+The spoken label of the loading state.
+@item type
+The HTML button type.
+@item id
+An optional identifier.
+@item on-click
+A JavaScript handler.
+@item extra-classes
+Extra layout classes.
+@end table
+
+@example
+(primary-button \"Create account\")
+@end example"
+  (button content
+          #:type type
+          #:id id
+          #:on-click on-click
+          #:loading loading
+          #:loading-label loading-label
+          #:background '(bg-onyx-500 dark:bg-stone-100)
+          #:hover-background '(hover:bg-onyx-700 dark:hover:bg-stone-300)
+          #:color '(text-stone-100 dark:text-onyx-900)
+          #:border-color '(border-onyx-300 dark:border-stone-300)
+          #:extra-classes extra-classes))
+
+(define* (secondary-button content
+                           #:key (loading #f)
+                           (loading-label "Loading")
+                           (type 'button)
+                           (id "")
+                           (on-click "")
+                           (extra-classes '()))
+  "A supporting action beside a primary one.
+
+@table @var
+@item content
+The button's label or nodes.
+@item loading
+A boolean putting the button in its loading state.
+@item loading-label
+The spoken label of the loading state.
+@item type
+The HTML button type.
+@item id
+An optional identifier.
+@item on-click
+A JavaScript handler.
+@item extra-classes
+Extra layout classes.
+@end table
+
+@example
+(secondary-button \"Cancel\")
+@end example"
+  (button content
+          #:type type
+          #:id id
+          #:on-click on-click
+          #:loading loading
+          #:loading-label loading-label
+          #:background '(bg-stone-300/75 dark:bg-onyx-700/75)
+          #:hover-background '(hover:bg-stone-500/50 dark:hover:bg-onyx-500/50)
+          #:color '(text-onyx-500 dark:text-stone-300)
+          #:border-color '(border-stone-500/50 dark:border-onyx-100/50)
+          #:extra-classes extra-classes))
+
+(define* (ghost-button content
+                       #:key (loading #f)
+                       (loading-label "Loading")
+                       (type 'button)
+                       (id "")
+                       (on-click "")
+                       (extra-classes '()))
+  "A quiet action that only shows its surface on hover or focus.
+
+@table @var
+@item content
+The button's label or nodes.
+@item loading
+A boolean putting the button in its loading state.
+@item loading-label
+The spoken label of the loading state.
+@item type
+The HTML button type.
+@item id
+An optional identifier.
+@item on-click
+A JavaScript handler.
+@item extra-classes
+Extra layout classes.
+@end table
+
+@example
+(ghost-button \"Skip for now\")
+@end example"
+  (button content
+          #:type type
+          #:id id
+          #:on-click on-click
+          #:loading loading
+          #:loading-label loading-label
+          #:background '(bg-transparent)
+          #:hover-background '(hover:bg-stone-500/25 dark:hover:bg-onyx-500/25)
+          #:color '(text-onyx-500 dark:text-stone-300)
+          #:border-color '(border-transparent)
+          #:shadow '()
+          #:extra-classes extra-classes))
+
+(define* (danger-button content
+                        #:key (loading #f)
+                        (loading-label "Loading")
+                        (type 'button)
+                        (id "")
+                        (on-click "")
+                        (extra-classes '()))
+  "A destructive action: the colour is a warning, and the label says what it does.
+
+@table @var
+@item content
+The button's label or nodes.
+@item loading
+A boolean putting the button in its loading state.
+@item loading-label
+The spoken label of the loading state.
+@item type
+The HTML button type.
+@item id
+An optional identifier.
+@item on-click
+A JavaScript handler.
+@item extra-classes
+Extra layout classes.
+@end table
+
+@example
+(danger-button \"Delete project\")
+@end example"
+  (button content
+          #:type type
+          #:id id
+          #:on-click on-click
+          #:loading loading
+          #:loading-label loading-label
+          #:background '(bg-redwood-700)
+          #:hover-background '(hover:bg-redwood-900)
+          #:color '(text-stone-300)
+          #:border-color '(border-redwood-700)
+          #:extra-classes extra-classes))
+
+(define* (icon-only-button #:key icon
+                           label
+                           (id "")
+                           (type 'button)
+                           (on-click "")
+                           (loading #f)
+                           (loading-label "Loading")
+                           (background '(bg-stone-500/90 dark:bg-onyx-500/90))
+                           (hover-background '(hover:bg-stone-900/90
+                                               dark:hover:bg-onyx-900))
+                           (color '(text-stone-100 dark:text-onyx-900))
+                           (border-color '(border-stone-700
+                                           dark:border-onyx-300))
+                           (icon-css '(text-xl))
+                           (extra-classes '()))
+  "An icon button with no visible text, named for assistive technology.
+
+The label is not decoration: an icon-only control has no accessible name
+without it, so it is rendered as a visually hidden @code{<span>} and the
+button carries @code{aria-label} as well.
+
+@table @var
+@item icon
+The Phosphor icon name.
+@item label
+The accessible name.
+@item id
+An optional identifier.
+@item type
+The HTML button type.
+@item on-click
+A JavaScript handler.
+@item loading
+A boolean putting the button in its loading state.
+@item loading-label
+The spoken label of the loading state.
+@item background
+Background classes.
+@item hover-background
+Hover background classes.
+@item color
+Text and icon colour classes.
+@item border-color
+Border colour classes.
+@item icon-css
+Icon sizing and colour classes.
+@item extra-classes
+Extra layout classes.
+@end table
+
+@example
+(icon-only-button #:icon 'gear #:label \"Settings\")
+@end example"
+  `((button (@ (type ,(symbol->string type))
+               (id ,id)
+               (aria-label ,label)
+               ,@(if loading
+                     '((disabled "")
+                       (aria-busy "true"))
+                     '())
+               (onclick ,on-click)
+               (class ,(mk-class (append '(inline-flex items-center
+                                            justify-center
+                                            p-2
+                                            w-10 h-10
+                                            rounded-xl
+                                            border-2
+                                            shadow-sm
+                                            cursor-pointer
+                                            select-none
+                                            transition-colors
+                                            duration-150
+                                            focus-visible:outline-2
+                                            focus-visible:outline-offset-2
+                                            outline-onyx-500)
+                                         color background hover-background
+                                         border-color
+                                         (if loading
+                                             '(cursor-wait opacity-80)
+                                             '())
+                                         extra-classes))))
+            ,@(if loading
+                  (list `(span (@ (class ,(mk-class '(hg-spinner animate-spin
+                                                                  inline-block
+                                                                  w-4 h-4)))
+                                  (aria-hidden "true"))
+                       `(span (@ (class "sr-only")) ,loading-label))
+                  (list (hyg:icon #:type icon
+                                  #:icon-css icon-css)
+                        `(span (@ (class "sr-only")) ,label)))))))

@@ -18,13 +18,18 @@
 (define-module (hygguile components navigation)
   #:use-module (hygguile abstraction)
   #:use-module (hygguile components glass)
+  #:use-module (ice-9 format)
   #:use-module (srfi srfi-1)
   #:export (navbar nav-link
                    breadcrumbs
                    pagination
                    tabs
                    tab
-                   section-nav))
+                   section-nav
+                   sidebar
+                   sidebar-link
+                   nav-rail
+                   wizard))
 
 ;; One shade deeper than the glass panel's own tint: the bar spans the whole
 ;; viewport, so it has to hold its own against whatever it scrolls over
@@ -146,6 +151,7 @@ List of symbols applied when the link is inactive.
 (define* (section-nav sections
                       #:key (label "Page sections")
                       (sticky? #t)
+                      (scroll-spy? #t)
                       (classes '(my-2 rounded-2xl
                                       border-2
                                       border-stone-500/25
@@ -192,6 +198,11 @@ A list of @code{(id . label)} pairs, in the order the rail should show them. Eac
 The accessible name of the rail, read out by assistive technology.
 @item sticky?
 Whether the rail follows the page from the small breakpoint up.
+@item scroll-spy?
+Whether the rail marks the section a reader is currently in. The marking is
+done by the framework's scroll-spy script (a progressive enhancement), and
+the attribute it needs is written only when the page asks for it. Defaults to
+true.
 @item classes
 List of base CSS classes for the @code{<nav>}.
 @item list-classes
@@ -208,6 +219,8 @@ List of CSS classes applied to the other links.
 (section-nav '((buttons . \"Buttons\") (forms . \"Forms\")))
 @end example"
   `((nav (@ (aria-label ,label)
+            ,@(attr-when scroll-spy?
+                         'data-hg-scroll-spy "")
             (class ,(mk-class (append classes
                                       (if sticky?
                                           '(sm:sticky top-2 z-20)
@@ -447,3 +460,374 @@ List of symbols representing the wrapper CSS classes.
                                   (aria-labelledby ,(label-id t))
                                   (class "hg-tab-panel"))
                                ,(caddr t))) tab-items))))))
+
+
+
+;; ===== Sidebars and rails =====
+
+(define* (sidebar-link label
+                       #:key href
+                       (icon #f)
+                       (active #f)
+                       (badge #f)
+                       (classes '()))
+  "Create one link of a sidebar, with an optional icon and badge.
+
+The link marks the page it is on with @code{aria-current=\"page\"}, so a
+screen reader announces the current item the same way the stylesheet paints
+it.
+
+@table @var
+@item label
+The link text.
+@item href
+The destination.
+@item icon
+An optional Phosphor icon name shown before the label.
+@item active
+Whether this is the current page.
+@item badge
+An optional short count or label shown at the end of the row.
+@item classes
+Extra classes for the link.
+@end table
+
+@example
+(sidebar-link \"Settings\" #:href \"/settings\" #:icon 'gear)
+@end example"
+  (let* ((icon-node (if icon
+                        (list `(i (@ (class ,(mk-class
+                                              (list 'ph
+                                                    (string->symbol
+                                                     (format #f "ph-~a" icon))
+                                                    'text-lg 'shrink-0))))))
+                        '()))
+         (badge-node (if badge
+                         (list `(span (@ (class ,(mk-class
+                                                  '(hg-sidebar-badge text-xs
+                                                                     font-medium
+                                                                     px-2 py-0.5
+                                                                     rounded-512
+                                                                     bg-stone-500/25
+                                                                     dark:bg-onyx-500/25))))
+                                      ,badge))
+                         '()))
+         (children (append icon-node
+                           (list `(span (@ (class "flex-1")) ,label))
+                           badge-node))
+         (link-classes (append '(hg-sidebar-link flex flex-row items-center
+                                                  gap-2 px-3 py-2 rounded-lg
+                                                  no-underline text-onyx-300
+                                                  dark:text-stone-300
+                                                  hover:bg-stone-500/25
+                                                  dark:hover:bg-onyx-500/25
+                                                  transition-colors duration-150
+                                                  focus-visible:outline-2
+                                                  focus-visible:outline-offset-2
+                                                  outline-onyx-500)
+                               (if active
+                                   '(bg-stone-500/25 text-onyx-500
+                                     dark:bg-onyx-500/25 dark:text-stone-100)
+                                   '())
+                               classes)))
+    (list `(li (@ (class "hg-sidebar-item"))
+               (a (@ (href ,href)
+                     ,@(attr-when active 'aria-current "page")
+                     (class ,(mk-class link-classes)))
+                  ,@children)))))
+
+(define (sidebar-section-node section current)
+  "Render one @code{(heading . items)} section of a sidebar."
+  (let* ((heading (car section))
+         (items (cdr section))
+         (item-nodes (map (lambda (item)
+                            (if (and (pair? item)
+                                     (string? (cdr item)))
+                                (sidebar-link (car item)
+                                              #:href (cdr item)
+                                              #:active (and current
+                                                            (string=? current
+                                                                      (cdr item))))
+                                item))
+                          items)))
+    `(div (@ (class "hg-sidebar-section mb-4"))
+          ,@(if heading
+                (list `(p (@ (class ,(mk-class '(hg-sidebar-heading px-3 py-1
+                                                                 text-xs
+                                                                 font-semibold
+                                                                 uppercase
+                                                                 tracking-wide
+                                                                 text-onyx-300
+                                                                 dark:text-stone-500))))
+                         ,heading))
+                '())
+          (ul (@ (class "list-none p-0 m-0 flex flex-col gap-1"))
+              ,@item-nodes))))
+
+(define* (sidebar #:key (brand #f)
+                  sections
+                  (footer #f)
+                  (label "Sidebar")
+                  (current #f)
+                  (sticky? #t)
+                  (classes '()))
+  "Create a vertical navigation sidebar, collapsing to a plain list on phones.
+
+A sidebar is a page's own table of contents for an application: a brand at
+the top, one or more groups of links, and an optional footer (usually a
+settings link or an account block). It is a real @code{<nav>} with a label,
+each link is an ordinary anchor, and the current page is marked with
+@code{aria-current}. From the large breakpoint up it can stick beside the
+content; below it, it is simply a list above the page.
+
+@table @var
+@item brand
+An optional node shown at the top.
+@item sections
+A list of @code{(heading . items)} pairs. Each item is either a
+@code{(label . href)} pair or a node built with @code{sidebar-link}.
+@item footer
+An optional node shown at the bottom.
+@item label
+The accessible name of the navigation region.
+@item current
+The href of the current page, used to mark the active link.
+@item sticky?
+Whether the sidebar sticks from the large breakpoint up.
+@item classes
+Extra classes for the sidebar.
+@end table
+
+@example
+(sidebar #:brand \"LucidPlan\"
+         #:current \"/projects\"
+         #:sections '((\"Work\" (\"Projects\" . \"/projects\")
+                               (\"Reports\" . \"/reports\"))
+                      (\"Account\" (\"Settings\" . \"/settings\"))))
+@end example"
+  (let* ((section-nodes (map (lambda (section)
+                               (sidebar-section-node section current))
+                             sections))
+         (sticky-classes (if sticky?
+                             '(lg:sticky lg:top-4 lg:self-start)
+                             '())))
+    (list `(nav (@ (aria-label ,label)
+                   (class ,(mk-class (append '(hg-sidebar w-full
+                                                          flex flex-col
+                                                          gap-2 p-3
+                                                          rounded-2xl
+                                                          border-2
+                                                          border-stone-500/25
+                                                          dark:border-onyx-100/25
+                                                          bg-stone-100/75
+                                                          dark:bg-onyx-900/50)
+                                             sticky-classes classes))))
+                ,@(if brand
+                      (list `(div (@ (class ,(mk-class '(px-3 py-2 text-lg
+                                                                  font-bold
+                                                                  text-onyx-500
+                                                                  dark:text-stone-300))))
+                                  ,brand))
+                      '())
+                ,@section-nodes
+                ,@(if footer
+                      (list `(div (@ (class "hg-sidebar-footer mt-auto
+                                              border-t-2
+                                              border-stone-500/25
+                                              dark:border-onyx-100/25
+                                              pt-3"))
+                                  ,footer))
+                      '())))))
+
+(define* (nav-rail #:key items
+                   (label "Primary")
+                   (current #f)
+                   (classes '()))
+  "Create a narrow icon rail for a primary navigation.
+
+Each item is a triple, @code{(icon label href)}: the icon is what is drawn,
+and the label is what assistive technology reads and what a mouse reader
+sees in the browser's own tooltip. A rail is the right shape for a desktop
+application with a persistent set of destinations and no room for words;
+the labels are still there in the markup, which is what keeps it usable.
+
+@table @var
+@item items
+A list of @code{(icon label href)} triples.
+@item label
+The accessible name of the navigation region.
+@item current
+The href of the current page.
+@item classes
+Extra classes for the rail.
+@end table
+
+@example
+(nav-rail #:items '((house \"Home\" \"/\") (gear \"Settings\" \"/settings\")))
+@end example"
+  (let ((links (map (lambda (item)
+                      (let ((icon (list-ref item 0))
+                            (item-label (list-ref item 1))
+                            (href (list-ref item 2)))
+                        `(li (a (@ (href ,href)
+                                   (title ,item-label)
+                                   ,@(attr-when (and current
+                                                     (string=? current href))
+                                                'aria-current "page")
+                                   (class ,(mk-class (append '(hg-nav-rail-link
+                                                               inline-flex
+                                                               items-center
+                                                               justify-center
+                                                               w-12 h-12
+                                                               rounded-xl
+                                                               no-underline
+                                                               text-onyx-300
+                                                               dark:text-stone-300
+                                                               hover:bg-stone-500/25
+                                                               dark:hover:bg-onyx-500/25
+                                                               transition-colors
+                                                               duration-150
+                                                               focus-visible:outline-2
+                                                               focus-visible:outline-offset-2
+                                                               outline-onyx-500)
+                                                             (if (and current
+                                                                      (string=?
+                                                                       current
+                                                                       href))
+                                                                 '(bg-stone-500/25
+                                                                   text-onyx-500
+                                                                   dark:bg-onyx-500/25
+                                                                   dark:text-stone-100)
+                                                                 '())))))
+                               (i (@ (class ,(mk-class (list 'ph
+                                                             (string->symbol
+                                                              (format #f
+                                                                      "ph-~a"
+                                                                      icon))
+                                                             'text-2xl)))))
+                               (span (@ (class "sr-only")) ,item-label)))))
+                    items)))
+    (list `(nav (@ (aria-label ,label)
+                   (class ,(mk-class (append '(hg-nav-rail inline-flex
+                                                            flex-col
+                                                            gap-1 p-2
+                                                            rounded-2xl
+                                                            border-2
+                                                            border-stone-500/25
+                                                            dark:border-onyx-100/25
+                                                            bg-stone-100/75
+                                                            dark:bg-onyx-900/50)
+                                             classes))))
+                (ul (@ (class "list-none p-0 m-0 flex flex-col gap-1"))
+                    ,@links)))))
+
+;; ===== Wizards =====
+
+(define (wizard-step-label step)
+  "Return the label of a wizard step, which may be a pair or a string."
+  (if (pair? step)
+      (car step)
+      step))
+
+(define (wizard-step-href step)
+  "Return the href of a wizard step, or @code{#f}."
+  (and (pair? step)
+       (cdr step)))
+
+(define (wizard-step-node step index current-index numbered?)
+  "Render one step of a @code{wizard}."
+  (let* ((step-label (wizard-step-label step))
+         (href (wizard-step-href step))
+         (complete? (< index current-index))
+         (active? (= index current-index))
+         (state-class (cond
+                        (complete? 'hg-wizard-complete)
+                        (active? 'hg-wizard-current)
+                        (else 'hg-wizard-upcoming)))
+         (marker (if numbered?
+                     (list `(span (@ (class ,(mk-class
+                                              '(hg-wizard-marker inline-flex
+                                                                 items-center
+                                                                 justify-center
+                                                                 w-8 h-8
+                                                                 rounded-512
+                                                                 border-2
+                                                                 font-semibold
+                                                                 font-sans
+                                                                 shrink-0))))
+                                  ,(if complete?
+                                       "✓"
+                                       (format #f "~a" index))))
+                     '()))
+         (text (list `(span (@ (class ,(mk-class '(hg-wizard-label
+                                                   font-medium font-sans))))
+                            ,step-label)))
+         (content (append marker text))
+         (link-classes "hg-wizard-link inline-flex items-center gap-2
+                        text-onyx-300 dark:text-stone-300"))
+    `(li (@ (class ,(mk-class (list 'hg-wizard-step state-class))))
+         ,(if href
+              `(a (@ (href ,href)
+                     ,@(attr-when active? 'aria-current "step")
+                     (class ,link-classes))
+                  ,@content)
+              `(span (@ ,@(attr-when active? 'aria-current "step")
+                        (class ,link-classes))
+                     ,@content)))))
+
+(define* (wizard #:key steps
+                 current
+                 (label "Progress")
+                 (orientation 'horizontal)
+                 (numbered? #t)
+                 (classes '()))
+  "Create the ordered steps of a multi-step form or a checkout.
+
+The list is a real @code{<ol>}, because the order is the point, and the step
+the reader is on carries @code{aria-current=\"step\"}. Steps before it are
+marked complete, steps after it are marked upcoming, and every step that has
+an href is a link so a reader can go back. Nothing here needs a script: the
+server knows which step it rendered, and that is the state the page shows.
+
+@table @var
+@item steps
+A list of steps, each a label string or a @code{(label . href)} pair.
+@item current
+The 1-based index of the current step, or its label.
+@item label
+The accessible name of the navigation region.
+@item orientation
+@code{'horizontal} (default) or @code{'vertical}.
+@item numbered?
+Whether each step shows its number (or a check when complete).
+@item classes
+Extra classes for the wrapper.
+@end table
+
+@example
+(wizard #:steps '((\"Cart\" . \"/cart\") (\"Address\") (\"Payment\"))
+        #:current 2)
+@end example"
+  (let* ((current-index (cond
+                          ((number? current) current)
+                          ((string? current)
+                           (let loop ((rest steps) (index 1))
+                             (cond
+                               ((null? rest) 1)
+                               ((equal? (wizard-step-label (car rest)) current)
+                                index)
+                               (else (loop (cdr rest) (+ index 1))))))
+                          (else 1)))
+         (step-nodes (map (lambda (step index)
+                            (wizard-step-node step index current-index
+                                              numbered?))
+                          steps (iota (length steps) 1)))
+         (orientation-classes (if (eq? 'vertical orientation)
+                                  '(flex-col items-start)
+                                  '(flex-row flex-wrap items-center))))
+    (list `(nav (@ (aria-label ,label)
+                   (class ,(mk-class (append '(hg-wizard) classes))))
+                (ol (@ (class ,(mk-class (append '(list-none p-0 m-0 flex
+                                                                   gap-3)
+                                                 orientation-classes))))
+                    ,@step-nodes)))))

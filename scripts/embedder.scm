@@ -70,7 +70,13 @@
                     fly-out
                     remember-dark-theme
                     toggle-dark-theme
-                    tray))
+                    tray
+                    interactions
+                    forms
+                    overlays
+                    toast
+                    table
+                    density))
 
 (define css-files
   '(fly-out hygguile-extras no-js))

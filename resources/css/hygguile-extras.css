@@ -779,3 +779,755 @@ details[open] > .hg-expandable-summary .hg-expandable-chevron {
     animation: none;
   }
 }
+
+/* ===== Tokens, when the page did not load the generated block =====
+
+   `design-tokens-css' publishes every token from Scheme, including the dark
+   theme and the reduced-motion zeroing. These are the same values as
+   fallbacks so a component written against `var(--hg-space-4, 1rem)' still
+   has a value on a page that forgot the block. */
+
+:root {
+  --hg-space-1: 0.25rem;
+  --hg-space-2: 0.5rem;
+  --hg-space-3: 0.75rem;
+  --hg-space-4: 1rem;
+  --hg-space-6: 1.5rem;
+  --hg-space-8: 2rem;
+  --hg-radius-lg: 0.8rem;
+  --hg-radius-xl: 0.96rem;
+  --hg-motion-fast: 120ms;
+  --hg-motion-base: 200ms;
+  --hg-motion-ease: cubic-bezier(0.2, 0, 0, 1);
+  --hg-density: 1;
+}
+
+/* ===== Skip links and focusable hidden text =====
+
+   The first control on a page should be a way past the navigation. It is
+   off-screen until it takes focus, then it lands in the top-left corner
+   above everything. */
+
+.hg-skip-link {
+  position: fixed;
+  top: 0;
+  inset-inline-start: 0;
+  z-index: var(--hg-z-tooltip, 96);
+  transform: translateY(-130%);
+  padding: 0.75rem 1rem;
+  border-radius: 0 0 0.75rem 0;
+  background: #1c1917;
+  color: #f5f5f4;
+  font-family: "Plus Jakarta Sans", "Lucida Sans", sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform var(--hg-motion-fast, 120ms) var(--hg-motion-ease, ease);
+}
+
+.hg-skip-link:focus,
+.hg-skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 2px solid #f5f5f4;
+  outline-offset: 2px;
+}
+
+.hg-visually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ===== Responsive hiding =====
+
+   Olive's responsive utilities are min-width, so there is no plain utility
+   for "gone above this width". These five are that, at the same breakpoints
+   Olive uses (40, 48, 64, 80 and 96rem). */
+
+@media (width >= 40rem) {
+  .hg-hidden-from-sm {
+    display: none !important;
+  }
+}
+
+@media (width >= 48rem) {
+  .hg-hidden-from-md {
+    display: none !important;
+  }
+}
+
+@media (width >= 64rem) {
+  .hg-hidden-from-lg {
+    display: none !important;
+  }
+}
+
+@media (width >= 80rem) {
+  .hg-hidden-from-xl {
+    display: none !important;
+  }
+}
+
+@media (width >= 96rem) {
+  .hg-hidden-from-2xl {
+    display: none !important;
+  }
+}
+
+/* ===== Motion primitives =====
+
+   A motion primitive is a class that names an effect, plus the duration it
+   reads from the token scale. The reduced-motion block at the bottom of this
+   sheet turns every one of them off, so a component never has to carry a
+   media query of its own. */
+
+.hg-motion-fade {
+  animation: hg-fade-in var(--hg-motion-base, 200ms) var(--hg-motion-ease, ease)
+    both;
+}
+
+.hg-motion-slide-up {
+  animation: hg-slide-up var(--hg-motion-base, 200ms)
+    var(--hg-motion-ease, ease) both;
+}
+
+.hg-motion-slide-down {
+  animation: hg-slide-down var(--hg-motion-base, 200ms)
+    var(--hg-motion-ease, ease) both;
+}
+
+.hg-motion-slide-start {
+  animation: hg-slide-start var(--hg-motion-base, 200ms)
+    var(--hg-motion-ease, ease) both;
+}
+
+.hg-motion-slide-end {
+  animation: hg-slide-end var(--hg-motion-base, 200ms)
+    var(--hg-motion-ease, ease) both;
+}
+
+.hg-motion-scale {
+  animation: hg-scale-in var(--hg-motion-base, 200ms)
+    var(--hg-motion-ease, ease) both;
+}
+
+@keyframes hg-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes hg-slide-up {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hg-slide-down {
+  from { opacity: 0; transform: translateY(-0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hg-slide-start {
+  from { opacity: 0; transform: translateX(-0.75rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes hg-slide-end {
+  from { opacity: 0; transform: translateX(0.75rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes hg-scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* A disclosure whose body animates its real height: the grid track goes
+   from zero to one fraction, and the browser does the arithmetic. */
+
+.hg-collapse-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--hg-motion-base, 200ms)
+    var(--hg-motion-ease, ease);
+}
+
+details[open] > .hg-collapse-body {
+  grid-template-rows: 1fr;
+}
+
+.hg-collapse-body > * {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.hg-collapse-summary {
+  list-style: none;
+}
+
+.hg-collapse-summary::-webkit-details-marker {
+  display: none;
+}
+
+/* ===== Progress rings =====
+
+   The value ring is drawn with a dash of a normalised hundred, so the SVG
+   needs no trigonometry. The track and the value take their ink from the
+   page's palette, and an indeterminate ring spins the value arc around a
+   quiet track. */
+
+.hg-ring-track {
+  stroke: rgba(120, 113, 108, 0.25);
+}
+
+.hg-ring-value {
+  stroke: #57534e;
+  stroke-linecap: round;
+  transition: stroke-dasharray var(--hg-motion-base, 200ms)
+    var(--hg-motion-ease, ease);
+}
+
+[data-theme="dark"] .hg-ring-track {
+  stroke: rgba(214, 211, 209, 0.2);
+}
+
+[data-theme="dark"] .hg-ring-value {
+  stroke: #d6d3d1;
+}
+
+.hg-ring-indeterminate {
+  animation: hg-ring-spin 1.4s linear infinite;
+}
+
+@keyframes hg-ring-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== Drawers and sheets =====
+
+   A drawer is revealed by `:target', exactly like the modal: the link that
+   opens it is an anchor, the backdrop and the close control are anchors back
+   to `#', and the URL says which drawer is open. The panel is placed with
+   logical properties so it mirrors itself in a right-to-left document. */
+
+.hg-drawer {
+  display: none;
+}
+
+.hg-drawer:target {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: var(--hg-z-modal, 64);
+}
+
+.hg-drawer-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 10, 9, 0.55);
+}
+
+.hg-drawer-panel {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 100%;
+  max-height: 100%;
+  padding: 1.25rem;
+  background: #f5f5f4;
+  color: #1c1917;
+  box-shadow: 0 1.25rem 3rem rgba(0, 0, 0, 0.35);
+  animation: hg-drawer-in var(--hg-motion-base, 200ms)
+    var(--hg-motion-ease, ease);
+}
+
+[data-theme="dark"] .hg-drawer-panel {
+  background: #262626;
+  color: #f5f5f4;
+}
+
+.hg-drawer-right .hg-drawer-panel {
+  inset-block: 0;
+  inset-inline-end: 0;
+  width: min(24rem, 92vw);
+}
+
+.hg-drawer-left .hg-drawer-panel {
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: min(24rem, 92vw);
+}
+
+.hg-drawer-bottom .hg-drawer-panel {
+  inset-inline: 0;
+  inset-block-end: 0;
+  width: 100%;
+  max-height: 80vh;
+  border-start-start-radius: 1.25rem;
+  border-start-end-radius: 1.25rem;
+}
+
+.hg-drawer-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hg-drawer-close {
+  font-size: 1.5rem;
+  line-height: 1;
+  text-decoration: none;
+  color: inherit;
+}
+
+.hg-drawer-body {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.hg-drawer-footer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 2px solid rgba(120, 113, 108, 0.25);
+}
+
+@keyframes hg-drawer-in {
+  from { opacity: 0; transform: translateY(0.5rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hg-drawer-right .hg-drawer-panel {
+  animation-name: hg-drawer-in-end;
+}
+
+.hg-drawer-left .hg-drawer-panel {
+  animation-name: hg-drawer-in-start;
+}
+
+@keyframes hg-drawer-in-end {
+  from { opacity: 0; transform: translateX(1rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes hg-drawer-in-start {
+  from { opacity: 0; transform: translateX(-1rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ===== Popovers =====
+
+   The panel is the native popover, so the browser owns the top layer,
+   Escape and the outside click. Anchor positioning places it against the
+   trigger where the browser supports it; the fallback is the browser's own
+   centred placement, which is usable if less precise. */
+
+.hg-popover {
+  margin: 0;
+  padding: 0.75rem;
+  max-width: min(22rem, 92vw);
+  border: 2px solid rgba(120, 113, 108, 0.25);
+  border-radius: 0.75rem;
+  background: #f5f5f4;
+  color: #1c1917;
+  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .hg-popover {
+  background: #262626;
+  border-color: rgba(214, 211, 209, 0.25);
+  color: #f5f5f4;
+}
+
+.hg-popover:popover-open {
+  animation: hg-fade-in var(--hg-motion-fast, 120ms)
+    var(--hg-motion-ease, ease);
+}
+
+@supports (anchor-name: --hg-anchor) {
+  .hg-popover {
+    position: absolute;
+    inset: auto;
+    margin-block-start: 0.35rem;
+  }
+
+  .hg-popover-bottom,
+  .hg-popover-bottom-start {
+    top: anchor(bottom);
+    left: anchor(left);
+  }
+
+  .hg-popover-top,
+  .hg-popover-top-start {
+    bottom: anchor(top);
+    left: anchor(left);
+  }
+}
+
+/* ===== Hover cards =====
+
+   A tooltip holds a sentence; a hover card holds a small block. It appears
+   on hover and on focus-within, stays out of the way otherwise, and never
+   traps focus. */
+
+.hg-hover-card {
+  display: none;
+  position: absolute;
+  z-index: var(--hg-z-popover, 72);
+  width: max-content;
+  max-width: min(18rem, 92vw);
+  padding: 0.75rem;
+  border: 2px solid rgba(120, 113, 108, 0.25);
+  border-radius: 0.75rem;
+  background: #f5f5f4;
+  color: #1c1917;
+  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="dark"] .hg-hover-card {
+  background: #262626;
+  border-color: rgba(214, 211, 209, 0.25);
+  color: #f5f5f4;
+}
+
+.hg-hover-card-wrapper:hover > .hg-hover-card,
+.hg-hover-card-wrapper:focus-within > .hg-hover-card {
+  display: block;
+  animation: hg-fade-in var(--hg-motion-fast, 120ms)
+    var(--hg-motion-ease, ease);
+}
+
+.hg-hover-card-bottom-start,
+.hg-hover-card-bottom {
+  top: calc(100% + 0.4rem);
+  inset-inline-start: 0;
+}
+
+.hg-hover-card-top-start,
+.hg-hover-card-top {
+  bottom: calc(100% + 0.4rem);
+  inset-inline-start: 0;
+}
+
+/* ===== Dropdown menus =====
+
+   A `<details>` menu: the summary is the trigger and the list is the body.
+   The script adds arrow keys and Escape; the markup is complete without it. */
+
+.hg-dropdown > summary {
+  list-style: none;
+}
+
+.hg-dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+
+.hg-dropdown[open] > summary .hg-dropdown-chevron {
+  transform: rotate(180deg);
+}
+
+.hg-dropdown-chevron {
+  transition: transform var(--hg-motion-fast, 120ms)
+    var(--hg-motion-ease, ease);
+}
+
+.hg-dropdown-menu {
+  overflow-y: auto;
+  max-height: 20rem;
+}
+
+.hg-dropdown-bottom-end,
+.hg-dropdown-top-end {
+  inset-inline-end: 0;
+}
+
+.hg-dropdown-top-start,
+.hg-dropdown-top-end {
+  top: auto;
+  bottom: 100%;
+}
+
+.hg-dropdown-item:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+/* ===== Command palette =====
+
+   Revealed by `:target', like the drawer. The input filters the list in the
+   browser; without a script the list is still a list of links. */
+
+.hg-command-palette {
+  display: none;
+}
+
+.hg-command-palette:target {
+  display: grid;
+  place-items: start center;
+  position: fixed;
+  inset: 0;
+  z-index: var(--hg-z-modal, 64);
+  padding-top: 12vh;
+}
+
+.hg-command-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 10, 9, 0.55);
+}
+
+.hg-command-panel {
+  position: relative;
+  z-index: 1;
+  width: min(44rem, 92vw);
+  max-height: 72vh;
+  padding: 1rem;
+  border: 2px solid rgba(120, 113, 108, 0.25);
+  border-radius: 1rem;
+  background: #f5f5f4;
+  color: #1c1917;
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.35);
+  animation: hg-scale-in var(--hg-motion-fast, 120ms)
+    var(--hg-motion-ease, ease);
+}
+
+[data-theme="dark"] .hg-command-panel {
+  background: #262626;
+  border-color: rgba(214, 211, 209, 0.25);
+  color: #f5f5f4;
+}
+
+.hg-command-item[aria-selected="true"] {
+  background: rgba(120, 113, 108, 0.25);
+}
+
+/* ===== Toasts =====
+
+   The tray is one polite region; each toast is a quiet card. Nothing bounces
+   or pulses once it has arrived. */
+
+.hg-toast {
+  transition: opacity var(--hg-motion-base, 200ms)
+    var(--hg-motion-ease, ease),
+    transform var(--hg-motion-base, 200ms) var(--hg-motion-ease, ease);
+}
+
+.hg-toast.hg-toast-leaving {
+  opacity: 0;
+  transform: translateY(0.4rem);
+}
+
+.hg-toast-dismiss {
+  background: transparent;
+  border: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* ===== Timelines =====
+
+   Each entry draws its own connector down to the next marker, so a timeline
+   is a list of rows rather than a canvas. The connector is a pseudo-element
+   on the item, hidden on the last row. */
+
+.hg-timeline-item {
+  position: relative;
+}
+
+.hg-timeline-item:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 2rem;
+  bottom: -1rem;
+  inset-inline-start: calc(1rem - 1px);
+  width: 2px;
+  background: rgba(120, 113, 108, 0.25);
+}
+
+[data-theme="dark"] .hg-timeline-item:not(:last-child)::before {
+  background: rgba(214, 211, 209, 0.2);
+}
+
+/* ===== Tree views ===== */
+
+.hg-tree-summary {
+  list-style: none;
+}
+
+.hg-tree-summary::-webkit-details-marker {
+  display: none;
+}
+
+.hg-tree-summary::before {
+  content: "▸";
+  display: inline-block;
+  width: 1rem;
+  transition: transform var(--hg-motion-fast, 120ms)
+    var(--hg-motion-ease, ease);
+}
+
+.hg-tree-branch details[open] > .hg-tree-summary::before {
+  transform: rotate(90deg);
+}
+
+/* ===== Data grids =====
+
+   The sticky header, the resizer and the density modes are the parts of a
+   data grid that cannot be expressed with one utility. */
+
+.hg-sticky-header th {
+  position: sticky;
+  top: 0;
+  z-index: var(--hg-z-sticky, 20);
+  background: #f5f5f4;
+}
+
+[data-theme="dark"] .hg-sticky-header th {
+  background: #262626;
+}
+
+.hg-column-resizer {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  width: 0.5rem;
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+}
+
+.hg-column-resizer::after {
+  content: "";
+  position: absolute;
+  inset-block: 0.25rem;
+  inset-inline-end: 0.2rem;
+  width: 2px;
+  background: rgba(120, 113, 108, 0.4);
+}
+
+.hg-sticky-header th,
+[data-hg-resizable] th {
+  position: relative;
+}
+
+table[data-hg-resizable],
+[data-hg-resizable] th {
+  table-layout: fixed;
+}
+
+.hg-row-odd {
+  background: rgba(120, 113, 108, 0.08);
+}
+
+[data-theme="dark"] .hg-row-odd {
+  background: rgba(214, 211, 209, 0.06);
+}
+
+/* Density is a scale, not a second set of sizes: the compact mode shrinks
+   the padding of the components that read it and leaves the type alone. */
+
+.hg-density-compact th,
+.hg-density-compact td {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+.hg-density-compact .hg-field {
+  gap: 0.125rem;
+}
+
+/* ===== Fields ===== */
+
+.hg-dropzone-active {
+  border-color: #57534e;
+  background: rgba(120, 113, 108, 0.18);
+}
+
+.hg-file-input:focus-visible + .hg-dropzone {
+  outline: 2px solid #57534e;
+  outline-offset: 2px;
+}
+
+.hg-stepper {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.25rem;
+}
+
+.hg-stepper-button {
+  min-width: 2.5rem;
+  border: 2px solid rgba(120, 113, 108, 0.5);
+  border-radius: 0.75rem;
+  background: rgba(120, 113, 108, 0.25);
+  color: #1c1917;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .hg-stepper-button {
+  color: #f5f5f4;
+  border-color: rgba(214, 211, 209, 0.5);
+}
+
+/* ===== Logical properties for right-to-left =====
+
+   The framework's own spacing is logical already (inline/block), so a
+   right-to-left document needs only the pieces that were expressed as left
+   or right: the drawer's animation direction, the tooltip's anchor and the
+   timeline connector. */
+
+[dir="rtl"] .hg-drawer-right .hg-drawer-panel {
+  animation-name: hg-drawer-in-start;
+}
+
+[dir="rtl"] .hg-drawer-left .hg-drawer-panel {
+  animation-name: hg-drawer-in-end;
+}
+
+[dir="rtl"] .hg-timeline-item:not(:last-child)::before {
+  inset-inline-start: calc(1rem - 1px);
+}
+
+/* ===== Respect reduced-motion preferences =====
+
+   Every motion primitive lands here, so a component asks for motion by name
+   and never by media query. */
+
+@media (prefers-reduced-motion: reduce) {
+  .hg-switch,
+  .hg-switch::after,
+  .hg-tooltip::after,
+  .hg-tab-label,
+  .hg-blob,
+  .hg-motion-fade,
+  .hg-motion-slide-up,
+  .hg-motion-slide-down,
+  .hg-motion-slide-start,
+  .hg-motion-slide-end,
+  .hg-motion-scale,
+  .hg-collapse-body,
+  .hg-ring-indeterminate,
+  .hg-drawer-panel,
+  .hg-popover,
+  .hg-hover-card,
+  .hg-command-panel,
+  .hg-toast,
+  .hg-dropdown-chevron,
+  .hg-tree-summary::before,
+  .hg-skip-link {
+    transition: none !important;
+    animation: none !important;
+  }
+}

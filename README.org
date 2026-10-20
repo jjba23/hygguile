@@ -306,7 +306,7 @@ Everything below is re-exported by the single ~(hygguile hygguile)~ module, so o
 
 | module | exports | renders |
 |--------+---------+---------|
-| ~button~ | ~button~, ~icon-button~, ~submit-button~, ~danger-submit-button~, ~light-button~, ~mono-button~, ~ui-mode-button~ | ~<button>~, ~<input type="submit">~ |
+| ~button~ | ~button~, ~icon-button~, ~icon-only-button~, ~primary-button~, ~secondary-button~, ~ghost-button~, ~danger-button~, ~submit-button~, ~danger-submit-button~, ~light-button~, ~mono-button~, ~ui-mode-button~ | ~<button>~ (with a loading state), ~<input type="submit">~ |
 | ~typography~ | ~h1~--~h4~, ~sub-h1~--~sub-h4~, ~p~, ~em~, ~strong~, ~a~, ~mono~, ~pre~, ~code~, ~kbd~, ~samp~, ~var~, ~mark~, ~time~, ~abbr~, ~glossary-term~, ~sup~, ~sub~ | the matching ~<h1>~...~<sub>~ inline and block elements, plus a term that links to its documentation and spells itself out |
 | ~code~ | ~code-sample~, ~pretty-code~ | a documentation specimen: the component a form renders, beside that form as source a reader would write it, with a fold and a copy button |
 | ~color~ | ~color-swatch~ | a ~<button>~ tile that shows a palette colour and steps it through the variants of that colour when clicked |
@@ -314,11 +314,11 @@ Everything below is re-exported by the single ~(hygguile hygguile)~ module, so o
 | ~card~ | ~card~, ~card-header~, ~card-body~, ~card-footer~, ~card-title~, ~card-description~, ~badge~, ~stat-card~, ~expandable-card~ | ~<div>~/~<header>~/~<footer>~ surfaces, ~<h3>~ titles, a ~<span>~ badge, a key-figure block, a ~<details>~ card that opens in place |
 | ~glass~ | ~glass-panel~, ~glass-wash~ | the frosted surface every other component builds on: a ~<div>~ (or ~<header>~, or ~<ul>~) over a backdrop blur, with blurred colour washes behind it when you ask for them |
 | ~input~ | ~form~, ~input~, ~textarea~, ~checkbox~, ~radio~, ~switch~, ~range~, ~help-text~, ~form-error~ | ~<form>~ and the native controls, label bound to field, helper copy wired through ~aria-describedby~ |
-| ~feedback~ | ~alert~, ~progress~, ~spinner~, ~skeleton~ | an inline ~<div>~ alert with ~role~, a native ~<progress>~, loading placeholders |
-| ~navigation~ | ~navbar~, ~nav-link~, ~breadcrumbs~, ~pagination~, ~tabs~, ~tab~, ~section-nav~ | ~<header>~ bar, ~<a>~ links, ~<nav>~ breadcrumbs, page pills, a JavaScript-free tab set, a sticky rail of links to the sections of one page |
+| ~feedback~ | ~alert~, ~progress~, ~circular-progress~, ~spinner~, ~skeleton~, ~skeleton-heading~, ~skeleton-text~, ~skeleton-avatar~, ~skeleton-card~, ~skeleton-table~, ~skeleton-form~, ~toast~, ~toast-tray~, ~empty-state~, ~error-state~ | inline alerts, linear and circular progress, per-component skeletons, queued toasts, and first-class empty/error states |
+| ~navigation~ | ~navbar~, ~nav-link~, ~breadcrumbs~, ~pagination~, ~tabs~, ~tab~, ~section-nav~, ~sidebar~, ~sidebar-link~, ~nav-rail~, ~wizard~ | a bar, links, breadcrumbs, page pills, CSS-only tabs, a sticky section rail with scroll-spy, a sidebar, an icon rail, and an ordered wizard |
 | ~tray~ | ~sort-control~, ~disclosure-controls~ | the controls that act on a whole tray of cards: buttons that put it in one of several orders, and the pair that opens or closes all of it |
 | ~disclosure~ | ~details~, ~summary~, ~accordion~, ~accordion-item~, ~modal~, ~tooltip~ | ~<details>~/~<summary>~, stacked disclosures, a CSS-only dialog and tooltip |
-| ~table~ | ~table~, ~caption~, ~thead~, ~tbody~, ~tfoot~, ~tr~, ~th~, ~td~, ~table-column~, ~sortable-table~, ~sort-href~, ~parse-sort~ | the whole ~<table>~ family, with a scrollable region for narrow screens, plus server-driven sorting |
+| ~table~ | ~table~, ~caption~, ~thead~, ~tbody~, ~tfoot~, ~tr~, ~th~, ~td~, ~table-column~, ~sortable-table~, ~sort-href~, ~parse-sort~ | the whole ~<table>~ family, with a scrollable region for narrow screens, server-driven sorting, and sticky/selectable/resizable/dense data-grid modes |
 | ~media~ | ~img~, ~source~, ~picture~, ~figure~, ~figcaption~, ~avatar~, ~image-gallery~ | the ~<img>~/~<picture>~ family plus two common compositions |
 | ~select~ | ~select~, ~option~, ~glyph-option~, ~optgroup~ | ~<select>~ and its ~<option>~ rows, grouped under headings, one row stated as ~selected~, a label bound to the control, helper copy wired through ~aria-describedby~ |
 | ~fly-out~ | ~fly-out~, ~fly-out-submenu~, ~fly-out-item~ | nested ~<nav>~/~<ul>~ drop-down menus |
@@ -326,7 +326,266 @@ Everything below is re-exported by the single ~(hygguile hygguile)~ module, so o
 | ~icon~ | ~icon~ | a Phosphor icon, at the requested weight |
 | ~notification~ | ~notification-tray~ | the polite live region the notification URL parameters fill |
 | ~css~ / ~js~ | ~custom-fonts~, ~phosphor-icons~, and the enhancement scripts | the ~<link>~ and ~<script>~ fragments ~(hygguile-recommended-resources)~ assembles |
+| ~tokens~ | ~design-tokens-css~, ~token-value~, ~token-name~, ~token-declarations~, ~density-value~, and the token tables | no HTML: the CSS custom-property block and the Scheme-side token values the new components read |
+| ~layout~ | ~stack~, ~cluster~, ~grid~, ~split~, ~center~, ~spacer~, ~aspect-ratio~, ~ratio-label~ | ~<div>~ wrappers that lay their children out with utilities, plus a reserved ratio box |
+| ~utility~ | ~visually-hidden~, ~skip-link~, ~truncate-text~, ~line-clamp~, ~copy-button~, ~show~, ~hide~, ~fade-in~, ~slide-in~, ~collapse~, ~layer~, ~layer-root~, ~locale~, ~bdi~, ~bdo~, ~density-toggle~ | accessible hiding, a skip link, line clamps, a copy control, responsive show/hide, motion wrappers, named layers, RTL/language wrappers, a density control |
+| ~field~ | ~form-field~, ~field-wiring~ and its accessors, ~text-field~, ~search-field~, ~number-field~, ~stepper~, ~date-field~, ~time-field~, ~date-range-field~, ~file-field~, ~dropzone~, ~combobox~, ~multi-select~ | a labelled/described/validated shell around any control, and native search, number, date, time, file, datalist and multi-select controls |
+| ~overlay~ | ~drawer~, ~sheet~, ~popover~, ~hover-card~, ~dropdown-item~, ~dropdown-menu~, ~command-item~, ~command-palette~ | a `:target` drawer and sheet, a native popover, a hover card, a `<details>` menu, and a filtered command palette |
+| ~data~ | ~chip~, ~avatar-group~, ~timeline~, ~timeline-item~, ~tree-view~, ~tree-item~ | tags/chips, stacked avatars with an overflow count, an ordered timeline, and a nested tree |
 | ~abstraction~ | ~mk-class~, ~override-classes~, ~attr-when~, ~render-if-nempty~, ~pretty-quote~, ... | no HTML of their own: the helpers components are written with |
+
+----------------
+
+* Feature completeness
+
+The list this document answers is the usual "what does a UI toolkit forget"
+checklist. The table below is the contract: every row names the components
+that implement it, and the sections after it say how the harder rows work.
+
+| area | what is shipped |
+|------+-----------------|
+| layout primitives | ~stack~, ~cluster~, ~grid~, ~split~, ~center~, ~spacer~, ~aspect-ratio~ (plus the existing ~row~, ~col~, ~dl~) |
+| typography system | ~h1~--~h4~, ~sub-h1~--~sub-h4~, ~p~, ~em~, ~strong~, ~small~-sized inline elements, ~figcaption~, ~caption~, and the heading scale below |
+| icon system | ~icon~ at three weights, ~icon-button~, ~icon-only-button~ |
+| theming / tokens | colour, spacing, radius, elevation, motion and layer tokens, published as CSS custom properties and readable from Scheme |
+| focus management and skip links | ~skip-link~, ~visually-hidden~, the focus trap in `interactions.js`, roving tabindex, and `data-hg-focus-trap` on every modal, drawer and palette |
+| button variants | ~primary-button~, ~secondary-button~, ~ghost-button~, ~danger-button~, ~icon-only-button~, and every button's ~#:loading~ state |
+| text, textarea, search | ~input~, ~textarea~, ~text-field~, ~search-field~ (a real ~<form role="search">~) |
+| select, combobox, multi-select | ~select~ (native, grouped), ~combobox~ (native ~<datalist>~), ~multi-select~ (native multiple select plus tag chips) |
+| checkbox, radio, switch | ~checkbox~, ~radio~, ~switch~ (native controls under the styling) |
+| slider, stepper | ~range~, ~number-field~, ~stepper~ (native number input, optional buttons) |
+| date, time, date range | ~date-field~, ~time-field~, ~date-range-field~ (all native, all ISO values) |
+| file upload / dropzone | ~file-field~, ~dropzone~ (native input under a labelled drop zone) |
+| form field wrapper | ~form-field~ and ~field-wiring~, described below |
+| toast / snackbar | ~toast~, ~toast-tray~ and the queue in `toast.js` |
+| inline alert / banner | ~alert~ with four semantic variants |
+| progress | ~progress~ (linear, determinate and indeterminate) and ~circular-progress~ |
+| skeleton loaders | ~skeleton~, ~skeleton-heading~, ~skeleton-text~, ~skeleton-avatar~, ~skeleton-card~, ~skeleton-table~, ~skeleton-form~ |
+| spinner | ~spinner~ |
+| empty and error states | ~empty-state~, ~error-state~ (with a retry and folded technical detail) |
+| modal / dialog | ~modal~ (CSS-only ~:target~) with the focus trap enhancement |
+| drawer / sheet | ~drawer~ (right, left or bottom) and ~sheet~ |
+| popover, tooltip, hover card | ~popover~ (native Popover API), ~tooltip~, ~hover-card~ |
+| context / dropdown menu | ~dropdown-menu~ and ~dropdown-item~ on a native ~<details>~ |
+| command palette | ~command-palette~ and ~command-item~, with filtering and arrow keys |
+| tabs, breadcrumbs, pagination | ~tabs~, ~tab~, ~breadcrumbs~, ~pagination~ |
+| sidebar / nav rail | ~sidebar~, ~sidebar-link~, ~nav-rail~ |
+| stepper / wizard | ~wizard~ |
+| anchor / scroll-spy nav | ~section-nav~ with ~#:scroll-spy?~ and the scroll-spy script |
+| table / data grid | ~table~ and ~sortable-table~, now with sticky headers, selection, resize handles, density, zebra rows, and loading/error states |
+| card family | ~card~, ~card-header~, ~card-body~, ~card-footer~, ~card-title~, ~card-description~, ~stat-card~, ~expandable-card~ |
+| badge, tag/chip, avatar | ~badge~, ~chip~, ~avatar~, ~avatar-group~ |
+| accordion / disclosure | ~details~, ~summary~, ~accordion~, ~accordion-item~, ~collapse~ |
+| timeline | ~timeline~ and ~timeline-item~ |
+| stat / KPI tile | ~stat-card~ |
+| description list | ~dl~, ~dt~, ~dd~ |
+| tree view | ~tree-view~ and ~tree-item~ |
+| portal / layer manager | ~layer~ with the named z-index scale, and ~layer-root~ |
+| focus trap and roving tabindex | `interactions.js` on ~data-hg-focus-trap~ and ~data-hg-roving~ |
+| visually hidden | ~visually-hidden~ (and Olive's ~sr-only~) |
+| responsive helpers | ~show~, ~hide~, and the grid's intrinsic mode |
+| truncation / line clamp | ~truncate-text~ and ~line-clamp~ |
+| copy to clipboard | ~copy-button~ (plus the existing copy button in ~code-sample~) |
+| resize observer | `interactions.js` dispatches ~hg:resize~ on ~data-hg-resize-observer~ |
+| motion primitives | ~fade-in~, ~slide-in~, ~collapse~, and the ~hg-motion-*~ classes |
+| overlay positioning | CSS anchor positioning for popovers, plus the browser's own popover placement as a fallback |
+| RTL and i18n | ~locale~, ~bdi~, ~bdo~, logical properties in the stylesheet, and ~dir~ support |
+| density modes | ~data-density~ and ~density-toggle~, with compact table, field and sidebar spacing |
+| stories, visual regression and a11y tests | the showcase is the storybook, ~maak test~ is the unit/a11y-shape suite, and ~maak contrast~ is the visual readability gate |
+
+* Design tokens
+
+A utility-class framework already names most of a design system: ~p-4~,
+~rounded-xl~, ~shadow-md~. What it does not do is let a component be written
+against *the decision* rather than against a literal, so that the same
+component can follow a different density or a page's own theme without a
+second stylesheet.
+
+The ~tokens~ module is that seam. ~design-tokens-css~ publishes every token
+as a CSS custom property, ~token-value~ reads the same value in Scheme, and
+~token-declarations~ turns a token list into an inline declaration:
+
+#+begin_src scheme
+(use-modules (hygguile hygguile))
+
+;; the block (already included by `hygguile-recommended-resources`) declares
+;; spacing, radius, elevation, motion, layer and colour tokens for both themes
+(design-tokens-css)
+
+(token-value 'space 4)
+;; => "1rem"
+
+(token-value 'color 'ink #:theme 'dark)
+;; => "#ededee"
+
+;; a component can pass a decision to the browser without a new class
+(mk-style (token-declarations '((space 6) (radius 2xl))))
+;; => "--hg-space-6: 1.5rem; --hg-radius-2xl: 1.12rem"
+#+end_src
+
+The reduced-motion block in the generated stylesheet sets every motion token
+to zero, so a component that animates with
+~var(--hg-motion-base, 200ms)~ stops moving for a reader who asked it to.
+
+* The form field abstraction
+
+Every control on a form asks the same four questions: what is this called,
+how is it described, is it wrong, and is it required. Answered per control,
+the answers drift, and one of twenty fields ends up without a bound label.
+~form-field~ answers them once.
+
+It renders the shell -- the label bound with ~for~, the required marker
+(visible and spoken), the hint, the error with ~role="alert"~ -- and hands
+the control a *wiring*: the ids and attributes it needs.
+
+#+begin_src scheme
+(use-modules (hygguile hygguile))
+
+(form-field #:label "Email"
+            #:name "email"
+            #:required #t
+            #:help-text "We never share it."
+            #:error "Please enter a valid address."
+            #:control
+            (lambda (w)
+              `((input (@ ,@(field-control-attributes w)
+                          (type "email")
+                          (class ,(mk-class '(p-3 rounded-xl))))))))
+#+end_src
+
+~field-control-attributes~ returns the shared ~id~, the ~name~, the
+description and error links, ~required~, ~aria-required~ and
+~aria-invalid~. A control that renders several elements returns them all --
+the multi-select returns its native select and its tag list -- and the shell
+places them in order.
+
+The shipped controls are built the same way, so a page never has to
+reproduce the shell: ~text-field~, ~search-field~, ~number-field~,
+~stepper~, ~date-field~, ~time-field~, ~date-range-field~, ~file-field~,
+~dropzone~, ~combobox~ and ~multi-select~.
+
+#+begin_src scheme
+(search-field #:name "q" #:action "/search" #:value "cozy")
+
+(stepper #:label "Seats" #:name "seats" #:value 2 #:min 1 #:max 12)
+
+(date-range-field #:label "Stay" #:name "stay"
+                  #:start "2026-10-11" #:end "2026-10-14")
+
+(multi-select #:label "Topics" #:name "topics"
+              #:options '(("a" . "Accessibility") ("s" . "SSR"))
+              #:selected '("s"))
+#+end_src
+
+* Overlays, and where they sit
+
+The framework answers "which of us is on top" with the layer scale in the
+tokens module, and "where do I sit" with the browser's own machinery
+wherever it exists:
+
+- ~drawer~ and ~command-palette~ are revealed by ~:target~. The link that
+  opens one is an ordinary anchor, the backdrop and close control are
+  anchors back to ~"#"~, and the URL says what is open. They open with
+  scripting off.
+- ~popover~ is the native HTML Popover API. The browser puts it in the top
+  layer, dismisses it on Escape or an outside click, and refuses to clip it.
+  CSS anchor positioning places it against its trigger where supported; the
+  browser's own centred placement is the fallback.
+- ~dropdown-menu~ is a native ~<details>~, so the menu opens and closes
+  without a script.
+- ~modal~ is the existing CSS-only ~:target~ dialog.
+
+The scripts add the keyboard models -- focus trapping, Escape, arrow keys,
+filtering -- and never gate whether an overlay can open.
+
+#+begin_src scheme
+(drawer #:id "filters" #:title "Filters"
+        #:side 'right
+        #:content (list (checkbox #:label "In stock" #:name "stock")))
+
+(popover #:id "share" #:trigger "Share"
+         #:title "Share this page"
+         #:content (list (copy-button #:text "https://example.org")))
+
+(dropdown-menu #:label "Actions"
+               #:items (list (dropdown-item "Rename" #:href "/rename")
+                             (dropdown-item "Delete" #:danger? #t)))
+
+(command-palette #:id "commands"
+                 #:commands (list (command-item "Settings" #:href "/settings"
+                                               #:hint "G S")))
+#+end_src
+
+The link that opens a drawer or palette is a normal anchor:
+~(a "Filters" #:href "#filters")~, and a link to ~"#"~ closes it.
+
+* Loading, empty and error states
+
+A data component has four shapes, and a toolkit that only ships the happy
+one leaves every page to invent the other three. The feedback module ships
+all four:
+
+#+begin_src scheme
+;; loading, in the shape of the thing that is loading
+(skeleton-table #:rows 5 #:columns 4)
+(skeleton-card #:lines 2 #:avatar? #t)
+(skeleton-form #:fields 3)
+
+;; nothing here yet
+(empty-state #:title "No projects yet"
+             #:body "Create one to get started."
+             #:action (primary-button "New project"))
+
+;; this did not load, and here is what to do
+(error-state #:body "The report could not be generated."
+             #:retry (a "Try again" #:href "/reports")
+             #:details "upstream timed out after 30s")
+
+;; done, briefly
+(toast #:title "Saved" #:body "Your changes are live." #:variant 'success)
+(toast-tray)   ; once, near the end of the body
+#+end_src
+
+~sortable-table~ accepts the same states directly: ~#:loading?~ renders the
+table skeleton, ~#:error~ renders the error state (with ~#:retry~ when the
+page can offer one), and ~#:empty~ replaces the default empty row.
+
+* Motion primitives
+
+Motion is decoration, so it is named and it is tokenised. ~fade-in~ and
+~slide-in~ wrap content in an effect class; ~collapse~ is a native
+~<details>~ whose body animates its real height with a grid track. The
+reduced-motion block in the companion stylesheet turns every one of them
+off, and the disclosure still opens instantly.
+
+#+begin_src scheme
+(fade-in (list (alert #:title "Saved" #:body "All good.")))
+(slide-in (list (card ...)) #:from 'down)
+(collapse #:summary "Advanced" #:content (list (input #:label "Pattern"
+                                                      #:name "pattern")))
+#+end_src
+
+* RTL, i18n and density
+
+The components and the stylesheet use logical properties (~inset-inline-*~,
+~margin-block-*~, ~border-start-*~), so a right-to-left document mirrors
+itself. ~locale~ wraps a region with its language and direction, and ~bdi~ /
+~bdo~ handle the inline cases.
+
+#+begin_src scheme
+(locale (list (p "مرحبا")) #:lang "ar" #:dir 'rtl)
+(p (list "Signed in as " (bdi "@ada")))
+#+end_src
+
+Density is one attribute and one class on the root. The compact mode
+tightens the padding of the data grid, the field shell and the sidebar
+without changing the type scale, so a compact table is still readable.
+
+#+begin_src scheme
+(density-toggle #:current 'comfortable)
+;; the script stores the choice in localStorage and sets
+;; <html data-density="compact" class="hg-density-compact">
+#+end_src
 
 ----------------
 

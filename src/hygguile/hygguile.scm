@@ -39,6 +39,12 @@
   #:use-module (hygguile components table)
   #:use-module (hygguile components carousel)
   #:use-module (hygguile components glass)
+  #:use-module (hygguile components tokens)
+  #:use-module (hygguile components layout)
+  #:use-module (hygguile components utility)
+  #:use-module (hygguile components field)
+  #:use-module (hygguile components overlay)
+  #:use-module (hygguile components data)
   #:use-module (hygguile css)
   #:re-export (a abbr
                  accordion
@@ -170,7 +176,104 @@
                  trigger-notification-function-js
                  ui-mode-button
                  var
-                 with-footer)
+                 with-footer
+                 ;; tokens
+                 design-tokens-css
+                 token-value
+                 token-name
+                 token-declarations
+                 density-value
+                 ;; layout
+                 stack
+                 cluster
+                 grid
+                 split
+                 center
+                 spacer
+                 aspect-ratio
+                 ratio-label
+                 ;; utility and composition
+                 visually-hidden
+                 skip-link
+                 truncate-text
+                 line-clamp
+                 copy-button
+                 show
+                 hide
+                 fade-in
+                 slide-in
+                 collapse
+                 layer
+                 layer-root
+                 locale
+                 bdi
+                 bdo
+                 density-toggle
+                 ;; fields
+                 field-wiring
+                 field-id
+                 field-help-id
+                 field-error-id
+                 field-described-by
+                 field-control-attributes
+                 form-field
+                 text-field
+                 search-field
+                 number-field
+                 stepper
+                 date-field
+                 time-field
+                 date-range-field
+                 file-field
+                 dropzone
+                 combobox
+                 multi-select
+                 ;; buttons
+                 icon-only-button
+                 primary-button
+                 secondary-button
+                 ghost-button
+                 danger-button
+                 ;; feedback
+                 circular-progress
+                 toast
+                 toast-tray
+                 empty-state
+                 error-state
+                 skeleton-heading
+                 skeleton-text
+                 skeleton-avatar
+                 skeleton-card
+                 skeleton-table
+                 skeleton-form
+                 ;; navigation
+                 sidebar
+                 sidebar-link
+                 nav-rail
+                 wizard
+                 ;; overlays
+                 drawer
+                 sheet
+                 popover
+                 hover-card
+                 dropdown-item
+                 dropdown-menu
+                 command-item
+                 command-palette
+                 ;; data display
+                 chip
+                 avatar-group
+                 timeline
+                 timeline-item
+                 tree-view
+                 tree-item
+                 ;; enhancement scripts
+                 interactions-js
+                 forms-js
+                 overlays-js
+                 toast-js
+                 table-js
+                 density-js)
   #:export (doctype-html hygguile-recommended-meta
                          hygguile-recommended-resources))
 
@@ -187,6 +290,7 @@ An S-expression block managing custom font loading configurations, defaulting to
 @end example"
   (list fonts
         (phosphor-icons)
+        (design-tokens-css)
         (fly-out-css)
         (hygguile-extras-css)
         `(noscript ,@(no-js-css))
@@ -198,6 +302,12 @@ An S-expression block managing custom font loading configurations, defaulting to
         (color-show-js)
         (fly-out-js)
         (code-sample-js)
+        (interactions-js)
+        (forms-js)
+        (overlays-js)
+        (toast-js)
+        (table-js)
+        (density-js)
         (tray-js)))
 
 (define doctype-html

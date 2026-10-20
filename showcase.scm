@@ -933,8 +933,196 @@
 ;; table, the carousel and the gradient tray are all wider than half of one.
 ;; The block itself is a thunk, so a card is built only when the page asks for
 ;; it.
+(define (showcase-email-control w)
+  `((input (@ ,@(field-control-attributes w)
+              (type "email")
+              (class ,(mk-class '(p-3 w-full rounded-xl
+                                      border-2 border-stone-700
+                                      dark:border-onyx-100
+                                      bg-stone-300/75
+                                      dark:bg-onyx-700/75
+                                      text-onyx-500
+                                      dark:text-stone-300)))))))
+
+(define layout-extras-section
+  `((div (@ (class ,(mk-class '(flex flex-col gap-4))))
+         ,(stack (list `(h3 "Stack") `(p "One rhythm between rows.")) #:gap '(gap-1))
+         ,(cluster (list (badge "one") (badge "two" #:variant 'info)))
+         ,(center (list `(p "Centred with a reading width.")) #:max-width '(max-w-md))
+         ,(aspect-ratio (list `(p "16 / 9")) #:ratio 'video)
+         ,(grid (list (card (card-body `(p "A grid cell")))
+                      (card (card-body `(p "Another cell"))))
+                #:columns 2)
+         ,(truncate-text "A long line of copy that is deliberately cut off at the width of its box with an ellipsis, because a list of summaries should not reflow the page."
+                    #:lines 1))))
+
+(define field-extras-section
+  `((div (@ (class ,(mk-class '(flex flex-col gap-4))))
+         ,(form-field #:label "Email"
+                      #:name "showcase-email"
+                      #:required #t
+                      #:help-text "Wired by the form-field abstraction."
+                      #:control showcase-email-control)
+         ,(search-field #:name "showcase-q" #:action "#")
+         ,(stepper #:label "Seats" #:name "showcase-seats" #:value 2 #:min 1 #:max 12)
+         ,(date-range-field #:label "Stay" #:name "showcase-stay"
+                            #:start "2026-10-11" #:end "2026-10-14")
+         ,(combobox #:label "Colour" #:name "showcase-colour"
+                    #:options '("amber" "asparagus" "jeans-blue"))
+         ,(multi-select #:label "Topics" #:name "showcase-topics"
+                        #:options '(("a" . "Accessibility") ("s" . "SSR"))
+                        #:selected '("s"))
+         ,(dropzone #:label "Attachments" #:name "showcase-files"
+                    #:accept "image/*,.pdf"))))
+
+(define overlays-section
+  `((div (@ (class ,(mk-class '(flex flex-col gap-4))))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap items-center gap-3))))
+              ,(a "Open a drawer" #:href "#showcase-drawer")
+              ,(a "Open the command palette" #:href "#showcase-commands")
+              ,(popover #:id "showcase-popover"
+                        #:trigger "A popover"
+                        #:title "Native popover"
+                        #:content (list `(p "Placed and dismissed by the browser.")))
+              ,(hover-card #:trigger "Hover me"
+                           #:title "A hover card"
+                           #:content (list `(p "Richer than a tooltip.")))
+              ,(dropdown-menu #:label "Actions"
+                              #:items (list (dropdown-item "Rename" #:href "#")
+                                            (dropdown-item "Delete" #:danger? #t))))
+         ,(drawer #:id "showcase-drawer"
+                  #:title "A drawer"
+                  #:content (list `(p "Revealed by :target."))
+                  #:footer (list (a "Close" #:href "#")))
+         ,(command-palette #:id "showcase-commands"
+                           #:commands (list (command-item "Home" #:href "#" #:hint "G H")
+                                            (command-item "Buttons" #:href "#buttons"
+                                                          #:hint "G B"))))))
+
+(define data-extras-section
+  `((div (@ (class ,(mk-class '(flex flex-col gap-4))))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
+              ,(chip "Scheme" #:variant 'info)
+              ,(chip "Draft" #:variant 'warning #:remove-href "#")
+              ,(chip "Published" #:variant 'success))
+         ,(avatar-group (list (avatar #:initials "AB")
+                              (avatar #:initials "CD")
+                              (avatar #:initials "EF")
+                              (avatar #:initials "GH")
+                              (avatar #:initials "IJ"))
+                        #:max 4
+                        #:label "Contributors")
+         ,(timeline (list (timeline-item #:time "09:12" #:title "Build started" #:variant 'info)
+                          (timeline-item #:time "09:14" #:title "Tests passed" #:variant 'success)
+                          (timeline-item #:time "09:16" #:title "Deployed" #:current? #t))
+                    #:label "Deployment")
+         ,(tree-view #:label "Documentation"
+                     #:items (list (tree-item "Guides"
+                                             #:open #t
+                                             #:children (list (tree-item "Install" #:href "#")
+                                                              (tree-item "Forms" #:href "#forms")))
+                                   (tree-item "Reference" #:href "#"))))))
+
+(define states-section
+  `((div (@ (class ,(mk-class '(flex flex-col gap-4))))
+         (div (@ (class ,(mk-class '(grid grid-cols-1 md:grid-cols-2 gap-4))))
+              ,(empty-state #:title "Nothing here yet"
+                            #:body "An empty list is not an error."
+                            #:action (secondary-button "Create one"))
+              ,(error-state #:title "Could not load"
+                            #:body "The request failed."
+                            #:retry (a "Try again" #:href "#")))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap items-center gap-6))))
+              ,(circular-progress #:value 68 #:label "Importing" #:show-value #t)
+              ,(circular-progress #:label "Working")
+              ,(spinner #:size 'lg #:label "Loading"))
+         ,(skeleton-card #:lines 2 #:avatar? #t)
+         ,(skeleton-table #:rows 2 #:columns 3)
+         ,(toast #:title "A toast"
+                 #:body "Rendered by the server, queued by the script."
+                 #:variant 'success))))
+
+(define utility-extras-section
+  `((div (@ (class ,(mk-class '(flex flex-col gap-4))))
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap items-center gap-3))))
+              ,(copy-button #:text "(use-modules (hygguile hygguile))" #:show-text? #t)
+              ,(density-toggle #:current 'comfortable))
+         ,(truncate-text "The quick brown fox jumps over the lazy dog, and then keeps going for long enough that a card would grow a second and a third line if nothing stopped it."
+                    #:lines 2)
+         ,(fade-in (list `(p "A fade-in primitive that reads the motion tokens.")))
+         ,(locale (list `(p "مرحبا بالعالم")) #:lang "ar" #:dir 'rtl)
+         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-3))))
+              ,(show (list (badge "Wide screens only" #:variant 'info)) #:from 'md)
+              ,(hide (list (badge "Narrow screens only" #:variant 'warning)) #:from 'md)))))
+
+(define nav-extras-section
+  `((div (@ (class ,(mk-class '(grid grid-cols-1 lg:grid-cols-3 gap-6 items-start))))
+         ,(sidebar #:brand "Workspace"
+                   #:current "#nav-extras"
+                   #:sections (list (cons "Work" (list (cons "Overview" "#nav-extras")
+                                                       (cons "Reports" "#tables")))
+                                    (cons "Account" (list (cons "Settings" "#settings")))))
+         ,(nav-rail #:label "Primary"
+                    #:current "#nav-extras"
+                    #:items (list (list 'house "Home" "#")
+                                  (list 'table "Tables" "#tables")
+                                  (list 'gear "Settings" "#settings")))
+         (div (@ (class ,(mk-class '(flex flex-col gap-4))))
+              ,(wizard #:steps (list (cons "Cart" "#") (cons "Address" "#")
+                                     (cons "Payment" "#"))
+                       #:current 2)))))
+
 (define showcase-entries
-  (list (list 'settings
+  (list (list 'layout-extras
+              "Layout & utility"
+              "Foundations"
+              'layout
+              #t
+              (lambda ()
+                layout-extras-section))
+        (list 'field-extras
+              "Form fields"
+              "Controls"
+              'textbox
+              #t
+              (lambda ()
+                field-extras-section))
+        (list 'overlays
+              "Overlays"
+              "Application"
+              'stack
+              #t
+              (lambda ()
+                overlays-section))
+        (list 'data-extras
+              "Data display"
+              "Data"
+              'chart-bar
+              #f
+              (lambda ()
+                data-extras-section))
+        (list 'states
+              "States"
+              "Application"
+              'spinner
+              #f
+              (lambda ()
+                states-section))
+        (list 'utility-extras
+              "Utility"
+              "Foundations"
+              'wrench
+              #f
+              (lambda ()
+                utility-extras-section))
+        (list 'nav-extras
+              "Navigation extras"
+              "Navigation"
+              'compass
+              #f
+              (lambda ()
+                nav-extras-section))
+        (list 'settings
               "Settings"
               "Application"
               'gear-six

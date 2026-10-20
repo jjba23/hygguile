@@ -19,6 +19,7 @@
   #:use-module (hygguile abstraction)
   #:use-module (srfi srfi-1)
   #:use-module (web uri)
+  #:use-module (hygguile components feedback)
   #:export (table caption
                   thead
                   tbody
@@ -146,6 +147,8 @@ List of symbols representing typography CSS classes.
                                         dark:text-stone-500))
                 (scroll #t)
                 (scroll-label #f)
+                (table-attributes '())
+                (container-attributes '())
                 (table-classes '(w-full min-w-full border-collapse text-left))
                 (container-classes '(my-4 w-full max-w-full overflow-x-auto)))
   "Create a semantic HTML @code{<table>} for tabular data.
@@ -177,6 +180,10 @@ List of symbols representing caption typography CSS classes.
 A boolean wrapping the table in an accessible horizontally scrollable region.
 @item scroll-label
 An optional accessible name for that region; it defaults to a string caption.
+@item table-attributes
+Extra attributes for the @code{<table>} itself, as pairs.
+@item container-attributes
+Extra attributes for the scroll region, as pairs.
 @item table-classes
 List of symbols representing the table layout CSS classes.
 @item container-classes
@@ -202,11 +209,13 @@ List of symbols representing the scroll container CSS classes.
                             ((string? caption)
                              caption)
                             (else "Table")))
-         (table-node `((table (@ (class ,(mk-class table-classes)))
+         (table-node `((table (@ ,@table-attributes
+                                   (class ,(mk-class table-classes)))
                               ,@caption-element
                               ,content))))
     (if scroll
-        `((div (@ (role "region")
+        `((div (@ ,@container-attributes
+                  (role "region")
                   (tabindex "0")
                   (aria-label ,accessible-name)
                   (class ,(mk-class container-classes)))
@@ -293,6 +302,7 @@ List of symbols representing optional row CSS classes.
              (nowrap #f)
              (colspan #f)
              (aria-sort #f)
+             (resizable? #f)
              (classes '(px-3 py-2
                              align-top
                              font-medium
@@ -326,6 +336,8 @@ A number of columns this cell spans.
 A symbol or string from @code{ascending}, @code{descending} or @code{none}.
 Set by @code{sortable-table} to announce the order a sortable column is in;
 @code{none} marks a column that can be sorted but is not.
+@item resizable?
+Whether the header cell carries a column-resize handle (an enhancement).
 @item classes
 List of symbols representing the header cell CSS classes.
 @end table
@@ -342,7 +354,12 @@ List of symbols representing the header cell CSS classes.
                         (if (symbol? aria-sort)
                             (symbol->string aria-sort) aria-sort))
            (class ,(cell-classes classes align numeric nowrap)))
-        ,content)))
+        ,content
+        ,@(if resizable?
+              (list `(span (@ (class "hg-column-resizer")
+                              (data-hg-column-resizer "")
+                              (aria-hidden "true"))))
+              '()))))
 
 (define* (td content
              #:key (align #f)
@@ -750,7 +767,8 @@ which is off-palette and unreadable on a dark surface."
                                                     border-stone-500/50
                                                     dark:border-onyx-100/50
                                                     text-onyx-300
-                                                    dark:text-stone-300)))
+                                                    dark:text-stone-300))
+                               (resizable? #f))
   "Build one header cell: a plain @code{th}, or one wrapping a sort link."
   (let ((key (column-sort-key column))
         (numeric (column-field column
@@ -767,7 +785,8 @@ which is off-palette and unreadable on a dark surface."
             #:scope 'col
             #:numeric numeric
             #:align align
-            #:nowrap nowrap)
+            #:nowrap nowrap
+            #:resizable? resizable?)
         (let ((is-active (column-active? column active)))
           (th (sort-link (column-field column
                                        'label #f)
@@ -789,7 +808,8 @@ which is off-palette and unreadable on a dark surface."
                             ((eq? 'desc direction)
                              "descending")
                             (else "ascending"))
-              #:classes classes)))))
+              #:classes classes
+              #:resizable? resizable?)))))
 
 (define* (sortable-table #:key columns
                          (rows '())
@@ -829,7 +849,19 @@ which is off-palette and unreadable on a dark surface."
                                               text-onyx-500
                                               dark:text-stone-300))
                          (row-classes '())
-                         (empty-message "Nothing to show yet"))
+                         (empty-message "Nothing to show yet")
+                         (empty #f)
+                         (sticky-header? #f)
+                         (selectable? #f)
+                         (select-name "selected")
+                         (row-keys '())
+                         (resizable? #f)
+                         (density 'comfortable)
+                         (zebra? #f)
+                         (loading? #f)
+                         (loading-rows 4)
+                         (error #f)
+                         (retry #f))
   "Create a data table whose column order lives in the URL.
 
 Each sortable header cell is a link to the same page carrying
@@ -905,54 +937,115 @@ way by hand.
                 #:sort 'seats #:direction 'desc
                 #:caption \"Plans\")
 @end example"
-  (let* ((active (and sort
-                      (find (lambda (column)
-                              (let ((key (column-sort-key column)))
-                                (and key
-                                     (equal? (param-string key)
-                                             (param-string sort))))) columns)))
-         (header-row (map (lambda (column)
-                            (sortable-header-cell column
-                                                  active
-                                                  direction
-                                                  default-direction
-                                                  path
-                                                  params
-                                                  drop-params
-                                                  #:classes header-classes))
-                          columns))
-         (body-rows (if (null? rows)
-                        (list (tr (list (td empty-message
-                                            #:colspan (max 1
-                                                           (length columns))
-                                            #:align 'center
-                                            #:classes '(px-3 py-6 text-center
-                                                        font-light
-                                                        text-onyx-300
-                                                        dark:text-stone-500)))))
-                        (map (lambda (row)
-                               (tr (map (lambda (column index)
-                                          (td (if (< index
-                                                     (length row))
-                                                  (list-ref row index) "")
-                                              #:numeric (column-field column
-                                                                      'numeric
-                                                                      #f)
-                                              #:align (column-field column
-                                                                    'align #f)
-                                              #:nowrap (column-field column
-                                                                     'nowrap
-                                                                     #f)
-                                              #:classes cell-classes)) columns
-                                        (iota (length columns)))
-                                   #:classes row-classes)) rows))))
-    (table (list (thead (list (tr header-row))
-                        #:classes head-classes)
-                 (tbody body-rows))
-           #:caption caption
-           #:caption-position caption-position
-           #:caption-classes caption-classes
-           #:scroll scroll
-           #:scroll-label scroll-label
-           #:table-classes table-classes
-           #:container-classes container-classes)))
+  (cond
+    ((and error retry)
+     (list (error-state #:title "The table could not load"
+                        #:body error
+                        #:retry retry)))
+    (error
+     (list (error-state #:title "The table could not load"
+                        #:body error)))
+    (loading?
+     (list (skeleton-table #:rows loading-rows
+                           #:columns (max 1 (length columns)))))
+    (else
+     (let* ((active (and sort
+                         (find (lambda (column)
+                                 (let ((key (column-sort-key column)))
+                                   (and key
+                                        (equal? (param-string key)
+                                                (param-string sort))))) columns)))
+            (span-count (if selectable? 1 0))
+            (selection-header
+             (if selectable?
+                 (list (th (list `(input (@ (type "checkbox")
+                                            (data-hg-select-all "")
+                                            (aria-label "Select all rows")
+                                            (class "hg-checkbox"))))
+                            #:scope 'col
+                            #:classes '(px-3 py-2 w-10)))
+                 '()))
+            (header-row (append selection-header
+                                (map (lambda (column)
+                                       (sortable-header-cell column
+                                                             active
+                                                             direction
+                                                             default-direction
+                                                             path
+                                                             params
+                                                             drop-params
+                                                             #:classes header-classes
+                                                             #:resizable? resizable?))
+                                     columns)))
+            (selection-cell (lambda (row-index)
+                              (let ((key (if (< row-index (length row-keys))
+                                             (list-ref row-keys row-index)
+                                             (number->string (+ row-index 1)))))
+                                (td (list `(input (@ (type "checkbox")
+                                                     (name ,select-name)
+                                                     (value ,(format #f "~a" key))
+                                                     (aria-label ,(format #f
+                                                                          "Select row ~a"
+                                                                          key))
+                                                     (class "hg-checkbox"))))
+                                    #:classes '(px-3 py-2 w-10)))))
+            (body-rows (if (null? rows)
+                           (list (tr (list (td (or empty empty-message)
+                                               #:colspan (max 1
+                                                              (+ span-count
+                                                                 (length columns)))
+                                               #:align 'center
+                                               #:classes '(px-3 py-6 text-center
+                                                           font-light
+                                                           text-onyx-300
+                                                           dark:text-stone-500)))))
+                           (map (lambda (row row-index)
+                                  (let ((cells (map (lambda (column index)
+                                                      (td (if (< index
+                                                                 (length row))
+                                                              (list-ref row index) "")
+                                                          #:numeric (column-field column
+                                                                                  'numeric
+                                                                                  #f)
+                                                          #:align (column-field column
+                                                                                'align #f)
+                                                          #:nowrap (column-field column
+                                                                                 'nowrap
+                                                                                 #f)
+                                                          #:classes cell-classes)) columns
+                                                    (iota (length columns)))))
+                                    (tr (append (if selectable?
+                                                    (list (selection-cell row-index))
+                                                    '())
+                                                cells)
+                                        #:classes (append row-classes
+                                                          (if (and zebra?
+                                                                   (odd? row-index))
+                                                              '(hg-row-odd)
+                                                              '())))))
+                                rows (iota (length rows)))))
+            (head (thead (list (tr header-row))
+                         #:classes (append head-classes
+                                           (if sticky-header?
+                                               '(hg-sticky-header)
+                                               '()))))
+            (table-attrs (if resizable?
+                             (list (cons 'data-hg-resizable ""))
+                             '()))
+            (container-attrs (if (eq? 'compact density)
+                                 (list (cons 'data-density "compact"))
+                                 '()))
+            (container-classes* (append container-classes
+                                        (if (eq? 'compact density)
+                                            '(hg-density-compact)
+                                            '()))))
+       (table (list head (tbody body-rows))
+              #:caption caption
+              #:caption-position caption-position
+              #:caption-classes caption-classes
+              #:scroll scroll
+              #:scroll-label scroll-label
+              #:table-attributes table-attrs
+              #:table-classes table-classes
+              #:container-attributes container-attrs
+              #:container-classes container-classes*)))))
