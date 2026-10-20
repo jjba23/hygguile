@@ -109,7 +109,8 @@
                             (cadr entry))) showcase-entries)
                #:list-classes '(flex flex-row
                                      flex-wrap
-                                     gap-2
+                                     gap-x-3
+                                     gap-y-6
                                      list-none
                                      p-0)
                #:link-classes '(no-underline rounded-512
