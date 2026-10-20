@@ -147,8 +147,9 @@ Serve that directory with any static file server (~python3 -m http.server~, ~dar
 
 A complete, commented version of that page is ~examples/minimal.scm~, and ~maak example~ renders it to ~dist/example.html~.
 
-#+attr_html: :width 96px
-[[assets/hygguile-logo.svg]]
+#+begin_export html
+<img width="96px" src="./assets/hygguile-logo.svg"/>
+#+end_export
 
 ** 3. Where things are
 
