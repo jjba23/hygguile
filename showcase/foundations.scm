@@ -134,7 +134,7 @@
                                               shadow-md
                                               px-3
                                               py-1
-                                              text-sm
+                                              text-md
                                               font-bold
                                               text-onyx-500
                                               dark:text-stone-300)))

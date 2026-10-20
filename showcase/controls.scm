@@ -256,7 +256,7 @@
               (div (@ (class ,(mk-class '(flex flex-row flex-wrap items-center
                                                gap-2))))
                    ,(p "Hover or focus for a tooltip:"
-                       #:size '(text-sm)
+                       #:size '(text-md)
                        #:weight '(font-light))
                    ,(tooltip (code "guix shell")
                              #:text "Enter a reproducible development shell")))

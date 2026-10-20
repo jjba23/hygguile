@@ -29,20 +29,27 @@
                                                    dark:border-onyx-100/25
                                                    bg-stone-100/50
                                                    dark:bg-onyx-900/50
-                                                   p-4
+                                                   p-5
                                                    flex
                                                    flex-col
-                                                   gap-3) classes))))
-         (h4 (@ (class ,(mk-class '(text-xs font-semibold uppercase
+                                                   gap-4) classes))))
+         ;; the label is a heading a reader reads before the specimen, not a
+         ;; caption under it: at small it was set at 8px, which is decoration
+         ;; rather than text, so it carries body size and keeps its letter
+         ;; case for the contrast of a label
+         (h4 (@ (class ,(mk-class '(text-md font-semibold uppercase
                                             tracking-wide text-onyx-300
-                                            dark:text-stone-500))))
+                                            dark:text-stone-300))))
              ,title)
          ,@content)))
 
 (define (showcase-type-row caption content)
   "One line of the type specimen: the classes it shows, then the text itself."
   `((div (@ (class ,(mk-class '(flex flex-col gap-1))))
-         (span (@ (class ,(mk-class '(font-mono text-xs text-onyx-300
+         ;; the class list a specimen is annotated with is read by the same
+         ;; eyes that read the specimen, so it is set at body-adjacent size
+         ;; rather than as a whisper of 8px
+         (span (@ (class ,(mk-class '(font-mono text-sm text-onyx-300
                                                 dark:text-stone-500))))
                ,caption)
          ,content)))

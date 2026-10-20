@@ -71,16 +71,19 @@
                ;; the class list of `color` is
                ;; simply appended, so a gradient
                ;; treatment belongs here
-               #:color '(hg-gradient-text))
+               #:color '(hg-gradient-text)
+               ;; the name is the one thing on the page that should be
+               ;; read from across the room, so it steps up with the viewport
+               #:size '(text-4xl sm:text-5xl))
           ,(sub-h3 "cozy and professional user-interfaces for everyone"))
-     (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2))))
+     (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-3))))
           ,(a "Source on Codeberg"
               #:href "https://codeberg.org/jjba23/hygguile"
-              #:size '(text-sm)
+              #:size '(text-md)
               #:weight '(font-medium)
               #:extra-classes '(no-underline rounded-lg
-                                             px-3
-                                             py-1
+                                             px-4
+                                             py-2
                                              bg-stone-100/50
                                              dark:bg-onyx-900/50
                                              hg-frost
@@ -91,14 +94,17 @@
                                              hover:bg-stone-100/75
                                              dark:hover:bg-onyx-900/75
                                              transition-colors
-                                             duration-150))
+                                             duration-150
+                                             focus-visible:outline-2
+                                             focus-visible:outline-offset-2
+                                             outline-onyx-500))
           ,(a "API documentation"
               #:href "https://jointhefreeworld.org/api-docs/hygguile/API.html"
-              #:size '(text-sm)
+              #:size '(text-md)
               #:weight '(font-medium)
               #:extra-classes '(no-underline rounded-lg
-                                             px-3
-                                             py-1
+                                             px-4
+                                             py-2
                                              bg-stone-100/50
                                              dark:bg-onyx-900/50
                                              hg-frost
@@ -109,14 +115,17 @@
                                              hover:bg-stone-100/75
                                              dark:hover:bg-onyx-900/75
                                              transition-colors
-                                             duration-150))
+                                             duration-150
+                                             focus-visible:outline-2
+                                             focus-visible:outline-offset-2
+                                             outline-onyx-500))
           ,(a "LGPL-3.0-or-later"
               #:href "https://www.gnu.org/licenses/lgpl-3.0.html"
-              #:size '(text-sm)
+              #:size '(text-md)
               #:weight '(font-medium)
               #:extra-classes '(no-underline rounded-lg
-                                             px-3
-                                             py-1
+                                             px-4
+                                             py-2
                                              bg-stone-100/50
                                              dark:bg-onyx-900/50
                                              hg-frost
@@ -127,7 +136,10 @@
                                              hover:bg-stone-100/75
                                              dark:hover:bg-onyx-900/75
                                              transition-colors
-                                             duration-150)))
+                                             duration-150
+                                             focus-visible:outline-2
+                                             focus-visible:outline-offset-2
+                                             outline-onyx-500)))
      (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-5))))
           ,(p (list
                "Hygguile is an opinionated, batteries-included UI framework written in "

@@ -48,7 +48,7 @@
                             #:size 'xl
                             #:ring #t)
                    ,(p "avatar with initials fallback"
-                       #:size '(text-sm)
+                       #:size '(text-md)
                        #:weight '(font-light))))
          ,(image-gallery (list (img #:src
                                 "https://jointhefreeworld.org/static-assets/byggsteg/logo-small.png"

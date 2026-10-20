@@ -33,9 +33,9 @@
 ;; them, so `(define footer (footer ...))' would refer to itself.
 (define showcase-footer
   (footer `(,(em "Copyright &copy; Josep Bigorra &lt;jjbigorra@gmail.com&gt;"
-                 #:size '(text-sm)) ,(em
+                 #:size '(text-md)) ,(em
                                       "licensed under the LGPL v3, or newer at your convenience"
-                                      #:size '(text-sm))
+                                      #:size '(text-md))
             (div (@ (class ,(mk-class '(flex flex-col
                                              gap-2
                                              sm:flex-row
@@ -45,18 +45,18 @@
                  (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
                                                   items-center))))
                       ,(em "source:"
-                           #:size '(text-sm))
+                           #:size '(text-md))
                       ,(a "codeberg.org/jjba23/hygguile"
                           #:href "https://codeberg.org/jjba23/hygguile"
-                          #:size '(text-sm)
+                          #:size '(text-md)
                           #:weight '(font-medium)))
                  (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-2
                                                   items-center))))
                       ,(em "version:"
-                           #:size '(text-sm))
+                           #:size '(text-md))
                       ,(mono (format #f "~a"
                                      (get-short-commit-sha))
-                             #:size '(text-sm)
+                             #:size '(text-md)
                              #:weight '(font-light)))))))
 
 ;; One card of the grid. The card itself -- a native <details> with an icon, a
@@ -90,19 +90,59 @@
 
 ;; the rail of section links, built from the same entries as the grid: any
 ;; section is one tap away, and the rail follows the page from the small
-;; breakpoint up
+;; breakpoint up. Its links are sized as controls rather than as captions --
+;; a rail of 12px targets is a rail a reader has to aim at -- and the padding
+;; gives each one a target a finger can land on.
+;;
+;; On a phone the rail is one row that scrolls sideways rather than nine rows
+;; of wrapped chips: a table of contents that pushes the page it indexes below
+;; the fold is not an index. From the small breakpoint up there is room to
+;; wrap, and wrapping is the better read.
 (define showcase-toc
   (section-nav (map (lambda (entry)
                       (cons (car entry)
-                            (cadr entry))) showcase-entries)))
+                            (cadr entry))) showcase-entries)
+               #:list-classes '(flex flex-row
+                                     gap-2
+                                     list-none
+                                     p-0
+                                     overflow-x-auto
+                                     sm:flex-wrap)
+               #:link-classes '(no-underline rounded-512
+                                             px-3
+                                             py-2
+                                             text-md
+                                             font-medium
+                                             whitespace-nowrap
+                                             shrink-0
+                                             bg-stone-100/50
+                                             dark:bg-onyx-900/50
+                                             border-2
+                                             border-stone-500/25
+                                             dark:border-onyx-100/25
+                                             hover:bg-stone-100/90
+                                             dark:hover:bg-onyx-900/75
+                                             transition-colors
+                                             duration-150
+                                             focus-visible:outline-2
+                                             focus-visible:outline-offset-2
+                                             outline-onyx-500)
+               #:active-classes '(bg-stone-300/90 dark:bg-onyx-700/90
+                                                  text-onyx-500
+                                                  dark:text-stone-100)
+               #:inactive-classes '(text-onyx-500 dark:text-stone-300)))
 
-;; the grid itself: two columns once the viewport is wide enough, one on a
-;; phone, with the widest cards -- the tables, the carousel, the gradients --
-;; spanning both, so a section is never squeezed into a column it cannot fill.
-;; Its id is the tray the sort control reorders.
+;; the grid itself: two cards to a row once the viewport is wide enough, one on
+;; a phone. Only the sections that are wider than a column -- the type specimen,
+;; the palette, the form samples, a table, the gallery, the states and the
+;; closing argument -- ask for the whole row, so the page reads as a tray of
+;; cards rather than as a list of sections with a border around each. The rows
+;; are aligned to their top rather than stretched, so a short card beside a long
+;; one keeps its own height instead of growing a hollow body. Its id is the tray
+;; the sort control reorders.
 (define (showcase-grid)
   `((div (@ (id "showcase-grid")
-            (class ,(mk-class '(grid grid-cols-1 lg:grid-cols-2 gap-6
+            (class ,(mk-class '(grid grid-cols-1 lg:grid-cols-2 gap-5
                                      items-start my-6))))
          ,@(let loop
              ((entries showcase-entries)
@@ -124,7 +164,7 @@
                                      flex-wrap
                                      items-center
                                      justify-between
-                                     gap-2
+                                     gap-3
                                      my-4))))
          ,(sort-control #:target "showcase-grid"
                         #:modes '(("page" . "Page order") ("title" . "A-Z")
@@ -137,7 +177,8 @@
                                                           pb-8
                                                           px-4
                                                           sm:px-6
-                                                          max-w-256
+                                                          lg:px-8
+                                                          max-w-360
                                                           mx-auto))))
                              ,@(showcase-hero)
                              ,showcase-toc

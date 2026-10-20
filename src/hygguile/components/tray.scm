@@ -31,7 +31,7 @@
 ;; carries, and the buttons carry nothing but the call they make.
 
 (define sort-button-classes
-  '(hg-sort-button py-1
+  '(hg-sort-button py-2
                    px-3
                    cursor-pointer
                    select-none
@@ -47,7 +47,7 @@
                        (label "Order")
                        (aria-label "Order")
                        (classes '(flex flex-row flex-wrap items-center gap-2))
-                       (label-classes '(text-sm font-medium text-onyx-300
+                       (label-classes '(text-md font-medium text-onyx-300
                                                 dark:text-stone-300)))
   "Create a group of buttons that puts a tray in one of several orders.
 
@@ -92,7 +92,6 @@ List of CSS classes for the @var{label}.
                                             ,text))) label)
          ,@(map (lambda (mode)
                   (button (cdr mode)
-                          #:size '(text-sm)
                           #:rounding '(rounded-lg)
                           #:shadow '(shadow-sm)
                           #:extra-classes sort-button-classes
@@ -128,10 +127,8 @@ List of CSS classes for the pair.
 @end example"
   `((div (@ (class ,(mk-class classes)))
          ,(button expand-label
-                  #:size '(text-sm)
                   #:on-click (format #f "hygguileToggleTray(true, '~a')"
                                      selector))
          ,(button collapse-label
-                  #:size '(text-sm)
                   #:on-click (format #f "hygguileToggleTray(false, '~a')"
                                      selector)))))

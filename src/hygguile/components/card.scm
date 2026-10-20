@@ -323,8 +323,13 @@ List of CSS classes for the layer holding @var{content}.
                                             icon)
                         ,(sub-h2 title)
                         ,@(render-if-nempty (lambda (text)
+                                              ;; the shelf a section belongs to
+                                              ;; is read before the section
+                                              ;; itself, so the chip is set at
+                                              ;; body size rather than as the
+                                              ;; smallest thing on the card
                                               (list (badge text
-                                                           #:size 'sm))) tag)
+                                                           #:size 'lg))) tag)
                         (span (@ (class ,(mk-class '(hg-expandable-chevron
                                                      ml-auto
                                                      font-light

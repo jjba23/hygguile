@@ -63,14 +63,14 @@
                                                            #:label "Loading")
                                                   (p
                                                    "The spinner is a CSS ring and the bars are a quiet placeholder."
-                                                   #:size '(text-sm)
+                                                   #:size '(text-md)
                                                    #:weight '(font-light)))))))))
 
 (define states-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-4))))
-         (h4 (@ (class ,(mk-class '(text-xs font-semibold uppercase
+         (h4 (@ (class ,(mk-class '(text-md font-semibold uppercase
                                             tracking-wide text-onyx-300
-                                            dark:text-stone-500))))
+                                            dark:text-stone-300))))
              "Empty, error and loading shapes")
          (div (@ (class ,(mk-class '(grid grid-cols-1 md:grid-cols-2 gap-4))))
               ,(empty-state #:title "Nothing here yet"

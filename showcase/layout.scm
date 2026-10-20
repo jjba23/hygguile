@@ -60,36 +60,36 @@
                                                                                bg-naples-yellow-500/25
                                                                                dark:bg-onyx-900/50))))
                                                                   ,(p "16 / 9"
-                                                                    #:size '(text-sm))))
+                                                                    #:size '(text-md))))
                                                       #:ratio 'video)))
               ,(showcase-specimen "Grid"
                                   (list (grid (list (card (card-body (p
                                                                       "A cell"
                                                                       #:size '
-                                                                      (text-sm))))
+                                                                      (text-md))))
                                                     (card (card-body (p
                                                                       "Another cell"
                                                                       #:size '
-                                                                      (text-sm)))))
+                                                                      (text-md)))))
                                               #:columns 2
                                               #:gap '(gap-2))))
               ,(showcase-specimen "Split"
                                   (list (split #:start (list (card (card-body (p
                                                                                "Start"
                                                                                #:size '
-                                                                               (text-sm)))))
+                                                                               (text-md)))))
                                                #:end (list (card (card-body (p
                                                                              "End, two thirds"
                                                                              #:size '
-                                                                             (text-sm)))))
+                                                                             (text-md)))))
                                                #:ratio '(1 2)
                                                #:gap '(gap-2))))))))
 
 (define utility-extras-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-3))))
-         (h4 (@ (class ,(mk-class '(text-xs font-semibold uppercase
+         (h4 (@ (class ,(mk-class '(text-md font-semibold uppercase
                                             tracking-wide text-onyx-300
-                                            dark:text-stone-500))))
+                                            dark:text-stone-300))))
              "Utility & composition")
          (div (@ (class ,(mk-class '(grid grid-cols-1 md:grid-cols-2 gap-4
                                           items-start))))
@@ -119,7 +119,7 @@
               ,(showcase-specimen "Responsive"
                                   (list (p
                                          "Resize the window: only one of these badges is shown."
-                                         #:size '(text-sm)
+                                         #:size '(text-md)
                                          #:weight '(font-light))
                                         (show (list (badge "Wide screens only"
                                                      #:variant 'info))
@@ -197,8 +197,9 @@
                                      #:drift? #t)))))
 
 (define cards-section
-  `((div (@ (class ,(mk-class '(grid grid-cols-1 md:grid-cols-2 gap-4
-                                     items-start))))
+  ;; a card is shown one under another rather than side by side: half a column
+  ;; is not enough width for the card specimen itself to keep its own shape
+  `((div (@ (class ,(mk-class '(flex flex-col gap-4))))
          ,(showcase-specimen "Header, body and footer"
                              (list (card (list (card-header (list (card-title
                                                                    "Card title")
@@ -215,7 +216,7 @@
                                                                  "+12%")))
                                                (card-footer (list (button
                                                                    "Action"
-                                                                   #:size '(text-sm)))))
+                                                                   #:size '(text-md)))))
                                          #:card-classes '(bg-stone-300/75
                                                           dark:bg-onyx-700/75
                                                           rounded-xl
@@ -227,10 +228,18 @@
                                                           flex
                                                           flex-col
                                                           w-full))))
+         ,(showcase-specimen "An expandable card"
+                             (list (expandable-card (list (p
+                                                           "The card this page is built out of: a native disclosure whose header is the control, so it opens and closes without a line of script."
+                                                           #:weight '(font-light)))
+                                                    #:title "Opens in place"
+                                                    #:icon 'caret-double-down
+                                                    #:tag "Layout"
+                                                    #:open #t)))
          ,(showcase-specimen "Badges"
                              (list (p
                                     "A badge is a short label with a semantic tint; a card header is a natural home for one."
-                                    #:size '(text-sm)
+                                    #:size '(text-md)
                                     #:weight '(font-light))
                                    (cluster (list (badge "neutral")
                                                   (badge "info"
