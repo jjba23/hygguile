@@ -163,7 +163,7 @@ List of symbols applied when the link is inactive.
                                       shadow-lg
                                       px-3
                                       py-3))
-                      (list-classes '(flex flex-row flex-wrap gap-2 list-none
+                      (list-classes '(flex flex-row flex-wrap gap-x-3 gap-y-6 list-none
                                            p-0))
                       (link-classes '(no-underline rounded-512
                                                    px-3
