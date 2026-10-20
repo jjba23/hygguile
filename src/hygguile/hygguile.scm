@@ -46,6 +46,7 @@
   #:use-module (hygguile components overlay)
   #:use-module (hygguile components data)
   #:use-module (hygguile css)
+  #:use-module (hygguile version)
   #:re-export (a abbr
                  accordion
                  accordion-item
@@ -105,6 +106,14 @@
                  icon-button
                  image-gallery
                  img
+                 ;; the version the framework reports about itself, kept in
+                 ;; (hygguile version) and re-exported so a page prints it
+                 ;; without importing a module of its own
+                 hygguile-homepage
+                 hygguile-license
+                 hygguile-version
+                 hygguile-version-string
+                 print-version
                  input
                  kbd
                  legend

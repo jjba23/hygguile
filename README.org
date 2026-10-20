@@ -5,7 +5,10 @@
 #+options: toc:nil
 #+language: en
 
-[[https://jointhefreeworld.org/ggg/dist/hygguile.svg]] [[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]] [[https://img.shields.io/badge/Guile-3.0%2B-4e5d94.svg]] [[https://img.shields.io/badge/Guix-package-6f4e9c.svg]]
+#+attr_html: :width 96px
+[[./assets/hygguile-logo.svg]]
+
+[[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]] [[https://img.shields.io/badge/Guile-3.0%2B-4e5d94.svg]] [[https://img.shields.io/badge/Guix-package-6f4e9c.svg]]
 [[https://jointhefreeworld.org/ggg/dist/license-lgpl3+.svg]] [[https://jointhefreeworld.org/ggg/dist/license-fdl13+.svg]]
 
 #+begin_quote
@@ -19,7 +22,7 @@ Hygguile is a **batteries-included UI framework for Guile Scheme**. You write pa
 New here? Jump to [[*Quickstart][Quickstart]], browse the [[https://hygguile.jointhefreeworld.org/][showcase]], or [[https://codeberg.org/jjba23/hygguile/issues][open an issue]] with a question. There are no silly questions, and every contribution -- a typo fix, a bug report, a component idea -- is welcome.
 
 #+attr_html: :width 100%
-#+caption: The same page in light and dark mode: a server-rendered hero, a native form, and data/feedback components.
+#+caption: The deployed [[https://hygguile.jointhefreeworld.org/][showcase]], in both themes: the type scale, a card and a container beside it, the palette, and a data table.
 [[./assets/readme/hygguile-demo.gif]]
 
 * Features
@@ -72,12 +75,6 @@ Hygguile is actively developed and used in real projects, but it is still a youn
 ** A longer look
 
 The [[https://hygguile.jointhefreeworld.org/][showcase]] is the kitchen sink: every component in a realistic layout, with the source beside the specimen. The [[https://jointhefreeworld.org/api-docs/hygguile/API.html][API reference]] documents every procedure and every key argument.
-
-#+attr_html: :width 100%
-[[https://jointhefreeworld.org/static-assets/hygguile/screen-2026-07-21-20-55-35.png]]
-
-#+attr_html: :width 100%
-[[https://jointhefreeworld.org/static-assets/hygguile/screen-2026-07-21-20-55-49.png]]
 
 * Quickstart
 
@@ -1044,10 +1041,32 @@ The repository is driven by [[https://codeberg.org/jjba23/maak][maak]]. ~maak --
 | ~maak fmt~ | formats every ~.scm~ file with ~guix style~ |
 | ~maak validate~ | ~fmt~, ~compile~ and ~test~ in one go |
 | ~maak dev~ (alias ~maak hr~) | watches the tree and re-runs test, build and docs on every change |
+| ~maak version~ | prints the framework's version, license and homepage |
+| ~maak sync-version~ | writes that version into every copy of it, then commits and tags the release |
+
+** Releasing
+
+The version is written by hand in one place: ~hygguile-version~ in [[file:src/hygguile/version.scm][src/hygguile/version.scm]], which is what a page prints in its own footer and what ~maak version~ prints in a terminal:
+
+#+begin_example
+hygguile 2.7.0
+License: LGPL-3.0-or-later
+Homepage: https://hygguile.jointhefreeworld.org
+#+end_example
+
+Everything else follows that file. Pages read the module, so a deployed showcase cannot fall behind it, and ~resources/~ carries no version at all. This README carries a copy, because Org cannot read a Scheme module; ~maak sync-version~ rewrites that copy from the file, commits everything tracked as ~chore: Release vX.Y.Z~ and tags that commit ~vX.Y.Z~. A release is then one edit and one command:
+
+#+begin_src shell
+$EDITOR src/hygguile/version.scm   # the only place the version is written by hand
+maak sync-version                  # rewrite the copies, commit, and tag
+maak test                          # verify the released tree with the rest of the suite
+#+end_src
+
+Each copy is found by a regular expression and only the version inside the match is replaced, so the wording around it stays the file's business. A version whose tag already exists is refused rather than released twice, and a tree with nothing left to commit is tagged where it stands. The suite fails while any copy disagrees with the module, so a stale README cannot outlive a bump; because the tag is cut before the suite runs, a failure afterwards means the release exists already -- fix the tree, bump the version, release again, rather than moving a tag that has been published.
 
 ** README assets
 
-The animated demo at the top of this document is generated from the same components a reader uses. ~scripts/readme-demo.scm~ renders each of the three small pages in both themes (~dist/demo-hero-light.html~, ~dist/demo-hero-dark.html~, and so on); screenshot each at 1280x800 and combine the six frames into ~assets/readme/hygguile-demo.gif~. The static fallbacks are ~assets/readme/hygguile-light.png~ and ~assets/readme/hygguile-dark.png~.
+Both images in this document come from sources in the repository. ~maak logo~ renders ~assets/hygguile-logo.svg~, the hand-drawn mark, to the PNG beside it, so a chat client and a page show the same file. ~maak gif~ fetches the deployed showcase at [[https://hygguile.jointhefreeworld.org/][hygguile.jointhefreeworld.org]] once, opens it in both themes, and assembles seven frames of it into ~assets/readme/hygguile-demo.gif~. ~scripts/readme-assets.scm~ is the tool behind both; it wants a browser, ImageMagick's ~convert~ and ~gifsicle~ on ~$PATH~, and neither task is part of ~maak build~, because a README that lags a commit is not an emergency and a build that needs a network is not a build.
 
 ----------------
 
@@ -1096,8 +1115,8 @@ maak docs       # regenerate the API reference
 
 --------------
 
-
-[[https://jointhefreeworld.org/static-assets/hygguile/hygguile-2-small.png]]
+#+attr_html: :width 96px
+[[./assets/hygguile-logo.svg]]
 
 -------
 

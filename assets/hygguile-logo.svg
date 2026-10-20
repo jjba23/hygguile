@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  hygguile: cozy and professional user-interfaces for everyone
+
+  The project's mark: a frosted squircle in the three colours the framework's
+  own headings are set in, and an h for the language it is written in and the
+  hygge it is trying to have.
+
+  The colours are the stops of `hg-gradient-text' (gold, amber at 45%, violet),
+  converted from the oklch the stylesheet states into sRGB, so the mark and the
+  hero of the showcase are the same material. The badge carries its own ground,
+  which is what makes one file enough for both themes: it never sits on a page
+  colour it has to agree with. The hairline inside the edge and the soft light in
+  the corner are the glass panel's two tricks, quiet enough to read as depth
+  rather than as decoration at 32 pixels.
+
+  The wordmark is left to the page: an h that survives being scaled to a favicon
+  is worth more than five letters that do not.
+
+  Strict XML, which is what a browser requires of an SVG it opens on its own: no
+  double hyphen anywhere in this comment, and every element closed.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 512 512"
+     width="512"
+     height="512"
+     role="img"
+     aria-label="hygguile">
+  <title>hygguile</title>
+
+  <defs>
+    <!-- The three stops of hg-gradient-text, at the same angles: gold, amber at
+         45%, violet. A fourth colour would make the badge a rainbow at 32
+         pixels, and the framework's own headings are set in three. -->
+    <linearGradient id="hygguile-mark"
+                    x1="0.06"
+                    y1="0.12"
+                    x2="0.94"
+                    y2="0.9">
+      <stop offset="0" stop-color="#cba729"/>
+      <stop offset="0.45" stop-color="#cf6126"/>
+      <stop offset="1" stop-color="#5350b9"/>
+    </linearGradient>
+
+    <radialGradient id="hygguile-light"
+                    cx="0.3"
+                    cy="0.18"
+                    r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.34"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="hygguile-shade"
+                    cx="0.78"
+                    cy="0.92"
+                    r="0.7">
+      <stop offset="0" stop-color="#1b2430" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#1b2430" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0"
+        y="0"
+        width="512"
+        height="512"
+        rx="116"
+        ry="116"
+        fill="url(#hygguile-mark)"/>
+  <rect x="0"
+        y="0"
+        width="512"
+        height="512"
+        rx="116"
+        ry="116"
+        fill="url(#hygguile-light)"/>
+  <rect x="0"
+        y="0"
+        width="512"
+        height="512"
+        rx="116"
+        ry="116"
+        fill="url(#hygguile-shade)"/>
+  <rect x="9"
+        y="9"
+        width="494"
+        height="494"
+        rx="108"
+        ry="108"
+        fill="none"
+        stroke="#fdf8ee"
+        stroke-opacity="0.22"
+        stroke-width="3"/>
+
+  <!-- the h: a stem, and a shoulder that arches over to a second leg -->
+  <g fill="none"
+     stroke="#fdf8ee"
+     stroke-width="60"
+     stroke-linecap="round"
+     stroke-linejoin="round">
+    <path d="M 184 140 V 372"/>
+    <path d="M 184 274 A 70 70 0 0 1 324 274 V 372"/>
+  </g>
+</svg>

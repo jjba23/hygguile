@@ -54,7 +54,13 @@
                                                   items-center))))
                       ,(em "version:"
                            #:size '(text-md))
-                      ,(mono (format #f "~a"
+                      ;; the version the framework reports about itself, from
+                      ;; (hygguile version), beside the commit this copy of the
+                      ;; showcase was rendered from -- the number tells a reader
+                      ;; what they are reading, the commit tells them which build
+                      ;; of it
+                      ,(mono (format #f "~a (~a)"
+                                     hygguile-version
                                      (get-short-commit-sha))
                              #:size '(text-md)
                              #:weight '(font-light)))))))
