@@ -152,6 +152,7 @@ List of symbols applied when the link is inactive.
                       #:key (label "Page sections")
                       (sticky? #t)
                       (scroll-spy? #t)
+                      (controls '())
                       (classes '(my-2 rounded-2xl
                                       border-2
                                       border-stone-500/25
@@ -203,6 +204,14 @@ Whether the rail marks the section a reader is currently in. The marking is
 done by the framework's scroll-spy script (a progressive enhancement), and
 the attribute it needs is written only when the page asks for it. Defaults to
 true.
+@item controls
+A list of nodes drawn at the end of the rail, beside the links: the place
+for a control that belongs to the page as a whole rather than to any one
+section, such as the theme toggle, since a rail that follows the page is
+then also the place the setting stays reachable from. The control is a
+sibling of the list rather than an item of it, so a screen reader still
+reads the rail as the list of sections and nothing else. Empty by default,
+which leaves the bare rail.
 @item classes
 List of base CSS classes for the @code{<nav>}.
 @item list-classes
@@ -217,23 +226,52 @@ List of CSS classes applied to the other links.
 
 @example
 (section-nav '((buttons . \"Buttons\") (forms . \"Forms\")))
+(section-nav '((buttons . \"Buttons\")) #:controls (ui-mode-button))
 @end example"
-  `((nav (@ (aria-label ,label)
-            ,@(attr-when scroll-spy?
-                         'data-hg-scroll-spy "")
-            (class ,(mk-class (append classes
-                                      (if sticky?
-                                          '(sm:sticky top-2 z-20)
-                                          '())))))
-         (ul (@ (class ,(mk-class list-classes)))
-             ,@(map (lambda (section)
-                      `(li ,(nav-link (cdr section)
-                                      #:href (format #f "#~a"
-                                                     (car section))
-                                      #:classes link-classes
-                                      #:active-classes active-classes
-                                      #:inactive-classes inactive-classes)))
-                    sections)))))
+  (let ((has-controls (not (nil? controls))))
+    `((nav (@ (aria-label ,label)
+              ,@(attr-when scroll-spy?
+                           'data-hg-scroll-spy "")
+              (class ,(mk-class (append classes
+                                        (if sticky?
+                                            '(sm:sticky top-2 z-20)
+                                            '())
+                                        ;; a rail with a control is a row of
+                                        ;; two things: the links, and the
+                                        ;; control at their end
+                                        (if has-controls
+                                            '(flex flex-row flex-wrap
+                                                   items-center gap-3)
+                                            '())))))
+           (ul (@ (class ,(mk-class (append list-classes
+                                            ;; below the small breakpoint the
+                                            ;; links keep the whole line to
+                                            ;; themselves and the control takes
+                                            ;; the next one; above it they share
+                                            ;; a line and the links take what is
+                                            ;; left of it
+                                            (if has-controls
+                                                '(w-full min-w-0
+                                                         sm:w-auto
+                                                         sm:flex-1)
+                                                '())))))
+               ,@(map (lambda (section)
+                        `(li ,(nav-link (cdr section)
+                                        #:href (format #f "#~a"
+                                                       (car section))
+                                        #:classes link-classes
+                                        #:active-classes active-classes
+                                        #:inactive-classes inactive-classes)))
+                      sections))
+           ,@(if has-controls
+                 `((div (@ (class ,(mk-class '(ml-auto
+                                               flex
+                                               flex-row
+                                               flex-wrap
+                                               items-center
+                                               gap-2))))
+                        ,@controls))
+                 '())))))
 
 (define* (breadcrumbs #:key items
                       (separator "/")

@@ -163,9 +163,9 @@
   `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
          (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-3))))
               ,(p
-                "Two settings you can try right here: the theme, which is a class on the document remembered in local storage, and the notification tray, which is a plain list that slides in from the corner. Both are ordinary HTML and CSS with a little script on top, so nothing blocks the first paint."
+                "The theme toggle rides at the end of the section rail at the top of the page: the theme is a class on the document, remembered in local storage, and a setting for the whole document belongs with the page's own navigation rather than inside one of its cards."
+                #:weight '(font-light))
+              ,(p
+                "The notification tray below is the other setting worth trying: a plain list that slides in from the corner. Both are ordinary HTML and CSS with a little script on top, so nothing blocks the first paint."
                 #:weight '(font-light)))
-         (div (@ (class ,(mk-class '(flex flex-row flex-wrap gap-3
-                                          items-center))))
-              (div ,(ui-mode-button)))
          ,trigger-notifications-section)))

@@ -94,27 +94,23 @@
 ;; a rail of 12px targets is a rail a reader has to aim at -- and the padding
 ;; gives each one a target a finger can land on.
 ;;
-;; On a phone the rail is one row that scrolls sideways rather than nine rows
-;; of wrapped chips: a table of contents that pushes the page it indexes below
-;; the fold is not an index. From the small breakpoint up there is room to
-;; wrap, and wrapping is the better read.
+;; The rail always wraps, on a phone as much as on a wide screen: it is the
+;; index of the page, and an index whose last entries sit behind a sideways
+;; scroll is one a reader never learns is complete.
 (define showcase-toc
   (section-nav (map (lambda (entry)
                       (cons (car entry)
                             (cadr entry))) showcase-entries)
                #:list-classes '(flex flex-row
+                                     flex-wrap
                                      gap-2
                                      list-none
-                                     p-0
-                                     overflow-x-auto
-                                     sm:flex-wrap)
+                                     p-0)
                #:link-classes '(no-underline rounded-512
                                              px-3
                                              py-2
                                              text-md
                                              font-medium
-                                             whitespace-nowrap
-                                             shrink-0
                                              bg-stone-100/50
                                              dark:bg-onyx-900/50
                                              border-2
@@ -130,7 +126,11 @@
                #:active-classes '(bg-stone-300/90 dark:bg-onyx-700/90
                                                   text-onyx-500
                                                   dark:text-stone-100)
-               #:inactive-classes '(text-onyx-500 dark:text-stone-300)))
+               #:inactive-classes '(text-onyx-500 dark:text-stone-300)
+               ;; the theme toggle rides at the end of the rail rather than
+               ;; inside a card: it is a setting for the whole document, and the
+               ;; one bar that follows the page is where a reader looks for it
+               #:controls (ui-mode-button #:content "Light / dark")))
 
 ;; the grid itself: two cards to a row once the viewport is wide enough, one on
 ;; a phone. Only the sections that are wider than a column -- the type specimen,
