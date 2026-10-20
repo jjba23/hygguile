@@ -5,9 +5,6 @@
 #+options: toc:nil
 #+language: en
 
-#+attr_html: :width 96px
-[[./assets/hygguile-logo.svg]]
-
 [[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]] [[https://img.shields.io/badge/Guile-3.0%2B-4e5d94.svg]] [[https://img.shields.io/badge/Guix-package-6f4e9c.svg]]
 [[https://jointhefreeworld.org/ggg/dist/license-lgpl3+.svg]] [[https://jointhefreeworld.org/ggg/dist/license-fdl13+.svg]]
 
@@ -23,7 +20,7 @@ New here? Jump to [[*Quickstart][Quickstart]], browse the [[https://hygguile.joi
 
 #+attr_html: :width 100%
 #+caption: The deployed [[https://hygguile.jointhefreeworld.org/][showcase]], in both themes: the type scale, a card and a container beside it, the palette, and a data table.
-[[./assets/readme/hygguile-demo.gif]]
+[[assets/readme/hygguile-demo.gif]]
 
 * Features
 
@@ -149,6 +146,9 @@ Serve that directory with any static file server (~python3 -m http.server~, ~dar
 - ~(hygguile-recommended-resources)~ has to be in the ~head~. That is what loads the companion stylesheet and the few progressive-enhancement scripts. ~(hygguile-recommended-meta)~ is the viewport and charset pair.
 
 A complete, commented version of that page is ~examples/minimal.scm~, and ~maak example~ renders it to ~dist/example.html~.
+
+#+attr_html: :width 96px
+[[assets/hygguile-logo.svg]]
 
 ** 3. Where things are
 
