@@ -16,13 +16,16 @@ Hygguile is a **batteries-included UI framework for Guile Scheme**. You write pa
 
 **If you want server-rendered web UIs in Guile Scheme -- HTML that works without JavaScript and looks good out of the box -- Hygguile is for you.**
 
-New here? Jump to [[*Quickstart][Quickstart]], browse the [[https://hygguile.jointhefreeworld.org/][showcase]], or [[https://codeberg.org/jjba23/hygguile/issues][open an issue]] with a question. There are no silly questions, and every contribution -- a typo fix, a bug report, a component idea -- is welcome.
+New here? Jump to [[#quickstart][Quickstart]], browse the [[https://hygguile.jointhefreeworld.org/][showcase]], or [[https://codeberg.org/jjba23/hygguile/issues][open an issue]] with a question. There are no silly questions, and every contribution -- a typo fix, a bug report, a component idea -- is welcome.
 
 #+attr_html: :width 100%
 #+caption: The deployed [[https://hygguile.jointhefreeworld.org/][showcase]], in both themes: the type scale, a card and a container beside it, the palette, and a data table.
 [[assets/readme/hygguile-demo.gif]]
 
 * Features
+:PROPERTIES:
+:CUSTOM_ID: features
+:END:
 
 - **An expressive DSL.** Components are ordinary Scheme procedures named after the HTML they produce: ~(input #:label "Email" #:name "email")~, ~(table ...)~, ~(details ...)~.
 - **Server-side rendering by default.** No hydration, no client-side router, no framework bundle before the first pixel.
@@ -32,23 +35,30 @@ New here? Jump to [[*Quickstart][Quickstart]], browse the [[https://hygguile.joi
 - **Works without JavaScript.** Links navigate, forms submit, disclosures open, drawers and palettes open from the URL; scripts only make things nicer.
 
 * Contents
+:PROPERTIES:
+:CUSTOM_ID: contents
+:END:
 
-- [[*Features][Features]]
-- [[*Why Hygguile?][Why Hygguile?]]
-- [[*Quickstart][Quickstart]]
-- [[*Installation][Installation]]
-- [[*How components look like?][How components look]]
-- [[*Configuration][Configuration]]
-- [[*Component index][Component index]]
-- [[*Feature completeness][Feature completeness]]
-- [[*Guides][Guides]]
-- [[*Theming, dark mode and contrast][Theming, dark mode and contrast]]
-- [[*Development and contributing][Development and contributing]]
-- [[*Community and project][Community and project]]
-- [[*Design notes][Design notes]]
-- [[*License][License]]
+- [[#features][Features]]
+- [[#why-hygguile][Why Hygguile?]]
+- [[#quickstart][Quickstart]]
+- [[#ways-to-install][Ways to install]]
+- [[#installation][Installation]]
+- [[#how-components-look-like][How components look]]
+- [[#configuration][Configuration]]
+- [[#component-index][Component index]]
+- [[#feature-completeness][Feature completeness]]
+- [[#guides][Guides]]
+- [[#theming-dark-mode-and-contrast][Theming, dark mode and contrast]]
+- [[#development-and-contributing][Development and contributing]]
+- [[#community-and-project][Community and project]]
+- [[#design-notes][Design notes]]
+- [[#license][License]]
 
 * Why Hygguile?
+:PROPERTIES:
+:CUSTOM_ID: why-hygguile
+:END:
 
 Hygguile is opinionated, but not in the way that hides the web from you. It is opinionated about **cozy, professional defaults**: readable type, generous spacing, honest semantics, and a colour system that stays legible in both themes. It is *not* opinionated about your application: there is no client-side state to adopt, no build step that must agree with the server, and no second source of truth.
 
@@ -59,10 +69,16 @@ The project is also a statement about server rendering. Most software we ship --
 #+end_quote
 
 ** Project status
+:PROPERTIES:
+:CUSTOM_ID: project-status
+:END:
 
 Hygguile is actively developed and used in real projects, but it is still a young framework: minor releases may refine a key argument, rename a component or improve the markup a component emits. Pin a commit in production if you need absolute stability, and read the commit log before upgrading. Bug reports and compatibility notes are always welcome -- they are how the API gets calmer.
 
 ** Who is it for?
+:PROPERTIES:
+:CUSTOM_ID: who-is-it-for
+:END:
 
 - Guile Scheme developers who want to build web interfaces without leaving the language.
 - Guix users who value reproducible tooling and readable source.
@@ -70,14 +86,98 @@ Hygguile is actively developed and used in real projects, but it is still a youn
 - Anyone who wants accessible HTML that still works when JavaScript does not.
 
 ** A longer look
+:PROPERTIES:
+:CUSTOM_ID: a-longer-look
+:END:
 
 The [[https://hygguile.jointhefreeworld.org/][showcase]] is the kitchen sink: every component in a realistic layout, with the source beside the specimen. The [[https://jointhefreeworld.org/api-docs/hygguile/API.html][API reference]] documents every procedure and every key argument.
 
+* Ways to install
+:PROPERTIES:
+:CUSTOM_ID: ways-to-install
+:END:
+
+/Four routes to the same 2.7.4, from the most automated to the most manual.  They all build the tag this README documents./
+
+** From the Guix channel
+:PROPERTIES:
+:CUSTOM_ID: from-the-guix-channel
+:END:
+*GNU Guix* is the functional package manager this project is developed with: a build is a pure function of its inputs, so the same recipe gives the same result everywhere, and an upgrade that goes wrong can be rolled back.
+
+The jointhefreeworld channel carries ~guile-hygguile~ at 2.7.4, so a checkout of the channel is enough — no package definition to write:
+
+#+begin_src shell
+git clone https://codeberg.org/jjba23/guix-jointhefreeworld.git
+guix install -L ./guix-jointhefreeworld guile-hygguile
+#+end_src
+
+Add the channel to ~$HOME/.config/guix/channels.scm~ (the channel's README has the four lines) and a plain ~guix install guile-hygguile~ keeps working on every later ~guix pull~.
+
+** From the Nix flake
+:PROPERTIES:
+:CUSTOM_ID: from-the-nix-flake
+:END:
+*Nix* offers the same declarative, reproducible model with its own language, its own store and a binary cache, and it is a natural fit if the rest of your machine is already described in Nix.
+
+The jointhefreeworld flake builds this project with this repository's own expression, so the package cannot drift from the source:
+
+#+begin_src shell
+nix build github:jjba23/nix-jointhefreeworld#guile-hygguile
+#+end_src
+
+The same attribute is available as an overlay, so ~pkgs.jointhefreeworld.guile-hygguile~ works inside a NixOS or home-manager configuration too.
+
+** As a container image
+:PROPERTIES:
+:CUSTOM_ID: as-a-container-image
+:END:
+*Podman or Docker* is the route that puts nothing on the host: the ~Dockerfile~ in this repository builds the project in a builder stage and copies only what it installed into a runtime stage, so the image is small and the host keeps its own toolchain untouched.
+
+#+begin_src shell
+podman build -t hygguile .   # docker build -t hygguile . also works
+podman run --rm -it hygguile
+#+end_src
+
+The image's entry point is Guile, with hygguile on its load path, which makes it useful for a quick try and for reproducing a bug on a clean system.
+
+** As a distribution package
+:PROPERTIES:
+:CUSTOM_ID: as-a-distribution-package
+:END:
+*Debian, openSUSE and Arch* each get the project through their own package manager.  Packaging lives in this repository under ~packaging/~ and is pinned to the same release tag, so the recipes and the sources they build are versioned together.
+
+None of the three archives ships hygguile yet, so these are recipes to build rather than packages to install from a mirror:
+
+| Distribution   | Package    | How to build it                                                                     |
+|----------------+------------+-------------------------------------------------------------------------------------|
+| Debian, Ubuntu | ~hygguile~ | copy ~packaging/debian~ to the repository root, then ~dpkg-buildpackage -us -uc -b~ |
+| openSUSE       | ~hygguile~ | ~osc build~ with ~packaging/opensuse~                                               |
+| Arch           | ~hygguile~ | ~makepkg -si~ in ~packaging/arch~                                                   |
+
+Each recipe carries its own dependency list, so a missing library fails the build with its name rather than producing a package that cannot load.
+
+** Which one?
+:PROPERTIES:
+:CUSTOM_ID: which-one
+:END:
+- *Guix* if you want the toolchain the project is tested with, and the ability to roll back a bad upgrade.
+- *Nix* if the rest of your machine is already declarative; the flake pins nixpkgs and gives you a binary cache.
+- *Container* if you only want to try the release, or reproduce a report on a machine that has nothing installed.
+- *Distribution package* if you want the project managed by the same tool as the rest of your system, with its licence, manual page and launcher in the usual places.
+
+
 * Quickstart
+:PROPERTIES:
+:CUSTOM_ID: quickstart
+:END:
 
 The short path from nothing to a page you can open in a browser. Only the install step prefers Guix; any Guile 3.0 with Hygguile on ~GUILE_LOAD_PATH~ works the same way.
 
 ** The 60-second version
+:PROPERTIES:
+:CUSTOM_ID: the-60-second-version
+:END:
 
 #+begin_src sh
 git clone https://codeberg.org/jjba23/hygguile.git
@@ -97,6 +197,9 @@ maak serve
 #+end_src
 
 ** 1. Put Hygguile in your environment
+:PROPERTIES:
+:CUSTOM_ID: 1-put-hygguile-in-your-environment
+:END:
 
 #+begin_src scheme
 ;; manifest.scm, next to your project
@@ -110,6 +213,9 @@ guix shell -m manifest.scm
 #+end_src
 
 ** 2. Write one page
+:PROPERTIES:
+:CUSTOM_ID: 2-write-one-page
+:END:
 
 Components are ordinary Scheme procedures that return SXML, so a page is data and ~sxml->xml~ turns it into the HTML you serve:
 
@@ -152,6 +258,9 @@ A complete, commented version of that page is ~examples/minimal.scm~, and ~maak 
 #+end_export
 
 ** 3. Where things are
+:PROPERTIES:
+:CUSTOM_ID: 3-where-things-are
+:END:
 
 - ~src/hygguile/components/~ :: one module per family of components (~button~, ~input~, ~card~, ~navigation~, ...). Every procedure documents each key argument in its docstring, and those docstrings are what the API reference is generated from.
 - ~resources/css/hygguile-extras.css~ :: the components that need structure rather than a single utility: ~<progress>~, ~<details>~, the CSS-only tabs, the switch, the modal, the tooltip. Embedded into Scheme by ~maak embed~.
@@ -160,6 +269,9 @@ A complete, commented version of that page is ~examples/minimal.scm~, and ~maak 
 - ~showcase.scm~ :: the kitchen sink, and the best place to see a component in a realistic layout. The page itself lives in the ~showcase/~ modules beside it: one file per shelf (~foundations~, ~layout~, ~controls~, ~data~, ~media~, ~navigation~, ~application~, ~overview~), with ~entries.scm~ holding the spine and ~page.scm~ the hero and the tray.
 
 ** 4. Where to look next
+:PROPERTIES:
+:CUSTOM_ID: 4-where-to-look-next
+:END:
 
 - The component index below says what each module exports.
 - The API reference documents every procedure and every key argument: https://jointhefreeworld.org/api-docs/hygguile/API.html (or generate it locally with ~maak docs~).
@@ -168,10 +280,16 @@ A complete, commented version of that page is ~examples/minimal.scm~, and ~maak 
 -------
 
 * Installation
+:PROPERTIES:
+:CUSTOM_ID: installation
+:END:
 
 Hygguile is packaged for Guix as ~guile-hygguile~. Guix is the recommended way to install it and the most reproducible way to work on it.
 
 ** Requirements
+:PROPERTIES:
+:CUSTOM_ID: requirements
+:END:
 
 - **Guile 3.0 or newer.** The project is developed and tested with Guile 3.0.11.
 - **~guile-uuid~.** Hygguile uses UUIDs for generated element ids; the Guix package and the project manifest provide it.
@@ -180,6 +298,9 @@ Hygguile is packaged for Guix as ~guile-hygguile~. Guix is the recommended way t
 - **Optional, for development:** ~maak~, ~watchexec~, a Chrome/Chromium binary for the contrast gate, and ~guix~ for the reproducible environment.
 
 ** Install with Guix
+:PROPERTIES:
+:CUSTOM_ID: install-with-guix
+:END:
 
 Hygguile is packaged via the Guix package manager, as ~guile-hygguile~. It is recommended that you use Guix to work on your Guile Scheme projects, and install hygguile this way (in your manifest.scm for example).
 
@@ -217,6 +338,9 @@ The recommended snippet in your SXML ~head~
 See the ~maak.scm~ for more details and common tasks.
 
 ** Use from source
+:PROPERTIES:
+:CUSTOM_ID: use-from-source
+:END:
 
 Alternatively, you can install it by downloading the source code files and adding them to your ~GUILE_LOAD_PATH~ or even better, use a Guix shell ~manifest.scm~ and add the package with something like this:
 
@@ -250,6 +374,9 @@ Alternatively, you can install it by downloading the source code files and addin
 ----------------
 
 * How components look like?
+:PROPERTIES:
+:CUSTOM_ID: how-components-look-like
+:END:
 
 While the resulting UI and style is mostly left to the developers, /hygguile/ has some opinionated choices. The biggest goal of the project is to provide an expressive DSL for defining user interfaces that look professional and cozy.
 
@@ -335,16 +462,16 @@ Gradient ink is a background image clipped to the letters, and a background is p
 
 Every heading is a size paired with a leading, and the pairing is the scale. Sizes come from Olive, leadings from the companion stylesheet, and the two are joined by the heading components themselves:
 
-| component | size | leading | ratio |
-|-----------+------------+------------------------+-------|
-| ~h1~      | ~text-4xl~ | ~hg-leading-display~   | 1.3   |
-| ~h2~      | ~text-3xl~ | ~hg-leading-display~   | 1.3   |
-| ~h3~      | ~text-2xl~ | ~hg-leading-title~     | 1.35  |
-| ~h4~      | ~text-xl~  | ~hg-leading-subtitle~  | 1.4   |
-| ~sub-h1~  | ~text-3xl~ | ~hg-leading-display~   | 1.3   |
-| ~sub-h2~  | ~text-2xl~ | ~hg-leading-title~     | 1.35  |
-| ~sub-h3~  | ~text-xl~  | ~hg-leading-subtitle~  | 1.4   |
-| ~sub-h4~  | ~text-xl~  | ~hg-leading-subtitle~  | 1.4   |
+| component | size       | leading               | ratio |
+|-----------+------------+-----------------------+-------|
+| ~h1~      | ~text-4xl~ | ~hg-leading-display~  |   1.3 |
+| ~h2~      | ~text-3xl~ | ~hg-leading-display~  |   1.3 |
+| ~h3~      | ~text-2xl~ | ~hg-leading-title~    |  1.35 |
+| ~h4~      | ~text-xl~  | ~hg-leading-subtitle~ |   1.4 |
+| ~sub-h1~  | ~text-3xl~ | ~hg-leading-display~  |   1.3 |
+| ~sub-h2~  | ~text-2xl~ | ~hg-leading-title~    |  1.35 |
+| ~sub-h3~  | ~text-xl~  | ~hg-leading-subtitle~ |   1.4 |
+| ~sub-h4~  | ~text-xl~  | ~hg-leading-subtitle~ |   1.4 |
 
 The steps loosen as the size shrinks, which is the shape a type scale usually has, and they are ratios rather than lengths for a reason: a page that moves a heading up or down the scale with ~#:size~ gets a leading that follows on its own. Every component takes ~#:leading~ as well, so a heading can be set looser or tighter by hand, and a size the scale does not name is led by its tightest step rather than by nothing at all.
 
@@ -353,10 +480,16 @@ The floor of 1.3 is not a matter of taste. A leaded line sits in a box of the li
 The drift respects ~prefers-reduced-motion: reduce~, which the companion stylesheet handles for you. And one serialization rule worth knowing: an element without children is written as an explicit open/close pair (~<div></div>~), never as the XML shorthand ~<div />~, because hygguile's output is served as ~text/html~, where that shorthand is read as an open tag and silently swallows the rest of the document. Only HTML void elements (~<img>~, ~<input>~, ~<hr>~, ...) are written as a lone tag.
 
 * Configuration
+:PROPERTIES:
+:CUSTOM_ID: configuration
+:END:
 
 Hygguile is configured from Scheme, not from a separate configuration file. The main knobs are:
 
 ** Document head
+:PROPERTIES:
+:CUSTOM_ID: document-head
+:END:
 
 Put ~(hygguile-recommended-meta)~ and ~(hygguile-recommended-resources)~ in the ~<head>~. The first adds the viewport and charset; the second loads the design tokens, the companion stylesheet, the fonts, the icon set and the enhancement scripts. Load ~olive.min.css~ as a cacheable file of your own.
 
@@ -370,6 +503,9 @@ Put ~(hygguile-recommended-meta)~ and ~(hygguile-recommended-resources)~ in the 
 Both procedures take key arguments when you need to change the defaults, for example a custom font list, a different Phosphor stylesheet, or a preconnect set. See ~(hygguile css)~.
 
 ** Themes
+:PROPERTIES:
+:CUSTOM_ID: themes
+:END:
 
 The theme is one attribute on the root element: ~<html data-theme="dark">~. The remembered-dark-theme script toggles it and stores the choice in ~localStorage~. Every component names an ink for both themes; you do not maintain a second palette.
 
@@ -378,19 +514,31 @@ The theme is one attribute on the root element: ~<html data-theme="dark">~. The 
 #+end_src
 
 ** Design tokens
+:PROPERTIES:
+:CUSTOM_ID: design-tokens
+:END:
 
 Spacing, radius, elevation, motion, layer order and semantic colours are published as CSS custom properties by ~design-tokens-css~. Override a token once, in your own stylesheet, and every component that reads it follows. ~token-value~ and ~token-declarations~ expose the same values to Scheme.
 
 ** Density and direction
+:PROPERTIES:
+:CUSTOM_ID: density-and-direction
+:END:
 
 ~data-density="compact"~ (or the ~density-toggle~ control) tightens data-heavy surfaces without shrinking the type scale. ~locale~, ~dir~ and logical properties handle right-to-left documents; ~bdi~ and ~bdo~ handle inline runs.
 
 ** Components
+:PROPERTIES:
+:CUSTOM_ID: components
+:END:
 
 Every component is configured with key arguments and, where it matters, with class lists. The component index below is the map; each procedure docstring documents its keys; the showcase shows the layouts.
 
 
 ** Common key arguments
+:PROPERTIES:
+:CUSTOM_ID: common-key-arguments
+:END:
 
 Most components share a small vocabulary, so learning one teaches many:
 
@@ -405,104 +553,116 @@ When a component needs something the keys do not cover, pass utility classes rat
 
 
 * Component index
+:PROPERTIES:
+:CUSTOM_ID: component-index
+:END:
 
 Everything below is re-exported by the single ~(hygguile hygguile)~ module, so one ~use-modules~ gives you all of it. Components are named after the element they produce, and each one keeps that element's native semantics: a ~table~ is a ~<table>~ with ~<caption>~, ~<thead>~ and ~<th scope>~, an ~input~ is an ~<input>~ with a ~<label for>~ bound to it, a ~details~ is a ~<details>~.
 
-| module | exports | renders |
-|--------+---------+---------|
-| ~button~ | ~button~, ~icon-button~, ~icon-only-button~, ~primary-button~, ~secondary-button~, ~ghost-button~, ~danger-button~, ~submit-button~, ~danger-submit-button~, ~light-button~, ~mono-button~, ~ui-mode-button~ | ~<button>~ (with a loading state), ~<input type="submit">~ |
-| ~typography~ | ~h1~--~h4~, ~sub-h1~--~sub-h4~, ~p~, ~em~, ~strong~, ~a~, ~mono~, ~pre~, ~code~, ~kbd~, ~samp~, ~var~, ~mark~, ~time~, ~abbr~, ~glossary-term~, ~sup~, ~sub~ | the matching ~<h1>~...~<sub>~ inline and block elements, plus a term that links to its documentation and spells itself out |
-| ~code~ | ~code-sample~, ~pretty-code~ | a documentation specimen: the component a form renders, beside that form as source a reader would write it, with a fold and a copy button |
-| ~color~ | ~color-swatch~ | a ~<button>~ tile that shows a palette colour and steps it through the variants of that colour when clicked |
-| ~container~ | ~with-footer~, ~footer~, ~hr~, ~row~, ~col~, ~dl~, ~dd~, ~dt~, ~noscript~ | ~<main>~ plus ~<footer>~, ~<hr>~, grid rows and columns, ~<dl>~/~<dt>~/~<dd>~, a ~<noscript>~ fallback |
-| ~card~ | ~card~, ~card-header~, ~card-body~, ~card-footer~, ~card-title~, ~card-description~, ~badge~, ~stat-card~, ~expandable-card~ | ~<div>~/~<header>~/~<footer>~ surfaces, ~<h3>~ titles, a ~<span>~ badge, a key-figure block, a ~<details>~ card that opens in place |
-| ~glass~ | ~glass-panel~, ~glass-wash~ | the frosted surface every other component builds on: a ~<div>~ (or ~<header>~, or ~<ul>~) over a backdrop blur, with blurred colour washes behind it when you ask for them |
-| ~input~ | ~form~, ~input~, ~textarea~, ~checkbox~, ~radio~, ~switch~, ~range~, ~help-text~, ~form-error~ | ~<form>~ and the native controls, label bound to field, helper copy wired through ~aria-describedby~ |
-| ~feedback~ | ~alert~, ~progress~, ~circular-progress~, ~spinner~, ~skeleton~, ~skeleton-heading~, ~skeleton-text~, ~skeleton-avatar~, ~skeleton-card~, ~skeleton-table~, ~skeleton-form~, ~toast~, ~toast-tray~, ~empty-state~, ~error-state~ | inline alerts, linear and circular progress, per-component skeletons, queued toasts, and first-class empty/error states |
-| ~navigation~ | ~navbar~, ~nav-link~, ~breadcrumbs~, ~pagination~, ~tabs~, ~tab~, ~section-nav~, ~sidebar~, ~sidebar-link~, ~nav-rail~, ~wizard~ | a bar, links, breadcrumbs, page pills, CSS-only tabs, a sticky section rail with scroll-spy, a sidebar, an icon rail, and an ordered wizard |
-| ~tray~ | ~sort-control~, ~disclosure-controls~ | the controls that act on a whole tray of cards: buttons that put it in one of several orders, and the pair that opens or closes all of it |
-| ~disclosure~ | ~details~, ~summary~, ~accordion~, ~accordion-item~, ~modal~, ~tooltip~ | ~<details>~/~<summary>~, stacked disclosures, a CSS-only dialog and tooltip |
-| ~table~ | ~table~, ~caption~, ~thead~, ~tbody~, ~tfoot~, ~tr~, ~th~, ~td~, ~table-column~, ~sortable-table~, ~sort-href~, ~parse-sort~ | the whole ~<table>~ family, with a scrollable region for narrow screens, server-driven sorting, and sticky/selectable/resizable/dense data-grid modes |
-| ~media~ | ~img~, ~source~, ~picture~, ~figure~, ~figcaption~, ~avatar~, ~image-gallery~ | the ~<img>~/~<picture>~ family plus two common compositions |
-| ~select~ | ~select~, ~option~, ~glyph-option~, ~optgroup~ | ~<select>~ and its ~<option>~ rows, grouped under headings, one row stated as ~selected~, a label bound to the control, helper copy wired through ~aria-describedby~ |
-| ~fly-out~ | ~fly-out~, ~fly-out-submenu~, ~fly-out-item~ | nested ~<nav>~/~<ul>~ drop-down menus |
-| ~carousel~ | ~carousel~ | a scroll-snap track with paging arrows |
-| ~icon~ | ~icon~ | a Phosphor icon, at the requested weight |
-| ~notification~ | ~notification-tray~ | the polite live region the notification URL parameters fill |
-| ~css~ / ~js~ | ~custom-fonts~, ~phosphor-icons~, and the enhancement scripts | the ~<link>~ and ~<script>~ fragments ~(hygguile-recommended-resources)~ assembles |
-| ~tokens~ | ~design-tokens-css~, ~token-value~, ~token-name~, ~token-declarations~, ~density-value~, and the token tables | no HTML: the CSS custom-property block and the Scheme-side token values the new components read |
-| ~layout~ | ~stack~, ~cluster~, ~grid~, ~split~, ~center~, ~spacer~, ~aspect-ratio~, ~ratio-label~ | ~<div>~ wrappers that lay their children out with utilities, plus a reserved ratio box |
-| ~utility~ | ~visually-hidden~, ~skip-link~, ~truncate-text~, ~line-clamp~, ~copy-button~, ~show~, ~hide~, ~fade-in~, ~slide-in~, ~collapse~, ~layer~, ~layer-root~, ~locale~, ~bdi~, ~bdo~, ~density-toggle~ | accessible hiding, a skip link, line clamps, a copy control, responsive show/hide, motion wrappers, named layers, RTL/language wrappers, a density control |
-| ~field~ | ~form-field~, ~field-wiring~ and its accessors, ~text-field~, ~search-field~, ~number-field~, ~stepper~, ~date-field~, ~time-field~, ~date-range-field~, ~file-field~, ~dropzone~, ~combobox~, ~multi-select~ | a labelled/described/validated shell around any control, and native search, number, date, time, file, datalist and multi-select controls |
-| ~overlay~ | ~drawer~, ~sheet~, ~popover~, ~hover-card~, ~dropdown-item~, ~dropdown-menu~, ~command-item~, ~command-palette~ | a `:target` drawer and sheet, a native popover, a hover card, a `<details>` menu, and a filtered command palette |
-| ~data~ | ~chip~, ~avatar-group~, ~timeline~, ~timeline-item~, ~tree-view~, ~tree-item~ | tags/chips, stacked avatars with an overflow count, an ordered timeline, and a nested tree |
-| ~abstraction~ | ~mk-class~, ~override-classes~, ~attr-when~, ~render-if-nempty~, ~pretty-quote~, ... | no HTML of their own: the helpers components are written with |
+| module         | exports                                                                                                                                                                                                                          | renders                                                                                                                                                                    |
+|----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ~button~       | ~button~, ~icon-button~, ~icon-only-button~, ~primary-button~, ~secondary-button~, ~ghost-button~, ~danger-button~, ~submit-button~, ~danger-submit-button~, ~light-button~, ~mono-button~, ~ui-mode-button~                     | ~<button>~ (with a loading state), ~<input type="submit">~                                                                                                                 |
+| ~typography~   | ~h1~--~h4~, ~sub-h1~--~sub-h4~, ~p~, ~em~, ~strong~, ~a~, ~mono~, ~pre~, ~code~, ~kbd~, ~samp~, ~var~, ~mark~, ~time~, ~abbr~, ~glossary-term~, ~sup~, ~sub~                                                                     | the matching ~<h1>~...~<sub>~ inline and block elements, plus a term that links to its documentation and spells itself out                                                 |
+| ~code~         | ~code-sample~, ~pretty-code~                                                                                                                                                                                                     | a documentation specimen: the component a form renders, beside that form as source a reader would write it, with a fold and a copy button                                  |
+| ~color~        | ~color-swatch~                                                                                                                                                                                                                   | a ~<button>~ tile that shows a palette colour and steps it through the variants of that colour when clicked                                                                |
+| ~container~    | ~with-footer~, ~footer~, ~hr~, ~row~, ~col~, ~dl~, ~dd~, ~dt~, ~noscript~                                                                                                                                                        | ~<main>~ plus ~<footer>~, ~<hr>~, grid rows and columns, ~<dl>~/~<dt>~/~<dd>~, a ~<noscript>~ fallback                                                                     |
+| ~card~         | ~card~, ~card-header~, ~card-body~, ~card-footer~, ~card-title~, ~card-description~, ~badge~, ~stat-card~, ~expandable-card~                                                                                                     | ~<div>~/~<header>~/~<footer>~ surfaces, ~<h3>~ titles, a ~<span>~ badge, a key-figure block, a ~<details>~ card that opens in place                                        |
+| ~glass~        | ~glass-panel~, ~glass-wash~                                                                                                                                                                                                      | the frosted surface every other component builds on: a ~<div>~ (or ~<header>~, or ~<ul>~) over a backdrop blur, with blurred colour washes behind it when you ask for them |
+| ~input~        | ~form~, ~input~, ~textarea~, ~checkbox~, ~radio~, ~switch~, ~range~, ~help-text~, ~form-error~                                                                                                                                   | ~<form>~ and the native controls, label bound to field, helper copy wired through ~aria-describedby~                                                                       |
+| ~feedback~     | ~alert~, ~progress~, ~circular-progress~, ~spinner~, ~skeleton~, ~skeleton-heading~, ~skeleton-text~, ~skeleton-avatar~, ~skeleton-card~, ~skeleton-table~, ~skeleton-form~, ~toast~, ~toast-tray~, ~empty-state~, ~error-state~ | inline alerts, linear and circular progress, per-component skeletons, queued toasts, and first-class empty/error states                                                    |
+| ~navigation~   | ~navbar~, ~nav-link~, ~breadcrumbs~, ~pagination~, ~tabs~, ~tab~, ~section-nav~, ~sidebar~, ~sidebar-link~, ~nav-rail~, ~wizard~                                                                                                 | a bar, links, breadcrumbs, page pills, CSS-only tabs, a sticky section rail with scroll-spy, a sidebar, an icon rail, and an ordered wizard                                |
+| ~tray~         | ~sort-control~, ~disclosure-controls~                                                                                                                                                                                            | the controls that act on a whole tray of cards: buttons that put it in one of several orders, and the pair that opens or closes all of it                                  |
+| ~disclosure~   | ~details~, ~summary~, ~accordion~, ~accordion-item~, ~modal~, ~tooltip~                                                                                                                                                          | ~<details>~/~<summary>~, stacked disclosures, a CSS-only dialog and tooltip                                                                                                |
+| ~table~        | ~table~, ~caption~, ~thead~, ~tbody~, ~tfoot~, ~tr~, ~th~, ~td~, ~table-column~, ~sortable-table~, ~sort-href~, ~parse-sort~                                                                                                     | the whole ~<table>~ family, with a scrollable region for narrow screens, server-driven sorting, and sticky/selectable/resizable/dense data-grid modes                      |
+| ~media~        | ~img~, ~source~, ~picture~, ~figure~, ~figcaption~, ~avatar~, ~image-gallery~                                                                                                                                                    | the ~<img>~/~<picture>~ family plus two common compositions                                                                                                                |
+| ~select~       | ~select~, ~option~, ~glyph-option~, ~optgroup~                                                                                                                                                                                   | ~<select>~ and its ~<option>~ rows, grouped under headings, one row stated as ~selected~, a label bound to the control, helper copy wired through ~aria-describedby~       |
+| ~fly-out~      | ~fly-out~, ~fly-out-submenu~, ~fly-out-item~                                                                                                                                                                                     | nested ~<nav>~/~<ul>~ drop-down menus                                                                                                                                      |
+| ~carousel~     | ~carousel~                                                                                                                                                                                                                       | a scroll-snap track with paging arrows                                                                                                                                     |
+| ~icon~         | ~icon~                                                                                                                                                                                                                           | a Phosphor icon, at the requested weight                                                                                                                                   |
+| ~notification~ | ~notification-tray~                                                                                                                                                                                                              | the polite live region the notification URL parameters fill                                                                                                                |
+| ~css~ / ~js~   | ~custom-fonts~, ~phosphor-icons~, and the enhancement scripts                                                                                                                                                                    | the ~<link>~ and ~<script>~ fragments ~(hygguile-recommended-resources)~ assembles                                                                                         |
+| ~tokens~       | ~design-tokens-css~, ~token-value~, ~token-name~, ~token-declarations~, ~density-value~, and the token tables                                                                                                                    | no HTML: the CSS custom-property block and the Scheme-side token values the new components read                                                                            |
+| ~layout~       | ~stack~, ~cluster~, ~grid~, ~split~, ~center~, ~spacer~, ~aspect-ratio~, ~ratio-label~                                                                                                                                           | ~<div>~ wrappers that lay their children out with utilities, plus a reserved ratio box                                                                                     |
+| ~utility~      | ~visually-hidden~, ~skip-link~, ~truncate-text~, ~line-clamp~, ~copy-button~, ~show~, ~hide~, ~fade-in~, ~slide-in~, ~collapse~, ~layer~, ~layer-root~, ~locale~, ~bdi~, ~bdo~, ~density-toggle~                                 | accessible hiding, a skip link, line clamps, a copy control, responsive show/hide, motion wrappers, named layers, RTL/language wrappers, a density control                 |
+| ~field~        | ~form-field~, ~field-wiring~ and its accessors, ~text-field~, ~search-field~, ~number-field~, ~stepper~, ~date-field~, ~time-field~, ~date-range-field~, ~file-field~, ~dropzone~, ~combobox~, ~multi-select~                    | a labelled/described/validated shell around any control, and native search, number, date, time, file, datalist and multi-select controls                                   |
+| ~overlay~      | ~drawer~, ~sheet~, ~popover~, ~hover-card~, ~dropdown-item~, ~dropdown-menu~, ~command-item~, ~command-palette~                                                                                                                  | a `:target` drawer and sheet, a native popover, a hover card, a `<details>` menu, and a filtered command palette                                                           |
+| ~data~         | ~chip~, ~avatar-group~, ~timeline~, ~timeline-item~, ~tree-view~, ~tree-item~                                                                                                                                                    | tags/chips, stacked avatars with an overflow count, an ordered timeline, and a nested tree                                                                                 |
+| ~abstraction~  | ~mk-class~, ~override-classes~, ~attr-when~, ~render-if-nempty~, ~pretty-quote~, ...                                                                                                                                             | no HTML of their own: the helpers components are written with                                                                                                              |
 
 ----------------
 
 * Feature completeness
+:PROPERTIES:
+:CUSTOM_ID: feature-completeness
+:END:
 
 The list this document answers is the usual "what does a UI toolkit forget"
 checklist. The table below is the contract: every row names the components
 that implement it, and the sections after it say how the harder rows work.
 
-| area | what is shipped |
-|------+-----------------|
-| layout primitives | ~stack~, ~cluster~, ~grid~, ~split~, ~center~, ~spacer~, ~aspect-ratio~ (plus the existing ~row~, ~col~, ~dl~) |
-| typography system | ~h1~--~h4~, ~sub-h1~--~sub-h4~, ~p~, ~em~, ~strong~, ~small~-sized inline elements, ~figcaption~, ~caption~, and the heading scale below |
-| icon system | ~icon~ at three weights, ~icon-button~, ~icon-only-button~ |
-| theming / tokens | colour, spacing, radius, elevation, motion and layer tokens, published as CSS custom properties and readable from Scheme |
-| focus management and skip links | ~skip-link~, ~visually-hidden~, the focus trap in `interactions.js`, roving tabindex, and `data-hg-focus-trap` on every modal, drawer and palette |
-| button variants | ~primary-button~, ~secondary-button~, ~ghost-button~, ~danger-button~, ~icon-only-button~, and every button's ~#:loading~ state |
-| text, textarea, search | ~input~, ~textarea~, ~text-field~, ~search-field~ (a real ~<form role="search">~) |
-| select, combobox, multi-select | ~select~ (native, grouped), ~combobox~ (native ~<datalist>~), ~multi-select~ (native multiple select plus tag chips) |
-| checkbox, radio, switch | ~checkbox~, ~radio~, ~switch~ (native controls under the styling) |
-| slider, stepper | ~range~, ~number-field~, ~stepper~ (native number input, optional buttons) |
-| date, time, date range | ~date-field~, ~time-field~, ~date-range-field~ (all native, all ISO values) |
-| file upload / dropzone | ~file-field~, ~dropzone~ (native input under a labelled drop zone) |
-| form field wrapper | ~form-field~ and ~field-wiring~, described below |
-| toast / snackbar | ~toast~, ~toast-tray~ and the queue in `toast.js` |
-| inline alert / banner | ~alert~ with four semantic variants |
-| progress | ~progress~ (linear, determinate and indeterminate) and ~circular-progress~ |
-| skeleton loaders | ~skeleton~, ~skeleton-heading~, ~skeleton-text~, ~skeleton-avatar~, ~skeleton-card~, ~skeleton-table~, ~skeleton-form~ |
-| spinner | ~spinner~ |
-| empty and error states | ~empty-state~, ~error-state~ (with a retry and folded technical detail) |
-| modal / dialog | ~modal~ (CSS-only ~:target~) with the focus trap enhancement |
-| drawer / sheet | ~drawer~ (right, left or bottom) and ~sheet~ |
-| popover, tooltip, hover card | ~popover~ (native Popover API), ~tooltip~, ~hover-card~ |
-| context / dropdown menu | ~dropdown-menu~ and ~dropdown-item~ on a native ~<details>~ |
-| command palette | ~command-palette~ and ~command-item~, with filtering and arrow keys |
-| tabs, breadcrumbs, pagination | ~tabs~, ~tab~, ~breadcrumbs~, ~pagination~ |
-| sidebar / nav rail | ~sidebar~, ~sidebar-link~, ~nav-rail~ |
-| stepper / wizard | ~wizard~ |
-| anchor / scroll-spy nav | ~section-nav~ with ~#:scroll-spy?~ and the scroll-spy script |
-| table / data grid | ~table~ and ~sortable-table~, now with sticky headers, selection, resize handles, density, zebra rows, and loading/error states |
-| card family | ~card~, ~card-header~, ~card-body~, ~card-footer~, ~card-title~, ~card-description~, ~stat-card~, ~expandable-card~ |
-| badge, tag/chip, avatar | ~badge~, ~chip~, ~avatar~, ~avatar-group~ |
-| accordion / disclosure | ~details~, ~summary~, ~accordion~, ~accordion-item~, ~collapse~ |
-| timeline | ~timeline~ and ~timeline-item~ |
-| stat / KPI tile | ~stat-card~ |
-| description list | ~dl~, ~dt~, ~dd~ |
-| tree view | ~tree-view~ and ~tree-item~ |
-| portal / layer manager | ~layer~ with the named z-index scale, and ~layer-root~ |
-| focus trap and roving tabindex | `interactions.js` on ~data-hg-focus-trap~ and ~data-hg-roving~ |
-| visually hidden | ~visually-hidden~ (and Olive's ~sr-only~) |
-| responsive helpers | ~show~, ~hide~, and the grid's intrinsic mode |
-| truncation / line clamp | ~truncate-text~ and ~line-clamp~ |
-| copy to clipboard | ~copy-button~ (plus the existing copy button in ~code-sample~) |
-| resize observer | `interactions.js` dispatches ~hg:resize~ on ~data-hg-resize-observer~ |
-| motion primitives | ~fade-in~, ~slide-in~, ~collapse~, and the ~hg-motion-*~ classes |
-| overlay positioning | CSS anchor positioning for popovers, plus the browser's own popover placement as a fallback |
-| RTL and i18n | ~locale~, ~bdi~, ~bdo~, logical properties in the stylesheet, and ~dir~ support |
-| density modes | ~data-density~ and ~density-toggle~, with compact table, field and sidebar spacing |
-| stories, visual regression and a11y tests | the showcase is the storybook, ~maak test~ is the unit/a11y-shape suite, and ~maak contrast~ is the visual readability gate |
+| area                                      | what is shipped                                                                                                                                   |
+|-------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------|
+| layout primitives                         | ~stack~, ~cluster~, ~grid~, ~split~, ~center~, ~spacer~, ~aspect-ratio~ (plus the existing ~row~, ~col~, ~dl~)                                    |
+| typography system                         | ~h1~--~h4~, ~sub-h1~--~sub-h4~, ~p~, ~em~, ~strong~, ~small~-sized inline elements, ~figcaption~, ~caption~, and the heading scale below          |
+| icon system                               | ~icon~ at three weights, ~icon-button~, ~icon-only-button~                                                                                        |
+| theming / tokens                          | colour, spacing, radius, elevation, motion and layer tokens, published as CSS custom properties and readable from Scheme                          |
+| focus management and skip links           | ~skip-link~, ~visually-hidden~, the focus trap in `interactions.js`, roving tabindex, and `data-hg-focus-trap` on every modal, drawer and palette |
+| button variants                           | ~primary-button~, ~secondary-button~, ~ghost-button~, ~danger-button~, ~icon-only-button~, and every button's ~#:loading~ state                   |
+| text, textarea, search                    | ~input~, ~textarea~, ~text-field~, ~search-field~ (a real ~<form role="search">~)                                                                 |
+| select, combobox, multi-select            | ~select~ (native, grouped), ~combobox~ (native ~<datalist>~), ~multi-select~ (native multiple select plus tag chips)                              |
+| checkbox, radio, switch                   | ~checkbox~, ~radio~, ~switch~ (native controls under the styling)                                                                                 |
+| slider, stepper                           | ~range~, ~number-field~, ~stepper~ (native number input, optional buttons)                                                                        |
+| date, time, date range                    | ~date-field~, ~time-field~, ~date-range-field~ (all native, all ISO values)                                                                       |
+| file upload / dropzone                    | ~file-field~, ~dropzone~ (native input under a labelled drop zone)                                                                                |
+| form field wrapper                        | ~form-field~ and ~field-wiring~, described below                                                                                                  |
+| toast / snackbar                          | ~toast~, ~toast-tray~ and the queue in `toast.js`                                                                                                 |
+| inline alert / banner                     | ~alert~ with four semantic variants                                                                                                               |
+| progress                                  | ~progress~ (linear, determinate and indeterminate) and ~circular-progress~                                                                        |
+| skeleton loaders                          | ~skeleton~, ~skeleton-heading~, ~skeleton-text~, ~skeleton-avatar~, ~skeleton-card~, ~skeleton-table~, ~skeleton-form~                            |
+| spinner                                   | ~spinner~                                                                                                                                         |
+| empty and error states                    | ~empty-state~, ~error-state~ (with a retry and folded technical detail)                                                                           |
+| modal / dialog                            | ~modal~ (CSS-only ~:target~) with the focus trap enhancement                                                                                      |
+| drawer / sheet                            | ~drawer~ (right, left or bottom) and ~sheet~                                                                                                      |
+| popover, tooltip, hover card              | ~popover~ (native Popover API), ~tooltip~, ~hover-card~                                                                                           |
+| context / dropdown menu                   | ~dropdown-menu~ and ~dropdown-item~ on a native ~<details>~                                                                                       |
+| command palette                           | ~command-palette~ and ~command-item~, with filtering and arrow keys                                                                               |
+| tabs, breadcrumbs, pagination             | ~tabs~, ~tab~, ~breadcrumbs~, ~pagination~                                                                                                        |
+| sidebar / nav rail                        | ~sidebar~, ~sidebar-link~, ~nav-rail~                                                                                                             |
+| stepper / wizard                          | ~wizard~                                                                                                                                          |
+| anchor / scroll-spy nav                   | ~section-nav~ with ~#:scroll-spy?~ and the scroll-spy script                                                                                      |
+| table / data grid                         | ~table~ and ~sortable-table~, now with sticky headers, selection, resize handles, density, zebra rows, and loading/error states                   |
+| card family                               | ~card~, ~card-header~, ~card-body~, ~card-footer~, ~card-title~, ~card-description~, ~stat-card~, ~expandable-card~                               |
+| badge, tag/chip, avatar                   | ~badge~, ~chip~, ~avatar~, ~avatar-group~                                                                                                         |
+| accordion / disclosure                    | ~details~, ~summary~, ~accordion~, ~accordion-item~, ~collapse~                                                                                   |
+| timeline                                  | ~timeline~ and ~timeline-item~                                                                                                                    |
+| stat / KPI tile                           | ~stat-card~                                                                                                                                       |
+| description list                          | ~dl~, ~dt~, ~dd~                                                                                                                                  |
+| tree view                                 | ~tree-view~ and ~tree-item~                                                                                                                       |
+| portal / layer manager                    | ~layer~ with the named z-index scale, and ~layer-root~                                                                                            |
+| focus trap and roving tabindex            | `interactions.js` on ~data-hg-focus-trap~ and ~data-hg-roving~                                                                                    |
+| visually hidden                           | ~visually-hidden~ (and Olive's ~sr-only~)                                                                                                         |
+| responsive helpers                        | ~show~, ~hide~, and the grid's intrinsic mode                                                                                                     |
+| truncation / line clamp                   | ~truncate-text~ and ~line-clamp~                                                                                                                  |
+| copy to clipboard                         | ~copy-button~ (plus the existing copy button in ~code-sample~)                                                                                    |
+| resize observer                           | `interactions.js` dispatches ~hg:resize~ on ~data-hg-resize-observer~                                                                             |
+| motion primitives                         | ~fade-in~, ~slide-in~, ~collapse~, and the ~hg-motion-*~ classes                                                                                  |
+| overlay positioning                       | CSS anchor positioning for popovers, plus the browser's own popover placement as a fallback                                                       |
+| RTL and i18n                              | ~locale~, ~bdi~, ~bdo~, logical properties in the stylesheet, and ~dir~ support                                                                   |
+| density modes                             | ~data-density~ and ~density-toggle~, with compact table, field and sidebar spacing                                                                |
+| stories, visual regression and a11y tests | the showcase is the storybook, ~maak test~ is the unit/a11y-shape suite, and ~maak contrast~ is the visual readability gate                       |
 
 * Guides
+:PROPERTIES:
+:CUSTOM_ID: guides
+:END:
 
 These guides go deeper on the parts that are easy to get wrong: tokens, form wiring, overlays and positioning, loading/empty/error states, motion, RTL/density, server-driven sorting, trays, specimens, palettes, glossary terms, native dropdown state, frosted glass, notifications and naming.
 
 
 ** Design tokens
+:PROPERTIES:
+:CUSTOM_ID: design-tokens-2
+:END:
 
 A utility-class framework already names most of a design system: ~p-4~,
 ~rounded-xl~, ~shadow-md~. What it does not do is let a component be written
@@ -537,6 +697,9 @@ to zero, so a component that animates with
 ~var(--hg-motion-base, 200ms)~ stops moving for a reader who asked it to.
 
 ** The form field abstraction
+:PROPERTIES:
+:CUSTOM_ID: the-form-field-abstraction
+:END:
 
 Every control on a form asks the same four questions: what is this called,
 how is it described, is it wrong, and is it required. Answered per control,
@@ -587,6 +750,9 @@ reproduce the shell: ~text-field~, ~search-field~, ~number-field~,
 #+end_src
 
 ** Overlays, and where they sit
+:PROPERTIES:
+:CUSTOM_ID: overlays-and-where-they-sit
+:END:
 
 The framework answers "which of us is on top" with the layer scale in the
 tokens module, and "where do I sit" with the browser's own machinery
@@ -629,6 +795,9 @@ The link that opens a drawer or palette is a normal anchor:
 ~(a "Filters" #:href "#filters")~, and a link to ~"#"~ closes it.
 
 ** Loading, empty and error states
+:PROPERTIES:
+:CUSTOM_ID: loading-empty-and-error-states
+:END:
 
 A data component has four shapes, and a toolkit that only ships the happy
 one leaves every page to invent the other three. The feedback module ships
@@ -660,6 +829,9 @@ table skeleton, ~#:error~ renders the error state (with ~#:retry~ when the
 page can offer one), and ~#:empty~ replaces the default empty row.
 
 ** Motion primitives
+:PROPERTIES:
+:CUSTOM_ID: motion-primitives
+:END:
 
 Motion is decoration, so it is named and it is tokenised. ~fade-in~ and
 ~slide-in~ wrap content in an effect class; ~collapse~ is a native
@@ -675,6 +847,9 @@ off, and the disclosure still opens instantly.
 #+end_src
 
 ** RTL, i18n and density
+:PROPERTIES:
+:CUSTOM_ID: rtl-i18n-and-density
+:END:
 
 The components and the stylesheet use logical properties (~inset-inline-*~,
 ~margin-block-*~, ~border-start-*~), so a right-to-left document mirrors
@@ -699,15 +874,18 @@ without changing the type scale, so a compact table is still readable.
 ----------------
 
 ** Sorting a data table in the URL
+:PROPERTIES:
+:CUSTOM_ID: sorting-a-data-table-in-the-url
+:END:
 
 Which order a table is in is a question for the server, and the query string is where the answer travels. A sortable header cell is therefore an ordinary link -- ~?hygguile-table-sort=<key>&hygguile-table-dir=<asc|desc>~ -- and clicking it is a plain navigation: the table sorts with JavaScript disabled, a reload reproduces the order, and the URL can be bookmarked, shared or pasted into a colleague's browser and land on the same view. No client-side sort of a handful of rendered rows pretends to be the whole data set, and no invisible state has to be kept in sync with it.
 
 The contract is one pair of names, prefixed with the library's own:
 
-| name | value |
-|------+-------|
+| name                  | value                                                       |
+|-----------------------+-------------------------------------------------------------|
 | ~hygguile-table-sort~ | the key of the column to order by, a symbol such as ~seats~ |
-| ~hygguile-table-dir~ | ~asc~ or ~desc~; absent means ~asc~ |
+| ~hygguile-table-dir~  | ~asc~ or ~desc~; absent means ~asc~                         |
 
 The prefix is not decoration. A page has query parameters of its own, and ~sort~ and ~dir~ are a common enough pair for an application to be using for something else entirely, so the table claims ~hygguile-table-sort~ and ~hygguile-table-dir~ rather than a bare name: every other parameter in the query is carried through a sort untouched, a page's own ~sort~ included.
 
@@ -753,8 +931,11 @@ Accessibility is carried by the markup, not by a script: every sortable cell ann
 ----------------
 
 ** A tray of cards at once
+:PROPERTIES:
+:CUSTOM_ID: a-tray-of-cards-at-once
+:END:
 
-A grid of cards a reader takes in as a whole is a *tray*, and there are two things a reader asks of it: which order it is in, and whether all of it is open. Both are questions about the handful of cards already in the document, not about a data set behind it, so this one is answered in the browser -- unlike [[*Sorting a data table in the URL][the table above]], whose order is a fact only a server can produce. The tray stays whole without JavaScript: every card opens and closes on its own, and the controls only save a reader the clicking.
+A grid of cards a reader takes in as a whole is a *tray*, and there are two things a reader asks of it: which order it is in, and whether all of it is open. Both are questions about the handful of cards already in the document, not about a data set behind it, so this one is answered in the browser -- unlike [[#sorting-a-data-table-in-the-url][the table above]], whose order is a fact only a server can produce. The tray stays whole without JavaScript: every card opens and closes on its own, and the controls only save a reader the clicking.
 
 The card is ~expandable-card~, a native ~<details>~ whose header is the disclosure control. Its ~#:id~ is placed on the ~<summary>~ rather than on the ~<details>~, so a link to that id points *inside* the card: the browser then opens the card as it scrolls to it, which is what makes a ~section-nav~ rail and a bookmark both land on the section rather than on a closed header.
 
@@ -785,18 +966,21 @@ Ordering is data, not code: a sort button names a mode, and each card answers wi
 
 A mode that no card carries at all is the page's own order -- the cards go back to the order they were written in. That is what a *Page order* button is, and it is why that button needs no attribute anywhere. The first mode of a group is the order the tray opens in, and while script is off the two controls do nothing at all, which is exactly what the page did before they existed.
 
-| component | what it puts on the page |
-|-----------+--------------------------|
-| ~expandable-card~ | a ~<details>~ card: icon, heading, optional chip, chevron, and the ~data-*~ an order reads |
-| ~sort-control~ | a group of buttons, each naming its mode, beside a ~data-hg-sort-target~ naming the container to reorder |
-| ~disclosure-controls~ | the *Expand all* / *Collapse all* pair, for any CSS selector rather than only for cards |
-| ~section-nav~ | the sticky rail of links to the sections of the page |
+| component             | what it puts on the page                                                                                 |
+|-----------------------+----------------------------------------------------------------------------------------------------------|
+| ~expandable-card~     | a ~<details>~ card: icon, heading, optional chip, chevron, and the ~data-*~ an order reads               |
+| ~sort-control~        | a group of buttons, each naming its mode, beside a ~data-hg-sort-target~ naming the container to reorder |
+| ~disclosure-controls~ | the *Expand all* / *Collapse all* pair, for any CSS selector rather than only for cards                  |
+| ~section-nav~         | the sticky rail of links to the sections of the page                                                     |
 
 All of it rides on ~tray-js~, one small script that ~(hygguile-recommended-resources)~ already includes: a page adds no JavaScript of its own, and the markup says everything the script needs to know. The showcase's own grid -- the page you are reading if you are on the demo -- is one of these trays.
 
 ----------------
 
 ** A specimen beside its own source
+:PROPERTIES:
+:CUSTOM_ID: a-specimen-beside-its-own-source
+:END:
 
 A documentation page shows a component and the form that produced it, and the two must agree. So ~code-sample~ is given the *form*, not a copy of its output: it renders that form for the reader to see and prints the same form as source underneath, which makes the source and the specimen one expression rather than two copies that drift apart.
 
@@ -821,6 +1005,9 @@ The form is evaluated for display in an environment that holds both the caller's
 ----------------
 
 ** Stepping through a palette
+:PROPERTIES:
+:CUSTOM_ID: stepping-through-a-palette
+:END:
 
 A palette page shows one tile per colour, and a reader who wants to compare the shades of one of them has no way to ask. ~color-swatch~ therefore shows a colour *and* offers to show it again in the next variant: every click steps ~apple-green-500~ to ~apple-green-700~ and on through 100, 300, 500, 700, 900 and back, rewriting the class on the tile and relabelling it from the shade it now carries, so the tile always names the colour you are looking at.
 
@@ -837,6 +1024,9 @@ The tile is a real ~<button>~, so it is reachable by keyboard and announced as a
 ----------------
 
 ** Naming a technology in prose
+:PROPERTIES:
+:CUSTOM_ID: naming-a-technology-in-prose
+:END:
 
 A page that talks about ~SXML~ and ~CSS~ wants the word to link to where it is documented, and an abbreviation to say what it stands for. ~glossary-term~ puts both on that one word: the link is an ordinary ~<a>~, the expansion is a ~tooltip~, and the tooltip *wraps* the link rather than sitting beside it, so there is no second word to keep in step.
 
@@ -855,6 +1045,9 @@ The explanation is exposed twice, once for each reader it is for. A sighted read
 ----------------
 
 ** Which option a dropdown is showing
+:PROPERTIES:
+:CUSTOM_ID: which-option-a-dropdown-is-showing
+:END:
 
 A dropdown's state is markup like any other: exactly one ~<option>~ carries the ~selected~ attribute, and the page rendering it says which row it is showing. That matters more than it looks. A menu whose rows say nothing is drawn by the browser with its own fallback -- the first row a reader can pick -- so a page that leaves the attribute out cannot be read back as the state the reader is looking at, and a form submitted without touching the field sends a value the server never chose.
 
@@ -899,6 +1092,9 @@ The heading is the browser's own -- a native dropdown draws it and indents the r
 ----------------
 
 ** Frosted glass panels
+:PROPERTIES:
+:CUSTOM_ID: frosted-glass-panels
+:END:
 
 A glass panel is a surface you can see through: a translucent tint over a backdrop blur, so whatever sits behind the panel arrives softened rather than hidden. Nothing about it clips by default -- not the surface, and not the layer that holds the content, whose edge falls exactly on the content's own and would otherwise shave the ink flush with it -- so a panel only hides its overflow when it asks to with ~#:clip?~. ~glass-panel~ renders a plain ~<div>~ and nothing else, which is what lets it sit behind a hero, around a sidebar, or over a table.
 
@@ -935,6 +1131,9 @@ Every frosted surface in Hygguile is that one component. The notification tray's
 ----------------
 
 ** Notification system
+:PROPERTIES:
+:CUSTOM_ID: notification-system
+:END:
 
 Hygguile provides a notification system that can easily be used from within your web applications, by using URL parameters.
 
@@ -951,6 +1150,9 @@ The card is deliberately quiet: it appears and then holds still, with no bounce 
 -----------------
 
 ** Naming convention and conflict
+:PROPERTIES:
+:CUSTOM_ID: naming-convention-and-conflict
+:END:
 
 You can always choose to import hygguile using a prefix to avoid name clashes if they happen.
 
@@ -963,14 +1165,23 @@ You can always choose to import hygguile using a prefix to avoid name clashes if
 -------
 
 * Theming, dark mode and contrast
+:PROPERTIES:
+:CUSTOM_ID: theming-dark-mode-and-contrast
+:END:
 
 ** How a theme is selected
+:PROPERTIES:
+:CUSTOM_ID: how-a-theme-is-selected
+:END:
 
 The theme is one attribute on the root element: ~<html data-theme="dark">~. Olive ships its dark utilities under ~:where([data-theme=dark], [data-theme=dark] *)~, plus a ~prefers-color-scheme~ block for visitors who never chose. ~remember-dark-theme-js~ (loaded for you by ~(hygguile-recommended-resources)~) toggles the attribute and remembers the choice in ~localStorage~, so ~dark:~ utilities and your own extra styles are all you need to think about.
 
 Because both themes are one stylesheet, there is no second palette to maintain and no flash of the wrong theme.
 
 ** The ink rule
+:PROPERTIES:
+:CUSTOM_ID: the-ink-rule
+:END:
 
 Olive's ramps are perceptual (~oklch~), but a ramp alone does not tell you what is readable: you need the pair. Every hygguile component therefore names two inks for every surface it paints -- one for each theme -- and picks the ends that actually contrast:
 
@@ -982,6 +1193,9 @@ A ramp is not always usable at both ends. Yellow and blue ramps in particular ne
 The one rule worth memorising: ~text-stone-*~ is a *light* ink and ~text-onyx-*~ a *dark* one. Olive's ~stone~ ramp runs from 0.987 down to 0.807 and ~onyx~ from 0.459 down to 0.259, so "stone" is not a darker grey than "onyx".
 
 ** Never stack two colours on one variant
+:PROPERTIES:
+:CUSTOM_ID: never-stack-two-colours-on-one-variant
+:END:
 
 Two colour utilities on the same variant -- say ~text-onyx-300~ and ~text-stone-100~ -- set the same CSS property, and which one wins is decided by the order of the generated stylesheet, not by the order you wrote them. That is a coin flip, and it is exactly how a page ends up with near-white text on a near-white pill.
 
@@ -1002,6 +1216,9 @@ Two colour utilities on the same variant -- say ~text-onyx-300~ and ~text-stone-
 It only ever removes *colour* utilities (a ramp plus a 2--3 digit shade, optionally behind a variant), so shape and size utilities such as ~border-2~ or ~text-sm~ survive untouched, and variants are part of the identity: ~dark:text-onyx-900~ overrides ~dark:text-stone-300~ without disturbing the light theme's ~text-onyx-300~. Reach for it whenever a component's base classes meet a state list.
 
 ** Measuring instead of guessing
+:PROPERTIES:
+:CUSTOM_ID: measuring-instead-of-guessing
+:END:
 
 ~scripts/contrast-audit.js~ answers "is this readable?" the only honest way: in the browser. It reads the computed ink of every element that renders text, composites every translucent background above it, and compares the result with the WCAG 2.1 formula, reporting failures below the AA thresholds (4.5:1 for body text, 3:1 for large text and non-text UI). It also lists pairs that pass with less than 20% of headroom, which are the ones that will break on the next shade change.
 
@@ -1017,35 +1234,41 @@ The gate, ~maak contrast~, takes that walk for you. It renders nothing itself: i
 
 The showcase currently passes with 514 text elements checked in each theme and zero below AA, and the minimal example with 41 and zero. The sortable-table example server passes with 29 and zero, but it is rendered by ~maak example-server~ rather than by ~build~, so the gate does not reach it yet. The three pairs worth remembering from the last pass over it:
 
-| pair | before | after |
-|------+--------+-------|
-| dark-theme link ink | ~glaucous-100~, 4.56:1 on the darkest panel | ~moonstone-300~, 5.5:1 |
-| dark-theme ~danger~ badge | ~onyx-900~ on ~redwood-100~, 4.7:1 | on ~light-coral-100~, 6.9:1 |
-| unselected tab label, light theme | ~#78716c~, 4.6:1 | ~#57534e~, 7.4:1 |
+| pair                              | before                                      | after                       |
+|-----------------------------------+---------------------------------------------+-----------------------------|
+| dark-theme link ink               | ~glaucous-100~, 4.56:1 on the darkest panel | ~moonstone-300~, 5.5:1      |
+| dark-theme ~danger~ badge         | ~onyx-900~ on ~redwood-100~, 4.7:1          | on ~light-coral-100~, 6.9:1 |
+| unselected tab label, light theme | ~#78716c~, 4.6:1                            | ~#57534e~, 7.4:1            |
 
 ----------------
 
 * Development and contributing
+:PROPERTIES:
+:CUSTOM_ID: development-and-contributing
+:END:
 
 The repository is driven by [[https://codeberg.org/jjba23/maak][maak]]. ~maak --list~ prints the tasks; the ones worth knowing:
 
-| task | what it does |
-|------+--------------|
-| ~maak test~ | runs the [[https://codeberg.org/jjba23/guile-veritas][veritas]] unit suite (component SXML shapes, the abstraction helpers, the serializer) |
-| ~maak build~ | renders ~showcase.scm~ and ~examples/minimal.scm~ into ~dist/~ next to a copy of ~olive.min.css~ (it recreates ~dist/~), then runs the contrast gate |
-| ~maak contrast~ | re-checks every text pair on the built pages in every theme and exits non-zero when one is below WCAG AA (needs a Chrome or Chromium binary) |
-| ~maak example~ | renders ~examples/minimal.scm~ into ~dist/example.html~ on its own |
-| ~maak example-server~ | runs ~examples/sortable-table.scm~ on port 8095: the server half of the sorting contract, so you can click a header and watch the URL |
-| ~maak serve~ | serves ~dist/~ on port 50054 with ~darkhttpd~ |
-| ~maak embed~ | re-embeds ~resources/~ into ~src/hygguile/embed/~ (run it after touching any CSS or JavaScript) |
-| ~maak docs~ | regenerates the API reference into ~doc/api-dist~ with ~documenta~ and ~texi2any~ |
-| ~maak fmt~ | formats every ~.scm~ file with ~guix style~ |
-| ~maak validate~ | ~fmt~, ~compile~ and ~test~ in one go |
-| ~maak dev~ (alias ~maak hr~) | watches the tree and re-runs test, build and docs on every change |
-| ~maak version~ | prints the framework's version, license and homepage |
-| ~maak sync-version~ | writes that version into every copy of it, then commits and tags the release |
+| task                         | what it does                                                                                                                                         |
+|------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ~maak test~                  | runs the [[https://codeberg.org/jjba23/guile-veritas][veritas]] unit suite (component SXML shapes, the abstraction helpers, the serializer)                                                         |
+| ~maak build~                 | renders ~showcase.scm~ and ~examples/minimal.scm~ into ~dist/~ next to a copy of ~olive.min.css~ (it recreates ~dist/~), then runs the contrast gate |
+| ~maak contrast~              | re-checks every text pair on the built pages in every theme and exits non-zero when one is below WCAG AA (needs a Chrome or Chromium binary)         |
+| ~maak example~               | renders ~examples/minimal.scm~ into ~dist/example.html~ on its own                                                                                   |
+| ~maak example-server~        | runs ~examples/sortable-table.scm~ on port 8095: the server half of the sorting contract, so you can click a header and watch the URL                |
+| ~maak serve~                 | serves ~dist/~ on port 50054 with ~darkhttpd~                                                                                                        |
+| ~maak embed~                 | re-embeds ~resources/~ into ~src/hygguile/embed/~ (run it after touching any CSS or JavaScript)                                                      |
+| ~maak docs~                  | regenerates the API reference into ~doc/api-dist~ with ~documenta~ and ~texi2any~                                                                    |
+| ~maak fmt~                   | formats every ~.scm~ file with ~guix style~                                                                                                          |
+| ~maak validate~              | ~fmt~, ~compile~ and ~test~ in one go                                                                                                                |
+| ~maak dev~ (alias ~maak hr~) | watches the tree and re-runs test, build and docs on every change                                                                                    |
+| ~maak version~               | prints the framework's version, license and homepage                                                                                                 |
+| ~maak sync-version~          | writes that version into every copy of it, then commits and tags the release                                                                         |
 
 ** Releasing
+:PROPERTIES:
+:CUSTOM_ID: releasing
+:END:
 
 The version is written by hand in one place: ~hygguile-version~ in [[file:src/hygguile/version.scm][src/hygguile/version.scm]], which is what a page prints in its own footer and what ~maak version~ prints in a terminal:
 
@@ -1066,16 +1289,25 @@ maak test                          # verify the released tree with the rest of t
 Each copy is found by a regular expression and only the version inside the match is replaced, so the wording around it stays the file's business. A version whose tag already exists is refused rather than released twice, and a tree with nothing left to commit is tagged where it stands. The suite fails while any copy disagrees with the module, so a stale README cannot outlive a bump; because the tag is cut before the suite runs, a failure afterwards means the release exists already -- fix the tree, bump the version, release again, rather than moving a tag that has been published.
 
 ** README assets
+:PROPERTIES:
+:CUSTOM_ID: readme-assets
+:END:
 
 Both images in this document come from sources in the repository. ~maak logo~ renders ~assets/hygguile-logo.svg~, the hand-drawn mark, to the PNG beside it, so a chat client and a page show the same file. ~maak gif~ fetches the deployed showcase at [[https://hygguile.jointhefreeworld.org/][hygguile.jointhefreeworld.org]] once, opens it in both themes, and assembles seven frames of it into ~assets/readme/hygguile-demo.gif~. ~scripts/readme-assets.scm~ is the tool behind both; it wants a browser, ImageMagick's ~convert~ and ~gifsicle~ on ~$PATH~, and neither task is part of ~maak build~, because a README that lags a commit is not an emergency and a build that needs a network is not a build.
 
 ----------------
 
 ** Contributing
+:PROPERTIES:
+:CUSTOM_ID: contributing
+:END:
 
 Contributions are warmly welcome -- code, documentation, bug reports, design feedback and questions are all valuable. Hygguile is a small, friendly project; you do not need to be a Scheme expert to help.
 
 ** Ways to help
+:PROPERTIES:
+:CUSTOM_ID: ways-to-help
+:END:
 
 - **Report a bug.** Open an issue on [[https://codeberg.org/jjba23/hygguile/issues][Codeberg]] with a small reproducer: the component call, the expected output and the actual output.
 - **Improve the docs.** If a docstring, a guide or a showcase section confused you, that is a bug. Send a patch.
@@ -1084,6 +1316,9 @@ Contributions are warmly welcome -- code, documentation, bug reports, design fee
 - **Share a project that uses Hygguile.** Real usage is the best documentation.
 
 ** Before you send a patch
+:PROPERTIES:
+:CUSTOM_ID: before-you-send-a-patch
+:END:
 
 #+begin_src sh
 maak validate   # format, compile and test
@@ -1099,6 +1334,9 @@ maak docs       # regenerate the API reference
 - For a large change, open an issue first so we can agree on the shape.
 
 ** Good first contributions
+:PROPERTIES:
+:CUSTOM_ID: good-first-contributions
+:END:
 
 - Add a missing usage example to a docstring.
 - Improve the empty/error copy of a component.
@@ -1107,8 +1345,14 @@ maak docs       # regenerate the API reference
 - Translate the README or the showcase into another language.
 
 * Community and project
+:PROPERTIES:
+:CUSTOM_ID: community-and-project
+:END:
 
 ** Projects that use Hygguile
+:PROPERTIES:
+:CUSTOM_ID: projects-that-use-hygguile
+:END:
 
 - WikiMusic :: https://codeberg.org/jjba23/wikimusic
 - LucidPlan :: https://codeberg.org/jjba23/lucidplan
@@ -1122,6 +1366,9 @@ maak docs       # regenerate the API reference
 -------
 
 ** On Lucida fonts
+:PROPERTIES:
+:CUSTOM_ID: on-lucida-fonts
+:END:
 
 Lucida fonts are proprietary typefaces originally developed by Bigelow & Holmes. They remain a long-time favorite for many people and are very legible in many situations and hardware/software. While they are bundled pre-installed on many operating systems and platforms, they remain proprietary fonts.
 
@@ -1130,6 +1377,9 @@ You may use these font files under principles of fair use or for local developme
 -------
 
 ** Hygguile Project
+:PROPERTIES:
+:CUSTOM_ID: hygguile-project
+:END:
 
 Contributing to free software is a uniquely beautiful act because it embodies principles of generosity, collaboration, and empowerment.
 
@@ -1141,6 +1391,9 @@ Find here the Backlog and Kanban boards for hygguile: https://lucidplan.jointhef
 ---------------
 
 ** Code of conduct
+:PROPERTIES:
+:CUSTOM_ID: code-of-conduct
+:END:
 
 This project adheres to the jointhefreeworld code of conduct. Find it here:
 
@@ -1151,48 +1404,81 @@ In summary, we foster an inclusive, respectful, and cooperative environment for 
 -------
 
 * Design notes
+:PROPERTIES:
+:CUSTOM_ID: design-notes
+:END:
 
 ** On server-side rendering: why render on the server?
+:PROPERTIES:
+:CUSTOM_ID: on-server-side-rendering-why-render-on-the-server
+:END:
 
 Hygguile renders complete HTML on the server. The browser receives a finished document and a little JavaScript enhances it afterwards. That "old school" approach is worth defending even in the age of single-page applications, because for the kind of software most of us ship -- content sites, forms, dashboards, admin panels -- it keeps the fast path fast and the simple path simple.
 
 The showcase page makes the same case, in the same order, at https://hygguile.jointhefreeworld.org/#why-ssr
 
 *** The first paint is not gated on a framework
+:PROPERTIES:
+:CUSTOM_ID: the-first-paint-is-not-gated-on-a-framework
+:END:
 
 The HTML arrives ready to render. There is no bundle to download, parse and execute before the first pixel, so pages feel immediate even on slow connections and modest hardware. The cost of your interface is paid once, on the server, and shared by every visitor, instead of being paid again on each device that opens the page.
 
 *** There is no hydration step to get out of sync
+:PROPERTIES:
+:CUSTOM_ID: there-is-no-hydration-step-to-get-out-of-sync
+:END:
 
 The server produces the final tree. Nothing is re-rendered on the client merely to attach behaviour, so there is no hydration pass that can disagree with the markup, and no flash of a not-yet-interactive page.
 
 *** It works when JavaScript does not
+:PROPERTIES:
+:CUSTOM_ID: it-works-when-javascript-does-not
+:END:
 
 Links navigate and forms submit. ~<details>~, CSS-only tabs, the modal and tooltips keep working with scripting disabled; the theme toggle, carousel arrows and live notifications step in only when they can. Progressive enhancement is not a slogan here, it is the default: Hygguile ships components that degrade to ordinary, usable HTML.
 
 *** One source of truth
+:PROPERTIES:
+:CUSTOM_ID: one-source-of-truth
+:END:
 
 State lives in the database and in the URL, not in a second client-side store. There is no model to duplicate, no cache to invalidate, and no class of stale-UI bugs caused by the two drifting apart. A page is a pure function of its request.
 
 *** Cacheable, cheap and small
+:PROPERTIES:
+:CUSTOM_ID: cacheable-cheap-and-small
+:END:
 
 Because a page is a function of its request, responses are easy to cache, compress and proxy. Payloads stay small -- mostly text, styled by one stylesheet the browser already holds -- which matters most to the users on the worst connections.
 
 *** Accessible and discoverable by default
+:PROPERTIES:
+:CUSTOM_ID: accessible-and-discoverable-by-default
+:END:
 
 Real headings, landmarks, labels and form controls are present in the first byte. Screen readers and crawlers never have to wait on a client-side rendering race, and the page is useful the moment it is parsed.
 
 *** A smaller, calmer stack
+:PROPERTIES:
+:CUSTOM_ID: a-smaller-calmer-stack
+:END:
 
 No client router, no global store, no build step that has to agree with the server. The mental model is the one the web began with: ask for a URL, receive a document, follow a link.
 
 *** When is an SPA the right call?
+:PROPERTIES:
+:CUSTOM_ID: when-is-an-spa-the-right-call
+:END:
 
 Single-page applications earn their complexity when you genuinely need offline support or a deeply interactive workspace. Even then it is a spectrum rather than a binary: you can ship mostly-static HTML and add interactivity only where it repays its cost. Hygguile is built exactly that way -- a document first, with small islands of behaviour.
 
 -------
 
 ** On reproducibility: why GNU Guix?
+:PROPERTIES:
+:CUSTOM_ID: on-reproducibility-why-gnu-guix
+:END:
 
 A build should never fail because "it worked on my machine." Reliable software development requires explicit, bit-for-bit reproducibility and a functional approach to package management and system deployment.
 
@@ -1209,6 +1495,9 @@ A build should never fail because "it worked on my machine." Reliable software d
 - *Unified Tooling:* One tool manages development shells, isolated containers, package builds, and full system configurations.
 
 * License
+:PROPERTIES:
+:CUSTOM_ID: license
+:END:
 
 Hygguile and all of its source code are free software, licensed under the **GNU Lesser General Public License v3.0 or later** (LGPL-3.0-or-later). See [[https://www.gnu.org/licenses/lgpl-3.0.html][the license text]].
 
