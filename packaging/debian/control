@@ -1,0 +1,33 @@
+Source: hygguile
+Section: lisp
+Priority: optional
+Maintainer: Josep Bigorra <jjbigorra@gmail.com>
+# NOTE: guile-uuid is not packaged in Debian yet.  It is listed because this
+# package cannot be loaded without it; package it first.
+# veritas is produced by the same packaging batch; build it first.
+Build-Depends:
+ debhelper-compat (= 13),
+ guile-3.0,
+ guile-3.0-dev,
+ pkg-config,
+ guile-library,
+ guile-uuid,
+ veritas
+Standards-Version: 4.6.2
+Homepage: https://codeberg.org/jjba23/hygguile
+Vcs-Git: https://codeberg.org/jjba23/hygguile.git
+Vcs-Browser: https://codeberg.org/jjba23/hygguile
+Rules-Requires-Root: no
+
+Package: hygguile
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+ guile-3.0,
+ guile-library,
+ guile-uuid
+Description: Accessible server-rendered UI components for Guile Scheme
+ Hygguile builds accessible, server-rendered user interfaces from
+ S-expressions: components, layouts and helpers that emit HTML, so a Guile
+ web application can render its pages without a JavaScript framework.

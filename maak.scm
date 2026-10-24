@@ -439,3 +439,17 @@ which is why `build' runs this."
   (fmt)
   (compile)
   (test))
+
+;; ====== Container tasks ======
+
+(define (container-build)
+  "Build the container image for hygguile."
+  ($ '("podman build -t hygguile .")))
+
+(define (container-run)
+  "Run the container image for hygguile."
+  ($ '("podman run --rm -it hygguile:latest")))
+
+(define (package-docker)
+  "Build the container image for hygguile."
+  (container-build))
