@@ -20,7 +20,12 @@
   #:use-module (ice-9 regex)
   #:use-module (ice-9 textual-ports)
   #:use-module (srfi srfi-1)
-  #:use-module (maak maak))
+  #:use-module (maak maak)
+  ;; The container helpers are imported under a prefix because the
+  ;; tasks below are named the way maak exposes them on the command
+  ;; line -- `maak container-build' -- and a task may not shadow the
+  ;; helper it calls.
+  #:use-module ((maak container) #:prefix ct:))
 
 ;; ====== Maak constants ======
 
@@ -280,7 +285,9 @@ are turned into the number a shell would report here, 127 when git never ran."
 
 (define (fmt)
   "Format Scheme source code files according to the Guix style guide."
-  ($ '("find . -maxdepth 8 -name '*.scm'" "-type f -exec guix style -f {} \\;")))
+  (run (list "find" "." "-maxdepth" "8" "-name" "*.scm" "-type" "f"
+             "-exec" "guix" "style" "-f" "{}" ";")
+       #:verbose? #t))
 
 (define (repl)
   "Development REPL."
@@ -323,7 +330,7 @@ are turned into the number a shell would report here, 127 when git never ran."
 `build' renders this page too, next to the showcase; reach for this one
 when you are working on the example and want to re-render just it."
   ($ '("mkdir -pv dist"))
-  ($ '("cp -rfv resources/css/olive.min.css dist/olive.min.css"))
+  (cp "resources/css/olive.min.css" "dist/olive.min.css" #:force? #t #:verbose? #t)
   (manifest-shell (list "guile -L ./src examples/minimal.scm")))
 
 (define (example-server)
@@ -352,7 +359,7 @@ so the example can find resources/css/olive.min.css."
 (define (render-pages)
   "Render every page of the site into dist/."
   (remkdir-p "dist")
-  ($ '("cp -rfv resources/css/olive.min.css dist/olive.min.css"))
+  (cp "resources/css/olive.min.css" "dist/olive.min.css" #:force? #t #:verbose? #t)
   ;; the showcase's sections live in (showcase ...) modules beside its entry
   ;; script, so the repository root joins the load path
   (manifest-shell (list "guile -L ./src -L . showcase.scm"))
@@ -432,7 +439,7 @@ which is why `build' runs this."
 
 (define (default)
   "Default task to be run, list available tasks."
-  ($ '("maak --list")))
+  (list-tasks))
 
 (define (validate)
   "Format, compile and test."
@@ -444,11 +451,11 @@ which is why `build' runs this."
 
 (define (container-build)
   "Build the container image for hygguile."
-  ($ '("podman build -t hygguile .")))
+  (ct:container-build "." #:tag "hygguile:latest" #:verbose? #t))
 
 (define (container-run)
   "Run the container image for hygguile."
-  ($ '("podman run --rm -it hygguile:latest")))
+  (ct:container-run "hygguile" #:interactive? #t #:tty? #t #:verbose? #t))
 
 (define (package-docker)
   "Build the container image for hygguile."
