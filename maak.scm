@@ -21,11 +21,12 @@
   #:use-module (ice-9 textual-ports)
   #:use-module (srfi srfi-1)
   #:use-module (maak maak)
-  ;; The container helpers are imported under a prefix because the
+  ;; The container and git helpers are imported under prefixes because the
   ;; tasks below are named the way maak exposes them on the command
   ;; line -- `maak container-build' -- and a task may not shadow the
   ;; helper it calls.
-  #:use-module ((maak container) #:prefix ct:))
+  #:use-module ((maak container) #:prefix ct:)
+  #:use-module ((maak git) #:prefix git:))
 
 ;; ====== Maak constants ======
 
@@ -85,9 +86,8 @@ machine where ./src is not on the load path, and take every other task down with
 it, and the version a running library knows is its own rather than the
 checkout's."
   (unless (file-exists? version-source)
-    (error (format #f
-                   "maak: no ~a here; run this task from the root of a hygguile checkout"
-                   version-source)))
+    (task-error "no ~a here" #:args (list version-source)
+                #:hint "Run this task from the root of a hygguile checkout."))
   (add-to-load-path "src")
   ((module-ref (resolve-module '(hygguile version))
                'print-version)))
@@ -125,15 +125,15 @@ its sample output -- is left exactly as it was."
   (define (path file)
     (if (string=? directory ".")
         file
-        (string-append directory "/" file)))
+        (~ "~a/~a" directory file)))
 
   (define (read-text file)
     (let ((full (path file)))
       (if (file-exists? full)
           (call-with-input-file full get-string-all)
-          (error (format #f
-                         "sync-version: no ~a in ~a; name the checkout's root"
-                         file directory)))))
+          (task-error "sync-version: no ~a in ~a"
+                      #:args (list file directory)
+                      #:hint "Name the checkout's root as DIRECTORY."))))
 
   (define (write-text file text)
     (call-with-output-file (path file)
@@ -145,20 +145,18 @@ its sample output -- is left exactly as it was."
                   "hygguile-version[ \t\n]+\"([0-9]+\\.[0-9]+\\.[0-9]+)\""
                   (read-text version-source))))
       (unless found
-        (error (format #f
-                       "sync-version: ~a does not define hygguile-version as a version"
-                       (path version-source))))
+        (task-error "sync-version: ~a does not define hygguile-version as a version"
+                    #:args (list (path version-source))))
       (match:substring found 1)))
 
   (define (sites-of file)
     (filter (lambda (site)
-              (string=? (car site)
-                        file)) version-sites))
+              (string=? (car site) file))
+            version-sites))
 
   (define (named-files)
     (fold (lambda (site files)
-            (if (member (car site)
-                        files)
+            (if (member (car site) files)
                 files
                 (append files (list (car site)))))
           '()
@@ -197,21 +195,8 @@ its sample output -- is left exactly as it was."
 
   ;; ---- The commit and the tag --------------------------------------------
   ;;
-  ;; git runs as a program with its arguments, never through a shell, and is
-  ;; pointed at DIRECTORY with `-C', so a release of another checkout commits
-  ;; there and not wherever maak was started from.
-
-  (define (git . arguments)
-    "Run git in the checkout, and return the exit code it ended with.
-
-`system*' answers with the wait status rather than the exit code, so a command
-that exited 1 reads as 256 and one that could not be started reads as #f; both
-are turned into the number a shell would report here, 127 when git never ran."
-    (let ((status (apply system*
-                         "git" "-C" repo arguments)))
-      (or (and status
-               (status:exit-val status))
-          127)))
+  ;; The library wrappers take `#:directory', so a release of another checkout
+  ;; commits there rather than wherever maak was started from.
 
   (define (checkout?)
     "Return whether DIRECTORY is a git checkout."
@@ -219,46 +204,40 @@ are turned into the number a shell would report here, 127 when git never ran."
 
   (define (tag-exists? tag)
     "Return whether TAG is already a tag of the checkout."
-    (zero? (git "rev-parse" "--verify" "--quiet"
-                (string-append "refs/tags/" tag))))
+    (member tag (git:git-tags #:directory repo)))
 
   (define (changes-to-commit?)
     "Return whether anything tracked differs from the last commit."
-    (case (git "diff" "--quiet" "HEAD")
-      ((0) #f)
-      ((1) #t)
-      (else (error (format #f
-                           "sync-version: git could not compare ~a with a commit; is it a checkout with one?"
-                           repo)))))
+    (not (string=? ""
+                   (string-trim-both
+                    (git:git-output (list "diff" "--name-only" "HEAD")
+                                    #:directory repo)))))
 
   (define (commit-release version)
     "Commit every tracked change as the release VERSION, and return the message."
-    (let ((message (format #f
-                           "chore: Release v~a"
-                           version)))
-      (unless (zero? (git "commit" "-am" message))
-        (error "sync-version: git commit failed, so nothing was tagged"))
+    (let ((message (~ "chore: Release v~a" version)))
+      (unless (git:git (list "commit" "--all" "-m" message)
+                       #:directory repo #:allow-failure? #t)
+        (task-error "sync-version: git commit failed, so nothing was tagged"))
       message))
 
   (define (tag-release version)
     "Tag the current commit as the release VERSION, and return the tag."
-    (let ((tag (string-append "v" version)))
-      (unless (zero? (git "tag" tag))
-        (error (format #f
-                       "sync-version: `git tag ~a' failed; the release was committed, but not tagged"
-                       tag)))
+    (let ((tag (~ "v~a" version)))
+      (unless (git:git (list "tag" tag)
+                       #:directory repo #:allow-failure? #t)
+        (task-error "sync-version: `git tag ~a' failed; the release was committed, but not tagged"
+                    #:args (list tag)))
       tag))
 
   (let* ((version (current-version))
-         (tag (string-append "v" version)))
+         (tag (~ "v~a" version)))
     (unless (checkout?)
-      (error (format #f
-                     "sync-version: ~a is not a git checkout, so there is nothing to commit or tag"
-                     repo)))
+      (task-error "sync-version: ~a is not a git checkout, so there is nothing to commit or tag"
+                  #:args (list repo)))
     (when (tag-exists? tag)
-      (error (format #f
-                     "sync-version: ~a is already released as ~a; bump ~a first"
-                     version tag version-source)))
+      (task-error "sync-version: ~a is already released as ~a; bump ~a first"
+                  #:args (list version tag version-source)))
     (let ((changed (sync-copies! version)))
       (if (null? changed)
           (log-info "Every file that names the version already says ~a."
@@ -280,7 +259,7 @@ are turned into the number a shell would report here, 127 when git never ran."
 
 (define (compile)
   "Compile all project source code."
-  (time-machine-manifest-shell (list "guild compile -L ./src" "-W3"
+  (time-machine-manifest-shell (list "guild" "compile" "-L" "./src" "-W3"
                                      "./src/**/*.scm")))
 
 (define (fmt)
@@ -291,23 +270,27 @@ are turned into the number a shell would report here, 127 when git never ran."
 
 (define (repl)
   "Development REPL."
-  (manifest-shell '("guile -L ./src"
-                    "-c '((@ (ares server) run-nrepl-server))'")))
+  (manifest-shell (list "guile" "-L" "./src"
+                        "-c" "'((@ (ares server) run-nrepl-server))'")))
 
 (define (embed)
   "Embed static assets into Scheme code."
-  (manifest-shell '("guile -L ./src" "./scripts/embedder.scm")))
+  (manifest-shell (list "guile" "-L" "./src" "./scripts/embedder.scm")))
 
 (define (olive-css)
   "Get latest version of Olive CSS."
-  ($ '("curl --output resources/css/olive.min.css"
-       "\"https://codeberg.org/jjba23/olive-css/raw/branch/trunk/resources/css/olive.min.css\"")))
+  (curl-download
+   "https://codeberg.org/jjba23/olive-css/raw/branch/trunk/resources/css/olive.min.css"
+   #:output "resources/css/olive.min.css"))
 
 (define (docs)
   "Generate technical API documentation for Hygguile."
   (delete-file-recursively "doc")
-  (manifest-shell (list (~ "documenta api ./src/~a && " project-name)
-                        (~ "texi2any -v --html --css-ref=~a" api-docs-css-url)
+  ;; Two calls rather than one `&&' chain, so the second only runs where the
+  ;; first succeeded and fails where it happens.
+  (manifest-shell (list "documenta" "api" (~ "./src/~a" project-name)))
+  (manifest-shell (list "texi2any" "-v" "--html"
+                        (~ "--css-ref=~a" api-docs-css-url)
                         "./doc/api/index.texi"))
   (mv "./index" "./doc/api-dist"))
 
@@ -321,7 +304,8 @@ are turned into the number a shell would report here, 127 when git never ran."
   (mv "dist" deploy-dir)
   (remkdir-p (~ "~a/api-docs/~a" deploy-api-docs-dir project-name))
   (mv "doc/api-dist/*"
-      (~ "~a/api-docs/~a" deploy-api-docs-dir project-name))
+      (~ "~a/api-docs/~a" deploy-api-docs-dir project-name)
+      #:expand? #t)
   (delete-file-recursively "doc"))
 
 (define (example)
@@ -329,9 +313,9 @@ are turned into the number a shell would report here, 127 when git never ran."
 
 `build' renders this page too, next to the showcase; reach for this one
 when you are working on the example and want to re-render just it."
-  ($ '("mkdir -pv dist"))
+  (mkdir-p "dist")
   (cp "resources/css/olive.min.css" "dist/olive.min.css" #:force? #t #:verbose? #t)
-  (manifest-shell (list "guile -L ./src examples/minimal.scm")))
+  (manifest-shell (list "guile" "-L" "./src" "examples/minimal.scm")))
 
 (define (example-server)
   "Serve the server-driven sortable table example on port 8095.
@@ -340,21 +324,23 @@ The other half of the sorting contract: a real server that reads the
 table's two query parameters back and re-renders the rows. Run it from
 the project root
 so the example can find resources/css/olive.min.css."
-  (manifest-shell (list "guile -L ./src examples/sortable-table.scm")))
+  (manifest-shell (list "guile" "-L" "./src" "examples/sortable-table.scm")))
 
 (define (test)
   "Run project's tests."
-  (manifest-shell (list "guile -L ./src -L ./test"
-                        "-c '((@ (veritas runner) run-tests))'")))
+  (manifest-shell (list "guile" "-L" "./src" "-L" "./test"
+                        "-c" "'((@ (veritas runner) run-tests))'")))
 
 (define (kill-server)
   "Kill any running HTTP server in the same port."
-  ($ (list (~ "fuser -k ~a/tcp || true" http-port))))
+  ;; `|| true': nothing running is the usual answer, not a failure.
+  (run (list "fuser" "-k" (~ "~a/tcp" http-port))
+       #:allow-failure? #t))
 
 (define (serve)
   "Run HTTP server serving the rendered production result of running."
   (kill-server)
-  ($ (list (~ "darkhttpd ./dist --port ~a" http-port))))
+  (run (list "darkhttpd" "./dist" "--port" (~ "~a" http-port))))
 
 (define (render-pages)
   "Render every page of the site into dist/."
@@ -362,8 +348,8 @@ so the example can find resources/css/olive.min.css."
   (cp "resources/css/olive.min.css" "dist/olive.min.css" #:force? #t #:verbose? #t)
   ;; the showcase's sections live in (showcase ...) modules beside its entry
   ;; script, so the repository root joins the load path
-  (manifest-shell (list "guile -L ./src -L . showcase.scm"))
-  (manifest-shell (list "guile -L ./src examples/minimal.scm")))
+  (manifest-shell (list "guile" "-L" "./src" "-L" "." "showcase.scm"))
+  (manifest-shell (list "guile" "-L" "./src" "examples/minimal.scm")))
 
 (define (contrast)
   "Check every text pair on the built pages against WCAG AA, in every theme.
@@ -373,7 +359,7 @@ Chrome or Chromium on $PATH ($CHROME_BIN points at one kept elsewhere),
 and exits non-zero as soon as a pair is below the contrast the audit asks
 of it. A shade that makes a sentence unreadable is a bug like any other,
 which is why `build' runs this."
-  (manifest-shell (list "guile ./scripts/contrast-gate.scm")))
+  (manifest-shell (list "guile" "./scripts/contrast-gate.scm")))
 
 (define (build)
   "Build production release of the project, and gate its contrast."
@@ -391,11 +377,11 @@ which is why `build' runs this."
 
 (define (logo)
   "Render assets/hygguile-logo.svg to the PNG beside it."
-  ($ '("guile ./scripts/readme-assets.scm logo")))
+  (run (list "guile" "./scripts/readme-assets.scm" "logo")))
 
 (define (gif)
   "Capture the deployed showcase into assets/readme/hygguile-demo.gif."
-  ($ '("guile ./scripts/readme-assets.scm gif")))
+  (run (list "guile" "./scripts/readme-assets.scm" "gif")))
 
 (define (readme-assets)
   "Regenerate both of the README's images."
@@ -418,16 +404,20 @@ which is why `build' runs this."
   "Hot-reloading developer's setup."
   (embed)
   (fmt)
+  ;; One token per word, so the glob `--ignore=...' reaches watchexec as it
+  ;; was written rather than as whatever the shell matched.
   (manifest-shell (list "watchexec"
                         "--clear"
-                        (~ "--exts ~a"
-                           (string-join (map symbol->string
-                                             hot-reload-file-types) ","))
+                        "--exts" (~ "~a"
+                                    (string-join (map symbol->string
+                                                      hot-reload-file-types)
+                                                 ","))
                         "--ignore=src/hygguile/embed/*.scm"
                         "--on-busy-update=restart"
-                        "--shell bash"
-                        "--watch . --"
-                        "maak test-build-and-serve")))
+                        "--shell" "bash"
+                        "--watch" "."
+                        "--"
+                        "maak" "test-build-and-serve")))
 
 (define (dev)
   "Developer's setup."

@@ -20,7 +20,7 @@
 %global debug_package %{nil}
 
 Name:           hygguile
-Version:        2.7.4
+Version:        2.7.6
 Release:        0
 Summary:        Accessible server-rendered UI components for Guile Scheme
 License:        LGPL-3.0-or-later

@@ -29,7 +29,7 @@
 
 stdenv.mkDerivation {
   pname = "guile-hygguile";
-  version = "2.7.5";
+  version = "2.7.6";
 
   src = ./.;
 
