@@ -1,20 +1,8 @@
 /*
   hygguile - cozy and professional user-interfaces for everyone
 
+  SPDX-License-Identifier: MIT
   Copyright © Josep Bigorra <jjbigorra@gmail.com>
-
-  hygguile is free software: you can redistribute it and/or modify
-  it under the terms of the Lesser GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  hygguile is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  Lesser GNU General Public License for more details.
-
-  You should have received a copy of the Lesser GNU General Public License
-  along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 /*
@@ -1500,6 +1488,543 @@ table[data-hg-resizable],
   inset-inline-start: calc(1rem - 1px);
 }
 
+/* ===== Star ratings
+
+   The radios are the control; the stars are what this sheet draws from
+   them. Each radio is followed by its own label, so "the chosen star and
+   every star below it" is "the labels before the checked radio" -- which
+   CSS cannot select, but can reach the other way round: fill them all on a
+   group that holds a checked radio, then empty the ones that follow it.
+   That is two rules for any number of stars, and nothing per-rating. */
+
+.hg-rating-group {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.hg-rating {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.hg-rating-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hg-rating-label {
+  cursor: pointer;
+  line-height: 1;
+  border-radius: 0.25rem;
+}
+
+.hg-rating-label::before {
+  display: inline-block;
+  content: "☆";
+  font-size: 1.5rem;
+  /* an empty star is still a mark a reader has to find, so it keeps the ink
+     the page's own prose uses rather than fading into the surface */
+  color: #57534e;
+  transition: transform var(--hg-motion-fast, 120ms)
+    var(--hg-motion-ease, ease);
+}
+
+[data-theme="dark"] .hg-rating-label::before {
+  color: #a8a29e;
+}
+
+/* once a star is chosen, every star is filled ... */
+.hg-rating:has(.hg-rating-input:checked) .hg-rating-label::before {
+  content: "★";
+  /* 6.4:1 on the page's own surface */
+  color: #92400e;
+}
+
+[data-theme="dark"] .hg-rating:has(.hg-rating-input:checked) .hg-rating-label::before {
+  color: #fbbf24;
+}
+
+/* ... and the ones above the chosen value are emptied again. This rule
+   comes after the one above on purpose: the two are equally specific, so
+   the later one wins, which is the order "fill all, then empty the tail"
+   needs. */
+
+.hg-rating .hg-rating-input:checked ~ .hg-rating-label::before {
+  content: "☆";
+  color: #57534e;
+}
+
+[data-theme="dark"] .hg-rating .hg-rating-input:checked ~ .hg-rating-label::before {
+  color: #a8a29e;
+}
+
+.hg-rating-label:hover::before {
+  transform: scale(1.12);
+}
+
+.hg-rating-input:focus-visible + .hg-rating-label {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.hg-rating-input:disabled + .hg-rating-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* The read-only score. Its stars are real text, so the contrast gate sees
+   them and the reader's own eye counts every one; the whole run carries one
+   accessible name rather than one per star. */
+
+.hg-rating-static {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 0.125rem;
+  line-height: 1;
+  font-size: 1.5rem;
+}
+
+.hg-star-on {
+  color: #92400e;
+}
+
+.hg-star-off {
+  color: #57534e;
+}
+
+[data-theme="dark"] .hg-star-on {
+  color: #fbbf24;
+}
+
+[data-theme="dark"] .hg-star-off {
+  color: #a8a29e;
+}
+
+/* ===== Segmented controls
+
+   A radio group drawn as one bar. The radios are the control and the labels
+   are the segments, so the highlight follows the checked radio through a
+   sibling selector and no script. */
+
+.hg-segmented-group {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.hg-segmented-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hg-segmented-item {
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.hg-segmented-label {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: center;
+  color: #57534e;
+  transition: background-color var(--hg-motion-fast, 120ms)
+      var(--hg-motion-ease, ease),
+    color var(--hg-motion-fast, 120ms) var(--hg-motion-ease, ease);
+}
+
+[data-theme="dark"] .hg-segmented-label {
+  color: #d6d3d1;
+}
+
+/* a hairline between neighbours, so the bar reads as segments rather than
+   as one long word */
+.hg-segmented-item + .hg-segmented-item .hg-segmented-label {
+  border-inline-start: 1px solid rgba(120, 113, 108, 0.35);
+}
+
+[data-theme="dark"] .hg-segmented-item + .hg-segmented-item .hg-segmented-label {
+  border-inline-start-color: rgba(214, 211, 209, 0.3);
+}
+
+.hg-segmented-input:checked + .hg-segmented-label {
+  background: #57534e;
+  color: #f5f5f4;
+}
+
+[data-theme="dark"] .hg-segmented-input:checked + .hg-segmented-label {
+  background: #d6d3d1;
+  color: #1c1917;
+}
+
+.hg-segmented-input:focus-visible + .hg-segmented-label {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+.hg-segmented-input:disabled + .hg-segmented-label {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ===== Password fields
+
+   The field and its reveal control share a row. The control is `js-only',
+   so the row is only ever a row when there is something to put beside the
+   field. */
+
+.hg-password {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.hg-password > input {
+  min-width: 0;
+  flex: 1;
+}
+
+.hg-password-toggle {
+  min-width: 4.5rem;
+}
+
+/* ===== Input groups
+
+   One border around a field and the marks that belong to it. The control
+   inside carries no border of its own, and the focus ring is drawn by the
+   box so that it rings the whole group rather than the part inside it. */
+
+.hg-input-group > input {
+  min-width: 0;
+}
+
+.hg-input-group > input:focus-visible {
+  outline: none;
+}
+
+.hg-input-group:focus-within {
+  outline: 2px solid #57534e;
+  outline-offset: 2px;
+}
+
+[data-theme="dark"] .hg-input-group:focus-within {
+  outline-color: #d6d3d1;
+}
+
+.hg-input-group-addon {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* ===== Sliders with their value written out */
+
+.hg-slider {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.hg-slider > input {
+  flex: 1;
+  min-width: 0;
+}
+
+.hg-slider-output {
+  min-width: 4rem;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== Character counters
+
+   The count sits under the field it counts, aligned with the field's own
+   end edge. It is an enhancement and carries `js-only': a count that never
+   moves would be a lie about how much room is left. */
+
+.hg-counter {
+  align-self: flex-end;
+  font-size: 0.8rem;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  color: #57534e;
+}
+
+[data-theme="dark"] .hg-counter {
+  color: #d6d3d1;
+}
+
+.hg-counter[data-hg-counter-over="true"] {
+  /* the one state that has to shout: the text will not be sent whole */
+  color: #9f1239;
+}
+
+[data-theme="dark"] .hg-counter[data-hg-counter-over="true"] {
+  color: #fda4af;
+}
+
+/* ===== Form-level error summary
+
+   The summary takes focus when a server re-renders a refused form, so it
+   needs a focus ring of its own rather than the browser's pale default. */
+
+.hg-validation-summary:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* ===== Field states
+
+   A field states which of the three states it is in by a class on its shell
+   -- `hg-field-invalid', `hg-field-valid', or neither -- and this sheet
+   paints the control's border from that class. It has to be painted here
+   rather than by another utility class in the markup: two colour utilities
+   on the same element are settled by the order of the generated stylesheet
+   rather than by the order they were written, so a field could not name its
+   own state and win.
+
+   Each rule is two classes deep on purpose. The control carries
+   `border-stone-700' from the component, which is one class; a two-class
+   rule outbids it whatever order the two sheets are in, while an author
+   utility the *page* adds to one control still gets the last word. */
+
+.hg-field-invalid input,
+.hg-field-invalid textarea,
+.hg-field-invalid select,
+.hg-field-invalid .hg-input-group {
+  border-color: #9f1239;
+}
+
+[data-theme="dark"] .hg-field-invalid input,
+[data-theme="dark"] .hg-field-invalid textarea,
+[data-theme="dark"] .hg-field-invalid select,
+[data-theme="dark"] .hg-field-invalid .hg-input-group {
+  border-color: #fda4af;
+}
+
+/* The focus ring follows the ink of the state, so a reader tabbing through a
+   refused form can see where they are without losing which fields failed. */
+
+.hg-field-invalid input:focus-visible,
+.hg-field-invalid textarea:focus-visible,
+.hg-field-invalid select:focus-visible {
+  outline-color: #9f1239;
+}
+
+[data-theme="dark"] .hg-field-invalid input:focus-visible,
+[data-theme="dark"] .hg-field-invalid textarea:focus-visible,
+[data-theme="dark"] .hg-field-invalid select:focus-visible {
+  outline-color: #fda4af;
+}
+
+.hg-field-valid input,
+.hg-field-valid textarea,
+.hg-field-valid select,
+.hg-field-valid .hg-input-group {
+  border-color: #3f6212;
+}
+
+[data-theme="dark"] .hg-field-valid input,
+[data-theme="dark"] .hg-field-valid textarea,
+[data-theme="dark"] .hg-field-valid select,
+[data-theme="dark"] .hg-field-valid .hg-input-group {
+  border-color: #a3c48a;
+}
+
+/* A group control states the same thing on its own box: the radio group of a
+   rating and the bar of a segmented control are what a reader looks at, and
+   neither of them is an <input>. */
+
+.hg-field-invalid .hg-rating-group,
+.hg-field-invalid .hg-segmented {
+  border-color: #9f1239;
+}
+
+[data-theme="dark"] .hg-field-invalid .hg-rating-group,
+[data-theme="dark"] .hg-field-invalid .hg-segmented {
+  border-color: #fda4af;
+}
+
+/* ===== The states the browser knows about
+
+   `:user-invalid' matches a control the reader has finished with and left
+   wrong -- not one that is merely empty -- which is exactly the moment a
+   page may say so. It is an enhancement over the server-rendered state: a
+   page that never runs a script still shows what the server said, and a
+   reader who has just typed something wrong is told before they submit. */
+
+input:user-invalid,
+textarea:user-invalid,
+select:user-invalid {
+  border-color: #9f1239;
+}
+
+[data-theme="dark"] input:user-invalid,
+[data-theme="dark"] textarea:user-invalid,
+[data-theme="dark"] select:user-invalid {
+  border-color: #fda4af;
+}
+
+input:user-invalid:focus-visible,
+textarea:user-invalid:focus-visible,
+select:user-invalid:focus-visible {
+  outline-color: #9f1239;
+}
+
+[data-theme="dark"] input:user-invalid:focus-visible,
+[data-theme="dark"] textarea:user-invalid:focus-visible,
+[data-theme="dark"] select:user-invalid:focus-visible {
+  outline-color: #fda4af;
+}
+
+/* ===== What a message says, before it is read
+
+   An error and a success are both a line of small text under a control, and
+   the difference has to survive being glanced at. Each gets a mark in front
+   of it: a ringed `!' for something to fix, a check for something already
+   right. The glyph is decoration -- the sentence alone is the message -- so
+   it is drawn by the stylesheet and stays out of the text a reader copies. */
+
+.hg-error-message,
+.hg-success-message {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+/* The ink is named here as well as in the component, because the script
+   writes its own message paragraphs: one that a form validation created at
+   run time carries this class and no utility of its own, and it has to look
+   like the one the server rendered. */
+
+.hg-error-message {
+  color: #9f1239;
+}
+
+.hg-success-message {
+  color: #3f6212;
+}
+
+[data-theme="dark"] .hg-error-message {
+  color: #fda4af;
+}
+
+[data-theme="dark"] .hg-success-message {
+  color: #a3c48a;
+}
+
+.hg-error-message::before,
+.hg-success-message::before {
+  content: "";
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.05rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.hg-error-message::before {
+  content: "!";
+  background: #9f1239;
+  color: #f5f5f4;
+}
+
+.hg-success-message::before {
+  content: "✓";
+  background: #3f6212;
+  color: #f5f5f4;
+}
+
+[data-theme="dark"] .hg-error-message::before {
+  background: #fda4af;
+  color: #1c1917;
+}
+
+[data-theme="dark"] .hg-success-message::before {
+  background: #a3c48a;
+  color: #1c1917;
+}
+
+/* The summary's heading carries the same mark, larger, because the summary is
+   the one place that says how a whole form went. */
+
+.hg-validation-summary-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.hg-validation-summary-title::before {
+  content: "!";
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 9999px;
+  background: #9f1239;
+  color: #f5f5f4;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+[data-theme="dark"] .hg-validation-summary-title::before {
+  background: #fda4af;
+  color: #1c1917;
+}
+
+/* ===== Block quotations
+
+   The rule down the edge is the stylesheet's, not an element's, so the
+   quotation is still a paragraph of prose to a reader who never sees it. */
+
+.hg-quote {
+  border-inline-start: 0.25rem solid rgba(120, 113, 108, 0.35);
+  padding-inline-start: 1rem;
+  margin-inline: 0;
+}
+
+[data-theme="dark"] .hg-quote {
+  border-inline-start-color: rgba(214, 211, 209, 0.3);
+}
+
 /* ===== Respect reduced-motion preferences =====
 
    Every motion primitive lands here, so a component asks for motion by name
@@ -1526,6 +2051,8 @@ table[data-hg-resizable],
   .hg-toast,
   .hg-dropdown-chevron,
   .hg-tree-summary::before,
+  .hg-rating-label::before,
+  .hg-segmented-label,
   .hg-skip-link {
     transition: none !important;
     animation: none !important;

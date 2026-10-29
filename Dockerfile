@@ -64,7 +64,7 @@ ENV LANG=C.UTF-8 \
 LABEL org.opencontainers.image.title="hygguile" \
       org.opencontainers.image.description="Accessible server-rendered UI components for Guile Scheme" \
       org.opencontainers.image.url="https://codeberg.org/jjba23/hygguile" \
-      org.opencontainers.image.licenses="LGPL-3.0-or-later" \
+      org.opencontainers.image.licenses="MIT" \
       org.opencontainers.image.version="${VERSION}"
 
 RUN --mount=type=cache,target=/var/cache/zypp \

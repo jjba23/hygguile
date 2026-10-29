@@ -1,19 +1,7 @@
 ;; hygguile - cozy and professional user-interfaces for everyone
-
+;;
+;; SPDX-License-Identifier: MIT
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
-
-;; hygguile is free software: you can redistribute it and/or modify
-;; it under the terms of the Lesser GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; hygguile is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; Lesser GNU General Public License for more details.
-
-;; You should have received a copy of the Lesser GNU General Public License
-;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (veritas unit components typography-spec)
   #:use-module (veritas veritas)
@@ -231,6 +219,40 @@
     (else (any (lambda (child)
                  (tag-inside? child tag)) node))))
 
+(define quote-suite
+  (suite "Quotations"
+         (test "block quotations"
+               (assert-equal #:name "a quotation is a blockquote"
+                             #:got (tag-inside? (blockquote "Good design")
+                                                'blockquote)
+                             #:expect #t)
+               (assert-equal #:name "the quoted words are a paragraph"
+                             #:got (tag-inside? (blockquote "Good design")
+                                                'p)
+                             #:expect #t)
+               (assert-equal #:name "a quotation without a source has no citation"
+                             #:got (tag-inside? (blockquote "Good design")
+                                                'cite)
+                             #:expect #f)
+               (assert-equal #:name "a source is a citation"
+                             #:got (tag-inside? (blockquote "Good design"
+                                                            #:source "Dieter Rams")
+                                                'cite)
+                             #:expect #t)
+               (assert-equal #:name "a citation can link to its source"
+                             #:got (tag-inside? (blockquote "Good design"
+                                                            #:source "Dieter Rams"
+                                                            #:href "https://example.org")
+                                                'a)
+                             #:expect #t)
+               (assert-equal #:name "the quotation carries the stylesheet's rule"
+                             #:got (class-has? (car (blockquote "Good design"))
+                                               "hg-quote")
+                             #:expect #t)
+               (assert-equal #:name "a citation is a cite element"
+                             #:got (caar (cite "The Design of Everyday Things"))
+                             #:expect 'cite))))
+
 (define glossary-suite
   (suite "Glossary terms"
          (test "hygguile glossary terms"
@@ -284,4 +306,5 @@
 (define (spec)
   (veritas-run typography-suite)
   (veritas-run heading-suite)
+  (veritas-run quote-suite)
   (veritas-run glossary-suite))

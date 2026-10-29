@@ -1,25 +1,21 @@
 ;; hygguile - cozy and professional user-interfaces for everyone
-
+;;
+;; SPDX-License-Identifier: MIT
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
-
-;; hygguile is free software: you can redistribute it and/or modify
-;; it under the terms of the Lesser GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; hygguile is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; Lesser GNU General Public License for more details.
-
-;; You should have received a copy of the Lesser GNU General Public License
-;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (veritas unit components input-spec)
   #:use-module (veritas veritas)
   #:use-module (srfi srfi-1)
   #:use-module (hygguile components input)
+  #:use-module (hygguile sxml)
   #:export (spec))
+
+(define (render node)
+  (call-with-output-string (lambda (port)
+                             (sxml->xml node port))))
+
+(define (has? html needle)
+  (and (string-contains html needle) #t))
 
 (define (find-tag node tag)
   "Return the first direct child of a rendered field wrapper with @var{tag}."
@@ -99,6 +95,34 @@
                                                          'textarea)
                                                'autocomplete)
                              #:expect "off")
+               (assert-equal #:name
+                             "a textarea counts what it holds when asked"
+                             #:got (car (find-tag (textarea #:label "Bio"
+                                                            #:name "bio"
+                                                            #:value "hygge"
+                                                            #:maxlength 40
+                                                            #:counter #t)
+                                                  'p))
+                             #:expect 'p)
+               (assert-equal #:name "the count is the text's own length"
+                             #:got (caddr (caddr (find-tag (textarea #:label
+                                                                     "Bio"
+                                                                     #:name
+                                                                     "bio"
+                                                                     #:value
+                                                                     "hygge"
+                                                                     #:maxlength
+                                                                     40
+                                                                     #:counter
+                                                                     #t)
+                                                           'p)))
+                             #:expect "5")
+               (assert-equal #:name "a textarea without a counter stays plain"
+                             #:got (find-tag (textarea #:label "Bio"
+                                                       #:name "bio"
+                                                       #:maxlength 40)
+                                             'p)
+                             #:expect #f)
                (assert-equal #:name "checkbox renders an <input>"
                              #:got (car (find-tag (checkbox #:label "Agree"
                                                             #:name "agree")
@@ -172,5 +196,24 @@
                                                      'button))
                              #:expect "Subscribe"))))
 
+(define validation-suite
+  (suite "A form that validates itself"
+         (test "the form asks for the page's own validation"
+               (assert-equal #:name "a validating form is marked for the script"
+                             #:got (has? (render (form '()
+                                                       #:validate? #t))
+                                         "data-hg-validate")
+                             #:expect #t)
+               (assert-equal #:name "a validating form turns off the browser bubble"
+                             #:got (has? (render (form '()
+                                                       #:validate? #t))
+                                         "novalidate")
+                             #:expect #t)
+               (assert-equal #:name "a plain form asks for nothing"
+                             #:got (has? (render (form '()))
+                                         "data-hg-validate")
+                             #:expect #f))))
+
 (define (spec)
-  (veritas-run input-suite))
+  (veritas-run input-suite)
+  (veritas-run validation-suite))

@@ -1,19 +1,7 @@
 ;; hygguile - cozy and professional user-interfaces for everyone
-
+;;
+;; SPDX-License-Identifier: MIT
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
-
-;; hygguile is free software: you can redistribute it and/or modify
-;; it under the terms of the Lesser GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; hygguile is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; Lesser GNU General Public License for more details.
-
-;; You should have received a copy of the Lesser GNU General Public License
-;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 ;; Foundations: the type scale, the gradients and the palette.
 
@@ -88,6 +76,18 @@
                                              "O and E = mc"
                                              (sup "2")
                                              ".")))))
+         ,(showcase-specimen "Quotations"
+                             (list (showcase-type-row "blockquote · cite"
+                                                      (blockquote
+                                                       "Good design is as little design as possible."
+                                                       #:source "Dieter Rams"))
+                                   (showcase-type-row
+                                    "a quotation that links its source"
+                                    (blockquote
+                                     "Simplicity is about subtracting the obvious and adding the meaningful."
+                                     #:source "John Maeda"
+                                     #:href
+                                     "https://en.wikipedia.org/wiki/John_Maeda"))))
          (div (@ (class ,(mk-class '(grid grid-cols-1 md:grid-cols-2 gap-4
                                           items-start))))
               ,(showcase-specimen "Mono and code"

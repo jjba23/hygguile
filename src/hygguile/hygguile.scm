@@ -1,19 +1,7 @@
 ;; hygguile - cozy and professional user-interfaces for everyone
-
+;;
+;; SPDX-License-Identifier: MIT
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
-
-;; hygguile is free software: you can redistribute it and/or modify
-;; it under the terms of the Lesser GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; hygguile is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; Lesser GNU General Public License for more details.
-
-;; You should have received a copy of the Lesser GNU General Public License
-;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile hygguile)
   #:use-module (hygguile abstraction)
@@ -45,6 +33,8 @@
   #:use-module (hygguile components field)
   #:use-module (hygguile components overlay)
   #:use-module (hygguile components data)
+  #:use-module (hygguile components rating)
+  #:use-module (hygguile components segmented)
   #:use-module (hygguile css)
   #:use-module (hygguile version)
   #:re-export (a abbr
@@ -53,6 +43,7 @@
                  alert
                  avatar
                  badge
+                 blockquote
                  breadcrumbs
                  button
                  caption
@@ -65,6 +56,7 @@
                  carousel
                  carousel-button-js
                  checkbox
+                 cite
                  code
                  code-sample
                  code-sample-js
@@ -228,8 +220,10 @@
                  form-field
                  text-field
                  search-field
+                 password-field
                  number-field
                  stepper
+                 slider
                  date-field
                  time-field
                  date-range-field
@@ -237,6 +231,14 @@
                  dropzone
                  combobox
                  multi-select
+                 otp-field
+                 input-group
+                 validation-errors
+                 validation-summary
+                 ;; choices
+                 rating
+                 segmented-control
+                 segmented-item
                  ;; buttons
                  icon-only-button
                  primary-button

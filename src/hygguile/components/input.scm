@@ -1,19 +1,7 @@
 ;; hygguile - cozy and professional user-interfaces for everyone
-
+;;
+;; SPDX-License-Identifier: MIT
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
-
-;; hygguile is free software: you can redistribute it and/or modify
-;; it under the terms of the Lesser GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; hygguile is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; Lesser GNU General Public License for more details.
-
-;; You should have received a copy of the Lesser GNU General Public License
-;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile components input)
   #:use-module (hygguile abstraction)
@@ -191,7 +179,8 @@ List of symbols regulating structure container box margins and gaps.
            ,@(if error
                  `((p (@ (id ,error-id)
                          (role alert)
-                         (class ,(mk-class '(text-sm font-medium
+                         (class ,(mk-class '(hg-error-message
+                                             text-sm font-medium
                                              text-redwood-700
                                              dark:text-light-coral-100))))
                       ,error))
@@ -213,6 +202,7 @@ List of symbols regulating structure container box margins and gaps.
                    (required #f)
                    (autocomplete #f)
                    (maxlength #f)
+                   (counter #f)
                    (spellcheck #f)
                    (disabled #f)
                    (readonly #f)
@@ -263,6 +253,10 @@ A field completion mandatory requirement boolean validation gate switch.
 An optional string forwarding the HTML @code{autocomplete} hint to the browser.
 @item maxlength
 An optional maximum accepted character count.
+@item counter
+Render a live character count beside the field, for a field with a
+@var{maxlength}. The count is an enhancement -- it carries @code{js-only}
+-- because a count that never moves is worse than no count at all.
 @item spellcheck
 An optional string (@code{\"true\"} or @code{\"false\"}) controlling native spell checking.
 @item disabled
@@ -330,10 +324,20 @@ List of symbols managing outer wrapper responsive card flex constraints.
                         (class ,(mk-class textarea-css))
                         (placeholder ,placeholder))
                      ,value)
+           ,@(if (and counter maxlength)
+                 `((p (@ (class "hg-counter js-only")
+                         (data-hg-counter-for ,field-id)
+                         (aria-live "polite"))
+                      (span (@ (data-hg-counter-used ""))
+                            ,(if (string? value)
+                                 (number->string (string-length value)) "0"))
+                      ,(format #f " / ~a" maxlength)))
+                 '())
            ,@(if error
                  `((p (@ (id ,error-id)
                          (role alert)
-                         (class ,(mk-class '(text-sm font-medium
+                         (class ,(mk-class '(hg-error-message
+                                             text-sm font-medium
                                              text-redwood-700
                                              dark:text-light-coral-100))))
                       ,error))
@@ -381,7 +385,7 @@ List of symbols representing typography CSS classes.
 (form-error \"Please provide a valid email address.\")
 @end example"
   `((p (@ (role alert)
-          (class ,(mk-class classes)))
+          (class ,(mk-class (append classes '(hg-error-message)))))
        ,content)))
 
 (define* (legend content
@@ -444,6 +448,7 @@ List of symbols representing container CSS classes.
                (name #f)
                (autocomplete #f)
                (novalidate #f)
+               (validate? #f)
                (aria-label #f)
                (submit #f)
                (form-classes '(my-4 flex flex-col gap-4)))
@@ -477,6 +482,13 @@ An optional form name string.
 An optional string (@code{\"on\"} or @code{\"off\"}) for the whole form.
 @item novalidate
 A boolean switching off native validation, for forms validated by hand.
+@item validate?
+A boolean asking the framework's own validation script to run this form:
+the browser's constraint validation is turned into the page's own error
+slots, and the summary is filled in, instead of the browser's bubble. It
+implies @var{novalidate}, since the sentence a page wrote reads better than
+the one the browser composes, and it is still the browser's rules -- not a
+second, script-side copy of them -- that decide.
 @item aria-label
 An optional accessible name when no visible heading describes the form.
 @item submit
@@ -511,7 +523,10 @@ List of symbols representing the form layout CSS classes.
                           'autocomplete autocomplete)
              ,@(attr-when aria-label
                           'aria-label aria-label)
-             ,@(if novalidate
+             ,@(if validate?
+                   '((data-hg-validate ""))
+                   '())
+             ,@(if (or novalidate validate?)
                    '((novalidate ""))
                    '())
              (class ,(mk-class form-classes)))

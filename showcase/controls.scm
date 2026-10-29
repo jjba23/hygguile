@@ -21,7 +21,7 @@
   #:use-module (hygguile hygguile)
   #:use-module (showcase specimens)
   #:export (button-section field-extras-section forms-section
-                           disclosure-section))
+                           validation-section disclosure-section))
 
 (define button-section
   `((div (@ (class ,(mk-class '(flex flex-col gap-4))))
@@ -106,6 +106,11 @@
                            #:control showcase-email-control)
               ,(search-field #:name "showcase-q"
                              #:action "#")
+              ,(password-field #:label "Password"
+                               #:name "showcase-password"
+                               #:autocomplete "current-password"
+                               #:help-text
+                               "The reveal control is a progressive enhancement, not the field.")
               ,(stepper #:label "Seats"
                         #:name "showcase-seats"
                         #:value 2
@@ -125,7 +130,46 @@
                              #:min 1
                              #:max 12
                              #:help-text
-                             "A native number input with explicit bounds."))
+                             "A native number input with explicit bounds.")
+              ,(input-group #:label "Price"
+                            #:name "showcase-price"
+                            #:type 'number
+                            #:value 24
+                            #:prefix "€"
+                            #:suffix "/ month"
+                            #:help-text
+                            "The prefix and the suffix are written beside the value, not inside it.")
+              ,(otp-field #:label "Verification code"
+                          #:name "showcase-code"))
+         ,(slider #:label "Warmth"
+                  #:name "showcase-warmth"
+                  #:value 21
+                  #:min 16
+                  #:max 26
+                  #:unit " °C"
+                  #:help-text "The number beside the field is the value, written out.")
+         (div (@ (class ,(mk-class '(grid grid-cols-1 md:grid-cols-2 gap-4
+                                          items-start))))
+              ,(rating #:label "How was your stay?"
+                       #:name "showcase-score"
+                       #:value 4)
+              ,(rating #:label "Average score"
+                       #:name "showcase-average"
+                       #:value 4
+                       #:readonly #t
+                       #:help-text "A read-only rating is one image with one accessible name.")
+              ,(segmented-control #:label "Range"
+                                  #:name "showcase-range"
+                                  #:options '((day . "Day")
+                                              (week . "Week")
+                                              (month . "Month"))
+                                  #:selected "week")
+              ,(segmented-control #:label "View"
+                                  #:name "showcase-view"
+                                  #:options '((list . "List") (grid . "Grid"))
+                                  #:full-width? #t))
+         ,(validation-summary #:errors '(("showcase-email" .
+                                          "Enter an email address")))
          ,(date-range-field #:label "Stay"
                             #:name "showcase-stay"
                             #:start "2026-10-11"
@@ -266,3 +310,67 @@
                                   "This dialog is revealed through the :target pseudo-class, so it opens and closes without any JavaScript. Follow the close link to dismiss it."))
                  #:footer (list (a "Close"
                                    #:href "#"))))))
+
+;; ===== Validation =====
+;;
+;; The states a field can be in, and what a refused form says as a whole.
+;; The form validates in the browser as well (`#:validate?'): the script
+;; reads the browser's own verdict and writes it into the field's error
+;; slot, so the sentence a page wrote is the sentence a reader reads, and
+;; the browser's rules are the only copy of the rules there is.
+
+(define validation-section
+  `((div (@ (class ,(mk-class '(flex flex-col gap-6))))
+         (div (@ (class ,(mk-class '(max-w-prose flex flex-col gap-3))))
+              ,(p
+                "A field is in one of three states, and says which: nothing yet, wrong, or right. An error is announced and named (aria-errormessage as well as aria-describedby); a success is announced politely; and the control's own border follows the state, so a reader can find the one field that needs them without reading every line."
+                #:weight '(font-light))
+              ,(validation-summary
+                #:errors '(("showcase-signup-email" . "Enter an email address.")
+                           ("showcase-signup-seats" .
+                            "Choose between 1 and 12 guests.")))
+              ,(form (list (text-field #:label "Email"
+                                       #:name "showcase-signup-email"
+                                       #:type 'email
+                                       #:required #t
+                                       #:autocomplete "email"
+                                       #:error "Enter an email address.")
+                           (number-field #:label "Guests"
+                                         #:name "showcase-signup-seats"
+                                         #:value 14
+                                         #:min 1
+                                         #:max 12
+                                         #:error "Choose between 1 and 12 guests.")
+                           (text-field #:label "Name"
+                                       #:name "showcase-signup-name"
+                                       #:value "Ada Lovelace"
+                                       #:valid "Looks good."))
+                     #:action "#"
+                     #:method 'get
+                     #:validate? #t
+                     #:submit "Sign up")
+              ,(p
+                "The form above checks itself in the browser too: #:validate? borrows the browser's verdict and writes it into the field's error slot, so the page's own sentence is the one a reader reads. Nothing about it needs a script to be safe -- with scripting off the browser still refuses the form, with its own bubble."
+                #:weight '(font-light)
+                #:size '(text-md)))
+         (div (@ (class ,(mk-class '(grid grid-cols-1 md:grid-cols-2 gap-4
+                                          items-start))))
+              ,(text-field #:label "Untouched"
+                           #:name "showcase-plain"
+                           #:help-text "No state yet: a field is not wrong before it is filled in.")
+              ,(text-field #:label "Wrong"
+                           #:name "showcase-wrong"
+                           #:value "not-an-email"
+                           #:type 'email
+                           #:error "Enter an email address.")
+              ,(text-field #:label "Right"
+                           #:name "showcase-right"
+                           #:value "ada@example.org"
+                           #:type 'email
+                           #:valid "Looks good.")
+              ,(segmented-control #:label "Range"
+                                  #:name "showcase-range-bad"
+                                  #:options '((day . "Day")
+                                              (week . "Week")
+                                              (month . "Month"))
+                                  #:error "Pick a range.")))))

@@ -5,8 +5,7 @@
 #+options: toc:nil
 #+language: en
 
-[[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]] [[https://img.shields.io/badge/Guile-3.0%2B-4e5d94.svg]] [[https://img.shields.io/badge/Guix-package-6f4e9c.svg]]
-[[https://jointhefreeworld.org/ggg/dist/license-lgpl3+.svg]] [[https://jointhefreeworld.org/ggg/dist/license-fdl13+.svg]]
+[[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]] [[https://img.shields.io/badge/Guile-3.0%2B-4e5d94.svg]] [[https://img.shields.io/badge/Guix-package-6f4e9c.svg]] [[https://img.shields.io/badge/license-MIT-6f9c7a.svg]]
 
 #+begin_quote
 *Cozy and professional user-interfaces for everyone.*
@@ -367,7 +366,7 @@ Alternatively, you can install it by downloading the source code files and addin
     (synopsis "Web UI component library for Guile Scheme projects")
     (description
      "......")
-    (license license:lgpl3+)))
+    (license license:expat)))
 #+end_src
 
 
@@ -584,8 +583,10 @@ Everything below is re-exported by the single ~(hygguile hygguile)~ module, so o
 | ~tokens~       | ~design-tokens-css~, ~token-value~, ~token-name~, ~token-declarations~, ~density-value~, and the token tables                                                                                                                    | no HTML: the CSS custom-property block and the Scheme-side token values the new components read                                                                            |
 | ~layout~       | ~stack~, ~cluster~, ~grid~, ~split~, ~center~, ~spacer~, ~aspect-ratio~, ~ratio-label~                                                                                                                                           | ~<div>~ wrappers that lay their children out with utilities, plus a reserved ratio box                                                                                     |
 | ~utility~      | ~visually-hidden~, ~skip-link~, ~truncate-text~, ~line-clamp~, ~copy-button~, ~show~, ~hide~, ~fade-in~, ~slide-in~, ~collapse~, ~layer~, ~layer-root~, ~locale~, ~bdi~, ~bdo~, ~density-toggle~                                 | accessible hiding, a skip link, line clamps, a copy control, responsive show/hide, motion wrappers, named layers, RTL/language wrappers, a density control                 |
-| ~field~        | ~form-field~, ~field-wiring~ and its accessors, ~text-field~, ~search-field~, ~number-field~, ~stepper~, ~date-field~, ~time-field~, ~date-range-field~, ~file-field~, ~dropzone~, ~combobox~, ~multi-select~                    | a labelled/described/validated shell around any control, and native search, number, date, time, file, datalist and multi-select controls                                   |
+| ~field~        | ~form-field~, ~field-wiring~ and its accessors, ~text-field~, ~search-field~, ~password-field~, ~number-field~, ~stepper~, ~slider~, ~date-field~, ~time-field~, ~date-range-field~, ~file-field~, ~dropzone~, ~combobox~, ~multi-select~, ~otp-field~, ~input-group~, ~validation-errors~, ~validation-summary~ | a labelled/described/validated shell around any control, and native search, password, number, range, date, time, file, datalist and multi-select controls, plus the rules-to-summary end of validation |
 | ~overlay~      | ~drawer~, ~sheet~, ~popover~, ~hover-card~, ~dropdown-item~, ~dropdown-menu~, ~command-item~, ~command-palette~                                                                                                                  | a `:target` drawer and sheet, a native popover, a hover card, a `<details>` menu, and a filtered command palette                                                           |
+| ~rating~       | ~rating~                                                                                                                                                                                                                         | a star rating: a native radio group, or a read-only score                                                                                                                 |
+| ~segmented~    | ~segmented-control~, ~segmented-item~                                                                                                                                                                                            | a small set of exclusive choices drawn as one bar, on a native radio group                                                                                                |
 | ~data~         | ~chip~, ~avatar-group~, ~timeline~, ~timeline-item~, ~tree-view~, ~tree-item~                                                                                                                                                    | tags/chips, stacked avatars with an overflow count, an ordered timeline, and a nested tree                                                                                 |
 | ~abstraction~  | ~mk-class~, ~override-classes~, ~attr-when~, ~render-if-nempty~, ~pretty-quote~, ...                                                                                                                                             | no HTML of their own: the helpers components are written with                                                                                                              |
 
@@ -608,13 +609,22 @@ that implement it, and the sections after it say how the harder rows work.
 | theming / tokens                          | colour, spacing, radius, elevation, motion and layer tokens, published as CSS custom properties and readable from Scheme                          |
 | focus management and skip links           | ~skip-link~, ~visually-hidden~, the focus trap in `interactions.js`, roving tabindex, and `data-hg-focus-trap` on every modal, drawer and palette |
 | button variants                           | ~primary-button~, ~secondary-button~, ~ghost-button~, ~danger-button~, ~icon-only-button~, and every button's ~#:loading~ state                   |
-| text, textarea, search                    | ~input~, ~textarea~, ~text-field~, ~search-field~ (a real ~<form role="search">~)                                                                 |
+| text, textarea, search                    | ~input~, ~textarea~ (with an optional live character count), ~text-field~, ~search-field~ (a real ~<form role="search">~)                          |
+| password, one-time code                   | ~password-field~ (masked, with an optional reveal control), ~otp-field~ (one field, ~autocomplete="one-time-code"~)                                |
+| input groups                              | ~input-group~ (a prefix and a suffix written inside the field's own border, as text or as SXML)                                                   |
 | select, combobox, multi-select            | ~select~ (native, grouped), ~combobox~ (native ~<datalist>~), ~multi-select~ (native multiple select plus tag chips)                              |
 | checkbox, radio, switch                   | ~checkbox~, ~radio~, ~switch~ (native controls under the styling)                                                                                 |
-| slider, stepper                           | ~range~, ~number-field~, ~stepper~ (native number input, optional buttons)                                                                        |
+| star rating                               | ~rating~ (a native radio group, or a read-only score with one accessible name)                                                                    |
+| segmented control                         | ~segmented-control~, ~segmented-item~ (a radio group drawn as one bar)                                                                             |
+| slider, stepper                           | ~range~, ~slider~ (a range that prints its value), ~number-field~, ~stepper~ (native number input, optional buttons)                              |
 | date, time, date range                    | ~date-field~, ~time-field~, ~date-range-field~ (all native, all ISO values)                                                                       |
 | file upload / dropzone                    | ~file-field~, ~dropzone~ (native input under a labelled drop zone)                                                                                |
 | form field wrapper                        | ~form-field~ and ~field-wiring~, described below                                                                                                  |
+| field states                              | ~#:error~, ~#:valid~ (a message, or a bare mark): the shell carries the state and the stylesheet paints the control from it                        |
+| form-level error summary                  | ~validation-summary~ (announced on load, with a link to every field that failed)                                                                   |
+| collecting errors                         | ~validation-errors~, which turns a list of ~(field . message)~ rules into the summary's ~errors~ -- the pass side is ~#f~                      |
+| inline validation                         | ~#:validate?~ on ~form~: the browser's own verdict, written into the page's error slots and summary, with ~:user-invalid~ borders in between       |
+| block quotation                           | ~blockquote~ (with an optional citation) and ~cite~                                                                                                |
 | toast / snackbar                          | ~toast~, ~toast-tray~ and the queue in `toast.js`                                                                                                 |
 | inline alert / banner                     | ~alert~ with four semantic variants                                                                                                               |
 | progress                                  | ~progress~ (linear, determinate and indeterminate) and ~circular-progress~                                                                        |
@@ -732,9 +742,15 @@ the multi-select returns its native select and its tag list -- and the shell
 places them in order.
 
 The shipped controls are built the same way, so a page never has to
-reproduce the shell: ~text-field~, ~search-field~, ~number-field~,
-~stepper~, ~date-field~, ~time-field~, ~date-range-field~, ~file-field~,
-~dropzone~, ~combobox~ and ~multi-select~.
+reproduce the shell: ~text-field~, ~search-field~, ~password-field~,
+~number-field~, ~stepper~, ~slider~, ~date-field~, ~time-field~,
+~date-range-field~, ~file-field~, ~dropzone~, ~combobox~, ~multi-select~,
+~otp-field~ and ~input-group~.
+
+Two components own a shell of their own, because a group of controls is
+named by a ~<legend>~ rather than by a ~<label for="...">~: ~rating~ and
+~segmented-control~ both render a fieldset, so a screen reader announces the
+group and its choices rather than one label it cannot point at.
 
 #+begin_src scheme
 (search-field #:name "q" #:action "/search" #:value "cozy")
@@ -747,7 +763,97 @@ reproduce the shell: ~text-field~, ~search-field~, ~number-field~,
 (multi-select #:label "Topics" #:name "topics"
               #:options '(("a" . "Accessibility") ("s" . "SSR"))
               #:selected '("s"))
+
+(password-field #:label "Password" #:name "password"
+                #:autocomplete "current-password" #:required #t)
+
+(input-group #:label "Price" #:name "price" #:type 'number
+             #:prefix "€" #:suffix "/ month")
+
+(slider #:label "Warmth" #:name "warmth"
+        #:value 21 #:min 16 #:max 26 #:unit " °C")
+
+(rating #:label "How was your stay?" #:name "score" #:value 4)
+
+(segmented-control #:label "Range" #:name "range"
+                   #:options '((day . "Day") (week . "Week") (month . "Month"))
+                   #:selected "week")
 #+end_src
+
+When a server refuses a form, ~validation-summary~ lists every problem at the
+top of it, announced on load and linked to the field that caused each one:
+
+#+begin_src scheme
+(validation-summary #:errors '(("email" . "Enter an email address")
+                               ("password" . "Enter your password")))
+#+end_src
+
+** Validation
+:PROPERTIES:
+:CUSTOM_ID: validation
+:END:
+
+A field is in one of three states: nothing yet, wrong, or right. The shell
+decides which, and the stylesheet paints the control's border from it, so a
+page never picks a border colour per state:
+
+#+begin_src scheme
+(text-field #:label "Email" #:name "email"        ; nothing yet
+            #:help-text "We never share it.")
+
+(text-field #:label "Email" #:name "email"        ; wrong
+            #:error "Enter an email address.")
+
+(text-field #:label "Email" #:name "email"        ; right (and it says so)
+            #:valid "Looks good.")
+#+end_src
+
+An error is announced (~role="alert"~) _and_ named: the control carries
+~aria-invalid~, ~aria-errormessage~ pointing at the message, and
+the message is part of its ~aria-describedby~, so a reader that
+understands only one of the three still hears why the field is wrong. A
+success is announced politely (~role="status"~) and reads as a mark and
+a sentence. In both cases the mark is drawn by the stylesheet, so it never
+gets copied along with the words.
+
+The rules themselves are the page's, written once and read off -- a predicate
+that answers with the words to show, and ~#f~ for a field that passed:
+
+#+begin_src scheme
+(validation-errors
+ (list (cons "email"
+             (and (not (valid-email? email)) "Enter an email address."))
+       (cons "password"
+             (and (< (string-length password) 12) "Use at least 12 characters."))))
+;; => (("email" . "Enter an email address."))
+#+end_src
+
+That list is exactly what ~validation-summary~ takes, and an empty list
+means the form is fine, so a page can render the summary unconditionally.
+Pass ~#:focus? #t~ when the form has just been refused: the summary then
+takes focus on load, which is where a reader should start. Without it the
+summary stays where it is -- moving the focus of a page is the page's
+decision, not a component's.
+
+Client side, ~#:validate?~ on ~form~ borrows the browser's own
+constraint validation -- ~validity~, ~validationMessage~ and all --
+and writes it into the field's own error slot and the summary, instead of
+into a bubble that vanishes. The rules stay the browser's (~required~,
+~type~, ~pattern~, ~minlength~, ...), so nothing is written
+twice, and a field the reader has finished with and left wrong is outlined by
+~:user-invalid~ before any of it.
+
+#+begin_src scheme
+(form (list (text-field #:label "Email" #:name "email" #:type 'email
+                        #:required #t)
+            (otp-field #:label "Verification code" #:name "code"))
+      #:action "/signup"
+      #:validate? #t
+      #:submit "Sign up")
+#+end_src
+
+With scripting off the browser still refuses the form, with its own bubble:
+nothing about validation depends on the script, only the wording does.
 
 ** Overlays, and where they sit
 :PROPERTIES:
@@ -1274,7 +1380,7 @@ The version is written by hand in one place: ~hygguile-version~ in [[file:src/hy
 
 #+begin_example
 hygguile 2.7.6
-License: LGPL-3.0-or-later
+License: MIT
 Homepage: https://hygguile.jointhefreeworld.org
 #+end_example
 
@@ -1499,8 +1605,8 @@ A build should never fail because "it worked on my machine." Reliable software d
 :CUSTOM_ID: license
 :END:
 
-Hygguile and all of its source code are free software, licensed under the **GNU Lesser General Public License v3.0 or later** (LGPL-3.0-or-later). See [[https://www.gnu.org/licenses/lgpl-3.0.html][the license text]].
+Hygguile and all of its source code are free software, licensed under the **MIT License** (MIT). See [[https://opensource.org/license/mit][the license text]] and the [[file:COPYING][COPYING]] file in this repository.
 
-The showcase site, documentation and examples -- including this document -- are licensed under the **GNU Free Documentation License v1.3 or later** (FDL-1.3-or-later). See [[https://www.gnu.org/licenses/fdl-1.3.html][the license text]].
+The showcase site, documentation and examples -- including this document -- are licensed under the **MIT License** too, so there is one license to read rather than two.
 
 If Hygguile helps you build something, consider [[https://bmc.link/jjbigorra][buying me a cup of coffee ☕]] so the project can keep moving. More importantly: build something cozy, and tell me about it.

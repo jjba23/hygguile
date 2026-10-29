@@ -1,19 +1,7 @@
 ;; hygguile - cozy and professional user-interfaces for everyone
-
+;;
+;; SPDX-License-Identifier: MIT
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
-
-;; hygguile is free software: you can redistribute it and/or modify
-;; it under the terms of the Lesser GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; hygguile is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; Lesser GNU General Public License for more details.
-
-;; You should have received a copy of the Lesser GNU General Public License
-;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 ;;
@@ -47,7 +35,7 @@
   "https://hygguile.jointhefreeworld.org")
 
 (define hygguile-license
-  "LGPL-3.0-or-later")
+  "MIT")
 
 (define (hygguile-version-string)
   "Return the one-line version banner for hygguile, as `maak version' prints it."
@@ -67,7 +55,7 @@ The port to print to, @code{(current-output-port)} by default.
 @example
 (print-version)
 ;; hygguile 2.6.0
-;; License: LGPL-3.0-or-later
+;; License: MIT
 ;; Homepage: https://hygguile.jointhefreeworld.org
 @end example"
   (format port "~a\n~a\n~a\n"

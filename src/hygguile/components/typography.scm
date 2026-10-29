@@ -1,19 +1,7 @@
 ;; hygguile - cozy and professional user-interfaces for everyone
-
+;;
+;; SPDX-License-Identifier: MIT
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
-
-;; hygguile is free software: you can redistribute it and/or modify
-;; it under the terms of the Lesser GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; hygguile is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; Lesser GNU General Public License for more details.
-
-;; You should have received a copy of the Lesser GNU General Public License
-;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 (define-module (hygguile components typography)
   #:use-module (hygguile abstraction)
@@ -39,6 +27,8 @@
                time
                abbr
                glossary-term
+               blockquote
+               cite
                sup
                sub))
 
@@ -630,7 +620,7 @@ An optional HTML identifier, or @code{#f} for a @code{<pre>} nothing has to name
 @end example"
   `((pre (@ ,@(attr-when id
                          'id id)
-           (class ,(mk-class (append color
+            (class ,(mk-class (append color
                                       leading
                                       background
                                       pre-classes
@@ -1000,3 +990,98 @@ List of additional utility CSS classes for the note.
                  #:text note
                  #:position position
                  #:classes classes) word)))
+
+(define* (cite content
+               #:key (color '(text-onyx-300 dark:text-stone-500))
+               (family '(font-sans))
+               (style '(italic))
+               (size '(text-md)))
+  "Create an HTML citation (@code{<cite>}) for the source of a quotation.
+
+A citation names the work the quotation came from -- a book, a talk, a
+person -- and belongs outside the quotation marks, not inside them.
+
+@table @var
+@item content
+The name of the work, or a link to it.
+@item color
+List of symbols representing text color CSS classes.
+@item family
+List of symbols representing font family CSS classes.
+@item style
+List of symbols representing text element style transformations.
+@item size
+List of symbols representing text sizing CSS classes.
+@end table
+
+@example
+(cite \"The Design of Everyday Things\")
+@end example"
+  `((cite (@ (class ,(mk-class (append color style family size))))
+          ,content)))
+
+(define* (blockquote content
+                     #:key (source #f)
+                     (href #f)
+                     (color '(text-onyx-500 dark:text-stone-300))
+                     (family '(font-sans))
+                     (leading '(leading-6))
+                     (size '(text-lg))
+                     (weight '(font-light))
+                     (quote-css '(my-6 flex flex-col gap-2 max-w-prose))
+                     (cite-css '(text-md font-normal not-italic text-onyx-300
+                                         dark:text-stone-500)))
+  "Create an HTML block quotation (@code{<blockquote>}) with an optional source.
+
+The quotation is a real @code{<blockquote>}, so assistive technology
+announces it as a quotation and the browser indents it as one; the source
+is a @code{<cite>} after it, linked when the page knows where the words
+came from. The rule down the left edge is drawn by the stylesheet
+(@code{hg-quote}) rather than by an element, so the quotation is still a
+paragraph of prose to a reader who never sees the rule.
+
+@table @var
+@item content
+The quoted words, as text or inline nodes. It is wrapped in a @code{<p>}
+unless it already holds block-level nodes.
+@item source
+Who said it, or where it came from. Nothing is rendered when this is @code{#f}.
+@item href
+Where the source lives, making the citation a link.
+@item color
+List of symbols representing text color CSS classes.
+@item family
+List of symbols representing font family CSS classes.
+@item leading
+List of symbols representing line-height spacing CSS classes.
+@item size
+List of symbols representing text sizing CSS classes.
+@item weight
+List of symbols representing font weight CSS classes.
+@item quote-css
+List of utility CSS classes for the quotation's wrapper.
+@item cite-css
+List of class names for the citation.
+@end table
+
+@example
+(blockquote \"Good design is as little design as possible.\"
+            #:source \"Dieter Rams\")
+@end example"
+  (let* ((body (if (and (pair? content)
+                        (symbol? (car content))) content
+                   `((p (@ (class ,(mk-class (append color weight family
+                                                     leading size))))
+                        ,content))))
+         (citation (and source
+                        (if href
+                            (a source
+                               #:href href) source))))
+    `((blockquote (@ (class ,(mk-class (append quote-css
+                                               '(hg-quote)))))
+                  ,@body
+                  ,@(if citation
+                        (list `(footer (@ (class ,(mk-class '(pl-1))))
+                                       (cite (@ (class ,(mk-class cite-css)))
+                                             ,citation)))
+                        '())))))

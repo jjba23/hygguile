@@ -1,19 +1,7 @@
 ;; hygguile - cozy and professional user-interfaces for everyone
-
+;;
+;; SPDX-License-Identifier: MIT
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
-
-;; hygguile is free software: you can redistribute it and/or modify
-;; it under the terms of the Lesser GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; hygguile is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; Lesser GNU General Public License for more details.
-
-;; You should have received a copy of the Lesser GNU General Public License
-;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 ;; The version, and the copies of it that cannot read the module.
 ;;
@@ -58,9 +46,9 @@
                              #:expect (format #f "hygguile ~a"
                                               hygguile-version))
                (assert-equal #:name
-                             "the license is the LGPL, version 3 or newer"
+                             "the license is the MIT license"
                              #:got hygguile-license
-                             #:expect "LGPL-3.0-or-later")
+                             #:expect "MIT")
                (assert-equal #:name "the homepage is the showcase"
                              #:got hygguile-homepage
                              #:expect "https://hygguile.jointhefreeworld.org"))
@@ -70,7 +58,7 @@
                 "print-version writes the banner, the license and the homepage, one per line"
                 #:got (with-output-to-string print-version)
                 #:expect (string-append (hygguile-version-string)
-                          "\nLicense: LGPL-3.0-or-later\n"
+                          "\nLicense: MIT\n"
                           "Homepage: https://hygguile.jointhefreeworld.org
 ")))
 

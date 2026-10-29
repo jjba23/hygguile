@@ -23,7 +23,7 @@ Name:           hygguile
 Version:        2.7.6
 Release:        0
 Summary:        Accessible server-rendered UI components for Guile Scheme
-License:        LGPL-3.0-or-later
+License:        MIT
 URL:            https://codeberg.org/jjba23/hygguile
 Source0:        %{name}-%{version}.tar.gz
 BuildRequires:  pkgconfig(guile-3.0)

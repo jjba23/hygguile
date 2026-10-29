@@ -1,19 +1,7 @@
 ;; hygguile - cozy and professional user-interfaces for everyone
-
+;;
+;; SPDX-License-Identifier: MIT
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
-
-;; hygguile is free software: you can redistribute it and/or modify
-;; it under the terms of the Lesser GNU General Public License as published by
-;; the Free Software Foundation, either version 3 of the License, or
-;; (at your option) any later version.
-
-;; hygguile is distributed in the hope that it will be useful,
-;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; Lesser GNU General Public License for more details.
-
-;; You should have received a copy of the Lesser GNU General Public License
-;; along with hygguile.  If not, see <https://www.gnu.org/licenses/>.
 
 ;; The hero at the top of the page, and the glossary it names.
 
@@ -119,8 +107,8 @@
                                              focus-visible:outline-2
                                              focus-visible:outline-offset-2
                                              outline-onyx-500))
-          ,(a "LGPL-3.0-or-later"
-              #:href "https://www.gnu.org/licenses/lgpl-3.0.html"
+          ,(a "MIT"
+              #:href "https://opensource.org/license/mit"
               #:size '(text-md)
               #:weight '(font-medium)
               #:extra-classes '(no-underline rounded-lg
