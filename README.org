@@ -474,7 +474,7 @@ Every heading is a size paired with a leading, and the pairing is the scale. Siz
 
 The steps loosen as the size shrinks, which is the shape a type scale usually has, and they are ratios rather than lengths for a reason: a page that moves a heading up or down the scale with ~#:size~ gets a leading that follows on its own. Every component takes ~#:leading~ as well, so a heading can be set looser or tighter by hand, and a size the scale does not name is led by its tightest step rather than by nothing at all.
 
-The floor of 1.3 is not a matter of taste. A leaded line sits in a box of the line's own height, and ink outside that box is unpainted rather than merely cropped -- the gradient case above, and a clipped descender in any other. Measured on the two faces the framework ships, Plus Jakarta Sans asks for 1.24 of that box at worst and Lucida Sans for 1.16, so the tightest step clears both with room to spare. Body copy is looser still, at ~leading-6~ (1.5).
+The floor of 1.3 is not a matter of taste. A leaded line sits in a box of the line's own height, and ink outside that box is unpainted rather than merely cropped -- the gradient case above, and a clipped descender in any other. The ratios are chosen against the faces the framework is set in, Work Sans for prose and Source Serif 4 for long-form reading: 1.3 leaves their descenders and accents room to paint. Body copy is looser still, at ~leading-6~ (1.5).
 
 The drift respects ~prefers-reduced-motion: reduce~, which the companion stylesheet handles for you. And one serialization rule worth knowing: an element without children is written as an explicit open/close pair (~<div></div>~), never as the XML shorthand ~<div />~, because hygguile's output is served as ~text/html~, where that shorthand is read as an open tag and silently swallows the rest of the document. Only HTML void elements (~<img>~, ~<input>~, ~<hr>~, ...) are written as a lone tag.
 
@@ -499,7 +499,7 @@ Put ~(hygguile-recommended-meta)~ and ~(hygguile-recommended-resources)~ in the 
       (link (@ (rel stylesheet) (href "olive.min.css"))))
 #+end_src
 
-Both procedures take key arguments when you need to change the defaults, for example a custom font list, a different Phosphor stylesheet, or a preconnect set. See ~(hygguile css)~.
+Both procedures take key arguments when you need to change the defaults, for example the base URL the font files are served from, or a different Phosphor stylesheet. See ~(hygguile css)~.
 
 ** Themes
 :PROPERTIES:
@@ -1471,14 +1471,33 @@ maak docs       # regenerate the API reference
 
 -------
 
-** On Lucida fonts
+** On fonts
 :PROPERTIES:
-:CUSTOM_ID: on-lucida-fonts
+:CUSTOM_ID: on-fonts
 :END:
 
-Lucida fonts are proprietary typefaces originally developed by Bigelow & Holmes. They remain a long-time favorite for many people and are very legible in many situations and hardware/software. While they are bundled pre-installed on many operating systems and platforms, they remain proprietary fonts.
+Hygguile sets its pages in three libre families, all under the SIL Open Font
+License: *Work Sans* for prose, *Source Serif 4* for long-form reading and
+*JuliaMono* for code. Source Serif 4 and Work Sans come from
+[[https://fonts.google.com/][Google Fonts]]; JuliaMono is published at
+[[https://juliamono.netlify.app/][juliamono.netlify.app]] and is not in the
+Google Fonts catalogue.
 
-You may use these font files under principles of fair use or for local development and non-commercial purposes, provided it is not for profit and used without securing a proper commercial license where required by law. Users and contributors are solely responsible for ensuring their usage complies with applicable software licensing terms and intellectual property rights.
+~(custom-fonts)~ declares those faces itself rather than linking a font
+service, so a page asks no third party for its typography and renders the same
+offline. The default ~#:font-base~ is this project's own static asset host;
+pass your own to keep the files beside the rest of your assets:
+
+#+begin_src scheme
+(custom-fonts #:font-base "/fonts/")
+#+end_src
+
+The expected file names are the ones ~font-faces~ writes into the sheet:
+~work-sans-normal-latin.woff2~, ~work-sans-italic-latin.woff2~,
+~source-serif-4-normal-latin.woff2~, ~source-serif-4-italic-latin.woff2~,
+~juliamono-normal-latin.woff2~ and ~juliamono-bold-latin.woff2~. Both
+Google families are variable fonts, so one file per style carries the whole
+weight axis; JuliaMono ships static weights, so it is declared in two.
 
 -------
 

@@ -46,10 +46,11 @@
 ;; line's own height, and every glyph the line might hold -- descenders,
 ;; accents -- has to fit inside that box: ink outside it is not merely
 ;; cropped but unpainted, since gradient ink is a background clipped to the
-;; letters (see `hg-gradient-text'). Measured on the two faces the
-;; framework ships, Plus Jakarta Sans asks for 1.24 of that box at worst and
-;; Lucida Sans for 1.16, so the tightest step here is 1.3, with room to
-;; spare rather than a hairline. For comparison, body copy is set at 1.5.
+;; letters (see `hg-gradient-text'). The ratios follow the faces the
+;; framework is set in -- Work Sans for prose, Source Serif 4 for long-form
+;; reading -- whose descenders and accents need room to paint, so the
+;; tightest step here is 1.3, with room to spare rather than a hairline.
+;; For comparison, body copy is set at 1.5.
 (define heading-scale
   '((text-4xl . hg-leading-display) (text-3xl . hg-leading-display)
     (text-2xl . hg-leading-title)
