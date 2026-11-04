@@ -29,7 +29,7 @@
                              hygguile-version-string print-version))
 
 (define hygguile-version
-  "2.7.6")
+  "2.8.1")
 
 (define hygguile-homepage
   "https://hygguile.jointhefreeworld.org")

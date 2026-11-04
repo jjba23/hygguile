@@ -1,0 +1,951 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>hygguile — keynote</title>
+<style>
+  @font-face {
+    font-family: 'FilmSans';
+    src: url('fonts/inter.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: block;
+  }
+  @font-face {
+    font-family: 'FilmMono';
+    src: url('fonts/mono.woff2') format('woff2');
+    font-weight: 100 800;
+    font-style: normal;
+    font-display: block;
+  }
+
+  :root {
+    --ink: #f3f0e9;
+    --muted: #a8a49c;
+    --dim: #736f69;
+    --gold: #e7c35e;
+    --amber: #df9e55;
+    --violet: #b48fda;
+    --line: rgba(255, 255, 255, 0.09);
+    --sans: 'FilmSans', 'Adwaita Sans', 'Noto Sans', sans-serif;
+    --mono: 'FilmMono', 'Adwaita Mono', 'DejaVu Sans Mono', monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    width: 1600px;
+    height: 900px;
+    overflow: hidden;
+    background: #060609;
+  }
+
+  .stage {
+    position: relative;
+    width: 1600px;
+    height: 900px;
+    overflow: hidden;
+    background: #060609;
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .backdrop {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(120% 95% at 50% -10%, #14141b 0%, #0a0a0e 48%, #050507 100%);
+  }
+
+  /* Soft light without a blur filter: a wide radial falloff is the same glow
+     and costs nothing to recomposite on every frame. */
+  .aura {
+    position: absolute;
+    border-radius: 50%;
+    will-change: transform;
+  }
+  .aura-a {
+    left: -80px; top: -140px;
+    width: 980px; height: 820px;
+    background: radial-gradient(circle, rgba(221, 158, 68, 0.34), rgba(221, 158, 68, 0.13) 38%, rgba(221, 158, 68, 0) 68%);
+  }
+  .aura-b {
+    right: -140px; top: 120px;
+    width: 1020px; height: 900px;
+    background: radial-gradient(circle, rgba(154, 116, 206, 0.28), rgba(154, 116, 206, 0.11) 38%, rgba(154, 116, 206, 0) 68%);
+  }
+  .aura-c {
+    left: 320px; bottom: -260px;
+    width: 1100px; height: 820px;
+    background: radial-gradient(circle, rgba(90, 158, 158, 0.2), rgba(90, 158, 158, 0.08) 38%, rgba(90, 158, 158, 0) 68%);
+  }
+
+  .grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.05;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/></filter><rect width='180' height='180' filter='url(%23n)'/></svg>");
+    background-size: 180px 180px;
+  }
+
+  .scene {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    visibility: hidden;
+    will-change: opacity, transform, filter;
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: #cba75f;
+  }
+
+  .display {
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.99;
+    margin: 0;
+  }
+
+  .grad {
+    background: linear-gradient(104deg, #f2d57f 0%, #e5aa60 44%, #bb91e0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .sub {
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+  }
+
+  .chips { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.035);
+    color: #d2cdc4;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+  }
+  .chip i {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 10px rgba(231, 195, 94, 0.8);
+  }
+
+  /* ---------- title ---------- */
+
+  .title-wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .mark {
+    width: 104px;
+    height: 104px;
+    display: block;
+    margin-bottom: 34px;
+    filter: drop-shadow(0 22px 44px rgba(0, 0, 0, 0.65));
+  }
+
+  #t-eyebrow { margin-bottom: 22px; }
+
+  #t-word {
+    font-size: 132px;
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 1;
+    margin: 0 0 22px;
+  }
+
+  #t-sub {
+    font-size: 30px;
+    font-weight: 300;
+    color: #d3cec5;
+    letter-spacing: -0.015em;
+  }
+
+  #t-chips { margin-top: 42px; }
+
+  /* ---------- windows and frames ---------- */
+
+  .window {
+    position: absolute;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #0d0d12;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+      0 50px 110px -24px rgba(0, 0, 0, 0.95),
+      0 0 0 1px rgba(0, 0, 0, 0.5),
+      0 0 130px -40px rgba(219, 166, 86, 0.45);
+  }
+
+  .window-bar {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 15px;
+    background: linear-gradient(#1b1b22, #14141a);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .traffic { display: flex; gap: 7px; }
+  .traffic span {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #3b3b45;
+  }
+
+  .urlbar {
+    margin-left: 12px;
+    flex: 1;
+    height: 24px;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.055);
+    color: #8f8b95;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .viewport {
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 14px 26px -14px rgba(0, 0, 0, 0.55);
+  }
+
+  #w-window-img {
+    display: block;
+    width: 820px;
+    will-change: transform;
+  }
+
+  .persp { perspective: 2200px; }
+
+  #w-tilt {
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .frame {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 34px 70px -22px rgba(0, 0, 0, 0.9);
+    background: #0d0d12;
+  }
+  .frame img { display: block; width: 100%; }
+
+  /* ---------- showcase ---------- */
+
+  .copy {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  #w-copy {
+    left: 106px;
+    top: 0;
+    bottom: 0;
+    width: 570px;
+    gap: 0;
+  }
+
+  #w-title {
+    font-size: 62px;
+    margin: 20px 0 26px;
+  }
+
+  #w-body {
+    font-size: 19px;
+    max-width: 470px;
+  }
+
+  #w-chips { margin-top: 34px; max-width: 470px; }
+
+  /* ---------- grid ---------- */
+
+  .scene-head {
+    position: absolute;
+    top: 62px;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  #g-title, #th-title {
+    font-size: 54px;
+    margin: 18px 0 14px;
+  }
+
+  #g-sub, #th-sub { font-size: 19px; }
+
+  .grid {
+    position: absolute;
+    left: 186px;
+    top: 256px;
+    width: 1228px;
+    display: grid;
+    grid-template-columns: repeat(3, 396px);
+    gap: 20px;
+  }
+
+  .tile {
+    position: relative;
+    height: 268px;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #101014;
+    box-shadow: 0 26px 60px -26px rgba(0, 0, 0, 0.95);
+  }
+
+  .tile img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .tile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(6, 6, 9, 0.92) 0%, rgba(6, 6, 9, 0.55) 22%, rgba(6, 6, 9, 0) 50%);
+  }
+
+  .tile-label {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 14px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    z-index: 2;
+  }
+
+  .tile-label strong {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #f1ede5;
+  }
+
+  .tile-label span {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #9d988f;
+  }
+
+  /* ---------- themes ---------- */
+
+  #th-panel {
+    position: absolute;
+    left: 200px;
+    top: 258px;
+    width: 1200px;
+    height: 500px;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow:
+      0 50px 100px -30px rgba(0, 0, 0, 0.95),
+      0 0 120px -50px rgba(231, 195, 94, 0.5);
+    background: #f7f3ea;
+  }
+
+  #th-panel img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1200px;
+    display: block;
+  }
+
+  #th-dark {
+    will-change: clip-path;
+  }
+
+  #th-divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    margin-left: -1px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.95) 18%, rgba(255, 255, 255, 0.95) 82%, rgba(255, 255, 255, 0));
+    box-shadow: 0 0 26px 4px rgba(255, 255, 255, 0.45), 0 0 70px 14px rgba(231, 195, 94, 0.25);
+    z-index: 3;
+  }
+
+  .theme-tag {
+    position: absolute;
+    top: 16px;
+    z-index: 4;
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    background: rgba(10, 10, 14, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #f2eee6;
+    backdrop-filter: blur(8px);
+  }
+
+  #th-light-label { left: 18px; }
+  #th-dark-label { right: 18px; }
+
+  #th-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 790px;
+    text-align: center;
+    font-size: 16px;
+    color: #b9b4ab;
+    letter-spacing: 0.01em;
+  }
+
+  /* ---------- phone ---------- */
+
+  #p-copy {
+    left: 112px;
+    top: 0;
+    bottom: 0;
+    width: 640px;
+  }
+
+  #p-title { font-size: 58px; margin: 20px 0 26px; }
+  #p-body { font-size: 19px; max-width: 480px; }
+  #p-chips { margin-top: 34px; }
+
+  .phone {
+    position: absolute;
+    left: 1052px;
+    top: 116px;
+    width: 306px;
+    height: 650px;
+    border-radius: 48px;
+    background: linear-gradient(160deg, #26262d, #0b0b0f 45%);
+    padding: 11px;
+    box-shadow:
+      0 60px 120px -30px rgba(0, 0, 0, 0.95),
+      0 0 0 1px rgba(255, 255, 255, 0.12),
+      0 0 110px -40px rgba(160, 130, 210, 0.6);
+    will-change: transform;
+  }
+
+  .phone .screen {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 39px;
+    overflow: hidden;
+    background: #f6f2e9;
+  }
+
+  .phone .screen img { display: block; width: 284px; }
+
+  .phone .notch {
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 84px;
+    height: 20px;
+    border-radius: 999px;
+    background: #0a0a0e;
+    z-index: 3;
+  }
+
+  /* ---------- code ---------- */
+
+  #c-eyebrow { position: absolute; left: 112px; top: 74px; }
+
+  #c-title {
+    position: absolute;
+    left: 112px;
+    top: 100px;
+    width: 780px;
+    font-size: 46px;
+    line-height: 1.04;
+  }
+
+  .code {
+    position: absolute;
+    left: 112px;
+    top: 262px;
+    width: 716px;
+    height: 470px;
+    padding: 28px 30px;
+    border-radius: 16px;
+    background: linear-gradient(170deg, #111116, #0b0b0f);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 40px 90px -28px rgba(0, 0, 0, 0.95);
+    font-family: var(--mono);
+    font-size: 18px;
+    line-height: 1.72;
+    color: #ded9d0;
+    overflow: hidden;
+  }
+
+  .code .cl { white-space: pre; }
+  .code .p { color: #726e68; }
+  .code .k { color: #d9b3ff; }
+  .code .f { color: #ece4d3; }
+  .code .s { color: #a9d6a2; }
+  .code .n { color: #e9c85a; }
+  .code .q { color: #d6cfc2; }
+  .code .c { color: #6b6762; font-style: italic; }
+
+  #c-shot {
+    position: absolute;
+    left: 908px;
+    top: 262px;
+    width: 580px;
+    height: 470px;
+  }
+
+  #c-shot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  #c-arrow {
+    position: absolute;
+    left: 846px;
+    top: 452px;
+    font-size: 38px;
+    color: #cba75f;
+    text-shadow: 0 0 26px rgba(203, 167, 95, 0.55);
+  }
+
+  #c-caption {
+    position: absolute;
+    left: 908px;
+    top: 748px;
+    width: 580px;
+    font-size: 15px;
+    color: #a49f96;
+    letter-spacing: 0.01em;
+  }
+
+  /* ---------- end ---------- */
+
+  #s-end .end-wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #e-mark {
+    width: 92px;
+    height: 92px;
+    display: block;
+    margin-bottom: 28px;
+    filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.6));
+  }
+
+  #e-word {
+    font-size: 104px;
+    font-weight: 600;
+    letter-spacing: -0.055em;
+    line-height: 1;
+    margin: 0 0 18px;
+  }
+
+  #e-tag {
+    font-size: 25px;
+    font-weight: 300;
+    color: #cbc6bd;
+    letter-spacing: -0.01em;
+  }
+
+  #e-url {
+    margin-top: 40px;
+    font-family: var(--mono);
+    font-size: 17px;
+    letter-spacing: 0.01em;
+    color: #efe9de;
+    padding: 13px 22px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    box-shadow: 0 20px 50px -20px rgba(0, 0, 0, 0.8);
+  }
+
+  #e-foot {
+    margin-top: 26px;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #7d7872;
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="backdrop"></div>
+  <div class="aura aura-a" id="aura-a"></div>
+  <div class="aura aura-b" id="aura-b"></div>
+  <div class="aura aura-c" id="aura-c"></div>
+
+  <!-- 1 · title -->
+  <section class="scene" id="s-title">
+    <div class="title-wrap">
+      <img class="mark" id="t-mark" src="shots/logo.svg" alt="">
+      <div class="eyebrow" id="t-eyebrow">Guile Scheme · Server-rendered UI</div>
+      <h1 id="t-word" class="grad">hygguile</h1>
+      <div id="t-sub" class="sub">Cozy and professional user interfaces.</div>
+      <div id="t-chips" class="chips">
+        <span class="chip"><i></i>S-Expressions</span>
+        <span class="chip"><i></i>Olive CSS</span>
+        <span class="chip"><i></i>MIT</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · the showcase -->
+  <section class="scene" id="s-showcase">
+    <div class="copy" id="w-copy">
+      <div class="eyebrow" id="w-eyebrow">01 — The showcase</div>
+      <h2 class="display" id="w-title">Every component,<br>one living page.</h2>
+      <p class="sub" id="w-body">Typography, forms, data tables, overlays, navigation and feedback — every piece rendered to real HTML on the server.</p>
+      <div class="chips" id="w-chips">
+        <span class="chip"><i></i>No hydration</span>
+        <span class="chip"><i></i>WCAG AA contrast</span>
+        <span class="chip"><i></i>Works without JavaScript</span>
+      </div>
+    </div>
+
+    <div class="persp" id="w-window" style="position: absolute; left: 726px; top: 78px;">
+      <div id="w-tilt">
+        <div class="window" style="position: relative; width: 820px;">
+          <div class="window-bar">
+            <div class="traffic"><span></span><span></span><span></span></div>
+            <div class="urlbar">hygguile.jointhefreeworld.org</div>
+          </div>
+          <div class="viewport" style="width: 820px; height: 700px;">
+            <img id="w-window-img" src="shots/hero-light.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · the component shelf -->
+  <section class="scene" id="s-grid">
+    <div class="scene-head">
+      <div class="eyebrow" id="g-eyebrow">02 — The components</div>
+      <h2 class="display" id="g-title">Batteries included.</h2>
+      <p class="sub" id="g-sub">A shelf for every part of an interface, styled and accessible out of the box.</p>
+    </div>
+
+    <div class="grid" id="g-grid">
+      <div class="tile"><img src="shots/typography-light.png" alt=""><div class="tile-label"><strong>Typography</strong><span>Type</span></div></div>
+      <div class="tile"><img src="shots/cards-light.png" alt=""><div class="tile-label"><strong>Cards</strong><span>Layout</span></div></div>
+      <div class="tile"><img src="shots/forms-light.png" alt=""><div class="tile-label"><strong>Forms</strong><span>Controls</span></div></div>
+      <div class="tile"><img src="shots/tables-light.png" alt=""><div class="tile-label"><strong>Data tables</strong><span>Data</span></div></div>
+      <div class="tile"><img src="shots/commands.png" alt=""><div class="tile-label"><strong>Overlays</strong><span>Application</span></div></div>
+      <div class="tile"><img src="shots/feedback-light.png" alt=""><div class="tile-label"><strong>Feedback</strong><span>Application</span></div></div>
+    </div>
+  </section>
+
+  <!-- 4 · themes -->
+  <section class="scene" id="s-theme">
+    <div class="scene-head">
+      <div class="eyebrow" id="th-eyebrow">03 — Themes</div>
+      <h2 class="display" id="th-title">Light. Dark. Yours.</h2>
+      <p class="sub" id="th-sub">Every token, both ways. Set once, remembered.</p>
+    </div>
+
+    <div id="th-panel">
+      <img src="shots/cards-wide-light.png" alt="">
+      <img id="th-dark" src="shots/cards-wide-dark.png" alt="">
+      <span class="theme-tag" id="th-light-label">LIGHT</span>
+      <span class="theme-tag" id="th-dark-label">DARK</span>
+      <div id="th-divider"></div>
+    </div>
+    <div id="th-caption">One set of tokens. Two moods. No second stylesheet.</div>
+  </section>
+
+  <!-- 5 · phones -->
+  <section class="scene" id="s-phone">
+    <div class="copy" id="p-copy">
+      <div class="eyebrow" id="p-eyebrow">04 — Every screen</div>
+      <h2 class="display" id="p-title">A document<br>first.</h2>
+      <p class="sub" id="p-body">Links navigate. Forms submit. Disclosures open. On a phone — and with JavaScript switched off.</p>
+      <div class="chips" id="p-chips">
+        <span class="chip"><i></i>Responsive by default</span>
+        <span class="chip"><i></i>No JS required</span>
+      </div>
+    </div>
+
+    <div id="p-phone-reveal" style="position: absolute; inset: 0;">
+      <div class="phone" id="p-phone">
+        <div class="notch"></div>
+        <div class="screen"><img src="shots/phone-light.png" alt=""></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · the language -->
+  <section class="scene" id="s-code">
+    <div class="eyebrow" id="c-eyebrow">05 — The language</div>
+    <h2 class="display" id="c-title">An S-expression in.<br>A finished document out.</h2>
+
+    <div class="code" id="c-code">
+      <div class="cl"><span class="p">(</span><span class="k">define</span> <span class="p">(</span><span class="f">welcome</span><span class="p">)</span></div>
+      <div class="cl">  <span class="p">(</span><span class="f">container</span></div>
+      <div class="cl">   <span class="p">(</span><span class="f">h1</span> <span class="s">"Good morning"</span><span class="p">)</span></div>
+      <div class="cl">   <span class="p">(</span><span class="f">p</span> <span class="s">"Rendered on the server."</span><span class="p">)</span></div>
+      <div class="cl">   <span class="p">(</span><span class="f">input</span> <span class="n">#:label</span> <span class="s">"Email"</span></div>
+      <div class="cl">          <span class="n">#:name</span> <span class="s">"email"</span></div>
+      <div class="cl">          <span class="n">#:type</span> <span class="q">'email</span><span class="p">)</span></div>
+      <div class="cl">   <span class="p">(</span><span class="f">submit-button</span> <span class="s">"Join us"</span><span class="p">)))</span></div>
+      <div class="cl"> </div>
+      <div class="cl"><span class="c">;; real HTML, real &lt;label for&gt;, no client router.</span></div>
+    </div>
+
+    <div id="c-shot" class="frame"><img src="shots/field-extras-light.png" alt=""></div>
+    <div id="c-arrow">→</div>
+    <div id="c-caption">The same page, rendered on the server.</div>
+  </section>
+
+  <!-- 7 · end card -->
+  <section class="scene" id="s-end">
+    <div class="end-wrap">
+      <img class="mark" id="e-mark" src="shots/logo.svg" alt="">
+      <h2 id="e-word" class="grad">hygguile</h2>
+      <div id="e-tag" class="sub">Cozy and professional user interfaces.</div>
+      <div id="e-url">hygguile.jointhefreeworld.org</div>
+      <div id="e-foot">MIT · Guile Scheme · Olive CSS</div>
+    </div>
+  </section>
+
+  <div class="grain"></div>
+</div>
+
+<script>
+  const DURATION = 34.2;
+  window.__duration = DURATION;
+
+  const T = {
+    title:    [0.30, 5.00],
+    showcase: [4.80, 11.00],
+    grid:     [10.80, 16.60],
+    theme:    [16.40, 21.00],
+    phone:    [20.80, 25.00],
+    code:     [24.80, 29.20],
+    end:      [29.00, 34.20]
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const clamp01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
+  const easeOut = (x) => 1 - Math.pow(1 - x, 3);
+  const easeInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+  const smooth = (x) => { x = clamp01(x); return x * x * (3 - 2 * x); };
+
+  function reveal(el, p, o) {
+    if (!el) return;
+    o = o || {};
+    const y = o.y === undefined ? 20 : o.y;
+    const blur = o.blur === undefined ? 10 : o.blur;
+    const scale = o.scale === undefined ? 1 : o.scale;
+    const from = o.from === undefined ? 0 : o.from;
+    const e = easeOut(clamp01(p));
+    el.style.opacity = String(from + (1 - from) * e);
+    el.style.transform = "translate3d(0," + ((1 - e) * y).toFixed(2) + "px,0) scale(" + (1 - (1 - e) * (1 - scale)).toFixed(4) + ")";
+    el.style.filter = blur ? "blur(" + ((1 - e) * blur).toFixed(2) + "px)" : "none";
+  }
+
+  function scene(el, t, win, fin, fout) {
+    fin = fin || 0.72;
+    fout = fout || 0.72;
+    const a = clamp01((t - win[0]) / fin);
+    const b = clamp01((win[1] - t) / fout);
+    const o = Math.min(easeOut(a), easeInOut(b));
+    el.style.opacity = o.toFixed(3);
+    el.style.visibility = o > 0.001 ? "visible" : "hidden";
+    el.style.transform = "translate3d(0," + ((1 - easeOut(a)) * 12).toFixed(2) + "px,0)";
+  }
+
+  function updateBackdrop(t) {
+    const a = 0.55 + Math.sin(t * 0.21) * 0.08;
+    const b = 0.50 + Math.cos(t * 0.17) * 0.07;
+    $("aura-a").style.transform = "translate3d(" + (Math.sin(t * 0.16) * 46).toFixed(1) + "px," + (Math.cos(t * 0.13) * 26).toFixed(1) + "px,0)";
+    $("aura-b").style.transform = "translate3d(" + (Math.cos(t * 0.14) * 54).toFixed(1) + "px," + (Math.sin(t * 0.19) * 34).toFixed(1) + "px,0)";
+    $("aura-c").style.transform = "translate3d(" + (Math.sin(t * 0.11 + 2) * 40).toFixed(1) + "px," + (Math.cos(t * 0.15 + 1) * 22).toFixed(1) + "px,0)";
+    $("aura-a").style.opacity = a.toFixed(3);
+    $("aura-b").style.opacity = b.toFixed(3);
+  }
+
+  function updateTitle(t) {
+    scene($("s-title"), t, T.title, 0.9, 0.8);
+    const u = t - T.title[0];
+    reveal($("t-mark"), (u - 0.02) / 0.85, { y: 16, blur: 18, scale: 0.88 });
+    reveal($("t-eyebrow"), (u - 0.22) / 0.55, { y: 8, blur: 6 });
+    reveal($("t-word"), (u - 0.38) / 0.85, { y: 30, blur: 20, scale: 0.975 });
+    reveal($("t-sub"), (u - 0.78) / 0.7, { y: 14, blur: 8 });
+    reveal($("t-chips"), (u - 1.06) / 0.7, { y: 12, blur: 6 });
+  }
+
+  function updateShowcase(t) {
+    scene($("s-showcase"), t, T.showcase);
+    const u = t - T.showcase[0];
+    reveal($("w-copy"), (u - 0.05) / 0.7, { y: 0, blur: 0 });
+    reveal($("w-eyebrow"), (u - 0.18) / 0.5, { y: 8, blur: 6 });
+    reveal($("w-title"), (u - 0.30) / 0.8, { y: 30, blur: 16, scale: 0.99 });
+    reveal($("w-body"), (u - 0.58) / 0.7, { y: 14, blur: 8 });
+    reveal($("w-chips"), (u - 0.90) / 0.8, { y: 12, blur: 6 });
+    reveal($("w-window"), (u - 0.18) / 0.95, { y: 46, blur: 20, scale: 0.96 });
+
+    const p = smooth(clamp01((u - 0.75) / 4.9));
+    $("w-window-img").style.transform = "translate3d(0," + (-4 - p * 300).toFixed(1) + "px,0)";
+    $("w-tilt").style.transform = "rotateY(" + (-7 + 5.5 * p).toFixed(2) + "deg) rotateX(" + (2.4 - 2.0 * p).toFixed(2) + "deg) translateZ(0)";
+  }
+
+  function updateGrid(t) {
+    scene($("s-grid"), t, T.grid);
+    const u = t - T.grid[0];
+    reveal($("g-eyebrow"), (u - 0.04) / 0.5, { y: 8, blur: 6 });
+    reveal($("g-title"), (u - 0.12) / 0.7, { y: 26, blur: 14, scale: 0.99 });
+    reveal($("g-sub"), (u - 0.34) / 0.6, { y: 12, blur: 6 });
+
+    const tiles = document.querySelectorAll(".tile");
+    for (let i = 0; i < tiles.length; i++) {
+      reveal(tiles[i], (u - 0.62 - i * 0.13) / 0.7, { y: 42, blur: 12, scale: 0.94 });
+    }
+
+    const drift = smooth(clamp01((u - 0.5) / 5.4));
+    $("g-grid").style.transform = "translate3d(0," + (-10 * drift).toFixed(1) + "px,0) scale(" + (1 + 0.012 * drift).toFixed(4) + ")";
+  }
+
+  function updateTheme(t) {
+    scene($("s-theme"), t, T.theme);
+    const u = t - T.theme[0];
+    reveal($("th-eyebrow"), (u - 0.04) / 0.5, { y: 8, blur: 6 });
+    reveal($("th-title"), (u - 0.12) / 0.7, { y: 26, blur: 14, scale: 0.99 });
+    reveal($("th-sub"), (u - 0.34) / 0.6, { y: 12, blur: 6 });
+    reveal($("th-panel"), (u - 0.52) / 0.85, { y: 36, blur: 16, scale: 0.975 });
+
+    const p = smooth(clamp01((u - 1.15) / 2.25));
+    $("th-dark").style.clipPath = "inset(0 " + (100 - p * 100).toFixed(2) + "% 0 0)";
+    $("th-divider").style.left = (p * 100).toFixed(2) + "%";
+    $("th-divider").style.opacity = String(Math.min(clamp01((u - 1.02) / 0.35), clamp01((3.55 - u) / 0.5)));
+    $("th-light-label").style.opacity = String(1 - smooth(clamp01((p - 0.22) / 0.45)));
+    $("th-dark-label").style.opacity = String(smooth(clamp01((p - 0.42) / 0.45)));
+    reveal($("th-caption"), (u - 3.15) / 0.6, { y: 10, blur: 6 });
+  }
+
+  function updatePhone(t) {
+    scene($("s-phone"), t, T.phone);
+    const u = t - T.phone[0];
+    reveal($("p-eyebrow"), (u - 0.04) / 0.5, { y: 8, blur: 6 });
+    reveal($("p-title"), (u - 0.12) / 0.75, { y: 28, blur: 15, scale: 0.99 });
+    reveal($("p-body"), (u - 0.38) / 0.65, { y: 14, blur: 8 });
+    reveal($("p-chips"), (u - 0.66) / 0.7, { y: 12, blur: 6 });
+
+    reveal($("p-phone-reveal"), (u - 0.30) / 0.95, { y: 60, blur: 18, scale: 0.95 });
+    const tilt = -5.5 + 3.5 * smooth(clamp01(u / 3.4));
+    const bob = Math.sin(u * 1.45) * 3.2;
+    $("p-phone").style.transform = "translate3d(0," + bob.toFixed(2) + "px,0) rotate(" + tilt.toFixed(2) + "deg)";
+  }
+
+  function updateCode(t) {
+    scene($("s-code"), t, T.code);
+    const u = t - T.code[0];
+    reveal($("c-eyebrow"), (u - 0.04) / 0.5, { y: 8, blur: 6 });
+    reveal($("c-title"), (u - 0.10) / 0.75, { y: 26, blur: 14, scale: 0.99 });
+    reveal($("c-code"), (u - 0.34) / 0.8, { y: 28, blur: 14, scale: 0.985 });
+
+    const lines = document.querySelectorAll(".code .cl");
+    for (let i = 0; i < lines.length; i++) {
+      reveal(lines[i], (u - 0.62 - i * 0.075) / 0.5, { y: 8, blur: 4 });
+    }
+
+    reveal($("c-shot"), (u - 1.02) / 0.8, { y: 28, blur: 14, scale: 0.98 });
+    reveal($("c-arrow"), (u - 1.32) / 0.5, { y: 0, blur: 0 });
+    reveal($("c-caption"), (u - 1.42) / 0.5, { y: 10, blur: 6 });
+  }
+
+  function updateEnd(t) {
+    scene($("s-end"), t, T.end, 1.0, 0.95);
+    const u = t - T.end[0];
+    reveal($("e-mark"), (u - 0.05) / 0.85, { y: 14, blur: 16, scale: 0.88 });
+    reveal($("e-word"), (u - 0.25) / 0.85, { y: 26, blur: 18, scale: 0.975 });
+    reveal($("e-tag"), (u - 0.55) / 0.65, { y: 12, blur: 8 });
+    reveal($("e-url"), (u - 0.80) / 0.65, { y: 12, blur: 6 });
+    reveal($("e-foot"), (u - 1.02) / 0.6, { y: 8, blur: 4 });
+  }
+
+  window.__seek = function (t) {
+    t = Math.max(0, Math.min(DURATION, t));
+    updateBackdrop(t);
+    updateTitle(t);
+    updateShowcase(t);
+    updateGrid(t);
+    updateTheme(t);
+    updatePhone(t);
+    updateCode(t);
+    updateEnd(t);
+  };
+
+  window.__seek(0);
+
+  const images = Array.prototype.slice.call(document.images);
+  Promise.all(images.map(function (img) {
+    return img.decode ? img.decode().catch(function () {}) : Promise.resolve();
+  })).then(function () {
+    return document.fonts.ready;
+  }).then(function () {
+    window.__seek(0);
+    window.__ready = true;
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "hygguile-keynote",
+  "private": true,
+  "description": "Records the hygguile showcase keynote GIF",
+  "scripts": {
+    "record": "node record.js"
+  },
+  "dependencies": {
+    "puppeteer-core": "^25.16.0"
+  }
+}

@@ -21,8 +21,8 @@ Hygguile is a **batteries-included UI framework for Guile Scheme**. You write pa
 New here? Jump to [[#quickstart][Quickstart]], browse the [[https://hygguile.jointhefreeworld.org/][showcase]], or [[https://codeberg.org/jjba23/hygguile/issues][open an issue]] with a question. There are no silly questions, and every contribution -- a typo fix, a bug report, a component idea -- is welcome.
 
 #+attr_html: :width 100%
-#+caption: The deployed [[https://hygguile.jointhefreeworld.org/][showcase]], in both themes: the type scale, a card and a container beside it, the palette, and a data table.
-[[assets/readme/hygguile-demo.gif]]
+#+caption: A short film of the deployed [[https://hygguile.jointhefreeworld.org/][showcase]]: the component shelf, both themes, the phone layout, and the same page written as an S-expression.
+[[assets/readme/hygguile-keynote.gif]]
 
 * Features
 :PROPERTIES:
@@ -1375,7 +1375,7 @@ The repository is driven by [[https://codeberg.org/jjba23/maak][maak]]. ~maak --
 The version is written by hand in one place: ~hygguile-version~ in [[file:src/hygguile/version.scm][src/hygguile/version.scm]], which is what a page prints in its own footer and what ~maak version~ prints in a terminal:
 
 #+begin_example
-hygguile 2.7.6
+hygguile 2.8.1
 License: MIT
 Homepage: https://hygguile.jointhefreeworld.org
 #+end_example
@@ -1395,7 +1395,7 @@ Each copy is found by a regular expression and only the version inside the match
 :CUSTOM_ID: readme-assets
 :END:
 
-Both images in this document come from sources in the repository. ~maak logo~ renders ~assets/hygguile-logo.svg~, the hand-drawn mark, to the PNG beside it, so a chat client and a page show the same file. ~maak gif~ fetches the deployed showcase at [[https://hygguile.jointhefreeworld.org/][hygguile.jointhefreeworld.org]] once, opens it in both themes, and assembles seven frames of it into ~assets/readme/hygguile-demo.gif~. ~scripts/readme-assets.scm~ is the tool behind both; it wants a browser, ImageMagick's ~convert~ and ~gifsicle~ on ~$PATH~, and neither task is part of ~maak build~, because a README that lags a commit is not an emergency and a build that needs a network is not a build.
+The images in this document come from sources in the repository. ~maak logo~ renders ~assets/hygguile-logo.svg~, the hand-drawn mark, to the PNG beside it, so a chat client and a page show the same file. The hero film, ~assets/readme/hygguile-keynote.gif~, is recorded by ~scripts/keynote/record.js~, which screenshots the built showcase, stages the stills on a title-card canvas, and encodes them with ~ffmpeg~ and ~gifsicle~; ~scripts/keynote/README.md~ has the flags. ~maak gif~ still builds the older frame-by-frame demo, ~assets/readme/hygguile-demo.gif~, by fetching the deployed showcase at [[https://hygguile.jointhefreeworld.org/][hygguile.jointhefreeworld.org]] once, opening it in both themes, and assembling seven frames. ~scripts/readme-assets.scm~ is the tool behind the logo and the demo; it wants a browser, ImageMagick's ~convert~ and ~gifsicle~ on ~$PATH~. None of these tasks is part of ~maak build~, because a README that lags a commit is not an emergency and a build that needs a network is not a build.
 
 ----------------
 
