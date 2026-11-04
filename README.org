@@ -7,6 +7,9 @@
 
 [[https://jointhefreeworld.org/ggg/dist/scheme-guile.svg]] [[https://jointhefreeworld.org/ggg/dist/gnu-guix.svg]] [[https://img.shields.io/badge/Guile-3.0%2B-4e5d94.svg]] [[https://img.shields.io/badge/Guix-package-6f4e9c.svg]] [[https://img.shields.io/badge/license-MIT-6f9c7a.svg]]
 
+#+attr_html: :width 160 :alt Hygguile logo
+[[file:logo.svg]]
+
 #+begin_quote
 *Cozy and professional user-interfaces for everyone.*
 #+end_quote
@@ -165,7 +168,6 @@ Each recipe carries its own dependency list, so a missing library fails the buil
 - *Container* if you only want to try the release, or reproduce a report on a machine that has nothing installed.
 - *Distribution package* if you want the project managed by the same tool as the rest of your system, with its licence, manual page and launcher in the usual places.
 
-
 * Quickstart
 :PROPERTIES:
 :CUSTOM_ID: quickstart
@@ -318,7 +320,6 @@ It's REQUIRED to load ~olive.min.css~ in your preferred manner, and by preferenc
 
 This is preferable to embedding it directly in a ~<style>~ block due to its size, and because we can then efficiently cache this file on the server side. It will also speed up the load times.
 
-
 The recommended snippet in your SXML ~head~
 #+begin_src scheme
 ,(hygguile-recommended-meta)
@@ -368,7 +369,6 @@ Alternatively, you can install it by downloading the source code files and addin
      "......")
     (license license:expat)))
 #+end_src
-
 
 ----------------
 
@@ -533,7 +533,6 @@ Spacing, radius, elevation, motion, layer order and semantic colours are publish
 
 Every component is configured with key arguments and, where it matters, with class lists. The component index below is the map; each procedure docstring documents its keys; the showcase shows the layouts.
 
-
 ** Common key arguments
 :PROPERTIES:
 :CUSTOM_ID: common-key-arguments
@@ -549,7 +548,6 @@ Most components share a small vocabulary, so learning one teaches many:
 - ~#:label~, ~#:help-text~, ~#:error~ and ~#:required~ are the field-shell keys that wire a control to its label, hint and error.
 
 When a component needs something the keys do not cover, pass utility classes rather than writing a second stylesheet; when the markup needs to differ, compose the native element yourself. The DSL is a set of ordinary procedures, not a closed widget set.
-
 
 * Component index
 :PROPERTIES:
@@ -667,7 +665,6 @@ that implement it, and the sections after it say how the harder rows work.
 :END:
 
 These guides go deeper on the parts that are easy to get wrong: tokens, form wiring, overlays and positioning, loading/empty/error states, motion, RTL/density, server-driven sorting, trays, specimens, palettes, glossary terms, native dropdown state, frosted glass, notifications and naming.
-
 
 ** Design tokens
 :PROPERTIES:
@@ -1267,7 +1264,6 @@ You can always choose to import hygguile using a prefix to avoid name clashes if
   ((hygguile hygguile) #:prefix hyg:))
 #+end_src
 
-
 -------
 
 * Theming, dark mode and contrast
@@ -1511,7 +1507,6 @@ Contributing to free software is a uniquely beautiful act because it embodies pr
 We welcome everyone to feel invited to the hygguile Project, and encourage active contribution in all forms, to improve it and/or suggest improvements, brainstorm with me, make it more modular/flexible, etc, feel free to contact me <jjbigorra@gmail.com> to chat, discuss or report feedback.
 
 Find here the Backlog and Kanban boards for hygguile: https://lucidplan.jointhefreeworld.org/tickets/hygguile
-
 
 ---------------
 
