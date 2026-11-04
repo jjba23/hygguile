@@ -1462,10 +1462,6 @@ maak docs       # regenerate the API reference
 
 --------------
 
-#+attr_html: :width 96px
-[[./assets/hygguile-logo.svg]]
-
--------
 
 ** On fonts
 :PROPERTIES:
@@ -1477,7 +1473,7 @@ License: *Work Sans* for prose, *Source Serif 4* for long-form reading and
 *JuliaMono* for code. Source Serif 4 and Work Sans come from
 [[https://fonts.google.com/][Google Fonts]]; JuliaMono is published at
 [[https://juliamono.netlify.app/][juliamono.netlify.app]] and is not in the
-Google Fonts catalogue.
+Google Fonts catalogue. You can always configure other families instead.
 
 ~(custom-fonts)~ declares those faces itself rather than linking a font
 service, so a page asks no third party for its typography and renders the same
