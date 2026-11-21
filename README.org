@@ -92,7 +92,7 @@ Hygguile is actively developed and used in real projects, but it is still a youn
 :CUSTOM_ID: a-longer-look
 :END:
 
-The [[https://hygguile.jointhefreeworld.org/][showcase]] is the kitchen sink: every component in a realistic layout, with the source beside the specimen. The [[https://jointhefreeworld.org/api-docs/hygguile/API.html][API reference]] documents every procedure and every key argument.
+The [[https://hygguile.jointhefreeworld.org/][showcase]] is the kitchen sink: every component in a realistic layout, with the source beside the specimen. The [[https://jointhefreeworld.org/api-docs/hygguile/index.html][API reference]] documents every procedure and every key argument.
 
 * Ways to install
 :PROPERTIES:
@@ -275,7 +275,7 @@ A complete, commented version of that page is ~examples/minimal.scm~, and ~maak 
 :END:
 
 - The component index below says what each module exports.
-- The API reference documents every procedure and every key argument: https://jointhefreeworld.org/api-docs/hygguile/API.html (or generate it locally with ~maak docs~).
+- The API reference documents every procedure and every key argument: https://jointhefreeworld.org/api-docs/hygguile/index.html (or generate it locally with ~maak docs~).
 - ~showcase.scm~, the modules under ~showcase/~ and ~examples/minimal.scm~ are working pages you can read end to end.
 
 -------

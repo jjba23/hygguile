@@ -87,7 +87,7 @@
                                              focus-visible:outline-offset-2
                                              outline-onyx-500))
           ,(a "API documentation"
-              #:href "https://jointhefreeworld.org/api-docs/hygguile/API.html"
+              #:href "https://jointhefreeworld.org/api-docs/hygguile/index.html"
               #:size '(text-md)
               #:weight '(font-medium)
               #:extra-classes '(no-underline rounded-lg
