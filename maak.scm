@@ -8,6 +8,10 @@
   #:use-module (ice-9 regex)
   #:use-module (ice-9 textual-ports)
   #:use-module (srfi srfi-1)
+  ;; `scandir' finds the mermaid sources `maak diagrams' renders, and
+  ;; `string-drop-right' names each image after its source.
+  #:use-module ((ice-9 ftw) #:select (scandir))
+  #:use-module ((srfi srfi-13) #:select (string-drop-right string-suffix?))
   #:use-module (maak maak)
   #:use-module ((ice-9 rdelim) #:select (read-line))
   ;; The container and git helpers are imported under prefixes because the
@@ -244,12 +248,29 @@ its sample output -- is left exactly as it was."
                  (log-info "Nothing to commit; tagged ~a at the current commit."
                            tag))))))
 
+;; ====== The shell every task runs in ======
+;;
+;; The manifest names guile-dokgen, which the jointhefreeworld channel pinned in
+;; channels.scm carries; Guix itself has no such package.  A plain `guix shell -m
+;; manifest.scm' answers from wherever the user's Guix was pulled from, and there
+;; the package is unknown, so the manifest would not even load and every task
+;; would fail with it.  The tasks therefore enter the shell the way channels.scm
+;; describes it -- `guix time-machine' -- so a task means the same thing on a
+;; machine that has never pulled the channel.
+
+(define (pinned-shell cmd-parts . options)
+  "Run CMD-PARTS in the environment manifest.scm describes, at the revision channels.scm pins.
+
+OPTIONS are handed to `time-machine-manifest-shell' as they were given, so a task
+asks for verbose output the way it always did."
+  (apply time-machine-manifest-shell cmd-parts options))
+
 ;; ====== Maak tasks ======
 
 (define (compile)
   "Compile all project source code."
-  (time-machine-manifest-shell (list "guild" "compile" "-L" "./src" "-W3"
-                                     "./src/**/*.scm")))
+  (pinned-shell (list "guild" "compile" "-L" "./src" "-W3"
+                      "./src/**/*.scm")))
 
 (define (fmt)
   "Format Scheme source code files according to the Guix style guide."
@@ -259,12 +280,12 @@ its sample output -- is left exactly as it was."
 
 (define (repl)
   "Development REPL."
-  (manifest-shell (list "guile" "-L" "./src"
-                        "-c" "'((@ (ares server) run-nrepl-server))'")))
+  (pinned-shell (list "guile" "-L" "./src"
+                      "-c" "'((@ (ares server) run-nrepl-server))'")))
 
 (define (embed)
   "Embed static assets into Scheme code."
-  (manifest-shell (list "guile" "-L" "./src" "./scripts/embedder.scm")))
+  (pinned-shell (list "guile" "-L" "./src" "./scripts/embedder.scm")))
 
 (define (olive-css)
   "Get latest version of Olive CSS."
@@ -273,15 +294,41 @@ its sample output -- is left exactly as it was."
    #:output "resources/css/olive.min.css"))
 
 (define (docs)
-  "Generate technical API documentation for Hygguile."
+  "Generate technical API documentation for Hygguile, and render it as HTML.
+
+Dokgen reads the modules rather than their text, so every exported procedure
+that has a docstring is in the reference.  Beside the Texinfo it writes the
+stylesheet and the script the page is read with, and a directory of diagrams
+for the docstrings that carry one; Texinfo copies neither, so both are put
+beside the page that points at them."
   (delete-file-recursively "doc")
   ;; Two calls rather than one `&&' chain, so the second only runs where the
   ;; first succeeded and fails where it happens.
-  (manifest-shell (list "documenta" "api" (~ "./src/~a" project-name)))
-  (manifest-shell (list "texi2any" "-v" "--html"
-                        (~ "--css-ref=~a" api-docs-css-url)
-                        "./doc/api/index.texi"))
-  (mv "./index" "./doc/api-dist"))
+  (pinned-shell
+   (list "dokgen" "api"
+         "--destination" "doc/api"
+         (~ "./src/~a" project-name))
+   #:verbose? #t)
+  (mkdir-p "doc/api-dist")
+  (pinned-shell
+   (list "texi2any" "-v" "--html" "--no-split"
+         (~ "--css-ref=~a" api-docs-css-url)
+         "-I" "doc/api"
+         "-c" (shell-quote
+               (string-append
+                "EXTRA_HEAD="
+                "<link rel=\"stylesheet\" href=\"dokgen.css\">"
+                "<script src=\"dokgen.js\" defer></script>"))
+         "-o" "doc/api-dist/index.html"
+         "./doc/api/index.texi")
+   #:verbose? #t)
+  (for-each (lambda (asset)
+              (when (file-exists? (~ "doc/api/~a" asset))
+                (cp (~ "doc/api/~a" asset) "doc/api-dist"
+                    #:force? #t #:verbose? #t)))
+            '("dokgen.css" "dokgen.js"))
+  (when (file-exists? "doc/api/diagrams")
+    (cp "doc/api/diagrams" "doc/api-dist" #:force? #t #:verbose? #t)))
 
 (define (deploy)
   "Generate documentation for the project and publish to web directory."
@@ -304,7 +351,7 @@ its sample output -- is left exactly as it was."
 when you are working on the example and want to re-render just it."
   (mkdir-p "dist")
   (cp "resources/css/olive.min.css" "dist/olive.min.css" #:force? #t #:verbose? #t)
-  (manifest-shell (list "guile" "-L" "./src" "examples/minimal.scm")))
+  (pinned-shell (list "guile" "-L" "./src" "examples/minimal.scm")))
 
 (define (example-server)
   "Serve the server-driven sortable table example on port 8095.
@@ -313,12 +360,12 @@ The other half of the sorting contract: a real server that reads the
 table's two query parameters back and re-renders the rows. Run it from
 the project root
 so the example can find resources/css/olive.min.css."
-  (manifest-shell (list "guile" "-L" "./src" "examples/sortable-table.scm")))
+  (pinned-shell (list "guile" "-L" "./src" "examples/sortable-table.scm")))
 
 (define (test)
   "Run project's tests."
-  (manifest-shell (list "guile" "-L" "./src" "-L" "./test"
-                        "-c" "'((@ (veritas runner) run-tests))'")))
+  (pinned-shell (list "guile" "-L" "./src" "-L" "./test"
+                      "-c" "'((@ (veritas runner) run-tests))'")))
 
 (define (kill-server)
   "Kill any running HTTP server in the same port."
@@ -337,8 +384,8 @@ so the example can find resources/css/olive.min.css."
   (cp "resources/css/olive.min.css" "dist/olive.min.css" #:force? #t #:verbose? #t)
   ;; the showcase's sections live in (showcase ...) modules beside its entry
   ;; script, so the repository root joins the load path
-  (manifest-shell (list "guile" "-L" "./src" "-L" "." "showcase.scm"))
-  (manifest-shell (list "guile" "-L" "./src" "examples/minimal.scm")))
+  (pinned-shell (list "guile" "-L" "./src" "-L" "." "showcase.scm"))
+  (pinned-shell (list "guile" "-L" "./src" "examples/minimal.scm")))
 
 (define (contrast)
   "Check every text pair on the built pages against WCAG AA, in every theme.
@@ -348,7 +395,7 @@ Chrome or Chromium on $PATH ($CHROME_BIN points at one kept elsewhere),
 and exits non-zero as soon as a pair is below the contrast the audit asks
 of it. A shade that makes a sentence unreadable is a bug like any other,
 which is why `build' runs this."
-  (manifest-shell (list "guile" "./scripts/contrast-gate.scm")))
+  (pinned-shell (list "guile" "./scripts/contrast-gate.scm")))
 
 (define (build)
   "Build production release of the project, and gate its contrast."
@@ -377,6 +424,28 @@ which is why `build' runs this."
   (logo)
   (gif))
 
+;; ====== The diagrams the README shows ======
+;;
+;; A diagram is drawn once and committed, both halves of it: the mermaid source
+;; under resources/diagrams and the SVG rendered beside it, so reading the
+;; README needs no renderer.  Rendering is a task of its own because the renderer
+;; is a JavaScript tool the development shell does not carry; it is found on
+;; $PATH, which is where `npm install --global @mermaid-js/mermaid-cli' puts it.
+
+(define (diagrams)
+  "Render every mermaid source under resources/diagrams to the SVG beside it."
+  (for-each
+   (lambda (name)
+     (let* ((source (in-vicinity "resources/diagrams" name))
+            (image (string-append (string-drop-right source 4) ".svg")))
+       (run (list "mmdc" "-i" source "-o" image
+                  "--backgroundColor" "transparent")
+            #:verbose? #t)))
+   (scandir "resources/diagrams"
+            (lambda (name)
+              (and (not (member name '("." "..")))
+                   (string-suffix? ".mmd" name))))))
+
 (define (test-build-and-serve)
   (test)
   (build)
@@ -395,18 +464,18 @@ which is why `build' runs this."
   (fmt)
   ;; One token per word, so the glob `--ignore=...' reaches watchexec as it
   ;; was written rather than as whatever the shell matched.
-  (manifest-shell (list "watchexec"
-                        "--clear"
-                        "--exts" (~ "~a"
-                                    (string-join (map symbol->string
-                                                      hot-reload-file-types)
-                                                 ","))
-                        "--ignore=src/hygguile/embed/*.scm"
-                        "--on-busy-update=restart"
-                        "--shell" "bash"
-                        "--watch" "."
-                        "--"
-                        "maak" "test-build-and-serve")))
+  (pinned-shell (list "watchexec"
+                      "--clear"
+                      "--exts" (~ "~a"
+                                  (string-join (map symbol->string
+                                                    hot-reload-file-types)
+                                               ","))
+                      "--ignore=src/hygguile/embed/*.scm"
+                      "--on-busy-update=restart"
+                      "--shell" "bash"
+                      "--watch" "."
+                      "--"
+                      "maak" "test-build-and-serve")))
 
 (define (dev)
   "Developer's setup."

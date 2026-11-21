@@ -1,0 +1,11 @@
+flowchart LR
+  tree["one SXML node"] --> kind{"what is it?"}
+  kind -- "a pair whose car is a symbol" --> el["element->xml<br/>tag, attribute list, body"]
+  kind -- "a nodelist" --> each["each child goes through this same path"]
+  kind -- "a string, a number, a procedure" --> text["written to the port,<br/>escaped when escape? is on"]
+  each --> tree
+  el --> attrs["attribute-value->xml<br/>attribute values are always escaped"]
+  el --> kids["body serialized one depth down,<br/>escape? threaded rather than re-derived"]
+  el --> void{"a void element such as br or img?"}
+  void -- "yes" --> lone["written as a lone tag"]
+  void -- "no" --> closed["written as an open and close pair"]

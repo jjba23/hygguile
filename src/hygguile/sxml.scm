@@ -3,6 +3,36 @@
 ;; SPDX-License-Identifier: MIT
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
 
+;;; Commentary:
+;;
+;; The serializer: an S-expression tree in, HTML text out.  Every component in
+;; the library hands `sxml->xml' a tree, and this module is the one place that
+;; turns it into the bytes a browser reads, so the shapes its components build
+;; are the shapes this file has to answer for.
+;;
+;; Two details are not convenience but correctness.  An attribute value is
+;; always escaped while element text follows the `escape?' flag the caller
+;; chose, and the flag is threaded down the tree rather than re-derived at each
+;; depth.  A void element -- `br', `img', `meta' and the rest of the HTML set --
+;; is written as a lone tag, because hygguile serves text/html, where `<div />'
+;; is read as an open tag and quietly swallows the rest of the document.
+;;
+;; ```mermaid
+;; flowchart LR
+;;   tree["one SXML node"] --> kind{"what is it?"}
+;;   kind -- "a pair whose car is a symbol" --> el["element->xml<br/>tag, attribute list, body"]
+;;   kind -- "a nodelist" --> each["each child goes through this same path"]
+;;   kind -- "a string, a number, a procedure" --> text["written to the port,<br/>escaped when escape? is on"]
+;;   each --> tree
+;;   el --> attrs["attribute-value->xml<br/>attribute values are always escaped"]
+;;   el --> kids["body serialized one depth down,<br/>escape? threaded rather than re-derived"]
+;;   el --> void{"a void element such as br or img?"}
+;;   void -- "yes" --> lone["written as a lone tag"]
+;;   void -- "no" --> closed["written as an open and close pair"]
+;; ```
+;;
+;;; Code:
+
 (define-module (hygguile sxml)
   #:use-module (sxml transform)
   #:export (sxml->xml sxml->string))

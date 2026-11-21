@@ -478,6 +478,16 @@ The floor of 1.3 is not a matter of taste. A leaded line sits in a box of the li
 
 The drift respects ~prefers-reduced-motion: reduce~, which the companion stylesheet handles for you. And one serialization rule worth knowing: an element without children is written as an explicit open/close pair (~<div></div>~), never as the XML shorthand ~<div />~, because hygguile's output is served as ~text/html~, where that shorthand is read as an open tag and silently swallows the rest of the document. Only HTML void elements (~<img>~, ~<input>~, ~<hr>~, ...) are written as a lone tag.
 
+** How a tree becomes HTML
+:PROPERTIES:
+:CUSTOM_ID: how-a-tree-becomes-html
+:END:
+
+Every component returns an S-expression, and one procedure -- ~sxml->xml~ in ~(hygguile sxml)~ -- is what turns it into the bytes a browser reads. It walks the tree once: an element is written with its attributes and its body, a nodelist is written child by child through the same path, and a string is written as itself. Attribute values are always escaped, element text only when the caller asked for it, and that choice is carried down the tree rather than re-made at each depth.
+
+#+attr_html: :width 720 :alt An SXML tree dispatched by node kind to elements, text and void tags
+[[file:resources/diagrams/sxml-serializer.svg]]
+
 * Configuration
 :PROPERTIES:
 :CUSTOM_ID: configuration
@@ -1360,7 +1370,7 @@ The repository is driven by [[https://codeberg.org/jjba23/maak][maak]]. ~maak --
 | ~maak example-server~        | runs ~examples/sortable-table.scm~ on port 8095: the server half of the sorting contract, so you can click a header and watch the URL                |
 | ~maak serve~                 | serves ~dist/~ on port 50054 with ~darkhttpd~                                                                                                        |
 | ~maak embed~                 | re-embeds ~resources/~ into ~src/hygguile/embed/~ (run it after touching any CSS or JavaScript)                                                      |
-| ~maak docs~                  | regenerates the API reference into ~doc/api-dist~ with ~documenta~ and ~texi2any~                                                                    |
+| ~maak docs~                  | regenerates the API reference into ~doc/api-dist~ with ~dokgen~ and ~texi2any~                                                                       |
 | ~maak fmt~                   | formats every ~.scm~ file with ~guix style~                                                                                                          |
 | ~maak validate~              | ~fmt~, ~compile~ and ~test~ in one go                                                                                                                |
 | ~maak dev~ (alias ~maak hr~) | watches the tree and re-runs test, build and docs on every change                                                                                    |
