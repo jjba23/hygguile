@@ -4,6 +4,7 @@
 ;; Copyright © Josep Bigorra <jjbigorra@gmail.com>
 
 (use-modules (guix packages)
+             (gnu packages)
              (gnu)
              (guix utils)
              (guix git-download)
@@ -55,7 +56,7 @@ concurrently by default.")
     (license license:expat)))
 
 (packages->manifest (list guile-3.0-latest
-                          texinfo
+                          (specification->package "texinfo")
                           guile-ares-rs
                           guile-uuid
                           guile-gcrypt
