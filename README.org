@@ -10,6 +10,8 @@
 #+attr_html: :width 160 :alt Hygguile logo
 [[file:logo.svg]]
 
+- 📖 *API reference:* [[https://jointhefreeworld.org/api-docs/hygguile/index.html][Hygguile API reference]]
+
 #+begin_quote
 *Cozy and professional user-interfaces for everyone.*
 #+end_quote
